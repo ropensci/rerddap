@@ -1,8 +1,10 @@
 #' Get information on an ERDDAP dataset.
 #'
 #' @export
+#' @import httr
 #' @importFrom jsonlite fromJSON
-#' 
+#' @importFrom data.table rbindlist
+#'
 #' @param datasetid Dataset id
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
 #' @param x A datasetid or the output of \code{erddap_info}
