@@ -101,3 +101,5 @@ check_key <- function(x){
   tmp <- if(is.null(x)) Sys.getenv("NOAA_KEY", "") else x
   if(tmp == "") getOption("noaakey", stop("need an API key for NOAA data")) else tmp
 }
+
+pu <- function(x) sub("/$|//$", "", x)
