@@ -3,3 +3,4 @@
 .RData
 .travis.yml
 README.Rmd
+.DS_Store
