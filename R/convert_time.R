@@ -1,10 +1,8 @@
 #' Convert a CF Standard Name to/from a GCMD Science Keyword
 #'
 #' @export
-#' @param n numeric; A unix time number
-#' \url{http://cfconventions.org/Data/cf-standard-names/27/build/cf-standard-name-table.html}
-#' @param isoTime character; A string time representation
-#' \url{http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
+#' @param n numeric; A unix time number.
+#' @param isoTime character; A string time representation.
 #' @param units character; Units to return. Default: "seconds since 1970-01-01T00:00:00Z"
 #' @param url Base URL of the ERDDAP server
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
