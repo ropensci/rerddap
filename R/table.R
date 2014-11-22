@@ -117,7 +117,7 @@
 #' library("taxize")
 #' classif <- classification(tsns, db = "itis")
 #' head(rbind(classif)); tail(rbind(classif))
-#' 
+#'
 #' # Write to memory (within R), or to disk
 #' (out <- erddap_info('erdCalCOFIfshsiz'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
@@ -131,7 +131,7 @@
 #' }
 
 erddap_table <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
-  orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL, 
+  orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL,
   store = disk(), callopts=list())
 {
   x <- as.erddap_info(x)
@@ -144,7 +144,7 @@ erddap_table <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbymax <- makevar(orderbymax, 'orderByMax("%s")')
   orderbymin <- makevar(orderbymin, 'orderByMin("%s")')
   orderbyminmax <- makevar(orderbyminmax, 'orderByMinMax("%s")')
-  moreargs <- noaa_compact(list(distinct, orderby, orderbymax, orderbymin, orderbyminmax, units))
+  moreargs <- rc(list(distinct, orderby, orderbymax, orderbymin, orderbyminmax, units))
   args <- c(args, moreargs)
   args <- lapply(args, function(x) RCurl::curlEscape(x))
   args <- paste0(args, collapse = "&")

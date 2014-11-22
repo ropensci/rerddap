@@ -22,7 +22,7 @@
 
 erddap_search <- function(query, page=NULL, page_size=NULL, which='griddap', ...){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
-  args <- noaa_compact(list(searchFor=query, page=page, itemsPerPage=page_size))
+  args <- rc(list(searchFor=query, page=page, itemsPerPage=page_size))
   json <- erdddap_GET(paste0(eurl(), 'search/index.json'), args, ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){

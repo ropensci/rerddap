@@ -13,6 +13,7 @@ Roxygen: list(wrap = FALSE)
 Imports:
     httr,
     RCurl,
+    XML,
     data.table,
     jsonlite
 Suggests:
