@@ -17,14 +17,6 @@ knitr::opts_chunk$set(
 ```{r eval=FALSE}
 install.packages("devtools")
 devtools::install_github("ropensci/rerddap")
-library('rerddap')
-```
-
-__or version with buoy functions on Github__
-
-```{r eval=FALSE}
-install.packages("devtools")
-devtools::install_github("ropensci/rerddap", ref="buoy")
 ```
 
 ```{r}

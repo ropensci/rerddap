@@ -11,15 +11,6 @@ rerddap
 ```r
 install.packages("devtools")
 devtools::install_github("ropensci/rerddap")
-library('rerddap')
-```
-
-__or version with buoy functions on Github__
-
-
-```r
-install.packages("devtools")
-devtools::install_github("ropensci/rerddap", ref="buoy")
 ```
 
 
@@ -198,7 +189,7 @@ tabledap(out, fields=c('longitude','latitude','fish_size','itis_tsn'),
     'time>=2001-07-07','time<=2001-07-10')
 #> <NOAA ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rnoaa/erddap/erdCalCOFIfshsiz.csv]
-#>    Last updated: [2014-11-21 23:56:11]
+#>    Last updated: [2014-11-21 23:57:44]
 #>    File size:    [0.02 mb]
 #>    Dimensions:   [558 X 4]
 #> 
