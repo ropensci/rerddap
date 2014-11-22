@@ -12,13 +12,6 @@ LazyData: true
 Roxygen: list(wrap = FALSE)
 Imports:
     httr,
-    sp,
-    RCurl,
-    rgdal,
-    rgeos,
-    maptools,
-    stringr,
-    XML,
     data.table,
     jsonlite
 Suggests:
