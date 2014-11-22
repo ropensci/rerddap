@@ -12,6 +12,7 @@ LazyData: true
 Roxygen: list(wrap = FALSE)
 Imports:
     httr,
+    RCurl,
     data.table,
     jsonlite
 Suggests:
