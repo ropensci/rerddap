@@ -4,31 +4,21 @@
 #'
 #' NOAA's ERDDAP service holds many datasets of interest. It's built on top of
 #' OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
-#' \code{\link{erddap_search}}, list datasets via \code{\link{erddap_datasets}},
+#' \code{\link{ed_search}}, list datasets via \code{\link{ed_datasets}},
 #' get information on a single dataset via \code{\link{info}}, then get
-#' data you want for either tabledap type via \code{\link{erddap_table}}, or
-#' for griddap type via \code{\link{erddap_grid}}.
+#' data you want for either tabledap type via \code{\link{tabledap}}, or
+#' for griddap type via \code{\link{griddap}}.
 #'
 #' tabledap and griddap have different interfaces to query for data, so
-#' \code{\link{erddap_table}} and \code{\link{erddap_grid}} are separated out as
+#' \code{\link{tabledap}} and \code{\link{griddap}} are separated out as
 #' separate functions even though some of the internals are the same. In particular,
 #' with tabledap you can query on/subset all variables, whereas with gridddap, you can
 #' only query on/subset the dimension varibles (e.g., latitude, longitude, altitude).
 #'
-#' \bold{NOTE:} With griddap data vai \code{\link{erddap_grid}} you can get a lot of
+#' \bold{NOTE:} With griddap data vai \code{\link{griddap}} you can get a lot of
 #' data quickly. Try small searches of a dataset to start to get a sense for the data,
-#' then you can increase the amount of data you get. See \code{\link{erddap_grid}}
+#' then you can increase the amount of data you get. See \code{\link{griddap}}
 #' for more details.
-#'
-#' The following are the ERDDAP functions:
-#'
-#' \itemize{
-#'  \item \code{\link{erddap_search}}
-#'  \item \code{\link{erddap_datasets}}
-#'  \item \code{\link{info}}
-#'  \item \code{\link{erddap_table}}
-#'  \item \code{\link{erddap_grid}}
-#' }
 #'
 #' @name rerddap-package
 #' @aliases rerddap
