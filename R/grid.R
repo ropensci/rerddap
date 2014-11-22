@@ -1,9 +1,9 @@
 #' Get ERDDAP griddap data.
 #'
 #' @export
-#' 
-#' @param x Anything coercable to an object of class erddap_info. So the output of a call to 
-#' \code{erddap_info}, or a datasetid, which will internally be passed through \code{erddap_info}.
+#'
+#' @param x Anything coercable to an object of class info. So the output of a call to
+#' \code{info}, or a datasetid, which will internally be passed through \code{info}.
 #' @param ... Dimension arguments.
 #' @param fields Fields to return, a character vector.
 #' @param stride (integer) How many values to get. 1 = get every value, 2 = get every other value,
@@ -27,7 +27,7 @@
 #' \code{fields} parameter, you get all variables back.
 #'
 #' To get the dimensions and variables, along with other metadata for a dataset, run
-#' \code{erddap_info}, and each will be shown, with their min and max values, and some
+#' \code{info}, and each will be shown, with their min and max values, and some
 #' other metadata.
 #'
 #' @section Where does the data go?:
@@ -41,45 +41,45 @@
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # single variable dataset
-#' ## You can pass in the outpu of a call to erddap_info
-#' (out <- erddap_info('noaa_esrl_027d_0fb5_5d38'))
-#' (res <- erddap_grid(out,
+#' ## You can pass in the outpu of a call to info
+#' (out <- info('noaa_esrl_027d_0fb5_5d38'))
+#' (res <- griddap(out,
 #'  time = c('2012-01-01','2012-06-12'),
 #'  latitude = c(21, 18),
 #'  longitude = c(-80, -75)
 #' ))
 #' ## Or, pass in a dataset id
-#' (res <- erddap_grid('noaa_esrl_027d_0fb5_5d38',
+#' (res <- griddap('noaa_esrl_027d_0fb5_5d38',
 #'  time = c('2012-01-01','2012-06-12'),
 #'  latitude = c(21, 18),
 #'  longitude = c(-80, -75)
 #' ))
 #'
 #' # multi-variable dataset
-#' (out <- erddap_info('noaa_gfdl_5081_7d4a_7570'))
-#' (res <- erddap_grid(out,
+#' (out <- info('noaa_gfdl_5081_7d4a_7570'))
+#' (res <- griddap(out,
 #'  time = c('2005-11-01','2006-01-01'),
 #'  latitude = c(20, 21),
 #'  longitude = c(10, 11)
 #' ))
-#' (res <- erddap_grid(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
+#' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
 #' longitude = c(10, 11), fields = 'uo'))
-#' (res <- erddap_grid(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
+#' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
 #' longitude = c(10, 11), fields = 'uo', stride=c(1,2,1,2)))
-#' (res <- erddap_grid(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
+#' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
 #' longitude = c(10, 11), fields = c('uo','so')))
-#' (res <- erddap_grid(out, time = c('2005-09-01','2006-01-01'), latitude = c(20, 21),
+#' (res <- griddap(out, time = c('2005-09-01','2006-01-01'), latitude = c(20, 21),
 #' longitude = c(10, 11), fields = 'none'))
 #'
 #' # multi-variable dataset
 #' ## this one also has a 0-360 longitude system, BLARGH!!!
-#' (out <- erddap_info('noaa_gfdl_3c96_7879_a9d3'))
-#' (res <- erddap_grid(out,
+#' (out <- info('noaa_gfdl_3c96_7879_a9d3'))
+#' (res <- griddap(out,
 #'  time = c('2005-11-01','2006-01-01'),
 #'  latitude = c(20, 22),
 #'  longitude = c(-80, -75)
 #' ))
-#' (res <- erddap_grid(out,
+#' (res <- griddap(out,
 #'  time = c('2005-11-01','2006-01-01'),
 #'  latitude = c(20, 22),
 #'  longitude = c(-80, -75),
@@ -87,31 +87,31 @@
 #' ))
 #'
 #' # Write to memory (within R), or to disk
-#' (out <- erddap_info('noaa_pfeg_e9ae_3356_22f8'))
+#' (out <- info('noaa_pfeg_e9ae_3356_22f8'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
 #' ## you can also pass in path and overwrite options to disk()
-#' (res <- erddap_grid(out,
+#' (res <- griddap(out,
 #'  time = c('2012-06-01','2012-06-12'),
 #'  latitude = c(20, 21),
 #'  longitude = c(-80, -75),
 #'  store = disk()
 #' ))
 #' ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
-#' system.time( erddap_grid(out,
+#' system.time( griddap(out,
 #'  time = c('2012-06-01','2012-06-12'),
 #'  latitude = c(20, 21),
 #'  longitude = c(-80, -75),
 #'  store = disk()
 #' ) )
-#' system.time( erddap_grid(out,
+#' system.time( griddap(out,
 #'  time = c('2012-06-01','2012-06-12'),
 #'  latitude = c(20, 21),
 #'  longitude = c(-80, -75),
 #'  store = disk()
 #' ) )
-#' 
+#'
 #' ## memory
-#' (res <- erddap_grid(out,
+#' (res <- griddap(out,
 #'  time = c('2012-06-01','2012-06-12'),
 #'  latitude = c(20, 21),
 #'  longitude = c(-80, -75),
@@ -119,9 +119,9 @@
 #' ))
 #' }
 
-erddap_grid <- function(x, ..., fields = 'all', stride = 1, store = disk(), callopts = list())
+griddap <- function(x, ..., fields = 'all', stride = 1, store = disk(), callopts = list())
 {
-  x <- as.erddap_info(x)
+  x <- as.info(x)
   dimargs <- list(...)
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
@@ -134,11 +134,11 @@ erddap_grid <- function(x, ..., fields = 'all', stride = 1, store = disk(), call
   }
   resp <- erd_up_GET(sprintf("%sgriddap/%s.csv", eurl(), d), d, args, store, callopts)
   loc <- if(store$store == "disk") resp else "memory"
-  structure(read_upwell(resp), class=c("erddap_grid","data.frame"), datasetid=d, path=loc)
+  structure(read_upwell(resp), class=c("griddap","data.frame"), datasetid=d, path=loc)
 }
 
 #' @export
-print.erddap_grid <- function(x, ..., n = 10){
+print.griddap <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<NOAA ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")

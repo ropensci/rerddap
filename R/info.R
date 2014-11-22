@@ -9,7 +9,7 @@
 #'
 #' @param datasetid Dataset id
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
-#' @param x A datasetid or the output of \code{erddap_info}
+#' @param x A datasetid or the output of \code{info}
 #' @return Prints a summary of the data on return, but you can index to various information.
 #'
 #' The data is a list of length two with:
@@ -31,20 +31,20 @@
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # grid dap datasets
-#' erddap_info('noaa_pfeg_696e_ec99_6fa6')
-#' erddap_info('noaa_ngdc_34bf_a95c_7e28')
+#' info('noaa_pfeg_696e_ec99_6fa6')
+#' info('noaa_ngdc_34bf_a95c_7e28')
 #'
 #' (out <- erddap_search(query='temperature'))
-#' erddap_info(out$info$dataset_id[5])
-#' erddap_info(out$info$dataset_id[15])
-#' erddap_info(out$info$dataset_id[25])
-#' erddap_info(out$info$dataset_id[33])
-#' erddap_info(out$info$dataset_id[65])
-#' erddap_info(out$info$dataset_id[150])
-#' erddap_info(out$info$dataset_id[400])
-#' erddap_info(out$info$dataset_id[678])
+#' info(out$info$dataset_id[5])
+#' info(out$info$dataset_id[15])
+#' info(out$info$dataset_id[25])
+#' info(out$info$dataset_id[33])
+#' info(out$info$dataset_id[65])
+#' info(out$info$dataset_id[150])
+#' info(out$info$dataset_id[400])
+#' info(out$info$dataset_id[678])
 #'
-#' out <- erddap_info(datasetid='noaa_ngdc_34bf_a95c_7e28')
+#' out <- info(datasetid='noaa_ngdc_34bf_a95c_7e28')
 #' ## See brief overview of the variables and range of possible values, if given
 #' out$variables
 #' ## all information on longitude
@@ -54,14 +54,14 @@
 #'
 #' # table dap datasets
 #' (out <- erddap_search(query='temperature', which = "table"))
-#' erddap_info(out$info$dataset_id[1])
-#' erddap_info(out$info$dataset_id[2])
-#' erddap_info(out$info$dataset_id[3])
-#' erddap_info(out$info$dataset_id[4])
-#' erddap_info(out$info$dataset_id[54])
+#' info(out$info$dataset_id[1])
+#' info(out$info$dataset_id[2])
+#' info(out$info$dataset_id[3])
+#' info(out$info$dataset_id[4])
+#' info(out$info$dataset_id[54])
 #'
-#' erddap_info(datasetid='erdCalCOFIfshsiz')
-#' out <- erddap_info(datasetid='erdCinpKfmBT')
+#' info(datasetid='erdCalCOFIfshsiz')
+#' out <- info(datasetid='erdCinpKfmBT')
 #' ## See brief overview of the variables and range of possible values, if given
 #' out$variables
 #' ## all information on longitude
@@ -70,7 +70,7 @@
 #' out$alldata$Haliotis_corrugata_Mean_Density
 #' }
 
-erddap_info <- function(datasetid, ...){
+info <- function(datasetid, ...){
   json <- erdddap_GET(sprintf(paste0(eurl(), 'info/%s/index.json'), datasetid), list(), ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
@@ -95,13 +95,13 @@ erddap_info <- function(datasetid, ...){
   vars <- merge(vars, actualdf, by="variable_name")
   oo <- lapply(outout, function(x) data.frame(rbindlist(x)))
   structure(list(variables=vars, alldata=oo),
-            class="erddap_info",
+            class="info",
             datasetid=datasetid,
             type=table_or_grid(datasetid))
 }
 
 #' @export
-print.erddap_info <- function(x, ...){
+print.info <- function(x, ...){
   global <- x$alldata$NC_GLOBAL
   tt <- global[ global$attribute_name %in% c('time_coverage_end','time_coverage_start'), "value", ]
   dims <- x$alldata[dimvars(x)]
@@ -130,11 +130,11 @@ foo <- function(x, y){
 }
 
 #' @export
-#' @rdname erddap_info
-as.erddap_info <- function(x) UseMethod("as.erddap_info")
+#' @rdname info
+as.info <- function(x) UseMethod("as.info")
 
 #' @export
-as.erddap_info.erddap_info <- function(x) x
+as.info.info <- function(x) x
 
 #' @export
-as.erddap_info.character <- function(x) erddap_info(x)
+as.info.character <- function(x) info(x)

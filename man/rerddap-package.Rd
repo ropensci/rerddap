@@ -13,7 +13,7 @@ ERDDAP Information
 NOAA's ERDDAP service holds many datasets of interest. It's built on top of
 OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
 \code{\link{erddap_search}}, list datasets via \code{\link{erddap_datasets}},
-get information on a single dataset via \code{\link{erddap_info}}, then get
+get information on a single dataset via \code{\link{info}}, then get
 data you want for either tabledap type via \code{\link{erddap_table}}, or
 for griddap type via \code{\link{erddap_grid}}.
 
@@ -33,7 +33,7 @@ The following are the ERDDAP functions:
 \itemize{
  \item \code{\link{erddap_search}}
  \item \code{\link{erddap_datasets}}
- \item \code{\link{erddap_info}}
+ \item \code{\link{info}}
  \item \code{\link{erddap_table}}
  \item \code{\link{erddap_grid}}
 }

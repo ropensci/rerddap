@@ -10,17 +10,17 @@
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
-#' (out <- erddap_search(query='temperature'))
+#' (out <- ed_search(query='temperature'))
 #' out$alldata[[1]]
-#' (out <- erddap_search(query='size'))
+#' (out <- ed_search(query='size'))
 #' out$info
 #'
 #' # List datasets
-#' head( erddap_datasets('table') )
-#' head( erddap_datasets('grid') )
+#' head( ed_datasets('table') )
+#' head( ed_datasets('grid') )
 #' }
 
-erddap_search <- function(query, page=NULL, page_size=NULL, which='griddap', ...){
+ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', ...){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   args <- rc(list(searchFor=query, page=page, itemsPerPage=page_size))
   json <- erdddap_GET(paste0(eurl(), 'search/index.json'), args, ...)
@@ -35,11 +35,11 @@ erddap_search <- function(query, page=NULL, page_size=NULL, which='griddap', ...
   df$gd <- vapply(lists, function(x) if(x$griddap == "") "tabledap" else "griddap", character(1))
   df <- df[ df$gd == which, -3 ]
   res <- list(info=df, alldata=lists)
-  structure(res, class="erddap_search")
+  structure(res, class="ed_search")
 }
 
 #' @export
-print.erddap_search <- function(x, ...){
+print.ed_search <- function(x, ...){
   cat(sprintf("%s results, showing first 20", nrow(x$info)), "\n")
   print(head(x$info, n = 20))
 }
@@ -66,8 +66,8 @@ toghelper <- function(url){
 }
 
 #' @export
-#' @rdname erddap_search
-erddap_datasets <- function(which = 'tabledap'){
+#' @rdname ed_search
+ed_datasets <- function(which = 'tabledap'){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   url <- sprintf('%s%s/index.json', eurl(), which)
   out <- erdddap_GET(url, list(page=1, itemsPerPage=10000L))
