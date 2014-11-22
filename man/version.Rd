@@ -3,10 +3,10 @@
 \alias{version}
 \title{Get ERDDAP version}
 \usage{
-version(url, ...)
+version(url = "http://coastwatch.pfeg.noaa.gov", ...)
 }
 \arguments{
-\item{url}{URL of the ERDDAP server}
+\item{url}{Base URL of the ERDDAP server}
 
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}
 }
