@@ -10,6 +10,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
+[![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
+[![Coverage Status](https://coveralls.io/repos/ropensci/rerddap/badge.svg)](https://coveralls.io/r/ropensci/rerddap)
+
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
 ## Installation
@@ -40,7 +44,7 @@ ed_search(query='size', which = "grid")
 Then you can get information on a single dataset
 
 ```{r}
-info('hawaii_3b41_0c0b_72bc')
+info('whoi_62d0_9d64_c8ff')
 ```
 
 __griddap data__
