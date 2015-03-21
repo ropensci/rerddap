@@ -18,5 +18,4 @@ Imports:
     data.table,
     jsonlite
 Suggests:
-    roxygen2,
-    dplyr
+    roxygen2
