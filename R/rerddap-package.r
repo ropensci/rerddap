@@ -27,3 +27,51 @@
 #' @author Scott Chamberlain \email{myrmecocystus@@gmail.com}
 #' @keywords package
 NULL
+
+#' institutions
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name institutions
+NULL
+
+#' ioos_categories
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name ioos_categories
+NULL
+
+#' keywords
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name keywords
+NULL
+
+#' longnames
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name longnames
+NULL
+
+#' standardnames
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name standardnames
+NULL
+
+#' variablenames
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A character vector
+#' @name variablenames
+NULL
