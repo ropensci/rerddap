@@ -1,9 +1,9 @@
 Package: rerddap
-Version: 0.0.1.99
-Date: 2015-02-16
-License: MIT + file LICENSE
-Title: General purpose R client for ERDDAP servers.
+Title: General Purpose R Client for ERDDAP Servers
 Description: General purpose R client for ERDDAP servers.
+Version: 0.0.3.99
+Date: 2015-03-20
+License: MIT + file LICENSE
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut","cre"),
     email = "myrmecocystus@gmail.com"))
 URL: https://github.com/ropensci/rerddap
