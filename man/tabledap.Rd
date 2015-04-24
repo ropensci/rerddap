@@ -64,6 +64,11 @@ can't simply do \code{time = '2001-07-07'} as we normally would.
 Server-side functionality: Some tasks are done server side. You don't have to worry about what
 that means. They are provided via parameters in this function. See \code{distinct},
 \code{orderby}, \code{orderbymax}, \code{orderbymin}, \code{orderbyminmax}, and \code{units}.
+
+Data is cached based on all parameters you use to get a dataset, including base url,
+query parameters. If you make the same exact call in the same or a different R session,
+as long you don't clear the cache, the function only reads data from disk, and does not
+have to request the data from the web again.
 }
 \examples{
 \dontrun{
@@ -87,12 +92,12 @@ tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
 
 # An example workflow
 ## Search for data
-(out <- erddap_search(query='fish', which = 'table'))
+(out <- ed_search(query='fish', which = 'table'))
 ## Using a datasetid, search for information on a datasetid
 id <- out$info$dataset_id[7]
 info(id)$variables
 ## Get data from the dataset
-tabledap(id, fields = c('fish','landings','year'))
+tabledap(id, fields = c('country','family','genus'))
 
 # Time constraint
 ## Limit by time with date only
@@ -143,8 +148,6 @@ head(rbind(classif)); tail(rbind(classif))
 # Write to memory (within R), or to disk
 (out <- info('erdCalCOFIfshsiz'))
 ## disk, by default (to prevent bogging down system w/ large datasets)
-## you can also pass in path and overwrite options to disk()
-tabledap('erdCalCOFIfshsiz', store = disk())
 ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
 system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )

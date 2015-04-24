@@ -43,6 +43,11 @@
 #' Server-side functionality: Some tasks are done server side. You don't have to worry about what
 #' that means. They are provided via parameters in this function. See \code{distinct},
 #' \code{orderby}, \code{orderbymax}, \code{orderbymin}, \code{orderbyminmax}, and \code{units}.
+#'
+#' Data is cached based on all parameters you use to get a dataset, including base url,
+#' query parameters. If you make the same exact call in the same or a different R session,
+#' as long you don't clear the cache, the function only reads data from disk, and does not
+#' have to request the data from the web again.
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
@@ -66,12 +71,12 @@
 #'
 #' # An example workflow
 #' ## Search for data
-#' (out <- erddap_search(query='fish', which = 'table'))
+#' (out <- ed_search(query='fish', which = 'table'))
 #' ## Using a datasetid, search for information on a datasetid
 #' id <- out$info$dataset_id[7]
 #' info(id)$variables
 #' ## Get data from the dataset
-#' tabledap(id, fields = c('fish','landings','year'))
+#' tabledap(id, fields = c('country','family','genus'))
 #'
 #' # Time constraint
 #' ## Limit by time with date only
@@ -122,8 +127,6 @@
 #' # Write to memory (within R), or to disk
 #' (out <- info('erdCalCOFIfshsiz'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
-#' ## you can also pass in path and overwrite options to disk()
-#' tabledap('erdCalCOFIfshsiz', store = disk())
 #' ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
 #' system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 #' system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
@@ -160,12 +163,13 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   args <- c(args, moreargs)
   args <- lapply(args, function(x) RCurl::curlEscape(x))
   args <- paste0(args, collapse = "&")
-  if(!nchar(args[[1]]) == 0){
+  if (!nchar(args[[1]]) == 0) {
     url <- paste0(url, '&', args)
   }
-  resp <- erd_tab_GET(url, dset=attr(x, "datasetid"), store, callopts)
-  loc <- if(store$store == "disk") resp else "memory"
-  structure(read_table(resp), class=c("tabledap","data.frame"), datasetid=attr(x, "datasetid"), path=loc)
+  resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, callopts)
+  loc <- if (store$store == "disk") resp else "memory"
+  structure(read_table(resp), class = c("tabledap", "data.frame"),
+            datasetid = attr(x, "datasetid"), path = loc)
 }
 
 #' @export
@@ -173,7 +177,7 @@ print.tabledap <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<NOAA ERDDAP tabledap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
-  if(attr(x, "path") != "memory"){
+  if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
@@ -181,24 +185,31 @@ print.tabledap <- function(x, ..., n = 10){
   trunc_mat(x, n = n)
 }
 
-erd_tab_GET <- function(url, dset, store, ...){
-  if(store$store == "disk"){
-    fpath <- path.expand(file.path(store$path, paste0(dset, ".csv")))
-    if( file.exists( fpath ) & store$overwrite == FALSE){ fpath } else {
+erd_tab_GET <- function(url, dset, store, ...) {
+  if (store$store == "disk") {
+    # store on disk
+    key <- gen_key(url, NULL, "csv")
+    if ( file.exists(file.path(store$path, key)) ) {
+      file.path(store$path, key)
+    } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, write_disk(writepath(store$path, dset, "csv"), store$overwrite), ...)
-      out <- check_response_erddap(res)
-      if(grepl("Error", out)) NA else res$request$writer[[1]]
+      res <- GET(url, write_disk(file.path(store$path, key), store$overwrite), ...)
+      # out <- check_response_erddap(res)
+      # if (grepl("Error", out)) NA else res$request$writer[[1]]
+      err_handle(res, store, key)
+      res$request$writer[[1]]
     }
   } else {
     res <- GET(url, ...)
-    out <- check_response_erddap(res)
-    if(grepl("Error", out)) NA else res
+    err_handle(res, store, key)
+    res
+#     out <- check_response_erddap(res)
+#     if (grepl("Error", out)) NA else res
   }
 }
 
 makevar <- function(x, y){
-  if(!is.null(x)){
+  if (!is.null(x)) {
     x <- paste0(x, collapse = ",")
     sprintf(y, x)
   } else {

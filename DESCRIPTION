@@ -26,3 +26,5 @@ Suggests:
     knitr,
     testthat,
     ncdf4
+Enhances:
+    taxize
