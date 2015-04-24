@@ -1,4 +1,5 @@
 # file to read netcdf data files
+#' @import ncdf
 ncdf_get <- function(file){
   nc <- open.ncdf(file)
   lat <- get.var.ncdf(nc, "latitude")

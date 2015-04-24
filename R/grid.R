@@ -261,7 +261,7 @@ erd_up_GET <- function(url, dset, args, store, fmt, ...){
   }
 }
 
-# writepath <- function(path, d, fmt) file.path(path, paste0(d, ".", fmt))
+writepath <- function(path, d, fmt) file.path(path, paste0(d, ".", fmt))
 
 gen_key <- function(url, args, fmt) {
   ky <- paste0(url, "?", args)
