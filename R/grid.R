@@ -262,18 +262,32 @@ dimvars <- function(x){
 erd_up_GET <- function(url, dset, args, store, fmt, ...){
   if (store$store == "disk") {
     # store on disk
-    # fpath <- path.expand(file.path(store$path, paste0(dset, ".", fmt)))
     key <- gen_key(url, args, fmt)
     if ( file.exists(file.path(store$path, key)) ) {
       file.path(store$path, key)
     } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
       res <- GET(url, query = args, write_disk(file.path(store$path, key), store$overwrite), ...)
+      # delete file if error, and stop message
+      err_handle(res, store, key)
+      # return file path
       res$request$writer[[1]]
     }
   } else {
     # read into memory, bypass disk storage
-    GET(url, query = args, ...)
+    res <- GET(url, query = args, ...)
+    # if error stop message
+    err_handle(res, store, key)
+    # return response object
+    res
+  }
+}
+
+err_handle <- function(x, store, key) {
+  if (x$status_code > 201) {
+    mssgs <- XML::xpathApply(content(x), "//p//u", XML::xmlValue)
+    if (store$store != "memory") unlink(file.path(store$path, key))
+    stop(paste0(mssgs, collapse = "\n\n"), call. = FALSE)
   }
 }
 
