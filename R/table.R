@@ -28,6 +28,7 @@
 #' value.
 #' @param units One of 'udunits' (units will be described via the UDUNITS standard (e.g.,degrees_C))
 #' or 'ucum' (units will be described via the UCUM standard (e.g., Cel)).
+#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}
 #' @param callopts Further args passed on to httr::GET (must be a named parameter)
 #'
@@ -128,15 +129,26 @@
 #' system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 #' ## memory
 #' tabledap(x='erdCalCOFIfshsiz', store = memory())
+#'
+#' # use a different ERDDAP server
+#' ## Pacific Islands Ocean Observing system
+#' out <- info("ais_rose_20112012", url = "http://oos.soest.hawaii.edu/erddap/")
+#' tabledap(out, url = "http://oos.soest.hawaii.edu/erddap/")
+#' ## Marine Institute (Ireland)
+#' tabledap("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
+#' ## Marine Domain Awareness (MDA) (Italy)
+#' tabledap("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+#' ## Ocean Networks (Canada)
+#' tabledap("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 #' }
 
 tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL,
-  store = disk(), callopts=list())
-{
+  url = eurl(), store = disk(), callopts=list()) {
+
   x <- as.info(x)
   fields <- paste(fields, collapse = ",")
-  url <- sprintf(paste0(eurl(), "tabledap/%s.csv?%s"), attr(x, "datasetid"), fields)
+  url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"), fields)
   args <- list(...)
   distinct <- if(distinct) 'distinct()' else NULL
   units <- if(!is.null(units)) makevar(toupper(units), 'units("%s")') else units
@@ -174,7 +186,7 @@ erd_tab_GET <- function(url, dset, store, ...){
     fpath <- path.expand(file.path(store$path, paste0(dset, ".csv")))
     if( file.exists( fpath ) & store$overwrite == FALSE){ fpath } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, write_disk(writepath(store$path, dset), store$overwrite), ...)
+      res <- GET(url, write_disk(writepath(store$path, dset, "csv"), store$overwrite), ...)
       out <- check_response_erddap(res)
       if(grepl("Error", out)) NA else res$request$writer[[1]]
     }
@@ -193,5 +205,3 @@ makevar <- function(x, y){
     NULL
   }
 }
-
-eurl <- function() "http://upwell.pfeg.noaa.gov/erddap/"

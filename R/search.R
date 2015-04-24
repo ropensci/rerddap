@@ -6,6 +6,7 @@
 #' @param page (integer) Page number
 #' @param page_size (integer) Results per page
 #' @param which (character) One of tabledep or griddap.
+#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
@@ -18,12 +19,22 @@
 #' # List datasets
 #' head( ed_datasets('table') )
 #' head( ed_datasets('grid') )
+#'
+#' # use a different ERDDAP server
+#' ## Pacific Islands Ocean Observing system
+#' ed_search("temperature", url = "http://oos.soest.hawaii.edu/erddap/")
+#' ## Marine Institute (Ireland)
+#' ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
+#' ## Marine Domain Awareness (MDA) (Italy)
+#' ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+#' ## Ocean Networks (Canada)
+#' ed_search("temperature", url = "http://dap.onc.uvic.ca/erddap/", which="tabledap")
 #' }
 
-ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', ...){
+ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = eurl(), ...){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   args <- rc(list(searchFor=query, page=page, itemsPerPage=page_size))
-  json <- erdddap_GET(paste0(eurl(), 'search/index.json'), args, ...)
+  json <- erdddap_GET(paste0(url, 'search/index.json'), args, ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
     names(x) <- colnames

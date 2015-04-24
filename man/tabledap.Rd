@@ -6,7 +6,7 @@
 \usage{
 tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL,
   orderbymax = NULL, orderbymin = NULL, orderbyminmax = NULL,
-  units = NULL, store = disk(), callopts = list())
+  units = NULL, url = eurl(), store = disk(), callopts = list())
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of a call to
@@ -43,6 +43,8 @@ value.}
 
 \item{units}{One of 'udunits' (units will be described via the UDUNITS standard (e.g.,degrees_C))
 or 'ucum' (units will be described via the UCUM standard (e.g., Cel)).}
+
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{store}{One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}}
 
@@ -148,6 +150,17 @@ system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 ## memory
 tabledap(x='erdCalCOFIfshsiz', store = memory())
+
+# use a different ERDDAP server
+## Pacific Islands Ocean Observing system
+out <- info("ais_rose_20112012", url = "http://oos.soest.hawaii.edu/erddap/")
+tabledap(out, url = "http://oos.soest.hawaii.edu/erddap/")
+## Marine Institute (Ireland)
+tabledap("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
+## Marine Domain Awareness (MDA) (Italy)
+tabledap("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+## Ocean Networks (Canada)
+tabledap("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 }
 }
 \author{

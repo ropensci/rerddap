@@ -169,6 +169,15 @@ info("hawaii_463b_5b04_35b7")
  longitude = c(10, 11),
  fmt = "nc"
 ))
+
+# Pop in a different ERDDAP url
+out <- info("NOAA_DHW", url = "http://oos.soest.hawaii.edu/erddap/")
+(res <- griddap(out,
+ time = c('2005-11-01','2006-01-01'),
+ latitude = c(21, 20),
+ longitude = c(10, 11),
+ fmt = "nc"
+))
 }
 }
 \author{

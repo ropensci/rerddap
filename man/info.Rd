@@ -5,12 +5,14 @@
 \alias{info}
 \title{Get information on an ERDDAP dataset.}
 \usage{
-info(datasetid, ...)
+info(datasetid, url = eurl(), ...)
 
 as.info(x)
 }
 \arguments{
 \item{datasetid}{Dataset id}
+
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
 
@@ -41,10 +43,10 @@ Get information on an ERDDAP dataset.
 \examples{
 \dontrun{
 # grid dap datasets
-info('noaa_pfeg_696e_ec99_6fa6')
-info('noaa_ngdc_34bf_a95c_7e28')
+info('noaa_esrl_027d_0fb5_5d38')
+info('hawaii_463b_5b04_35b7')
 
-(out <- erddap_search(query='temperature'))
+(out <- ed_search(query='temperature'))
 info(out$info$dataset_id[5])
 info(out$info$dataset_id[15])
 info(out$info$dataset_id[25])
@@ -54,30 +56,40 @@ info(out$info$dataset_id[150])
 info(out$info$dataset_id[400])
 info(out$info$dataset_id[678])
 
-out <- info(datasetid='noaa_ngdc_34bf_a95c_7e28')
+out <- info(datasetid='noaa_esrl_027d_0fb5_5d38')
 ## See brief overview of the variables and range of possible values, if given
 out$variables
 ## all information on longitude
 out$alldata$longitude
-## all information on Climatological_Temperature
-out$alldata$Climatological_Temperature
+## all information on air
+out$alldata$air
 
 # table dap datasets
-(out <- erddap_search(query='temperature', which = "table"))
+(out <- ed_search(query='temperature', which = "table"))
 info(out$info$dataset_id[1])
 info(out$info$dataset_id[2])
 info(out$info$dataset_id[3])
 info(out$info$dataset_id[4])
 info(out$info$dataset_id[54])
 
-info(datasetid='erdCalCOFIfshsiz')
-out <- info(datasetid='erdCinpKfmBT')
+info('erdCalCOFIfshsiz')
+out <- info('erdCinpKfmBT')
 ## See brief overview of the variables and range of possible values, if given
 out$variables
 ## all information on longitude
 out$alldata$longitude
 ## all information on Haliotis_corrugata_Mean_Density
 out$alldata$Haliotis_corrugata_Mean_Density
+
+# use a different ERDDAP server
+## Pacific Islands Ocean Observing system
+info("NOAA_DHW", url = "http://oos.soest.hawaii.edu/erddap/")
+## Marine Institute (Ireland)
+info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
+## Marine Domain Awareness (MDA) (Italy)
+info("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+## Ocean Networks (Canada)
+info("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 }
 }
 \author{

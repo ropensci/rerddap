@@ -5,7 +5,8 @@
 \alias{ed_search}
 \title{Search for ERDDAP tabledep or griddap datasets}
 \usage{
-ed_search(query, page = NULL, page_size = NULL, which = "griddap", ...)
+ed_search(query, page = NULL, page_size = NULL, which = "griddap",
+  url = eurl(), ...)
 
 ed_datasets(which = "tabledap")
 }
@@ -17,6 +18,8 @@ ed_datasets(which = "tabledap")
 \item{page_size}{(integer) Results per page}
 
 \item{which}{(character) One of tabledep or griddap.}
+
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
 }
@@ -33,6 +36,16 @@ out$info
 # List datasets
 head( ed_datasets('table') )
 head( ed_datasets('grid') )
+
+# use a different ERDDAP server
+## Pacific Islands Ocean Observing system
+ed_search("temperature", url = "http://oos.soest.hawaii.edu/erddap/")
+## Marine Institute (Ireland)
+ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
+## Marine Domain Awareness (MDA) (Italy)
+ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+## Ocean Networks (Canada)
+ed_search("temperature", url = "http://dap.onc.uvic.ca/erddap/", which="tabledap")
 }
 }
 \author{
