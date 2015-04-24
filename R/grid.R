@@ -1,5 +1,6 @@
 #' Get ERDDAP griddap data.
 #'
+#' @import ncdf
 #' @export
 #'
 #' @param x Anything coercable to an object of class info. So the output of a call to
@@ -9,6 +10,11 @@
 #' @param stride (integer) How many values to get. 1 = get every value, 2 = get
 #' every other value, etc. Default: 1 (i.e., get every value)
 #' @param fmt (character) One of csv or nc (for netcdf). Default: nc
+#' @param ncdf (character) One of ncdf or ncdf4. If ncdf, use the package
+#' \code{\link{ncdf}} to read netcdf files. If ncdf4, use the package
+#' \code{ncdf4}. \code{\link{ncdf}} package is required for this package to be
+#' installed, and should be easily installable across platforms. However, \code{ncdf4}
+#' is likely not installable on Windows OS's. Ignored if \code{fmt = "csv"}. Default: ncdf
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
 #' can pass options to \code{\link{disk}}
@@ -127,11 +133,13 @@
 #' ))
 #'
 #' ## netcdf
-#' (res <- griddap(out,
-#'  time = c('2012-01-01','2012-06-12'),
-#'  latitude = c(21, 14),
-#'  longitude = c(-80, -75),
-#'  fmt = "nc"
+#' info("hawaii_463b_5b04_35b7")
+#' (res <- griddap("hawaii_463b_5b04_35b7",
+#'  time = c('2015-01-01','2015-04-30'),
+#'  latitude = c(14, 21),
+#'  longitude = c(75, 80),
+#'  fmt = "nc",
+#'  ncdf = "ncdf4"
 #' ))
 #'
 #' (res <- griddap('noaa_gfdl_5081_7d4a_7570',
@@ -142,7 +150,7 @@
 #' ))
 #' }
 
-griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl(),
+griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf", url = eurl(),
                     store = disk(), read = TRUE, callopts = list()) {
   # fixme: with fmt=nc can only to store on disk, then read if needed by user
   x <- as.info(x)
@@ -150,6 +158,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl()
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
   dims <- dimvars(x)
+  store <- toggle_store(fmt, store)
   if (all(var == "none")) {
     args <- paste0(sapply(dims, function(y) parse_args(x, y, stride, dimargs, wname = TRUE)), collapse = ",")
   } else {
@@ -164,7 +173,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl()
                        nc = c("griddap_nc", "nc"),
                        csv = c("griddap_csv", "csv", "data.frame"))
   read <- toggle_read(read, store)
-  structure(read_all(resp, fmt, read), class = outclasses, datasetid = d, path = loc)
+  structure(read_all(resp, fmt, read, ncdf), class = outclasses, datasetid = d, path = loc)
 }
 
 toggle_read <- function(x, store) {
@@ -172,6 +181,18 @@ toggle_read <- function(x, store) {
     return(TRUE)
   } else {
     return(x)
+  }
+}
+
+toggle_store <- function(fmt, store) {
+  if (fmt == "nc") {
+    if (store$store == "memory") {
+      disk()
+    } else {
+      store
+    }
+  } else {
+    store
   }
 }
 
@@ -197,7 +218,7 @@ print.griddap_nc <- function(x, ..., n = 10){
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
-  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$summary$ndims, x$nvars), sep = "\n")
+  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$summary$ndims, x$summary$nvars), sep = "\n")
   cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
   cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
   trunc_mat(x$data, n = n)

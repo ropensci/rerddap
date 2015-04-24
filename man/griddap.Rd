@@ -4,8 +4,8 @@
 \alias{griddap}
 \title{Get ERDDAP griddap data.}
 \usage{
-griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(),
-  store = disk(), read = TRUE, callopts = list())
+griddap(x, ..., fields = "all", stride = 1, fmt = "nc", ncdf = "ncdf",
+  url = eurl(), store = disk(), read = TRUE, callopts = list())
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of a call to
@@ -19,6 +19,12 @@ griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(),
 every other value, etc. Default: 1 (i.e., get every value)}
 
 \item{fmt}{(character) One of csv or nc (for netcdf). Default: nc}
+
+\item{ncdf}{(character) One of ncdf or ncdf4. If ncdf, use the package
+\code{\link{ncdf}} to read netcdf files. If ncdf4, use the package
+\code{ncdf4}. \code{\link{ncdf}} package is required for this package to be
+installed, and should be easily installable across platforms. However, \code{ncdf4}
+is likely not installable on Windows OS's. Ignored if \code{fmt = "csv"}. Default: ncdf}
 
 \item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
@@ -148,11 +154,13 @@ system.time( griddap(out,
 ))
 
 ## netcdf
-(res <- griddap(out,
- time = c('2012-01-01','2012-06-12'),
- latitude = c(21, 14),
- longitude = c(-80, -75),
- fmt = "nc"
+info("hawaii_463b_5b04_35b7")
+(res <- griddap("hawaii_463b_5b04_35b7",
+ time = c('2015-01-01','2015-04-30'),
+ latitude = c(14, 21),
+ longitude = c(75, 80),
+ fmt = "nc",
+ ncdf = "ncdf4"
 ))
 
 (res <- griddap('noaa_gfdl_5081_7d4a_7570',

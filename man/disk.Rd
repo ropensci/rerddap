@@ -10,9 +10,10 @@ disk(path = "~/.rerddap", overwrite = TRUE)
 memory()
 }
 \arguments{
-\item{path}{Path to store files in. Default: ~/.rnoaa/upwell}
+\item{path}{Path to store files in. A directory, not a file. Default: \code{~/.rerddap}}
 
-\item{overwrite}{(logical) Overwrite an existing file of the same name? Default: TRUE}
+\item{overwrite}{(logical) Overwrite an existing file of the same name?
+Default: \code{TRUE}}
 }
 \description{
 Options for saving ERDDAP datasets.
