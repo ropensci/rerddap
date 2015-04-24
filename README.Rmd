@@ -27,19 +27,23 @@ devtools::install_github("ropensci/rerddap")
 library('rerddap')
 ```
 
-## Examples
+## Background
 
 ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](http://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](http://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+
+## Search
 
 First, you likely want to search for data, specify either `griddadp` or `tabledap`
 
 ```{r ed_search_table}
-ed_search(query='size', which = "table")
+ed_search(query = 'size', which = "table")
 ```
 
 ```{r ed_search_grid}
-ed_search(query='size', which = "grid")
+ed_search(query = 'size', which = "grid")
 ```
+
+## Information
 
 Then you can get information on a single dataset
 
@@ -47,7 +51,7 @@ Then you can get information on a single dataset
 info('whoi_62d0_9d64_c8ff')
 ```
 
-__griddap data__
+## griddap (gridded) data
 
 ```{r}
 (out <- info('noaa_esrl_027d_0fb5_5d38'))
@@ -55,27 +59,27 @@ __griddap data__
 
 ```{r griddap_data}
 (res <- griddap(out,
-  time = c('2012-01-01','2012-06-12'),
-  latitude = c(21, 18),
-  longitude = c(-80, -75)
+  time = c('2012-01-01', '2012-01-12'),
+  latitude = c(21, 20),
+  longitude = c(-80, -79)
 ))
 ```
 
-__tabledap data__
+## tabledap (tabular) data
 
 ```{r tabledap_info}
 (out <- info('erdCalCOFIfshsiz'))
 ```
 
 ```{r tabledap_data}
-tabledap(out, fields=c('longitude','latitude','fish_size','itis_tsn'),
-    'time>=2001-07-07','time<=2001-07-10')
+tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
+         'time>=2001-07-07', 'time<=2001-07-10')
 ```
 
 ## Meta
 
-* [Please report any issues or bugs](https://github.com/ropensci/rerddap/issues).
+* Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
 
-[![](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
