@@ -76,23 +76,35 @@ read_csv <- function(x){
   tmp
 }
 
-read_upwell <- function(x){
+read_data <- function(x, nrows = -1){
   if (is(x, "response")) {
     x <- content(x, "text")
-    tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2)
+    tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
     nmz <- names(read.csv(text = x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
   } else {
-    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2)
+    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
     nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
   }
-  names(tmp) <- tolower(nmz)
-  tmp
+  setNames(tmp, tolower(nmz))
 }
 
-read_all <- function(x, fmt) {
+read_all <- function(x, fmt, read) {
   switch(fmt,
-         csv = read_upwell(x),
-         nc = ncdf_summary(x))
+         csv = {
+           if (read) {
+             read_data(x)
+           } else {
+             read_data(x, 10)
+           }
+         },
+         nc = {
+           if (read) {
+             ncdf_get(x)
+           } else {
+             ncdf_summary(x)
+           }
+         }
+  )
 }
 
 read_table <- function(x){

@@ -8,10 +8,15 @@
 #' @param fields Fields to return, a character vector.
 #' @param stride (integer) How many values to get. 1 = get every value, 2 = get
 #' every other value, etc. Default: 1 (i.e., get every value)
-#' @param fmt (character) One of csv (default) or ncdf
+#' @param fmt (character) One of csv or nc (for netcdf). Default: nc
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
 #' can pass options to \code{\link{disk}}
+#' @param read (logical) Read data into memory or not. Does not apply when \code{store}
+#' parameter is set to memory (which reads data into memory). For large csv, or
+#' especially netcdf files, you may want to set this to \code{FALSE}, which simply
+#' returns a summary of the dataset - and you can read in data piecemeal later.
+#' Default: \code{TRUE}
 #' @param callopts Pass on curl options to \code{\link[httr]{GET}}
 #'
 #' @details Details:
@@ -138,7 +143,8 @@
 #' }
 
 griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl(),
-                    store = disk(), callopts = list()) {
+                    store = disk(), read = TRUE, callopts = list()) {
+  # fixme: with fmt=nc can only to store on disk, then read if needed by user
   x <- as.info(x)
   dimargs <- list(...)
   d <- attr(x, "datasetid")
@@ -157,7 +163,16 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl()
   outclasses <- switch(fmt,
                        nc = c("griddap_nc", "nc"),
                        csv = c("griddap_csv", "csv", "data.frame"))
-  structure(read_all(resp, fmt), class = outclasses, datasetid = d, path = loc)
+  read <- toggle_read(read, store)
+  structure(read_all(resp, fmt, read), class = outclasses, datasetid = d, path = loc)
+}
+
+toggle_read <- function(x, store) {
+  if (store$store == "memory") {
+    return(TRUE)
+  } else {
+    return(x)
+  }
 }
 
 #' @export
@@ -182,9 +197,10 @@ print.griddap_nc <- function(x, ..., n = 10){
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
-  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$ndims, x$nvars), sep = "\n")
-  cat(sprintf("   Dim names: %s", paste0(names(x$dim), collapse = ", ")), sep = "\n")
-  cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$var, "[[", "longname")), collapse = ", ")))
+  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$summary$ndims, x$nvars), sep = "\n")
+  cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
+  cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
+  trunc_mat(x$data, n = n)
 }
 
 field_handler <- function(x, y){

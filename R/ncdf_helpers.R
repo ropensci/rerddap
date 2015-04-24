@@ -18,11 +18,11 @@ ncdf_get <- function(file){
                      stringsAsFactors = FALSE)
   alldf <- cbind(meta, df)
   invisible(close.ncdf(nc))
-  alldf
+  list(summary = nc, data = alldf)
 }
 
 ncdf_summary <- function(file){
   nc <- open.ncdf(file, readunlim = FALSE)
   invisible(close.ncdf(nc))
-  nc
+  list(summary = nc, data = data.frame(NULL))
 }

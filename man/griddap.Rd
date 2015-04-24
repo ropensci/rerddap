@@ -5,7 +5,7 @@
 \title{Get ERDDAP griddap data.}
 \usage{
 griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(),
-  store = disk(), callopts = list())
+  store = disk(), read = TRUE, callopts = list())
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of a call to
@@ -18,12 +18,18 @@ griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(),
 \item{stride}{(integer) How many values to get. 1 = get every value, 2 = get
 every other value, etc. Default: 1 (i.e., get every value)}
 
-\item{fmt}{(character) One of csv (default) or ncdf}
+\item{fmt}{(character) One of csv or nc (for netcdf). Default: nc}
 
 \item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{store}{One of \code{\link{disk}} (default) or \code{\link{memory}}. You
 can pass options to \code{\link{disk}}}
+
+\item{read}{(logical) Read data into memory or not. Does not apply when \code{store}
+parameter is set to memory (which reads data into memory). For large csv, or
+especially netcdf files, you may want to set this to \code{FALSE}, which simply
+returns a summary of the dataset - and you can read in data piecemeal later.
+Default: \code{TRUE}}
 
 \item{callopts}{Pass on curl options to \code{\link[httr]{GET}}}
 }
