@@ -16,6 +16,8 @@ Imports:
     XML,
     dplyr,
     data.table,
-    jsonlite
+    jsonlite,
+    digest,
+    ncdf
 Suggests:
     roxygen2
