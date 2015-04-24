@@ -1,8 +1,8 @@
 Package: rerddap
 Title: General Purpose R Client for ERDDAP Servers
 Description: General purpose R client for ERDDAP servers.
-Version: 0.0.3.99
-Date: 2015-03-20
+Version: 0.0.4.99
+Date: 2015-04-24
 License: MIT + file LICENSE
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut","cre"),
     email = "myrmecocystus@gmail.com"))
