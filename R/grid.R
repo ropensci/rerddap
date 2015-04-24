@@ -3,12 +3,15 @@
 #' @export
 #'
 #' @param x Anything coercable to an object of class info. So the output of a call to
-#' \code{info}, or a datasetid, which will internally be passed through \code{info}.
+#' \code{info}, or a datasetid, which will internally be passed through \code{\link{info}}
 #' @param ... Dimension arguments.
 #' @param fields Fields to return, a character vector.
-#' @param stride (integer) How many values to get. 1 = get every value, 2 = get every other value,
-#' etc. Default: 1 (i.e., get every value)
-#' @param store One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}
+#' @param stride (integer) How many values to get. 1 = get every value, 2 = get
+#' every other value, etc. Default: 1 (i.e., get every value)
+#' @param fmt (character) One of csv (default) or ncdf
+#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
+#' can pass options to \code{\link{disk}}
 #' @param callopts Pass on curl options to \code{\link[httr]{GET}}
 #'
 #' @details Details:
@@ -87,13 +90,13 @@
 #' ))
 #'
 #' # Write to memory (within R), or to disk
-#' (out <- info('noaa_pfeg_e9ae_3356_22f8'))
+#' (out <- info('erdAKssta3day'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
 #' ## you can also pass in path and overwrite options to disk()
 #' (res <- griddap(out,
-#'  time = c('2012-06-01','2012-06-12'),
-#'  latitude = c(20, 21),
-#'  longitude = c(-80, -75),
+#'  time = c('2006-06-01','2007-06-12'),
+#'  latitude = c(45, 50),
+#'  longitude = c(166, 180),
 #'  store = disk()
 #' ))
 #' ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
@@ -117,32 +120,52 @@
 #'  longitude = c(-80, -75),
 #'  store = memory()
 #' ))
+#'
+#' ## netcdf
+#' (res <- griddap(out,
+#'  time = c('2012-01-01','2012-06-12'),
+#'  latitude = c(21, 14),
+#'  longitude = c(-80, -75),
+#'  fmt = "nc"
+#' ))
+#'
+#' (res <- griddap('noaa_gfdl_5081_7d4a_7570',
+#'  time = c('2005-11-01','2006-01-01'),
+#'  latitude = c(20, 21),
+#'  longitude = c(10, 11),
+#'  fmt = "nc"
+#' ))
 #' }
 
-griddap <- function(x, ..., fields = 'all', stride = 1, store = disk(), callopts = list())
-{
+griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", url = eurl(),
+                    store = disk(), callopts = list()) {
   x <- as.info(x)
   dimargs <- list(...)
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
   dims <- dimvars(x)
-  if(all(var == "none")){
+  if (all(var == "none")) {
     args <- paste0(sapply(dims, function(y) parse_args(x, y, stride, dimargs, wname = TRUE)), collapse = ",")
   } else {
     pargs <- sapply(dims, function(y) parse_args(x, y, stride, dimargs))
     args <- paste0(lapply(var, function(y) paste0(y, paste0(pargs, collapse = ""))), collapse = ",")
   }
-  resp <- erd_up_GET(sprintf("%sgriddap/%s.csv", eurl(), d), d, args, store, callopts)
-  loc <- if(store$store == "disk") resp else "memory"
-  structure(read_upwell(resp), class=c("griddap","data.frame"), datasetid=d, path=loc)
+  fmt <- match.arg(fmt, c("nc", "csv"))
+  resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, fmt), dset = d,
+                     args = args, store = store, fmt = fmt, callopts)
+  loc <- if (store$store == "disk") resp else "memory"
+  outclasses <- switch(fmt,
+                       nc = c("griddap_nc", "nc"),
+                       csv = c("griddap_csv", "csv", "data.frame"))
+  structure(read_all(resp, fmt), class = outclasses, datasetid = d, path = loc)
 }
 
 #' @export
-print.griddap <- function(x, ..., n = 10){
+print.griddap_csv <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<NOAA ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
-  if(attr(x, "path") != "memory"){
+  if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
@@ -150,20 +173,34 @@ print.griddap <- function(x, ..., n = 10){
   trunc_mat(x, n = n)
 }
 
+#' @export
+print.griddap_nc <- function(x, ..., n = 10){
+  finfo <- file_info(attr(x, "path"))
+  cat(sprintf("<NOAA ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
+  if (attr(x, "path") != "memory") {
+    cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
+    cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
+  }
+  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$ndims, x$nvars), sep = "\n")
+  cat(sprintf("   Dim names: %s", paste0(names(x$dim), collapse = ", ")), sep = "\n")
+  cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$var, "[[", "longname")), collapse = ", ")))
+}
+
 field_handler <- function(x, y){
   x <- match.arg(x, c(y, "none", "all"), TRUE)
-  if(length(x) == 1 && x == "all"){
+  if (length(x) == 1 && x == "all") {
     y
-  } else if(all(x %in% y) || x == "none") {
+  } else if (all(x %in% y) || x == "none") {
     x
   }
 }
 
 parse_args <- function(.info, dim, s, dimargs, wname=FALSE){
-  tmp <- if(dim %in% names(dimargs)){
+  tmp <- if (dim %in% names(dimargs)) {
     dimargs[[dim]]
   } else {
-    if(dim == "time"){
+    if (dim == "time") {
       times <- c(getvar(.info, "time_coverage_start"), getvar(.info, "time_coverage_end"))
       sprintf('[(%s):%s:(%s)]', times[1], s, times[2])
     } else {
@@ -171,15 +208,16 @@ parse_args <- function(.info, dim, s, dimargs, wname=FALSE){
       gsub("\\s+", "", strsplit(actrange, ",")[[1]])
     }
   }
-  if(length(s) > 1){
-    if(!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
+  if (length(s) > 1) {
+    if (!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
     names(s) <- dimvars(.info)
-    if(!wname)
+    if (!wname) {
       sprintf('[(%s):%s:(%s)]', tmp[1], s[[dim]], tmp[2])
-    else
+    } else {
       sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s[[dim]], tmp[2])
+    }
   } else {
-    if(!wname)
+    if (!wname)
       sprintf('[(%s):%s:(%s)]', tmp[1], s, tmp[2])
     else
       sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s, tmp[2])
@@ -192,7 +230,7 @@ getvar <- function(x, y){
 
 getvars <- function(x){
   vars <- names(x$alldata)
-  vars[ !vars %in% c("NC_GLOBAL","time", x$variables$variable_name) ]
+  vars[ !vars %in% c("NC_GLOBAL", "time", x$variables$variable_name) ]
 }
 
 getallvars <- function(x){
@@ -205,24 +243,48 @@ dimvars <- function(x){
   vars[ !vars %in% c("NC_GLOBAL", x$variables$variable_name) ]
 }
 
-erd_up_GET <- function(url, dset, args, store, ...){
-  if(store$store == "disk"){
-    fpath <- path.expand(file.path(store$path, paste0(dset, ".csv")))
-    if( file.exists( fpath ) ){ fpath } else {
+erd_up_GET <- function(url, dset, args, store, fmt, ...){
+  if (store$store == "disk") {
+    # store on disk
+    # fpath <- path.expand(file.path(store$path, paste0(dset, ".", fmt)))
+    key <- gen_key(url, args, fmt)
+    if ( file.exists(file.path(store$path, key)) ) {
+      file.path(store$path, key)
+    } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, query=args, write_disk(writepath(store$path, dset), store$overwrite), ...)
+      res <- GET(url, query = args, write_disk(file.path(store$path, key), store$overwrite), ...)
       res$request$writer[[1]]
     }
   } else {
-    GET(url, query=args, ...)
+    # read into memory, bypass disk storage
+    GET(url, query = args, ...)
   }
 }
-writepath <- function(path, d) file.path(path, paste0(d, ".csv"))
 
-file_info <- function(x){
+# writepath <- function(path, d, fmt) file.path(path, paste0(d, ".", fmt))
+
+gen_key <- function(url, args, fmt) {
+  ky <- paste0(url, "?", args)
+  paste0(digest::digest(ky), ".", fmt)
+}
+
+# libfile <- function() file.path(path.expand("~/.rerddap"), ".library")
+
+# hash_file <- function(x) {
+#   if (!file.exists(x)) {
+#     cat("\n", file = x)
+#   }
+# }
+
+# write_key <- function(path, key) {
+#   hash_file(path)
+#   cat("- ", key, file = path, append = TRUE)
+# }
+
+file_info <- function(x) {
   tmp <- file.info(x)
   row.names(tmp) <- NULL
-  tmp2 <- tmp[,c('mtime','size')]
+  tmp2 <- tmp[,c('mtime', 'size')]
   tmp2$size <- round(tmp2$size/1000000L, 2)
   tmp2
 }

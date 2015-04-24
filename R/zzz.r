@@ -41,49 +41,58 @@ check_response <- function(x){
   }
 }
 
-#' Check response from NOAA, including status codes, server error messages, mime-type, etc.
+#' Check response, including status codes, server error messages, mime-type, etc.
 #' @keywords internal
 check_response_erddap <- function(x){
-  if(!x$status_code == 200){
+  if (!x$status_code == 200) {
     html <- content(x)
     values <- xpathApply(html, "//u", xmlValue)
     error <- grep("Error", values, ignore.case = TRUE, value = TRUE)
-    if(length(error) > 1) error <- error[1]
+    if (length(error) > 1) error <- error[1]
     #check specifically for no matching results error
-    if(grepl("no matching results", error)) error <- 'Error: Your query produced no matching results.'
+    if (grepl("no matching results", error)) error <- 'Error: Your query produced no matching results.'
 
-    if(!is.null(error)){
-      if(grepl('Error', error)){
+    if (!is.null(error)) {
+      if (grepl('Error', error)) {
         warning(sprintf("(%s) - %s", x$status_code, error))
-      } else { warning(sprintf("Error: (%s)", x$status_code)) }
-    } else { warn_for_status(x) }
+      } else {
+        warning(sprintf("Error: (%s)", x$status_code))
+      }
+    } else {
+      warn_for_status(x)
+    }
   } else {
-    stopifnot(x$headers$`content-type`=='text/csv;charset=UTF-8')
+    stopifnot(x$headers$`content-type` == 'text/csv;charset=UTF-8')
     x
-#     content(x, as = 'text', encoding = "UTF-8")
   }
 }
 
-rc <- function (l) Filter(Negate(is.null), l)
+rc <- function(l) Filter(Negate(is.null), l)
 
 read_csv <- function(x){
-  tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors=FALSE, skip = 3)
-  nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors=FALSE, skip = 1, nrows=1))
+  tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 3)
+  nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, skip = 1, nrows = 1))
   names(tmp) <- tolower(nmz)
   tmp
 }
 
 read_upwell <- function(x){
-  if(is(x, "response")) {
+  if (is(x, "response")) {
     x <- content(x, "text")
-    tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors=FALSE, skip = 2)
-    nmz <- names(read.csv(text = x, header = TRUE, sep = ",", stringsAsFactors=FALSE, nrows=1))
+    tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2)
+    nmz <- names(read.csv(text = x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
   } else {
-    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors=FALSE, skip = 2)
-    nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors=FALSE, nrows=1))
+    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2)
+    nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
   }
   names(tmp) <- tolower(nmz)
   tmp
+}
+
+read_all <- function(x, fmt) {
+  switch(fmt,
+         csv = read_upwell(x),
+         nc = ncdf_summary(x))
 }
 
 read_table <- function(x){
