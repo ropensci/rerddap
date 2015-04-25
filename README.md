@@ -26,6 +26,20 @@ library('rerddap')
 
 ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](http://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](http://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
+## netCDF
+
+`rerddap` supports netCDF format, and is the default when using the `griddap()` function. netCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf` and `ncdf4` packages make it easy to pull data out and write data back into a netCDF file. Note the the file extension for netCDF files is `.nc`. Whether you choose netCDF or csv for small files won't make much of a difference, but will with large files.
+
+## Caching
+
+Data files downloaded are cached in a single hidden directory `~/.rerddap` on your machine. It's hidden so that you don't accidentally delete the data, but you can still easily delete the data if you like. 
+
+When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify. 
+
+## ERDDAP servers
+
+You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know. 
+
 ## Search
 
 First, you likely want to search for data, specify either `griddadp` or `tabledap`
@@ -36,28 +50,28 @@ ed_search(query = 'size', which = "table")
 #> 11 results, showing first 20 
 #>                                                                                         title
 #> 1                                                                          CalCOFI Fish Sizes
-#> 2                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 3                                                                        CalCOFI Larvae Sizes
+#> 2                                                                        CalCOFI Larvae Sizes
+#> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
 #> 4                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
 #> 5                                  NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
 #> 6                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
 #> 7                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
 #> 9                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
-#> 11                                                        CalCOFI Larvae Counts Positive Tows
-#> 12                                                                               CalCOFI Tows
+#> 10                                                        CalCOFI Larvae Counts Positive Tows
+#> 11                                                                               CalCOFI Tows
+#> 12 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
 #>             dataset_id
 #> 1     erdCalCOFIfshsiz
-#> 2       erdCinpKfmSFNH
-#> 3     erdCalCOFIlrvsiz
+#> 2     erdCalCOFIlrvsiz
+#> 3       erdCinpKfmSFNH
 #> 4   nwioosObsFixed2002
 #> 5   nwioosObsTrawl2002
 #> 6        erdGlobecMoc1
 #> 7         erdGlobecVpt
 #> 9            aadcArgos
-#> 10            nodcPJJU
-#> 11 erdCalCOFIlrvcntpos
-#> 12      erdCalCOFItows
+#> 10 erdCalCOFIlrvcntpos
+#> 11      erdCalCOFItows
+#> 12            nodcPJJU
 ```
 
 
@@ -89,7 +103,7 @@ Then you can get information on a single dataset
 info('whoi_62d0_9d64_c8ff')
 #> <ERDDAP Dataset> whoi_62d0_9d64_c8ff 
 #>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-04-25T00:00:00Z) 
+#>      time: (2012-06-25T01:00:00Z, 2015-04-26T00:00:00Z) 
 #>      eta_v: (0, 334) 
 #>      xi_v: (0, 895) 
 #>  Variables:  
@@ -219,7 +233,7 @@ tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
 
 ## Meta
 
-* [Please report any issues or bugs](https://github.com/ropensci/rerddap/issues).
+* Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
 
