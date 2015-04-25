@@ -1,16 +1,16 @@
 #' Get ERDDAP version
 #'
 #' @export
-#' @param url Base URL of the ERDDAP server
+#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
-#' @examples  \donttest{
-#' version("http://coastwatch.pfeg.noaa.gov")
-#' version("https://bluehub.jrc.ec.europa.eu")
-#' version("http://erddap.marine.ie")
+#' @examples \dontrun{
+#' version()
+#' version(servers()$url[1])
+#' version(servers()$url[2])
+#' version(servers()$url[3])
 #' }
-
-version <- function(url="http://coastwatch.pfeg.noaa.gov", ...){
-  res <- GET(paste(pu(url), '/erddap/version'), ...)
+version <- function(url = eurl(), ...){
+  res <- GET(paste0(pu(url), '/version'), ...)
   stop_for_status(res)
   sub("\n", "", content(res, "text"))
 }

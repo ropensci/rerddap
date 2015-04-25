@@ -4,10 +4,10 @@
 \alias{version}
 \title{Get ERDDAP version}
 \usage{
-version(url = "http://coastwatch.pfeg.noaa.gov", ...)
+version(url = eurl(), ...)
 }
 \arguments{
-\item{url}{Base URL of the ERDDAP server}
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}
 }
@@ -15,10 +15,11 @@ version(url = "http://coastwatch.pfeg.noaa.gov", ...)
 Get ERDDAP version
 }
 \examples{
-\donttest{
-version("http://coastwatch.pfeg.noaa.gov")
-version("https://bluehub.jrc.ec.europa.eu")
-version("http://erddap.marine.ie")
+\dontrun{
+version()
+version(servers()$url[1])
+version(servers()$url[2])
+version(servers()$url[3])
 }
 }
 
