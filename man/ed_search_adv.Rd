@@ -8,7 +8,7 @@ ed_search_adv(query = NULL, page = 1, page_size = 1000, protocol = NULL,
   cdm_data_type = NULL, institution = NULL, ioos_category = NULL,
   keywords = NULL, long_name = NULL, standard_name = NULL,
   variableName = NULL, maxLat = NULL, minLon = NULL, maxLon = NULL,
-  minLat = NULL, minTime = NULL, maxTime = NULL, ...)
+  minLat = NULL, minTime = NULL, maxTime = NULL, url = eurl(), ...)
 }
 \arguments{
 \item{query}{(character) Search terms}
@@ -46,6 +46,8 @@ timeseriesprofile, trajectory, trajectoryprofile}
 
 \item{maxTime}{(numeric) Maximum time}
 
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+
 \item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
 }
 \description{
@@ -64,6 +66,9 @@ ed_search_adv(minTime = "2010-01-01T00:00:00Z", maxTime="2010-02-01T00:00:00Z")
 out$alldata[[1]]
 ed_search_adv(variableName = 'upwelling')
 ed_search_adv(query = 'upwelling', protocol = "tabledap")
+
+# use a different URL
+ed_search_adv(query = 'temperature', url = servers()$url[6])
 }
 }
 \author{

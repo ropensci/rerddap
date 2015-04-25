@@ -21,6 +21,7 @@
 #' @param minLat (numeric) Minimum latitude
 #' @param minTime (numeric) Minimum time
 #' @param maxTime (numeric) Maximum time
+#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
@@ -36,13 +37,16 @@
 #' out$alldata[[1]]
 #' ed_search_adv(variableName = 'upwelling')
 #' ed_search_adv(query = 'upwelling', protocol = "tabledap")
+#'
+#' # use a different URL
+#' ed_search_adv(query = 'temperature', url = servers()$url[6])
 #' }
 
 ed_search_adv <- function(query = NULL, page = 1, page_size = 1000, protocol = NULL,
                       cdm_data_type = NULL, institution = NULL, ioos_category = NULL,
                       keywords = NULL, long_name = NULL, standard_name = NULL,
                       variableName = NULL, maxLat = NULL, minLon = NULL, maxLon = NULL,
-                      minLat = NULL, minTime = NULL, maxTime = NULL, ...) {
+                      minLat = NULL, minTime = NULL, maxTime = NULL, url = eurl(), ...) {
 
   args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size,
                   protocol = protocol, cdm_data_type = cdm_data_type,
@@ -50,14 +54,14 @@ ed_search_adv <- function(query = NULL, page = 1, page_size = 1000, protocol = N
                   keywords = keywords, long_name = long_name, standard_name = standard_name,
                   variableName = variableName, maxLat = maxLat, minLon = minLon,
                   maxLon = maxLon, minLat = minLat, minTime = minTime, maxTime = maxTime))
-  json <- erdddap_GET(paste0(eurl(), 'search/advanced.json'), args, ...)
+  json <- erdddap_GET(paste0(url, 'search/advanced.json'), args, ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
     names(x) <- colnames
     x <- x[c('title', 'dataset_id')]
-    as_data_frame(x)
+    dplyr::as_data_frame(x)
   })
-  df <- rbind_all(dfs)
+  df <- dplyr::rbind_all(dfs)
   lists <- lapply(json$table$rows, setNames, nm = colnames)
   res <- list(info = df, alldata = lists)
   structure(res, class = "ed_search_adv")
