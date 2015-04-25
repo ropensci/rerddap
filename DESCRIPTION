@@ -3,7 +3,7 @@ Title: General Purpose Client for ERDDAP Servers
 Description: General purpose R client for ERDDAP servers. Includes
     functions to search for datasets, get summary information on
     datasets, and fetch datasets, in either csv or netcdf format.
-Version: 0.0.4.991
+Version: 0.0.5.99
 Date: 2015-04-24
 License: MIT + file LICENSE
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut","cre"),
