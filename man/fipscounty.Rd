@@ -4,15 +4,14 @@
 \alias{fipscounty}
 \title{Convert a FIPS County Code to/from a County Name}
 \usage{
-fipscounty(county = NULL, code = NULL,
-  url = "http://coastwatch.pfeg.noaa.gov", ...)
+fipscounty(county = NULL, code = NULL, url = eurl(), ...)
 }
 \arguments{
 \item{county}{character; A county name.}
 
 \item{code}{numeric; A FIPS code.}
 
-\item{url}{Base URL of the ERDDAP server}
+\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}
 }
