@@ -3,9 +3,12 @@
 # ncdf
 ncdf_get <- function(file){
   nc <- open.ncdf(file)
-  lat <- get.var.ncdf(nc, "latitude")
-  long <- get.var.ncdf(nc, "longitude")
-  time <- sapply(get.var.ncdf(nc, "time"), convert_time)
+  dims <- names(nc$dim)
+  out <- list()
+  for (i in seq_along(dims)) {
+    out[[dims[i]]] <- get.var.ncdf(nc, nc$dim[[dims[i]]])
+  }
+  out$time <- sapply(out$time, convert_time)
   vars <- names(nc$var)
   outvars <- list()
   for (i in seq_along(vars)) {
@@ -13,10 +16,8 @@ ncdf_get <- function(file){
   }
   df <- do.call("cbind.data.frame", outvars)
   rows <- length(outvars[[1]])
-  meta <- data.frame(time = rep(time, each = rows/length(time)),
-                     lat = rep(lat, each = rows/length(lat)),
-                     long = rep(long, each = rows/length(long)),
-                     stringsAsFactors = FALSE)
+  out <- lapply(out, function(z) rep(z, each = rows/length(z)))
+  meta <- data.frame(out, stringsAsFactors = FALSE)
   alldf <- cbind(meta, df)
   invisible(close.ncdf(nc))
   list(summary = nc, data = alldf)
@@ -27,9 +28,13 @@ ncdf4_get <- function(file){
   check4ncdf4()
   nc <- ncdf4::nc_open(file)
   tmp <- unclass(nc)
-  lat <- ncdf4::ncvar_get(nc, "latitude")
-  long <- ncdf4::ncvar_get(nc, "longitude")
-  time <- sapply(ncdf4::ncvar_get(nc, "time"), convert_time)
+
+  dims <- names(nc$dim)
+  out <- list()
+  for (i in seq_along(dims)) {
+    out[[dims[i]]] <- ncdf4::ncvar_get(nc, nc$dim[[dims[i]]])
+  }
+  out$time <- sapply(out$time, convert_time)
   vars <- names(nc$var)
   outvars <- list()
   for (i in seq_along(vars)) {
@@ -37,10 +42,8 @@ ncdf4_get <- function(file){
   }
   df <- do.call("cbind.data.frame", outvars)
   rows <- length(outvars[[1]])
-  meta <- data.frame(time = rep(time, each = rows/length(time)),
-                     lat = rep(lat, each = rows/length(lat)),
-                     long = rep(long, each = rows/length(long)),
-                     stringsAsFactors = FALSE)
+  out <- lapply(out, function(z) rep(z, each = rows/length(z)))
+  meta <- data.frame(out, stringsAsFactors = FALSE)
   alldf <- cbind(meta, df)
   on.exit(ncdf4::nc_close(nc))
   list(summary = tmp, data = alldf)
