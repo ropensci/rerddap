@@ -41,31 +41,29 @@ check_response <- function(x){
   }
 }
 
-#' Check response, including status codes, server error messages, mime-type, etc.
-#' @keywords internal
-check_response_erddap <- function(x){
-  if (!x$status_code == 200) {
-    html <- content(x)
-    values <- xpathApply(html, "//u", xmlValue)
-    error <- grep("Error", values, ignore.case = TRUE, value = TRUE)
-    if (length(error) > 1) error <- error[1]
-    #check specifically for no matching results error
-    if (grepl("no matching results", error)) error <- 'Error: Your query produced no matching results.'
+# check_response_erddap <- function(x){
+#   if (!x$status_code == 200) {
+#     html <- content(x)
+#     values <- xpathApply(html, "//u", xmlValue)
+#     error <- grep("Error", values, ignore.case = TRUE, value = TRUE)
+#     if (length(error) > 1) error <- error[1]
+#     #check specifically for no matching results error
+#     if (grepl("no matching results", error)) error <- 'Error: Your query produced no matching results.'
 
-    if (!is.null(error)) {
-      if (grepl('Error', error)) {
-        warning(sprintf("(%s) - %s", x$status_code, error))
-      } else {
-        warning(sprintf("Error: (%s)", x$status_code))
-      }
-    } else {
-      warn_for_status(x)
-    }
-  } else {
-    stopifnot(x$headers$`content-type` == 'text/csv;charset=UTF-8')
-    x
-  }
-}
+#     if (!is.null(error)) {
+#       if (grepl('Error', error)) {
+#         warning(sprintf("(%s) - %s", x$status_code, error))
+#       } else {
+#         warning(sprintf("Error: (%s)", x$status_code))
+#       }
+#     } else {
+#       warn_for_status(x)
+#     }
+#   } else {
+#     stopifnot(x$headers$`content-type` == 'text/csv;charset=UTF-8')
+#     x
+#   }
+# }
 
 rc <- function(l) Filter(Negate(is.null), l)
 

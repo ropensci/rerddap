@@ -315,9 +315,11 @@ erd_up_GET <- function(url, dset, args, store, fmt, ...){
 
 err_handle <- function(x, store, key) {
   if (x$status_code > 201) {
-    mssgs <- XML::xpathApply(content(x), "//p//u", XML::xmlValue)
+    tt <- content(x, "text")
+    mssg <- strsplit(strextract(tt, "Query error:.+"), "<")[[1]][1]
+#     mssgs <- XML::xpathApply(content(x), "//p//u", XML::xmlValue)
     if (store$store != "memory") unlink(file.path(store$path, key))
-    stop(paste0(mssgs, collapse = "\n\n"), call. = FALSE)
+    stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
 }
 
@@ -348,3 +350,7 @@ file_info <- function(x) {
   tmp2$size <- round(tmp2$size/1000000L, 2)
   tmp2
 }
+
+strextract <- function(str, pattern) regmatches(str, regexpr(pattern, str))
+
+strtrim <- function(str) gsub("^\\s+|\\s+$", "", str)
