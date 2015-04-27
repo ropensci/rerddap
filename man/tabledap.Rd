@@ -97,7 +97,7 @@ tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
 id <- out$info$dataset_id[7]
 info(id)$variables
 ## Get data from the dataset
-tabledap(id, fields = c('country','family','genus'))
+tabledap(id, fields = c('year','time','nominal_species'))
 
 # Time constraint
 ## Limit by time with date only

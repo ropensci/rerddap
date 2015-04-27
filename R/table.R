@@ -76,7 +76,7 @@
 #' id <- out$info$dataset_id[7]
 #' info(id)$variables
 #' ## Get data from the dataset
-#' tabledap(id, fields = c('country','family','genus'))
+#' tabledap(id, fields = c('year','time','nominal_species'))
 #'
 #' # Time constraint
 #' ## Limit by time with date only
@@ -161,7 +161,7 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbyminmax <- makevar(orderbyminmax, 'orderByMinMax("%s")')
   moreargs <- rc(list(distinct, orderby, orderbymax, orderbymin, orderbyminmax, units))
   args <- c(args, moreargs)
-  args <- lapply(args, function(x) RCurl::curlEscape(x))
+  args <- lapply(args, URLencode, reserved = TRUE)
   args <- paste0(args, collapse = "&")
   if (!nchar(args[[1]]) == 0) {
     url <- paste0(url, '&', args)

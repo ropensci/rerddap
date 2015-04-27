@@ -2,7 +2,6 @@
 #'
 #' @export
 #' @import httr
-#' @importFrom RCurl curlEscape
 #' @importFrom jsonlite fromJSON
 #' @importFrom data.table rbindlist
 #'
