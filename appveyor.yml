@@ -16,9 +16,8 @@ test_script:
 on_failure:
   - travis-tool.sh dump_logs
 
-env:
-  global:
-    - _R_CHECK_FORCE_SUGGESTS_="FALSE"
+environment:
+  _R_CHECK_FORCE_SUGGESTS_: false
 
 notifications:
   - provider: Slack
