@@ -4,9 +4,12 @@
 #' @export
 #'
 #' @param x Anything coercable to an object of class info. So the output of a call to
-#' \code{info}, or a datasetid, which will internally be passed through \code{\link{info}}
-#' @param ... Dimension arguments.
-#' @param fields Fields to return, a character vector.
+#' \code{\link{info}}, or a datasetid, which will internally be passed through
+#' \code{\link{info}}
+#' @param ... Dimension arguments. See examples. Can be any 1 or more of the dimensions
+#' for the particular dataset - and the dimensions vary by dataset. For each dimension,
+#' pass in a vector of length two, with min and max value desired.
+#' @param fields (character) Fields to return, in a character vector.
 #' @param stride (integer) How many values to get. 1 = get every value, 2 = get
 #' every other value, etc. Default: 1 (i.e., get every value)
 #' @param fmt (character) One of csv or nc (for netcdf). Default: nc
@@ -28,12 +31,12 @@
 #' @details Details:
 #'
 #' @section Dimensions and Variables:
-#' ERDDAP grid dap data has this concept of dimenions vs. variables. So, dimensions are things
-#' like time, latitude, longitude, and altitude. Whereas variables are the measured variables,
-#' e.g., temperature, salinity, and air.
+#' ERDDAP grid dap data has this concept of dimenions vs. variables. Dimensions are things
+#' like time, latitude, longitude, altitude, and depth. Whereas variables are the measured
+#' variables, e.g., temperature, salinity, air.
 #'
-#' You can't separately adjust values for dimensions for different variables. So, here's how it's
-#' gonna work:
+#' You can't separately adjust values for dimensions for different variables. So, here's
+#' how it's gonna work:
 #'
 #' Pass in lower and upper limits you want for each dimension as a vector (e.g., \code{c(1,2)}),
 #' or leave to defaults (i.e., don't pass anything to a dimension). Then pick which variables
@@ -41,17 +44,20 @@
 #' \code{fields} parameter, you get all variables back.
 #'
 #' To get the dimensions and variables, along with other metadata for a dataset, run
-#' \code{info}, and each will be shown, with their min and max values, and some
+#' \code{\link{info}}, and each will be shown, with their min and max values, and some
 #' other metadata.
 #'
 #' @section Where does the data go?:
-#' You can choose where data is stored. Be careful though. You can easily get a single file of
-#' hundreds of MB's or GB's in size with a single request. To the store parameter, pass
-#' \dQuote{memory} if you want to store the data in memory (saved as a data.frame), or
-#' pass \dQuote{disk} if you want to store on disk in a file. Possibly will add other options,
-#' like \dQuote{sql} for storing in a SQL database, though that option would need to be expanded
-#' to various SQL DB options though.
-#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' You can choose where data is stored. Be careful though. You can easily get a
+#' single file of hundreds of MB's (upper limit: 2 GB) in size with a single request.
+#' To the \code{store} parameter, pass \code{\link{memory}} if you want to store the data
+#' in memory (saved as a data.frame), or pass \code{\link{disk}} if you want to store on
+#' disk in a file. Note that \code{\link{memory}} and \code{\link{disk}} are not
+#' character strings, but function calls. \code{\link{memory}} does not accept any
+#' inputs, while \code{\link{disk}} does. Possibly will add other options, like
+#' \dQuote{sql} for storing in a SQL database.
+#'
+#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # single variable dataset
@@ -77,27 +83,18 @@
 #'  longitude = c(10, 11)
 #' ))
 #' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
-#' longitude = c(10, 11), fields = 'uo'))
+#'    longitude = c(10, 11), fields = 'uo'))
 #' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
-#' longitude = c(10, 11), fields = 'uo', stride=c(1,2,1,2)))
+#'    longitude = c(10, 11), fields = 'uo', stride=c(1,2,1,2)))
 #' (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
-#' longitude = c(10, 11), fields = c('uo','so')))
-#' (res <- griddap(out, time = c('2005-09-01','2006-01-01'), latitude = c(20, 21),
-#' longitude = c(10, 11), fields = 'none'))
+#'    longitude = c(10, 11), fields = c('uo','so')))
 #'
 #' # multi-variable dataset
-#' ## this one also has a 0-360 longitude system, BLARGH!!!
 #' (out <- info('noaa_gfdl_3c96_7879_a9d3'))
 #' (res <- griddap(out,
-#'  time = c('2005-11-01','2006-01-01'),
-#'  latitude = c(20, 22),
-#'  longitude = c(-80, -75)
-#' ))
-#' (res <- griddap(out,
-#'  time = c('2005-11-01','2006-01-01'),
-#'  latitude = c(20, 22),
-#'  longitude = c(-80, -75),
-#'  depth = c(5, 50)
+#'  time = c('2005-11-01','2005-11-10'),
+#'  latitude = c(20, 21),
+#'  longitude = c(2, 3)
 #' ))
 #'
 #' # Write to memory (within R), or to disk
@@ -125,42 +122,47 @@
 #' ) )
 #'
 #' ## memory
-#' (res <- griddap(out,
-#'  time = c('2012-06-01','2012-06-12'),
+#' (res <- griddap("noaa_gfdl_3c96_7879_a9d3",
+#'  time = c('2005-11-01','2005-11-10'),
 #'  latitude = c(20, 21),
-#'  longitude = c(-80, -75),
+#'  longitude = c(4, 5),
 #'  store = memory()
 #' ))
 #'
-#' ## netcdf
+#' ## Use ncdf4 package to parse data
 #' info("hawaii_463b_5b04_35b7")
 #' (res <- griddap("hawaii_463b_5b04_35b7",
-#'  time = c('2015-01-01','2015-04-30'),
-#'  latitude = c(14, 21),
-#'  longitude = c(75, 80),
-#'  fmt = "nc",
+#'  time = c('2015-01-01','2015-01-03'),
+#'  latitude = c(14, 15),
+#'  longitude = c(75, 76),
 #'  ncdf = "ncdf4"
 #' ))
 #'
+#' # Get data in csv format
+#' ## by default, we get netcdf format data
 #' (res <- griddap('noaa_gfdl_5081_7d4a_7570',
-#'  time = c('2005-11-01','2006-01-01'),
+#'  time = c('2005-11-01','2005-11-06'),
 #'  latitude = c(20, 21),
 #'  longitude = c(10, 11),
-#'  fmt = "nc"
+#'  fmt = "csv"
 #' ))
 #'
-#' # Pop in a different ERDDAP url
+#' # Use a different ERDDAP server url
 #' out <- info("NOAA_DHW", url = "http://oos.soest.hawaii.edu/erddap/")
 #' (res <- griddap(out,
 #'  time = c('2005-11-01','2006-01-01'),
 #'  latitude = c(21, 20),
-#'  longitude = c(10, 11),
-#'  fmt = "nc"
+#'  longitude = c(10, 11)
 #' ))
+#'
+#' # You don't have to pass in all of the dimensions
+#' ## They do have to be named!
+#' griddap(out, time = c('2005-11-01','2005-11-03'))
+#' griddap(out, latitude = c(21, 20))
 #' }
 
-griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf", url = eurl(),
-                    store = disk(), read = TRUE, callopts = list()) {
+griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf",
+                    url = eurl(), store = disk(), read = TRUE, callopts = list()) {
   # fixme: with fmt=nc can only to store on disk, then read if needed by user
   x <- as.info(x)
   dimargs <- list(...)
@@ -242,7 +244,7 @@ field_handler <- function(x, y){
   }
 }
 
-parse_args <- function(.info, dim, s, dimargs, wname=FALSE){
+parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
   tmp <- if (dim %in% names(dimargs)) {
     dimargs[[dim]]
   } else {
@@ -254,6 +256,7 @@ parse_args <- function(.info, dim, s, dimargs, wname=FALSE){
       gsub("\\s+", "", strsplit(actrange, ",")[[1]])
     }
   }
+
   if (length(s) > 1) {
     if (!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
     names(s) <- dimvars(.info)
@@ -263,10 +266,19 @@ parse_args <- function(.info, dim, s, dimargs, wname=FALSE){
       sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s[[dim]], tmp[2])
     }
   } else {
-    if (!wname)
-      sprintf('[(%s):%s:(%s)]', tmp[1], s, tmp[2])
-    else
-      sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s, tmp[2])
+    if (!wname) {
+      if (length(tmp) == 1) {
+        tmp
+      } else {
+        sprintf('[(%s):%s:(%s)]', tmp[1], s, tmp[2])
+      }
+    } else {
+      if (length(tmp) == 1) {
+        tmp
+      } else {
+        sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s, tmp[2])
+      }
+    }
   }
 }
 
