@@ -166,6 +166,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf
   # fixme: with fmt=nc can only to store on disk, then read if needed by user
   x <- as.info(x)
   dimargs <- list(...)
+  check_dims(dimargs, x)
   dimargs <- fix_dims(dimargs, .info = x)
   check_lon(dimargs, x)
   check_lat(dimargs, x)
@@ -245,6 +246,14 @@ field_handler <- function(x, y){
     y
   } else if (all(x %in% y) || x == "none") {
     x
+  }
+}
+
+check_dims <- function(dimargs, .info) {
+  if (!all(names(dimargs) %in% dimvars(.info))) {
+    stop(sprintf("Some input dimensions (%s) don't match those in dataset (%s)",
+                 paste0(names(dimargs), collapse = ", "),
+                 paste0(dimvars(.info), collapse = ", ")), call. = FALSE)
   }
 }
 
