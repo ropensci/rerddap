@@ -235,6 +235,7 @@ print.griddap_nc <- function(x, ..., n = 10){
   cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$summary$ndims, x$summary$nvars), sep = "\n")
   cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
   cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
+  cat(sprintf("   data.frame (rows/columns):   [%s X %s]", dim(x$data)[1], dim(x$data)[2]), sep = "\n\n")
   trunc_mat(x$data, n = n)
 }
 
