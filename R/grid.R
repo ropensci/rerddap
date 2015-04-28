@@ -166,6 +166,9 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf
   # fixme: with fmt=nc can only to store on disk, then read if needed by user
   x <- as.info(x)
   dimargs <- list(...)
+  dimargs <- fix_dims(dimargs, .info = x)
+  check_lon(dimargs, x)
+  check_lat(dimargs, x)
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
   dims <- dimvars(x)
@@ -243,6 +246,54 @@ field_handler <- function(x, y){
     x
   }
 }
+
+check_lon <- function(dimargs, .info) {
+  if (!is.null(dimargs$longitude)) {
+    val <- .info$alldata$longitude[ .info$alldata$longitude$attribute_name == "actual_range", "value"]
+    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+    if (max(dimargs$longitude) > max(val2) || min(dimargs$longitude) < min(val2)) {
+      stop(sprintf("One or both longitude values (%s) outside data range (%s)",
+                   paste0(dimargs$longitude, collapse = ", "),
+                   paste0(val2, collapse = ", ")), call. = FALSE)
+    }
+  }
+}
+
+check_lat <- function(dimargs, .info) {
+  if (!is.null(dimargs$latitude)) {
+    val <- .info$alldata$latitude[ .info$alldata$latitude$attribute_name == "actual_range", "value"]
+    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+    if (max(dimargs$latitude) > max(val2) || min(dimargs$latitude) < min(val2)) {
+      stop(sprintf("One or both latitude values (%s) outside data range (%s)",
+                   paste0(dimargs$latitude, collapse = ", "),
+                   paste0(val2, collapse = ", ")), call. = FALSE)
+    }
+  }
+}
+
+fix_dims <- function(dimargs, .info) {
+  for (i in seq_along(dimargs)) {
+    tmp <- dimargs[[i]]
+    nm <- names(dimargs[i])
+    if (nm == "time") {
+      tmp <- as.Date(tmp)
+    }
+    val <- .info$alldata[[nm]][ .info$alldata[[nm]]$attribute_name == "actual_range", "value"]
+    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+    if (which.min(val2) != which.min(tmp)) {
+      dimargs[[i]] <- rev(dimargs[[i]])
+    }
+  }
+  dimargs
+}
+
+# which_min <- function(x) {
+#   if (is(x, "character")) {
+#     grep(min(tmp), tmp)
+#   } else {
+#     which.min(x)
+#   }
+# }
 
 parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
   tmp <- if (dim %in% names(dimargs)) {
