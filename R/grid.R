@@ -159,6 +159,26 @@
 #' ## They do have to be named!
 #' griddap(out, time = c('2005-11-01','2005-11-03'))
 #' griddap(out, latitude = c(21, 20))
+#'
+#' # Using 'last'
+#' ## with time
+#' griddap('noaa_esrl_027d_0fb5_5d38',
+#'  time = c('last-5','last'),
+#'  latitude = c(21, 18),
+#'  longitude = c(-80, -79)
+#' )
+#' ## with latitude
+#' griddap('noaa_esrl_027d_0fb5_5d38',
+#'  time = c('2012-01-01','2012-06-12'),
+#'  latitude = c('last', 'last'),
+#'  longitude = c(-80, -79)
+#' )
+#' ## with longitude
+#' griddap('noaa_esrl_027d_0fb5_5d38',
+#'  time = c('2012-01-01','2012-06-12'),
+#'  latitude = c(21, 18),
+#'  longitude = c('last', 'last')
+#' )
 #' }
 
 griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf",
@@ -259,24 +279,34 @@ check_dims <- function(dimargs, .info) {
 
 check_lon <- function(dimargs, .info) {
   if (!is.null(dimargs$longitude)) {
-    val <- .info$alldata$longitude[ .info$alldata$longitude$attribute_name == "actual_range", "value"]
-    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
-    if (max(dimargs$longitude) > max(val2) || min(dimargs$longitude) < min(val2)) {
-      stop(sprintf("One or both longitude values (%s) outside data range (%s)",
-                   paste0(dimargs$longitude, collapse = ", "),
-                   paste0(val2, collapse = ", ")), call. = FALSE)
+    if (any(sapply(dimargs$longitude, class) == "character")) {
+      txt <- dimargs$longitude[sapply(dimargs$longitude, class) == "character"]
+      stopifnot(all(grepl("last", txt)))
+    } else {
+      val <- .info$alldata$longitude[ .info$alldata$longitude$attribute_name == "actual_range", "value"]
+      val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+      if (max(dimargs$longitude) > max(val2) || min(dimargs$longitude) < min(val2)) {
+        stop(sprintf("One or both longitude values (%s) outside data range (%s)",
+                     paste0(dimargs$longitude, collapse = ", "),
+                     paste0(val2, collapse = ", ")), call. = FALSE)
+      }
     }
   }
 }
 
 check_lat <- function(dimargs, .info) {
   if (!is.null(dimargs$latitude)) {
-    val <- .info$alldata$latitude[ .info$alldata$latitude$attribute_name == "actual_range", "value"]
-    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
-    if (max(dimargs$latitude) > max(val2) || min(dimargs$latitude) < min(val2)) {
-      stop(sprintf("One or both latitude values (%s) outside data range (%s)",
-                   paste0(dimargs$latitude, collapse = ", "),
-                   paste0(val2, collapse = ", ")), call. = FALSE)
+    if (any(sapply(dimargs$latitude, class) == "character")) {
+      txt <- dimargs$latitude[sapply(dimargs$latitude, class) == "character"]
+      stopifnot(all(grepl("last", txt)))
+    } else {
+      val <- .info$alldata$latitude[ .info$alldata$latitude$attribute_name == "actual_range", "value"]
+      val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+      if (max(dimargs$latitude) > max(val2) || min(dimargs$latitude) < min(val2)) {
+        stop(sprintf("One or both latitude values (%s) outside data range (%s)",
+                     paste0(dimargs$latitude, collapse = ", "),
+                     paste0(val2, collapse = ", ")), call. = FALSE)
+      }
     }
   }
 }
@@ -285,13 +315,16 @@ fix_dims <- function(dimargs, .info) {
   for (i in seq_along(dimargs)) {
     tmp <- dimargs[[i]]
     nm <- names(dimargs[i])
+    tmp <- grep("last+", tmp, value = TRUE, invert = TRUE)
     if (nm == "time") {
       tmp <- as.Date(tmp)
     }
     val <- .info$alldata[[nm]][ .info$alldata[[nm]]$attribute_name == "actual_range", "value"]
     val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
-    if (which.min(val2) != which.min(tmp)) {
-      dimargs[[i]] <- rev(dimargs[[i]])
+    if (length(tmp) != 0) {
+      if (which.min(val2) != which.min(tmp)) {
+        dimargs[[i]] <- rev(dimargs[[i]])
+      }
     }
   }
   dimargs

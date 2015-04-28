@@ -179,6 +179,26 @@ out <- info("NOAA_DHW", url = "http://oos.soest.hawaii.edu/erddap/")
 ## They do have to be named!
 griddap(out, time = c('2005-11-01','2005-11-03'))
 griddap(out, latitude = c(21, 20))
+
+# Using 'last'
+## with time
+griddap('noaa_esrl_027d_0fb5_5d38',
+ time = c('last-5','last'),
+ latitude = c(21, 18),
+ longitude = c(-80, -79)
+)
+## with latitude
+griddap('noaa_esrl_027d_0fb5_5d38',
+ time = c('2012-01-01','2012-06-12'),
+ latitude = c('last', 'last'),
+ longitude = c(-80, -79)
+)
+## with longitude
+griddap('noaa_esrl_027d_0fb5_5d38',
+ time = c('2012-01-01','2012-06-12'),
+ latitude = c(21, 18),
+ longitude = c('last', 'last')
+)
 }
 }
 \author{
