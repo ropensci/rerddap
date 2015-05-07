@@ -21,8 +21,6 @@
 #' head( ed_datasets('grid') )
 #'
 #' # use a different ERDDAP server
-#' ## Pacific Islands Ocean Observing system
-#' ed_search("temperature", url = "http://oos.soest.hawaii.edu/erddap/")
 #' ## Marine Institute (Ireland)
 #' ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 #' ## Marine Domain Awareness (MDA) (Italy)
