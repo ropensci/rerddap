@@ -39,14 +39,15 @@ convert_time <- function(n = NULL, isoTime = NULL,
 }
 
 depsub <- function(x) {
-  deparse(substitute(x))
+  deparse(substitute(x, env = parent.env()))
+  # deparse(substitute(x, env = parent.frame()))
 }
 
 check1notboth <- function(x, y) {
   if (is.null(x) && is.null(y)) {
-    stop(sprintf("One of %s or %s must be non-NULL", depsub(x), depsub(y)), call. = FALSE)
+    stop(sprintf("One of %s or %s must be non-NULL", deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
   }
   if (!is.null(x) && !is.null(y)) {
-    stop(sprintf("Supply only one of %s or %s", depsub(x), depsub(y)), call. = FALSE)
+    stop(sprintf("Supply only one of %s or %s", deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
   }
 }

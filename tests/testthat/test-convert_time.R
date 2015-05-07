@@ -14,7 +14,7 @@ test_that("convert_time works", {
 })
 
 test_that("convert_time fails well", {
-  expect_error(convert_time(), "One of x or y must be non-NULL")
+  expect_error(convert_time(), "One of n or isoTime must be non-NULL")
   expect_error(convert_time(4, 5), "is not TRUE")
-  expect_error(convert_time(473472000, "B"), "Supply only one of x or y")
+  expect_error(convert_time(473472000, "B"), "Supply only one of n or isoTime")
 })
