@@ -12,7 +12,8 @@
 #' }
 
 convert_units <- function(udunits = NULL, ucum = NULL, url="http://coastwatch.pfeg.noaa.gov", ...){
-  args <- rc(list(UDUNITS=udunits, UCUM=ucum))
+  check1notboth(udunits, ucum)
+  args <- rc(list(UDUNITS = udunits, UCUM = ucum))
   res <- GET(paste0(pu(url), '/erddap/convert/units.txt'), query = args, ...)
   stop_for_status(res)
   content(res, "text")

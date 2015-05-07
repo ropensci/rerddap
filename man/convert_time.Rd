@@ -2,7 +2,7 @@
 % Please edit documentation in R/convert_time.R
 \name{convert_time}
 \alias{convert_time}
-\title{Convert a CF Standard Name to/from a GCMD Science Keyword}
+\title{Convert a UDUNITS compatible time to ISO time}
 \usage{
 convert_time(n = NULL, isoTime = NULL,
   units = "seconds since 1970-01-01T00:00:00Z",
@@ -24,12 +24,20 @@ while web method uses the ERDDAP time conversion service
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}
 }
 \description{
-Convert a CF Standard Name to/from a GCMD Science Keyword
+Convert a UDUNITS compatible time to ISO time
+}
+\details{
+When \code{method = "web"} time zone is GMT/UTC
 }
 \examples{
 \donttest{
+# local conversions
 convert_time(n = 473472000)
 convert_time(isoTime = "1985-01-02T00:00:00Z")
+
+# using an erddap web service
+convert_time(n = 473472000, method = "web")
+convert_time(isoTime = "1985-01-02T00:00:00Z", method = "web")
 }
 }
 
