@@ -56,7 +56,7 @@ print.ed_search <- function(x, ...){
 }
 
 erdddap_GET <- function(url, args, ...){
-  tt <- GET(url, query=args, ...)
+  tt <- GET(url, query = args, ...)
   stop_for_status(tt)
   stopifnot(tt$headers$`content-type` == 'application/json;charset=UTF-8')
   out <- content(tt, as = "text")
@@ -66,13 +66,13 @@ erdddap_GET <- function(url, args, ...){
 table_or_grid <- function(datasetid){
   table_url <- paste0(eurl(), 'tabledap/index.json')
   tab <- toghelper(table_url)
-  if(datasetid %in% tab) "tabledap" else "griddap"
+  if (datasetid %in% tab) "tabledap" else "griddap"
 }
 
 toghelper <- function(url){
-  out <- erdddap_GET(url, list(page=1, itemsPerPage=10000L))
+  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
-  lists <- lapply(out$table$rows, setNames, nm=nms)
+  lists <- lapply(out$table$rows, setNames, nm = nms)
   vapply(lists, "[[", "", "Dataset ID")
 }
 
@@ -81,8 +81,8 @@ toghelper <- function(url){
 ed_datasets <- function(which = 'tabledap'){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   url <- sprintf('%s%s/index.json', eurl(), which)
-  out <- erdddap_GET(url, list(page=1, itemsPerPage=10000L))
+  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
-  lists <- lapply(out$table$rows, setNames, nm=nms)
-  data.frame(rbindlist(lapply(lists, data.frame)), stringsAsFactors = FALSE)
+  lists <- lapply(out$table$rows, setNames, nm = nms)
+  data.frame(rbindlist(lapply(lists, data.frame, stringsAsFactors = FALSE)), stringsAsFactors = FALSE)
 }
