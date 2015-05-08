@@ -1,9 +1,9 @@
 context("tabledap")
 
-test_that("tabledap returns the correct class", {
-  a <- tabledap('erdCalCOFIfshsiz')
-  b <- tabledap('erdCalCOFIfshsiz', 'time>=2001-07-07', 'time<=2001-07-08')
+a <- tabledap('erdCalCOFIfshsiz')
+b <- tabledap('erdCalCOFIfshsiz', 'time>=2001-07-07', 'time<=2001-07-08')
 
+test_that("tabledap returns the correct class", {
   expect_is(a, "tabledap")
   expect_is(a, "data.frame")
   expect_is(a$ship, "character")
