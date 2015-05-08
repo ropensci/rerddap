@@ -34,5 +34,4 @@ test_that("ed_search works with different ERDDAP servers", {
 test_that("ed_search fails well", {
   expect_error(ed_search(), "\"query\" is missing, with no default")
   expect_error(ed_search("size", which = "stuff"), "should be one of")
-  expect_error(ed_search("size", url = 5), "Empty reply from server")
 })
