@@ -44,7 +44,6 @@ Get information on an ERDDAP dataset.
 \dontrun{
 # grid dap datasets
 info('noaa_esrl_027d_0fb5_5d38')
-info('hawaii_463b_5b04_35b7')
 
 (out <- ed_search(query='temperature'))
 info(out$info$dataset_id[5])
@@ -82,8 +81,6 @@ out$alldata$longitude
 out$alldata$Haliotis_corrugata_Mean_Density
 
 # use a different ERDDAP server
-## Pacific Islands Ocean Observing system
-info("NOAA_DHW", url = "http://oos.soest.hawaii.edu/erddap/")
 ## Marine Institute (Ireland)
 info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 ## Marine Domain Awareness (MDA) (Italy)
