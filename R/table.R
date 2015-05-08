@@ -153,8 +153,8 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   fields <- paste(fields, collapse = ",")
   url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"), fields)
   args <- list(...)
-  distinct <- if(distinct) 'distinct()' else NULL
-  units <- if(!is.null(units)) makevar(toupper(units), 'units("%s")') else units
+  distinct <- if (distinct) 'distinct()' else NULL
+  units <- if (!is.null(units)) makevar(toupper(units), 'units("%s")') else units
   orderby <- makevar(orderby, 'orderBy("%s")')
   orderbymax <- makevar(orderbymax, 'orderByMax("%s")')
   orderbymin <- makevar(orderbymin, 'orderByMin("%s")')
@@ -175,13 +175,14 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
 #' @export
 print.tabledap <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
-  cat(sprintf("<NOAA ERDDAP tabledap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("<ERDDAP tabledap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
   if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
   cat(sprintf("   Dimensions:   [%s X %s]\n", NROW(x), NCOL(x)), sep = "\n")
+  class(x) <- "data.frame"
   trunc_mat(x, n = n)
 }
 

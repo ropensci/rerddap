@@ -234,7 +234,7 @@ toggle_store <- function(fmt, store) {
 #' @export
 print.griddap_csv <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
-  cat(sprintf("<NOAA ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
   if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
@@ -247,7 +247,7 @@ print.griddap_csv <- function(x, ..., n = 10){
 #' @export
 print.griddap_nc <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
-  cat(sprintf("<NOAA ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
   if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")

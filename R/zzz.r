@@ -112,19 +112,28 @@ read_all <- function(x, fmt, read, ncdf) {
 }
 
 read_table <- function(x){
-  if(is(x, "response")) {
+  if (is(x, "response")) {
     txt <- gsub('\n$', '', content(x, "text"))
-    read.csv(text = txt, sep = ",", stringsAsFactors=FALSE,
-             blank.lines.skip=FALSE)[-1, , drop=FALSE]
+    read.csv(text = txt, sep = ",", stringsAsFactors = FALSE,
+             blank.lines.skip = FALSE)[-1, , drop = FALSE]
   } else {
-    read.delim(x, sep=",", stringsAsFactors=FALSE,
-               blank.lines.skip=FALSE)[-1, , drop=FALSE]
+    read.delim(x, sep = ",", stringsAsFactors = FALSE,
+               blank.lines.skip = FALSE)[-1, , drop = FALSE]
   }
 }
 
 check_key <- function(x){
-  tmp <- if(is.null(x)) Sys.getenv("NOAA_KEY", "") else x
-  if(tmp == "") getOption("noaakey", stop("need an API key for NOAA data")) else tmp
+  tmp <- if (is.null(x)) {
+    Sys.getenv("NOAA_KEY", "")
+  } else {
+    x
+  }
+
+  if (tmp == "") {
+    getOption("noaakey", stop("need an API key for NOAA data"))
+  } else {
+    tmp
+  }
 }
 
 pu <- function(x) sub("/$|//$", "", x)

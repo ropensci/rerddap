@@ -115,7 +115,7 @@ print.info <- function(x, ...){
   tt <- global[ global$attribute_name %in% c('time_coverage_end','time_coverage_start'), "value", ]
   dims <- x$alldata[dimvars(x)]
   vars <- x$alldata[x$variables$variable_name]
-  cat(sprintf("<ERDDAP Dataset> %s", attr(x, "datasetid")), "\n")
+  cat(sprintf("<ERDDAP info> %s", attr(x, "datasetid")), "\n")
   if(attr(x, "type") == "griddap") cat(" Dimensions (range): ", "\n")
   for(i in seq_along(dims)){
     if(names(dims[i]) == "time"){
