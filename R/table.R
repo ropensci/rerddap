@@ -191,8 +191,6 @@ erd_tab_GET <- function(url, dset, store, ...) {
     } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
       res <- GET(url, write_disk(file.path(store$path, key), store$overwrite), ...)
-      # out <- check_response_erddap(res)
-      # if (grepl("Error", out)) NA else res$request$writer[[1]]
       err_handle(res, store, key)
       res$request$writer[[1]]
     }
@@ -200,8 +198,6 @@ erd_tab_GET <- function(url, dset, store, ...) {
     res <- GET(url, ...)
     err_handle(res, store, key)
     res
-#     out <- check_response_erddap(res)
-#     if (grepl("Error", out)) NA else res
   }
 }
 

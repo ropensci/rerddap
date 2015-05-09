@@ -35,7 +35,7 @@ test_that("tabledap units parameter works, and fails correctly", {
 
 test_that("tabledap fails well, in addition to above failure tests", {
   expect_error(tabledap(), "argument \"x\" is missing")
-  expect_error(tabledap('erdCalCOFIfshsiz', "stuff=>things"), "Unrecognized constraint variable=&quot;stuff&quot")
+  expect_error(tabledap('erdCalCOFIfshsiz', "stuff=>things"), "Unrecognized constraint variable=\"stuff\"")
   expect_error(tabledap('erdCalCOFIfshsiz', fields = "bbbbb"), "Unrecognized variable=bbbbb")
   expect_error(tabledap('erdCalCOFIfshsiz', distinct = "bear"), "not interpretable as logical")
   expect_error(tabledap('erdCalCOFIfshsiz', orderby = "things"), "'orderBy' variable=things isn't in the dataset")
