@@ -183,7 +183,7 @@
 
 griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf",
                     url = eurl(), store = disk(), read = TRUE, callopts = list()) {
-  # fixme: with fmt=nc can only to store on disk, then read if needed by user
+
   x <- as.info(x)
   dimargs <- list(...)
   check_dims(dimargs, x)
