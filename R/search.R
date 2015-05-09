@@ -74,9 +74,9 @@ toghelper <- function(url){
 
 #' @export
 #' @rdname ed_search
-ed_datasets <- function(which = 'tabledap'){
+ed_datasets <- function(which = 'tabledap', url = eurl()){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
-  url <- sprintf('%s%s/index.json', eurl(), which)
+  url <- sprintf('%s%s/index.json', url, which)
   out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, setNames, nm = nms)

@@ -8,7 +8,7 @@
 ed_search(query, page = NULL, page_size = NULL, which = "griddap",
   url = eurl(), ...)
 
-ed_datasets(which = "tabledap")
+ed_datasets(which = "tabledap", url = eurl())
 }
 \arguments{
 \item{query}{(character) Search terms}
