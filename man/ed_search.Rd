@@ -42,8 +42,6 @@ head( ed_datasets('grid') )
 ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 ## Marine Domain Awareness (MDA) (Italy)
 ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
-## Ocean Networks (Canada)
-ed_search("temperature", url = "http://dap.onc.uvic.ca/erddap/", which="tabledap")
 }
 }
 \author{

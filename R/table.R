@@ -73,10 +73,10 @@
 #' ## Search for data
 #' (out <- ed_search(query='fish', which = 'table'))
 #' ## Using a datasetid, search for information on a datasetid
-#' id <- out$info$dataset_id[7]
+#' id <- "hawaii_43a8_6d6d_9052"
 #' info(id)$variables
 #' ## Get data from the dataset
-#' tabledap(id, fields = c('year','time','nominal_species'))
+#' tabledap(id, fields = c('scientificName', 'tsn', 'sex'))
 #'
 #' # Time constraint
 #' ## Limit by time with date only
@@ -134,13 +134,8 @@
 #' tabledap(x='erdCalCOFIfshsiz', store = memory())
 #'
 #' # use a different ERDDAP server
-#' ## Pacific Islands Ocean Observing system
-#' out <- info("ais_rose_20112012", url = "http://oos.soest.hawaii.edu/erddap/")
-#' tabledap(out, url = "http://oos.soest.hawaii.edu/erddap/")
-#' ## Marine Institute (Ireland)
-#' tabledap("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 #' ## Marine Domain Awareness (MDA) (Italy)
-#' tabledap("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+#' tabledap("jplAquariusSSS3MonthV3", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 #' ## Ocean Networks (Canada)
 #' tabledap("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 #' }

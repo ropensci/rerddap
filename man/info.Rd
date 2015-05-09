@@ -69,7 +69,6 @@ info(out$info$dataset_id[1])
 info(out$info$dataset_id[2])
 info(out$info$dataset_id[3])
 info(out$info$dataset_id[4])
-info(out$info$dataset_id[54])
 
 info('erdCalCOFIfshsiz')
 out <- info('erdCinpKfmBT')
@@ -85,8 +84,6 @@ out$alldata$Haliotis_corrugata_Mean_Density
 info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 ## Marine Domain Awareness (MDA) (Italy)
 info("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
-## Ocean Networks (Canada)
-info("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 }
 }
 \author{

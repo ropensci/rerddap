@@ -98,26 +98,23 @@
 #' ))
 #'
 #' # Write to memory (within R), or to disk
-#' (out <- info('erdAKssta3day'))
+#' (out <- info('erdQSwindmday'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
 #' ## you can also pass in path and overwrite options to disk()
 #' (res <- griddap(out,
-#'  time = c('2006-06-01','2007-06-12'),
-#'  latitude = c(45, 50),
-#'  longitude = c(166, 180),
+#'  time = c('2006-07-11','2006-07-20'),
+#'  longitude = c(166, 170),
 #'  store = disk()
 #' ))
 #' ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
 #' system.time( griddap(out,
-#'  time = c('2012-06-01','2012-06-12'),
-#'  latitude = c(20, 21),
-#'  longitude = c(-80, -75),
+#'  time = c('2006-07-11','2006-07-15'),
+#'  longitude = c(10, 15),
 #'  store = disk()
 #' ) )
 #' system.time( griddap(out,
-#'  time = c('2012-06-01','2012-06-12'),
-#'  latitude = c(20, 21),
-#'  longitude = c(-80, -75),
+#'  time = c('2006-07-11','2006-07-15'),
+#'  longitude = c(10, 15),
 #'  store = disk()
 #' ) )
 #'
@@ -158,7 +155,6 @@
 #' # You don't have to pass in all of the dimensions
 #' ## They do have to be named!
 #' griddap(out, time = c('2005-11-01','2005-11-03'))
-#' griddap(out, latitude = c(21, 20))
 #'
 #' # Using 'last'
 #' ## with time
@@ -422,8 +418,7 @@ erd_up_GET <- function(url, dset, args, store, fmt, ...){
 err_handle <- function(x, store, key) {
   if (x$status_code > 201) {
     tt <- content(x, "text")
-    mssg <- strsplit(strextract(tt, "Query error:.+"), "<")[[1]][1]
-#     mssgs <- XML::xpathApply(content(x), "//p//u", XML::xmlValue)
+    mssg <- strsplit(strextract(tt, "Query error:.+|Proxy Error.+"), "<")[[1]][1]
     if (store$store != "memory") unlink(file.path(store$path, key))
     stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
