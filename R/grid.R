@@ -183,9 +183,11 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf
   x <- as.info(x)
   dimargs <- list(...)
   check_dims(dimargs, x)
+  check_lat_text(dimargs)
+  check_lon_text(dimargs)
   dimargs <- fix_dims(dimargs, .info = x)
-  check_lon(dimargs, x)
-  check_lat(dimargs, x)
+  check_lon_data_range(dimargs, x)
+  check_lat_data_range(dimargs, x)
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
   dims <- dimvars(x)
@@ -273,36 +275,44 @@ check_dims <- function(dimargs, .info) {
   }
 }
 
-check_lon <- function(dimargs, .info) {
+check_lon_text <- function(dimargs) {
   if (!is.null(dimargs$longitude)) {
     if (any(sapply(dimargs$longitude, class) == "character")) {
       txt <- dimargs$longitude[sapply(dimargs$longitude, class) == "character"]
-      stopifnot(all(grepl("last", txt)))
-    } else {
-      val <- .info$alldata$longitude[ .info$alldata$longitude$attribute_name == "actual_range", "value"]
-      val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
-      if (max(dimargs$longitude) > max(val2) || min(dimargs$longitude) < min(val2)) {
-        stop(sprintf("One or both longitude values (%s) outside data range (%s)",
-                     paste0(dimargs$longitude, collapse = ", "),
-                     paste0(val2, collapse = ", ")), call. = FALSE)
-      }
+      if (!all(grepl("last", txt))) stop("Only text values allowed are 'last' & variants on that", call. = FALSE)
     }
   }
 }
 
-check_lat <- function(dimargs, .info) {
+check_lat_text <- function(dimargs) {
   if (!is.null(dimargs$latitude)) {
     if (any(sapply(dimargs$latitude, class) == "character")) {
       txt <- dimargs$latitude[sapply(dimargs$latitude, class) == "character"]
-      stopifnot(all(grepl("last", txt)))
-    } else {
-      val <- .info$alldata$latitude[ .info$alldata$latitude$attribute_name == "actual_range", "value"]
-      val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
-      if (max(dimargs$latitude) > max(val2) || min(dimargs$latitude) < min(val2)) {
-        stop(sprintf("One or both latitude values (%s) outside data range (%s)",
-                     paste0(dimargs$latitude, collapse = ", "),
-                     paste0(val2, collapse = ", ")), call. = FALSE)
-      }
+      if (!all(grepl("last", txt))) stop("Only text values allowed are 'last' & variants on that", call. = FALSE)
+    }
+  }
+}
+
+check_lon_data_range <- function(dimargs, .info) {
+  if (!is.null(dimargs$longitude)) {
+    val <- .info$alldata$longitude[ .info$alldata$longitude$attribute_name == "actual_range", "value"]
+    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+    if (max(dimargs$longitude) > max(val2) || min(dimargs$longitude) < min(val2)) {
+      stop(sprintf("One or both longitude values (%s) outside data range (%s)",
+                   paste0(dimargs$longitude, collapse = ", "),
+                   paste0(val2, collapse = ", ")), call. = FALSE)
+    }
+  }
+}
+
+check_lat_data_range <- function(dimargs, .info) {
+  if (!is.null(dimargs$latitude)) {
+    val <- .info$alldata$latitude[ .info$alldata$latitude$attribute_name == "actual_range", "value"]
+    val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
+    if (max(dimargs$latitude) > max(val2) || min(dimargs$latitude) < min(val2)) {
+      stop(sprintf("One or both latitude values (%s) outside data range (%s)",
+                   paste0(dimargs$latitude, collapse = ", "),
+                   paste0(val2, collapse = ", ")), call. = FALSE)
     }
   }
 }
@@ -412,15 +422,6 @@ erd_up_GET <- function(url, dset, args, store, fmt, ...){
     err_handle(res, store, key)
     # return response object
     res
-  }
-}
-
-err_handle <- function(x, store, key) {
-  if (x$status_code > 201) {
-    tt <- content(x, "text")
-    mssg <- strsplit(strextract(tt, "Query error:.+|Proxy Error.+"), "<")[[1]][1]
-    if (store$store != "memory") unlink(file.path(store$path, key))
-    stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
 }
 

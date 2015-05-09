@@ -137,3 +137,13 @@ check_key <- function(x){
 }
 
 pu <- function(x) sub("/$|//$", "", x)
+
+err_handle <- function(x, store, key) {
+  if (x$status_code > 201) {
+    tt <- content(x, "text")
+    # mssg <- strsplit(strextract(tt, "Query error:.+|Proxy Error.+"), "<")[[1]][1]
+    mssg <- xml2::xml_text(xml2::xml_find_all(xml2::read_html(tt), "//h1"))
+    if (store$store != "memory") unlink(file.path(store$path, key))
+    stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
+  }
+}
