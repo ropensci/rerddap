@@ -136,6 +136,7 @@
 #' # use a different ERDDAP server
 #' ## Marine Domain Awareness (MDA) (Italy)
 #' tabledap("jplAquariusSSS3MonthV3", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+#' tabledap("cwwcNDBCMet", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 #' ## Ocean Networks (Canada)
 #' tabledap("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
 #' }
