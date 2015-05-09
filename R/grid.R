@@ -1,6 +1,7 @@
 #' Get ERDDAP griddap data.
 #'
 #' @import ncdf
+#' @importFrom xml2 xml_text xml_find_all read_html
 #' @export
 #'
 #' @param x Anything coercable to an object of class info. So the output of a call to

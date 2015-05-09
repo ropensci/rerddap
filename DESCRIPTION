@@ -18,6 +18,7 @@ Imports:
     dplyr,
     data.table,
     jsonlite,
+    xml2,
     digest,
     ncdf
 Suggests:

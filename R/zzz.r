@@ -3,67 +3,19 @@
 # @param lon Longitude, in decimal degree style
 # @param lat Latitude, in decimal degree style
 long2utm <- function(lon, lat) {
-  if(56 <= lat & lat < 64){
-    if(0 <= lon & lon < 3){ 31 } else
-      if(3 <= lon & lon < 12) { 32 } else { NULL }
-  } else
-  if(72 <= lat) {
-    if(0 <= lon & lon < 9){ 31 } else
-      if(9 <= lon & lon < 21) { 33 } else
-        if(21 <= lon & lon < 33) { 35 } else
-          if(33 <= lon & lon < 42) { 37 } else { NULL }
-  }
-  (floor((lon + 180)/6) %% 60) + 1
-}
-
-#' Check response from NOAA, including status codes, server error messages, mime-type, etc.
-#' @keywords internal
-check_response <- function(x){
-  if(!x$status_code == 200){
-    stnames <- names(content(x))
-    if(!is.null(stnames)){
-      if('developerMessage' %in% stnames|'message' %in% stnames){
-        warning(sprintf("Error: (%s) - %s", x$status_code,
-                        rc(list(content(x)$developerMessage, content(x)$message))))
-      } else { warning(sprintf("Error: (%s)", x$status_code)) }
-    } else { warn_for_status(x) }
+  if (56 <= lat & lat < 64) {
+    if (0 <= lon & lon < 3) { 31 } else
+      if (3 <= lon & lon < 12) { 32 } else { NULL }
   } else {
-    stopifnot(x$headers$`content-type`=='application/json;charset=UTF-8')
-    res <- content(x, as = 'text', encoding = "UTF-8")
-    out <- jsonlite::fromJSON(res, simplifyVector = FALSE)
-    if(!'results' %in% names(out)){
-      if(length(out)==0){ warning("Sorry, no data found") }
-    } else {
-      if( class(try(out$results, silent=TRUE))=="try-error" | is.null(try(out$results, silent=TRUE)) )
-        warning("Sorry, no data found")
+    if (72 <= lat) {
+      if (0 <= lon & lon < 9) { 31 } else
+        if (9 <= lon & lon < 21) { 33 } else
+          if (21 <= lon & lon < 33) { 35 } else
+            if (33 <= lon & lon < 42) { 37 } else { NULL }
     }
-    return( out )
+    (floor((lon + 180)/6) %% 60) + 1
   }
 }
-
-# check_response_erddap <- function(x){
-#   if (!x$status_code == 200) {
-#     html <- content(x)
-#     values <- xpathApply(html, "//u", xmlValue)
-#     error <- grep("Error", values, ignore.case = TRUE, value = TRUE)
-#     if (length(error) > 1) error <- error[1]
-#     #check specifically for no matching results error
-#     if (grepl("no matching results", error)) error <- 'Error: Your query produced no matching results.'
-
-#     if (!is.null(error)) {
-#       if (grepl('Error', error)) {
-#         warning(sprintf("(%s) - %s", x$status_code, error))
-#       } else {
-#         warning(sprintf("Error: (%s)", x$status_code))
-#       }
-#     } else {
-#       warn_for_status(x)
-#     }
-#   } else {
-#     stopifnot(x$headers$`content-type` == 'text/csv;charset=UTF-8')
-#     x
-#   }
-# }
 
 rc <- function(l) Filter(Negate(is.null), l)
 
@@ -141,8 +93,7 @@ pu <- function(x) sub("/$|//$", "", x)
 err_handle <- function(x, store, key) {
   if (x$status_code > 201) {
     tt <- content(x, "text")
-    # mssg <- strsplit(strextract(tt, "Query error:.+|Proxy Error.+"), "<")[[1]][1]
-    mssg <- xml2::xml_text(xml2::xml_find_all(xml2::read_html(tt), "//h1"))
+    mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
     if (store$store != "memory") unlink(file.path(store$path, key))
     stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
