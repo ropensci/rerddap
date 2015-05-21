@@ -56,17 +56,17 @@ test_that("griddap fixes incorrect user inputs", {
 })
 
 test_that("griddap fields parameter works, and fails correctly", {
-  d <- griddap('noaa_gfdl_5081_7d4a_7570',
-   time = c('2005-11-01', '2006-01-01'),
+  d <- griddap('noaa_esrl_027d_0fb5_5d38',
+   time = c('2006-11-01', '2006-11-03'),
    latitude = c(20, 21),
    longitude = c(10, 11),
-   fields = "uo"
+   fields = "air"
   )
 
   expect_is(d, "griddap_nc")
 
-  expect_error(griddap('noaa_gfdl_5081_7d4a_7570',
-                       time = c('2005-11-01', '2006-01-01'),
+  expect_error(griddap('noaa_esrl_027d_0fb5_5d38',
+                       time = c('2006-11-01', '2006-11-03'),
                        latitude = c(20, 21),
                        longitude = c(10, 11),
                        fields = "mmmmmm"), "'arg' should be one of")
