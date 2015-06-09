@@ -18,6 +18,7 @@ servers <- function() {
     c("NOAA OSMC (Observing System Monitoring Center)", "http://osmc.noaa.gov/erddap/"),
     c("NOAA UAF (Unified Access Framework)", "http://upwell.pfeg.noaa.gov/erddap/"),
     c("ONC (Ocean Networks Canada)", "http://dap.onc.uvic.ca/erddap/"),
-    c("UC Davis BML (University of California at Davis, Bodega Marine Laboratory)", "http://bmlsc.ucdavis.edu:8080/erddap/")
+    c("UC Davis BML (University of California at Davis, Bodega Marine Laboratory)", "http://bmlsc.ucdavis.edu:8080/erddap/"),
+    c("R.Tech Engineering", "http://meteo.rtech.fr/erddap/")
   )), stringsAsFactors = FALSE), c('name', 'url'))
 }
