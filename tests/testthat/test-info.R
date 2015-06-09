@@ -30,7 +30,7 @@ test_that("info returns the correct dimensions", {
 })
 
 test_that("info works with different ERDDAP servers", {
-  h <- info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
+  h <- info("erdMH1kd4908day", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 
   expect_is(h, "info")
   expect_is(h$variables, "data.frame")

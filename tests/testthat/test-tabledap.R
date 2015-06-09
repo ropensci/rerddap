@@ -20,7 +20,7 @@ test_that("tabledap fields parameter works, and fails correctly", {
 
   expect_is(d, "tabledap")
   expect_error(tabledap('erdCinpKfmT', fields = 'stuff',
-                        'time>=2007-09-19', 'time<=2007-09-21'), "Unrecognized variable=stuff")
+                        'time>=2007-09-19', 'time<=2007-09-21'), "Unrecognized variable=\"stuff\"")
 })
 
 test_that("tabledap units parameter works, and fails correctly", {
