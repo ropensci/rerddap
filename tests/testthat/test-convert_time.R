@@ -1,6 +1,8 @@
 context("convert_time")
 
 test_that("convert_time works", {
+  skip_on_cran()
+
   a <- convert_time(n = 473472000)
   a_web <- convert_time(n = 473472000, method = "web")
   b <- convert_time(isoTime = "1985-01-02T00:00:00Z")
@@ -14,6 +16,8 @@ test_that("convert_time works", {
 })
 
 test_that("convert_time fails well", {
+  skip_on_cran()
+
   expect_error(convert_time(), "One of n or isoTime must be non-NULL")
   expect_error(convert_time(4, 5), "is not TRUE")
   expect_error(convert_time(473472000, "B"), "Supply only one of n or isoTime")
