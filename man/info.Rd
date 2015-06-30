@@ -7,7 +7,7 @@
 \usage{
 info(datasetid, url = eurl(), ...)
 
-as.info(x)
+as.info(x, url)
 }
 \arguments{
 \item{datasetid}{Dataset id}

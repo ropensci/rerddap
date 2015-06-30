@@ -134,10 +134,16 @@ foo <- function(x, y){
 
 #' @export
 #' @rdname info
-as.info <- function(x) UseMethod("as.info")
+as.info <- function(x, url) {
+  UseMethod("as.info")
+}
 
 #' @export
-as.info.info <- function(x) x
+as.info.info <- function(x, url) {
+  x
+}
 
 #' @export
-as.info.character <- function(x) info(x)
+as.info.character <- function(x, url) {
+  info(x, url)
+}
