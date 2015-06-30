@@ -134,18 +134,16 @@
 #' tabledap(x='erdCalCOFIfshsiz', store = memory())
 #'
 #' # use a different ERDDAP server
-#' ## Marine Domain Awareness (MDA) (Italy)
-#' tabledap("jplAquariusSSS3MonthV3", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
-#' tabledap("cwwcNDBCMet", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
-#' ## Ocean Networks (Canada)
-#' tabledap("UpperSlope_IP_Pod2_2014-05_BH_POD2_AD600K_sca", url = "http://dap.onc.uvic.ca/erddap/")
+#' ## NOAA IOOS NERACOOS
+#' url <- "http://www.neracoos.org/erddap/"
+#' tabledap("E01_optics_hist", url = url)
 #' }
 
 tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL,
   url = eurl(), store = disk(), callopts=list()) {
 
-  x <- as.info(x)
+  x <- as.info(x, url)
   fields <- paste(fields, collapse = ",")
   url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"), fields)
   args <- list(...)
