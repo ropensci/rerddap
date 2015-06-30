@@ -18,8 +18,15 @@
 #' }
 
 key_words <- function(cf = NULL, gcmd = NULL, url = eurl(), ...){
+  either_or_keywords(cf, gcmd)
   args <- rc(list(cf = cf, gcmd = gcmd))
   res <- GET(paste0(pu(url), '/convert/keywords.txt'), query = args, ...)
   stop_for_status(res)
   content(res, "text")
+}
+
+either_or_keywords <- function(cf, gcmd) {
+  if (!xor(!is.null(cf), !is.null(gcmd))) {
+    stop("Provide either cf or gcmd, not both", call. = FALSE)
+  }
 }

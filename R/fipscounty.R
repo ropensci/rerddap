@@ -12,8 +12,15 @@
 #' }
 
 fipscounty <- function(county = NULL, code = NULL, url = eurl(), ...){
+  either_or_fips(county, code)
   args <- rc(list(county = county, code = code))
   res <- GET(paste0(pu(url), '/convert/fipscounty.txt'), query = args, ...)
   stop_for_status(res)
   content(res, "text")
+}
+
+either_or_fips <- function(county, code) {
+  if (!xor(!is.null(county), !is.null(code))) {
+    stop("Provide either county or code, not both", call. = FALSE)
+  }
 }
