@@ -64,24 +64,24 @@ ed_search(query = 'size', which = "table")
 #> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
 #> 4                                                         CalCOFI Larvae Counts Positive Tows
 #> 5                                                                                CalCOFI Tows
-#> 7                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 8                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 9                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 10                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 11                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#> 12 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
+#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
+#> 9                                                  OBIS - ARGOS Satellite Tracking of Animals
+#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#> 11                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#> 12                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
 #>             dataset_id
 #> 1     erdCalCOFIfshsiz
 #> 2     erdCalCOFIlrvsiz
 #> 3       erdCinpKfmSFNH
 #> 4  erdCalCOFIlrvcntpos
 #> 5       erdCalCOFItows
-#> 7            aadcArgos
-#> 8        erdGlobecMoc1
-#> 9         erdGlobecVpt
-#> 10  nwioosObsFixed2002
-#> 11  nwioosObsTrawl2002
-#> 12            nodcPJJU
+#> 7        erdGlobecMoc1
+#> 8         erdGlobecVpt
+#> 9            aadcArgos
+#> 10            nodcPJJU
+#> 11  nwioosObsFixed2002
+#> 12  nwioosObsTrawl2002
 ```
 
 
@@ -113,7 +113,7 @@ Then you can get information on a single dataset
 info('whoi_62d0_9d64_c8ff')
 #> <ERDDAP info> whoi_62d0_9d64_c8ff 
 #>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-06-24T00:00:00Z) 
+#>      time: (2012-06-25T01:00:00Z, 2015-07-01T00:00:00Z) 
 #>      eta_v: (0, 334) 
 #>      xi_v: (0, 895) 
 #>  Variables:  
@@ -161,7 +161,7 @@ info('whoi_62d0_9d64_c8ff')
 ))
 #> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
 #>    Path: [~/.rerddap/0c0d352c6ec861f6efadce493e270fd0.nc]
-#>    Last updated: [2015-06-23 16:59:34]
+#>    Last updated: [2015-06-30 11:19:40]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
@@ -224,7 +224,7 @@ tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
          'time>=2001-07-07', 'time<=2001-07-10')
 #> <ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rerddap/52894d2daf4c71796c44775f06dc3f16.csv]
-#>    Last updated: [2015-06-23 16:59:35]
+#>    Last updated: [2015-06-30 11:19:41]
 #>    File size:    [0.02 mb]
 #>    Dimensions:   [558 X 4]
 #> 
