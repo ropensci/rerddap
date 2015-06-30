@@ -57,41 +57,41 @@ ed_search(query = 'size', which = "table")
 #> 1                                                                          CalCOFI Fish Sizes
 #> 2                                                                        CalCOFI Larvae Sizes
 #> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 4                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 5                                                         CalCOFI Larvae Counts Positive Tows
-#> 6                                                                                CalCOFI Tows
-#> 8                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 9                                  NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#> 10                                                    GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 11                                                GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 12 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#> 4                                                         CalCOFI Larvae Counts Positive Tows
+#> 5                                                                                CalCOFI Tows
+#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
+#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
+#> 9                                                  OBIS - ARGOS Satellite Tracking of Animals
+#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#> 11                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#> 12                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
 #>             dataset_id
 #> 1     erdCalCOFIfshsiz
 #> 2     erdCalCOFIlrvsiz
 #> 3       erdCinpKfmSFNH
-#> 4            aadcArgos
-#> 5  erdCalCOFIlrvcntpos
-#> 6       erdCalCOFItows
-#> 8   nwioosObsFixed2002
-#> 9   nwioosObsTrawl2002
-#> 10       erdGlobecMoc1
-#> 11        erdGlobecVpt
-#> 12            nodcPJJU
+#> 4  erdCalCOFIlrvcntpos
+#> 5       erdCalCOFItows
+#> 7        erdGlobecMoc1
+#> 8         erdGlobecVpt
+#> 9            aadcArgos
+#> 10            nodcPJJU
+#> 11  nwioosObsFixed2002
+#> 12  nwioosObsTrawl2002
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
 #> 6 results, showing first 20 
-#>                                                            title
-#> 7                NOAA Global Coral Bleaching Monitoring Products
-#> 13        Coawst 4 use, Best Time Series [time][eta_rho][xi_rho]
-#> 14            Coawst 4 use, Best Time Series [time][eta_u][xi_u]
-#> 15            Coawst 4 use, Best Time Series [time][eta_v][xi_v]
-#> 16 Coawst 4 use, Best Time Series [time][s_rho][eta_rho][xi_rho]
-#> 17  Coawst 4 use, Best Time Series [time][Nbed][eta_rho][xi_rho]
+#>                                                                                                   title
+#> 6                                                       NOAA Global Coral Bleaching Monitoring Products
+#> 13        USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_rho][xi_rho]
+#> 14            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_u][xi_u]
+#> 15            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_v][xi_v]
+#> 16 USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][s_rho][eta_rho][xi_rho]
+#> 17  USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][Nbed][eta_rho][xi_rho]
 #>             dataset_id
-#> 7             NOAA_DHW
+#> 6             NOAA_DHW
 #> 13 whoi_ed12_89ce_9592
 #> 14 whoi_61c3_0b5d_cd61
 #> 15 whoi_62d0_9d64_c8ff
@@ -106,9 +106,9 @@ Then you can get information on a single dataset
 
 ```r
 info('whoi_62d0_9d64_c8ff')
-#> <ERDDAP Dataset> whoi_62d0_9d64_c8ff 
+#> <ERDDAP info> whoi_62d0_9d64_c8ff 
 #>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-05-07T00:00:00Z) 
+#>      time: (2012-06-25T01:00:00Z, 2015-07-01T00:00:00Z) 
 #>      eta_v: (0, 334) 
 #>      xi_v: (0, 895) 
 #>  Variables:  
@@ -126,7 +126,7 @@ First, get information on a dataset to see time range, lat/long range, and varia
 
 ```r
 (out <- info('noaa_esrl_027d_0fb5_5d38'))
-#> <ERDDAP Dataset> noaa_esrl_027d_0fb5_5d38 
+#> <ERDDAP info> noaa_esrl_027d_0fb5_5d38 
 #>  Dimensions (range):  
 #>      time: (1850-01-01T00:00:00Z, 2014-05-01T00:00:00Z) 
 #>      latitude: (87.5, -87.5) 
@@ -146,9 +146,9 @@ Then query for gridded data using the `griddap()` function
   latitude = c(21, 10),
   longitude = c(-80, -70)
 ))
-#> <NOAA ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
+#> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
 #>    Path: [~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc]
-#>    Last updated: [2015-05-07 10:15:34]
+#>    Last updated: [2015-06-30 11:20:57]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
@@ -221,7 +221,7 @@ res$data
 
 ```r
 (out <- info('erdCalCOFIfshsiz'))
-#> <ERDDAP Dataset> erdCalCOFIfshsiz 
+#> <ERDDAP info> erdCalCOFIfshsiz 
 #>  Variables:  
 #>      calcofi_species_code: 
 #>          Range: 19, 1550 
@@ -237,9 +237,9 @@ res$data
 
 ```r
 (dat <- tabledap(out, 'time>=2001-07-07', 'time<=2001-07-10', fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn', 'scientific_name')))
-#> <NOAA ERDDAP tabledap> erdCalCOFIfshsiz
+#> <ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rerddap/f013f9ee09bdb4184928d533e575e948.csv]
-#>    Last updated: [2015-05-07 10:24:41]
+#>    Last updated: [2015-06-30 11:20:58]
 #>    File size:    [0.03 mb]
 #>    Dimensions:   [558 X 5]
 #> 
