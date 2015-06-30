@@ -51,7 +51,7 @@ print.ed_search <- function(x, ...){
   print(head(x$info, n = 20))
 }
 
-erdddap_GET <- function(url, args, ...){
+erdddap_GET <- function(url, args = NULL, ...){
   tt <- GET(url, query = args, ...)
   stop_for_status(tt)
   stopifnot(tt$headers$`content-type` == 'application/json;charset=UTF-8')

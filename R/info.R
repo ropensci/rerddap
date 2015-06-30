@@ -74,7 +74,7 @@
 #' }
 
 info <- function(datasetid, url = eurl(), ...){
-  json <- erdddap_GET(sprintf(paste0(url, 'info/%s/index.json'), datasetid), list(), ...)
+  json <- erdddap_GET(sprintf(paste0(url, 'info/%s/index.json'), datasetid), NULL, ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
     tmp <- data.frame(x, stringsAsFactors = FALSE)

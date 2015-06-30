@@ -105,7 +105,7 @@ inputs, while \code{\link{disk}} does. Possibly will add other options, like
 (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
    longitude = c(10, 11), fields = 'uo'))
 (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
-   longitude = c(10, 11), fields = 'uo', stride=c(1,2,1,2)))
+   longitude = c(10, 11), fields = 'uo', stride = c(1,2,1,2)))
 (res <- griddap(out, time = c('2005-11-01','2006-01-01'), latitude = c(20, 21),
    longitude = c(10, 11), fields = c('uo','so')))
 
@@ -178,20 +178,20 @@ griddap(out, time = c('2005-11-01','2005-11-03'))
 
 # Using 'last'
 ## with time
-griddap('noaa_esrl_027d_0fb5_5d38',
+griddap('noaa_gfdl_5081_7d4a_7570',
  time = c('last-5','last'),
  latitude = c(21, 18),
- longitude = c(-80, -79)
+ longitude = c(3, 5)
 )
 ## with latitude
-griddap('noaa_esrl_027d_0fb5_5d38',
- time = c('2012-01-01','2012-06-12'),
- latitude = c('last', 'last'),
- longitude = c(-80, -79)
+griddap('noaa_gfdl_5081_7d4a_7570',
+  time = c('2008-01-01','2009-01-01'),
+  latitude = c('last', 'last'),
+  longitude = c(3, 5)
 )
 ## with longitude
-griddap('noaa_esrl_027d_0fb5_5d38',
- time = c('2012-01-01','2012-06-12'),
+griddap('noaa_gfdl_5081_7d4a_7570',
+ time = c('2008-01-01','2009-01-01'),
  latitude = c(21, 18),
  longitude = c('last', 'last')
 )

@@ -192,7 +192,7 @@ erd_tab_GET <- function(url, dset, store, ...) {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
       res <- GET(url, write_disk(file.path(store$path, key), store$overwrite), ...)
       err_handle(res, store, key)
-      res$request$writer[[1]]
+      res$request$output$path
     }
   } else {
     res <- GET(url, ...)
