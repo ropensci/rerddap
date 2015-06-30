@@ -1,8 +1,8 @@
 Package: rerddap
 Title: General Purpose Client for 'ERDDAP' Servers
 Description: General purpose R client for 'ERDDAP' servers. Includes
-    functions to search for datasets, get summary information on
-    datasets, and fetch datasets, in either csv or 'netCDF' format.
+    functions to search for 'datasets', get summary information on
+    'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: http://upwell.pfeg.noaa.gov/erddap/information.html.
 Version: 0.1.9.9000
 License: MIT + file LICENSE
@@ -14,6 +14,9 @@ LazyData: true
 Roxygen: list(wrap = FALSE)
 VignetteBuilder: knitr
 Imports:
+    methods,
+    utils,
+    stats,
     httr,
     dplyr,
     data.table,

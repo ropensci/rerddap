@@ -20,6 +20,9 @@
 #' then you can increase the amount of data you get. See \code{\link{griddap}}
 #' for more details.
 #'
+#' @importFrom stats setNames
+#' @importFrom methods is
+#' @importFrom utils head read.csv read.delim URLencode
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package
