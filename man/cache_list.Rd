@@ -3,7 +3,7 @@
 \name{cache_list}
 \alias{cache_delete}
 \alias{cache_delete_all}
-\alias{cache_info}
+\alias{cache_details}
 \alias{cache_list}
 \title{Manage cached files}
 \usage{
@@ -13,7 +13,7 @@ cache_delete(files, cache_path = "~/.rerddap", force = FALSE)
 
 cache_delete_all(cache_path = "~/.rerddap", force = FALSE)
 
-cache_info(files, cache_path = "~/.rerddap")
+cache_details(files = NULL, cache_path = "~/.rerddap")
 }
 \arguments{
 \item{cache_path}{path to cached files}
@@ -31,14 +31,14 @@ Manage cached files
 cache_list()
 
 # List info for files
-cache_info(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
-cache_info(files = "476ea03d8d246d81f2de02bd40524adb.csv")
-cache_info()
+cache_details(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
+cache_details(files = "476ea03d8d246d81f2de02bd40524adb.csv")
+cache_details()
 
 # delete files by name in cache
-cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
-cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
-                 'b26825b6737da13d6a52c28c8dfe690f.csv'))
+# cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
+# cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
+#                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
 
 # delete all files in cache
 cache_delete_all()

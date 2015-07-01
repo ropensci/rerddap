@@ -11,14 +11,14 @@
 #' cache_list()
 #'
 #' # List info for files
-#' cache_info(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
-#' cache_info(files = "476ea03d8d246d81f2de02bd40524adb.csv")
-#' cache_info()
+#' cache_details(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
+#' cache_details(files = "476ea03d8d246d81f2de02bd40524adb.csv")
+#' cache_details()
 #'
 #' # delete files by name in cache
-#' cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
-#' cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
-#'                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
+#' # cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
+#' # cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
+#' #                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
 #'
 #' # delete all files in cache
 #' cache_delete_all()
@@ -48,30 +48,31 @@ cache_delete_all <- function(cache_path = "~/.rerddap", force = FALSE) {
 
 #' @export
 #' @rdname cache_list
-cache_info <- function(files, cache_path = "~/.rerddap") {
-  if (missing(files)) {
+cache_details <- function(files = NULL, cache_path = "~/.rerddap") {
+  if (is.null(files)) {
     files <- list.files(cache_path, full.names = TRUE)
-    structure(lapply(files, file_info), class = "rerddap_cache_info")
+    structure(lapply(files, file_info_), class = "rerddap_cache_info")
   } else {
     files <- file.path(cache_path, files)
-    structure(lapply(files, file_info), class = "rerddap_cache_info")
+    structure(lapply(files, file_info_), class = "rerddap_cache_info")
   }
 }
 
-file_info <- function(x) {
+file_info_ <- function(x) {
   tmp <- strsplit(x, '\\.')[[1]]
   ext <- tmp[length(tmp)]
+  fs <- file.size(x)
   switch(ext,
          nc = {
            list(type = "netcdf",
-                size = getsize(file.size(x)),
-                info = ncdf_summary(x)$summary
+                size = if (!is.na(fs)) getsize(fs) else NA,
+                info = if (!is.na(fs)) ncdf_summary(x)$summary else NA
            )
          },
          csv = {
            list(type = "csv",
-                size = getsize(file.size(x)),
-                info = names(read.csv(x, nrows = 1, stringsAsFactors = FALSE))
+                size = if (!is.na(fs)) getsize(fs) else NA,
+                info = if (!is.na(fs)) names(read.csv(x, nrows = 1, stringsAsFactors = FALSE)) else NA
            )
          }
   )
@@ -96,10 +97,14 @@ print.rerddap_cache_info <- function(x, ...) {
     cat(paste0("Size: ", x[[i]]$size, " mb"), sep = "\n")
     if (x[[i]]$type == "netcdf") {
       cat("info: ", sep = "\n")
-      print(x[[i]]$info)
+      if (!is.na(x[[i]]$info)) {
+        print(x[[i]]$info)
+      }
     } else {
       cat("info: (csv columns)", sep = "\n")
-      print(x[[i]]$info)
+      if (!is.na(x[[i]]$info)) {
+        print(x[[i]]$info)
+      }
     }
     cat("\n")
   }
