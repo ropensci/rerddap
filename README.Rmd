@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
-[![Coverage Status](https://coveralls.io/repos/ropensci/rerddap/badge.svg)](https://coveralls.io/r/ropensci/rerddap)
+[![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rerddap)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/rerddap)](http://cran.rstudio.com/web/packages/rerddap)
 
