@@ -6,7 +6,7 @@
 #' @param ucum character; A UCUM character string \url{http://unitsofmeasure.org/ucum.html}
 #' @param url Base URL of the ERDDAP server
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
-#' @examples  \donttest{
+#' @examples  \dontrun{
 #' convert_units(udunits = "degree_C meter-1")
 #' convert_units(ucum = "Cel.m-1")
 #' }

@@ -30,7 +30,7 @@ Convert a UDUNITS compatible time to ISO time
 When \code{method = "web"} time zone is GMT/UTC
 }
 \examples{
-\donttest{
+\dontrun{
 # local conversions
 convert_time(n = 473472000)
 convert_time(isoTime = "1985-01-02T00:00:00Z")

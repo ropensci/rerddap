@@ -19,7 +19,7 @@ fipscounty(county = NULL, code = NULL, url = eurl(), ...)
 Convert a FIPS County Code to/from a County Name
 }
 \examples{
-\donttest{
+\dontrun{
 fipscounty(code = "06053")
 fipscounty(county = "CA, Monterey")
 fipscounty(county = "OR, Multnomah")

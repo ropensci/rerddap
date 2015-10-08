@@ -21,7 +21,7 @@ key_words(cf = NULL, gcmd = NULL, url = eurl(), ...)
 Convert a CF Standard Name to/from a GCMD Science Keyword
 }
 \examples{
-\donttest{
+\dontrun{
 key_words(cf = "air_pressure")
 cat(key_words(cf = "air_pressure"))
 key_words(gcmd = "Atmosphere > Atmospheric Pressure > Sea Level Pressure")

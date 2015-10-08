@@ -5,7 +5,7 @@
 #' @param code numeric; A FIPS code.
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
-#' @examples  \donttest{
+#' @examples  \dontrun{
 #' fipscounty(code = "06053")
 #' fipscounty(county = "CA, Monterey")
 #' fipscounty(county = "OR, Multnomah")

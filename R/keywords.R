@@ -7,7 +7,7 @@
 #' \url{http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
-#' @examples  \donttest{
+#' @examples  \dontrun{
 #' key_words(cf = "air_pressure")
 #' cat(key_words(cf = "air_pressure"))
 #' key_words(gcmd = "Atmosphere > Atmospheric Pressure > Sea Level Pressure")

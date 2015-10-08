@@ -21,7 +21,7 @@ convert_units(udunits = NULL, ucum = NULL,
 Convert a CF Standard Name to/from a GCMD Science Keyword
 }
 \examples{
-\donttest{
+\dontrun{
 convert_units(udunits = "degree_C meter-1")
 convert_units(ucum = "Cel.m-1")
 }
