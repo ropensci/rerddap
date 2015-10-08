@@ -2,6 +2,11 @@
 
 S3method(as.info,character)
 S3method(as.info,info)
+S3method(cache_delete,character)
+S3method(cache_delete,griddap_csv)
+S3method(cache_delete,griddap_nc)
+S3method(cache_delete,list)
+S3method(cache_delete,tabledap)
 S3method(print,ed_search)
 S3method(print,ed_search_adv)
 S3method(print,griddap_csv)

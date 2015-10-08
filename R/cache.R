@@ -3,47 +3,27 @@
 #' @export
 #' @param files File names
 #' @param cache_path path to cached files
-#' @param force (logical) Should files be force deleted? Default: \code{FALSE}
 #' @references \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
+#' @seealso \code{\link{cache_delete}}
 #' @examples \dontrun{
 #' # list files in cache
 #' cache_list()
 #'
 #' # List info for files
-#' cache_details(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
-#' cache_details(files = "476ea03d8d246d81f2de02bd40524adb.csv")
+#' # cache_details(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
+#' # cache_details(files = "476ea03d8d246d81f2de02bd40524adb.csv")
 #' cache_details()
 #'
 #' # delete files by name in cache
 #' # cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
 #' # cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
 #' #                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
-#'
-#' # delete all files in cache
-#' cache_delete_all()
 #' }
 cache_list <- function(cache_path = "~/.rerddap") {
   nc_files <- list.files(cache_path, pattern = ".nc")
   csv_files <- list.files(cache_path, pattern = ".csv")
   structure(list(nc = nc_files, csv = csv_files), class = "rerddap_cache")
-}
-
-#' @export
-#' @rdname cache_list
-cache_delete <- function(files, cache_path = "~/.rerddap", force = FALSE) {
-  files <- file.path(cache_path, files)
-  if (!all(file.exists(files))) {
-    stop("These files don't exist or can't be found: \n", strwrap(files[!file.exists(files)], indent = 5), call. = FALSE)
-  }
-  unlink(files, force = force)
-}
-
-#' @export
-#' @rdname cache_list
-cache_delete_all <- function(cache_path = "~/.rerddap", force = FALSE) {
-  files <- list.files(cache_path, full.names = TRUE)
-  unlink(files, force = force)
 }
 
 #' @export

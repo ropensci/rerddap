@@ -242,7 +242,9 @@ toggle_store <- function(fmt, store) {
 print.griddap_csv <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
-  cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
+  path <- attr(x, "path")
+  path2 <- if (file.exists(path)) path else "<beware: file deleted>"
+  cat(sprintf("   Path: [%s]", path2), sep = "\n")
   if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
@@ -255,7 +257,9 @@ print.griddap_csv <- function(x, ..., n = 10){
 print.griddap_nc <- function(x, ..., n = 10){
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
-  cat(sprintf("   Path: [%s]", attr(x, "path")), sep = "\n")
+  path <- attr(x, "path")
+  path2 <- if (file.exists(path)) path else "<beware: file deleted>"
+  cat(sprintf("   Path: [%s]", path2), sep = "\n")
   if (attr(x, "path") != "memory") {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
