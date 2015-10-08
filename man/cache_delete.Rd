@@ -30,6 +30,7 @@ Delete cached files
 ## tabledap
 (table_res <- tabledap('erdCalCOFIfshsiz'))
 cache_delete(table_res)
+
 ## griddap
 (grid_res <- griddap('noaa_esrl_027d_0fb5_5d38',
  time = c('2012-01-01','2012-06-12'),
@@ -46,6 +47,6 @@ Scott Chamberlain <myrmecocystus@gmail.com>
 \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
-\code{\link{cache_list}}
+\code{\link{cache_list}}, \code{\link{cache_details}}
 }
 

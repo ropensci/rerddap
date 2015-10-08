@@ -6,7 +6,7 @@
 #' @param force (logical) Should files be force deleted? Default: \code{FALSE}
 #' @references \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
-#' @seealso \code{\link{cache_list}}
+#' @seealso \code{\link{cache_list}}, \code{\link{cache_details}}
 #' @examples \dontrun{
 #' # delete files by name in cache
 #' # cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
@@ -17,6 +17,7 @@
 #' ## tabledap
 #' (table_res <- tabledap('erdCalCOFIfshsiz'))
 #' cache_delete(table_res)
+#'
 #' ## griddap
 #' (grid_res <- griddap('noaa_esrl_027d_0fb5_5d38',
 #'  time = c('2012-01-01','2012-06-12'),
