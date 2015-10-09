@@ -1,6 +1,7 @@
 <!--
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{rerddap introduction}
+%\VignetteEncoding{UTF-8}
 -->
 
 ```{r echo=FALSE}
@@ -48,13 +49,13 @@ rerddap introduction
 
 ## Caching
 
-Data files downloaded are cached in a single hidden directory `~/.rerddap` on your machine. It's hidden so that you don't accidentally delete the data, but you can still easily delete the data if you like. 
+Data files downloaded are cached in a single hidden directory `~/.rerddap` on your machine. It's hidden so that you don't accidentally delete the data, but you can still easily delete the data if you like.
 
-When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify. 
+When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
 
 ## ERDDAP servers
 
-You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know. 
+You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
 
 ## Install
 
@@ -145,9 +146,9 @@ Since both `griddap()` and `tabledap()` give back data.frame's, it's easy to do 
 ```{r}
 library("dplyr")
 dat$fish_size <- as.numeric(dat$fish_size)
-tbl_df(dat) %>% 
-  filter(fish_size > 30) %>% 
-  group_by(scientific_name) %>% 
-  summarise(mean_size = mean(fish_size)) %>% 
+tbl_df(dat) %>%
+  filter(fish_size > 30) %>%
+  group_by(scientific_name) %>%
+  summarise(mean_size = mean(fish_size)) %>%
   arrange(desc(mean_size))
 ```
