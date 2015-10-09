@@ -98,3 +98,19 @@ err_handle <- function(x, store, key) {
     stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
 }
+
+err_handle2 <- function(x) {
+  if (x$status_code > 201) {
+    tt <- content(x, "text")
+    mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
+    stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
+  }
+}
+
+erdddap_GET <- function(url, args = NULL, ...) {
+  tt <- GET(url, query = args, ...)
+  err_handle2(tt)
+  stopifnot(tt$headers$`content-type` == 'application/json;charset=UTF-8')
+  out <- content(tt, as = "text")
+  jsonlite::fromJSON(out, FALSE)
+}

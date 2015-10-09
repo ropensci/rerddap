@@ -29,7 +29,7 @@
 
 ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = eurl(), ...){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
-  args <- rc(list(searchFor=query, page=page, itemsPerPage=page_size))
+  args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size))
   json <- erdddap_GET(paste0(url, 'search/index.json'), args, ...)
   colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
@@ -38,25 +38,17 @@ ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = e
     data.frame(x, stringsAsFactors = FALSE)
   })
   df <- data.frame(rbindlist(dfs))
-  lists <- lapply(json$table$rows, setNames, nm=colnames)
-  df$gd <- vapply(lists, function(x) if(x$griddap == "") "tabledap" else "griddap", character(1))
+  lists <- lapply(json$table$rows, setNames, nm = colnames)
+  df$gd <- vapply(lists, function(x) if (x$griddap == "") "tabledap" else "griddap", character(1))
   df <- df[ df$gd == which, -3 ]
-  res <- list(info=df, alldata=lists)
-  structure(res, class="ed_search")
+  res <- list(info = df, alldata = lists)
+  structure(res, class = "ed_search")
 }
 
 #' @export
 print.ed_search <- function(x, ...){
   cat(sprintf("%s results, showing first 20", nrow(x$info)), "\n")
   print(head(x$info, n = 20))
-}
-
-erdddap_GET <- function(url, args = NULL, ...){
-  tt <- GET(url, query = args, ...)
-  stop_for_status(tt)
-  stopifnot(tt$headers$`content-type` == 'application/json;charset=UTF-8')
-  out <- content(tt, as = "text")
-  jsonlite::fromJSON(out, FALSE)
 }
 
 table_or_grid <- function(datasetid){
