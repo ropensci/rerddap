@@ -32,6 +32,10 @@
 #' @param store One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}
 #' @param callopts Further args passed on to httr::GET (must be a named parameter)
 #'
+#' @return An object of class \code{tabledap}. This class is a thin wrapper around
+#' a data.frame, so the data you get back is a data.frame with metadata attached as
+#' attributes.
+#'
 #' @details
 #' For key-value pair query constraints, the valid operators are =, != (not equals), =~ (a regular
 #' expression test), <, <=, >, and >= . For regular expressions you need to add a regular

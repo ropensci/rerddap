@@ -50,6 +50,11 @@ or 'ucum' (units will be described via the UCUM standard (e.g., Cel)).}
 
 \item{callopts}{Further args passed on to httr::GET (must be a named parameter)}
 }
+\value{
+An object of class \code{tabledap}. This class is a thin wrapper around
+a data.frame, so the data you get back is a data.frame with metadata attached as
+attributes.
+}
 \description{
 Get ERDDAP tabledap data.
 }
