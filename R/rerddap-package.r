@@ -23,6 +23,12 @@
 #' @importFrom stats setNames
 #' @importFrom methods is
 #' @importFrom utils head read.csv read.delim URLencode
+#' @importFrom httr GET write_disk stop_for_status content
+#' @importFrom jsonlite fromJSON
+#' @importFrom data.table rbindlist
+#' @importFrom ncdf open.ncdf get.var.ncdf close.ncdf
+#' @importFrom xml2 xml_text xml_find_all read_html
+#' @importFrom dplyr as_data_frame rbind_all
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package

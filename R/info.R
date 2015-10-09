@@ -1,9 +1,6 @@
 #' Get information on an ERDDAP dataset.
 #'
 #' @export
-#' @import httr
-#' @importFrom jsonlite fromJSON
-#' @importFrom data.table rbindlist
 #'
 #' @param datasetid Dataset id
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}

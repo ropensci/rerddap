@@ -1,7 +1,6 @@
 #' Advanced search for ERDDAP tabledep or griddap datasets
 #'
 #' @export
-#' @importFrom dplyr as_data_frame rbind_all
 #'
 #' @param query (character) Search terms
 #' @param page (integer) Page number. Default: 1
