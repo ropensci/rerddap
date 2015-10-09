@@ -1,3 +1,23 @@
+rerddap 0.3.0
+===============
+
+NEW FEATURES
+
+* Cache functions accept the outputs of `griddap()` and `tabledap()`
+so that the user can easily see cache details or delete the file from
+the cache without having to manually get the file name. (#30)
+
+MINOR IMPROVEMENTS
+
+* All package dependencies now use `importFrom` so we only import
+functions we need instead of their global namespaces.
+
+BUG FIXES
+
+* Fixed bug in parsing data from netcdf files, affected the
+`griddap()` function (#28)
+
+
 rerddap 0.2.0
 ===============
 
