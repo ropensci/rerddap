@@ -14,12 +14,16 @@
 #' @param long_name (character) A long name. See the dataset \code{longnames}.
 #' @param standard_name (character) A standar dname. See the dataset \code{standardnames}.
 #' @param variableName (character) A variable name. See the dataset \code{variablenames}.
-#' @param maxLat (numeric) Maximum latitude
-#' @param minLon (numeric) Minimum longitude
-#' @param maxLon (numeric) Maximum longitude
-#' @param minLat (numeric) Minimum latitude
-#' @param minTime (numeric) Minimum time
-#' @param maxTime (numeric) Maximum time
+#' @param minLat,maxLat (numeric) Minimum and maximum latitude, between -90 and 90
+#' @param minLon,maxLon (numeric) Minimum and maximum longitude. Some datasets have
+#' longitude values within -180 to 180, others use 0 to 360. If you specify min and max
+#' Longitude within -180 to 180 (or 0 to 360), ERDDAP will only find datasets that
+#' match the values you specify. Consider doing one search: longitude -180 to 360,
+#' or two searches: longitude -180 to 180, and 0 to 360.
+#' @param minTime,maxTime (numeric/character) Minimum and maximum time. Time string with
+#' the format "yyyy-MM-ddTHH:mm:ssZ, (e.g., 2009-01-21T23:00:00Z). If you specify something,
+#' you must include at least yyyy-MM-dd; you can omit Z, :ss, :mm, :HH, and T. Always use
+#' UTC (GMT/Zulu) time. Or specify the number of seconds since 1970-01-01T00:00:00Z.
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
@@ -47,6 +51,9 @@ ed_search_adv <- function(query = NULL, page = 1, page_size = 1000, protocol = N
                       variableName = NULL, maxLat = NULL, minLon = NULL, maxLon = NULL,
                       minLat = NULL, minTime = NULL, maxTime = NULL, url = eurl(), ...) {
 
+  check_args(query, page, page_size, protocol, cdm_data_type, institution,
+             ioos_category, keywords, long_name, standard_name, variableName,
+             maxLat, minLon, maxLon, minLat, minTime, maxTime)
   args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size,
                   protocol = protocol, cdm_data_type = cdm_data_type,
                   institution = institution, ioos_category = ioos_category,
@@ -70,4 +77,37 @@ ed_search_adv <- function(query = NULL, page = 1, page_size = 1000, protocol = N
 print.ed_search_adv <- function(x, ...){
   cat(sprintf("%s results, showing first 20", nrow(x$info)), "\n")
   print(head(x$info, n = 20))
+}
+
+check_args <- function(query, page, page_size, protocol, cdm_data_type, institution,
+  ioos_category, keywords, long_name, standard_name,
+  variableName, maxLat, minLon, maxLon, minLat, minTime, maxTime) {
+
+  check_arg(query, "character")
+  check_arg(page, "numeric")
+  check_arg(page_size, "numeric")
+  check_arg(protocol, "character")
+  check_arg(cdm_data_type, "character")
+  check_arg(institution, "character")
+  check_arg(ioos_category, "character")
+  check_arg(keywords, "character")
+  check_arg(long_name, "character")
+  check_arg(standard_name, "character")
+  check_arg(variableName, "character")
+  check_arg(maxLat, "numeric")
+  check_arg(minLon, "numeric")
+  check_arg(maxLon, "numeric")
+  check_arg(minLat, "numeric")
+  check_arg(minTime, c("numeric", "character"))
+  check_arg(maxTime, c("numeric", "character"))
+}
+
+check_arg <- function(x, class) {
+  var <- deparse(substitute(x))
+  if (!is.null(x)) {
+    if (!class(x) %in% class) {
+      if (length(class) > 1) class <- paste0(class, collapse = ", ")
+      stop(var, " not of class ", class, call. = FALSE)
+    }
+  }
 }

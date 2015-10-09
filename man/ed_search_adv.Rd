@@ -34,17 +34,18 @@ timeseriesprofile, trajectory, trajectoryprofile}
 
 \item{variableName}{(character) A variable name. See the dataset \code{variablenames}.}
 
-\item{maxLat}{(numeric) Maximum latitude}
+\item{minLon,maxLon}{(numeric) Minimum and maximum longitude. Some datasets have
+longitude values within -180 to 180, others use 0 to 360. If you specify min and max
+Longitude within -180 to 180 (or 0 to 360), ERDDAP will only find datasets that
+match the values you specify. Consider doing one search: longitude -180 to 360,
+or two searches: longitude -180 to 180, and 0 to 360.}
 
-\item{minLon}{(numeric) Minimum longitude}
+\item{minLat,maxLat}{(numeric) Minimum and maximum latitude, between -90 and 90}
 
-\item{maxLon}{(numeric) Maximum longitude}
-
-\item{minLat}{(numeric) Minimum latitude}
-
-\item{minTime}{(numeric) Minimum time}
-
-\item{maxTime}{(numeric) Maximum time}
+\item{minTime,maxTime}{(numeric/character) Minimum and maximum time. Time string with
+the format "yyyy-MM-ddTHH:mm:ssZ, (e.g., 2009-01-21T23:00:00Z). If you specify something,
+you must include at least yyyy-MM-dd; you can omit Z, :ss, :mm, :HH, and T. Always use
+UTC (GMT/Zulu) time. Or specify the number of seconds since 1970-01-01T00:00:00Z.}
 
 \item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
 

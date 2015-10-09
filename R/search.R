@@ -28,6 +28,9 @@
 #' }
 
 ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = eurl(), ...){
+  check_arg(query, "character")
+  check_arg(page, "numeric")
+  check_arg(page_size, "numeric")
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size))
   json <- erdddap_GET(paste0(url, 'search/index.json'), args, ...)

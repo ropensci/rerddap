@@ -43,9 +43,18 @@ test_that("ed_search_adv works with different ERDDAP servers", {
   expect_is(h$alldata, "list")
 })
 
+test_that("ed_search_adv correctly catches invalid parameter types", {
+  skip_on_cran()
+
+  expect_error(ed_search_adv(page = "things"), "page not of class numeric")
+  expect_error(ed_search_adv(maxLat = "adf"), "maxLat not of class numeric")
+  expect_error(ed_search_adv(institution = 5), "institution not of class character")
+  expect_error(ed_search_adv(keywords = 445), "keywords not of class character")
+})
+
 test_that("ed_search_adv fails well", {
   skip_on_cran()
 
-  expect_error(ed_search_adv(), "Not Found")
-  expect_error(ed_search_adv(maxLat = "adf"), "Not Found")
+  expect_error(ed_search_adv(), "HTTP Status 404 - Resource not found")
+  expect_error(ed_search_adv(query = "adfafadfsd"), "HTTP Status 500 - Your query produced no")
 })

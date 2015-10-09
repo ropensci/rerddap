@@ -45,5 +45,5 @@ test_that("info fails well", {
   skip_on_cran()
 
   expect_error(info(), "is missing, with no default")
-  expect_error(info("stuff"), "Not Found")
+  expect_error(info("stuff"), "HTTP Status 404 - Resource not found")
 })

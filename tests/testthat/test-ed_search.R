@@ -35,6 +35,13 @@ test_that("ed_search works with different ERDDAP servers", {
   expect_is(e$alldata, "list")
 })
 
+test_that("ed_search correctly catches invalid parameter types", {
+  skip_on_cran()
+
+  expect_error(ed_search(query = "temperature", page = "things"), "page not of class numeric")
+  expect_error(ed_search(query = "temperature", page_size = "adf"), "page_size not of class numeric")
+})
+
 test_that("ed_search fails well", {
   skip_on_cran()
 
