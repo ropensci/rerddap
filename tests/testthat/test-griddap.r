@@ -11,7 +11,7 @@ test_that("griddap returns the correct class", {
 
   expect_is(a, "griddap_nc")
   expect_is(unclass(a), "list")
-  expect_is(a$summary, "ncdf")
+  expect_is(a$summary, "list")
   expect_is(a$summary$filename, "character")
   expect_is(a$data, "data.frame")
   expect_is(a$data$time, "character")
