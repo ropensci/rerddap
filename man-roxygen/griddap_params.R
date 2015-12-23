@@ -8,11 +8,6 @@
 #' @param stride (integer) How many values to get. 1 = get every value, 2 = get
 #' every other value, etc. Default: 1 (i.e., get every value)
 #' @param fmt (character) One of csv or nc (for netcdf). Default: nc
-#' @param ncdf (character) One of ncdf or ncdf4. If ncdf, use the package
-#' \code{\link{ncdf}} to read netcdf files. If ncdf4, use the package
-#' \code{ncdf4}. \code{\link{ncdf}} package is required for this package to be
-#' installed, and should be easily installable across platforms. However, \code{ncdf4}
-#' is likely not installable on Windows OS's. Ignored if \code{fmt = "csv"}. Default: ncdf
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
 #' can pass options to \code{\link{disk}}

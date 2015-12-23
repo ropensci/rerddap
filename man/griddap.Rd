@@ -35,12 +35,6 @@ returns a summary of the dataset - and you can read in data piecemeal later.
 Default: \code{TRUE}}
 
 \item{callopts}{Pass on curl options to \code{\link[httr]{GET}}}
-
-\item{ncdf}{(character) One of ncdf or ncdf4. If ncdf, use the package
-\code{\link{ncdf}} to read netcdf files. If ncdf4, use the package
-\code{ncdf4}. \code{\link{ncdf}} package is required for this package to be
-installed, and should be easily installable across platforms. However, \code{ncdf4}
-is likely not installable on Windows OS's. Ignored if \code{fmt = "csv"}. Default: ncdf}
 }
 \value{
 An object of class \code{griddap_csv} if csv chosen or \code{griddap_nc}

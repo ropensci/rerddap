@@ -51,7 +51,7 @@ read_all <- function(x, fmt, read) {
            if (read) {
              ncdf4_get(x)
            } else {
-             ncdf4_summary(x)
+             ncdf_summary(x)
            }
          }
   )

@@ -33,7 +33,6 @@ ncdf4_get <- function(file){
 }
 
 # get just metadata -----------------------
-# ncdf4
 ncdf_summary <- function(file){
   check4ncdf4()
   nc <- ncdf4::nc_open(file, readunlim = FALSE)
