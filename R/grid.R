@@ -189,10 +189,18 @@
 #'  latitude = c(21, 18),
 #'  longitude = c('last', 'last')
 #' )
+#'
+#' # Toggle dimension variables (e.g., lat, long, time, depth)
+#' (res <- griddap(x = "noaa_esrl_027d_0fb5_5d38",
+#'  time = c('2012-01-01','2012-06-12'),
+#'  latitude = c(21, 18),
+#'  longitude = c(-80, -75),
+#'  dim_fields = "latitude"
+#' ))
 #' }
 
-griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf",
-                    url = eurl(), store = disk(), read = TRUE, callopts = list()) {
+griddap <- function(x, ..., fields = 'all', dim_fields = NULL, stride = 1, fmt = "nc",
+  ncdf = "ncdf", url = eurl(), store = disk(), read = TRUE, callopts = list()) {
 
   x <- as.info(x, url)
   dimargs <- list(...)
@@ -205,6 +213,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc", ncdf = "ncdf
   d <- attr(x, "datasetid")
   var <- field_handler(fields, x$variables$variable_name)
   dims <- dimvars(x)
+  dims <- dim_field_handler(dims, dim_fields)
   store <- toggle_store(fmt, store)
   if (all(var == "none")) {
     args <- paste0(sapply(dims, function(y) parse_args(x, y, stride, dimargs, wname = TRUE)), collapse = ",")
@@ -282,6 +291,20 @@ field_handler <- function(x, y){
     y
   } else if (all(x %in% y) || x == "none") {
     x
+  }
+}
+
+dim_field_handler <- function(x, y){
+  if (is.null(y)) {
+    return(x)
+  } else {
+    for (i in seq_along(y)) {
+      if (!y[i] %in% x) {
+        stop(sprintf("You're selected dimension var '%s' \n   is not in the available set of [%s]",
+                     y[i], paste0(x, collapse = ", ")), call. = FALSE)
+      }
+    }
+    return(y)
   }
 }
 
