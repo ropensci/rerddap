@@ -4,14 +4,13 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     functions to search for 'datasets', get summary information on
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: http://upwell.pfeg.noaa.gov/erddap/information.html.
-Version: 0.3.0.9500
+Version: 0.3.1.9000
 License: MIT + file LICENSE
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut","cre"),
     email = "myrmecocystus@gmail.com"))
 URL: https://github.com/ropensci/rerddap
 BugReports: http://www.github.com/ropensci/rerddap/issues
 LazyData: true
-Roxygen: list(wrap = FALSE)
 VignetteBuilder: knitr
 Imports:
     methods,
@@ -23,11 +22,10 @@ Imports:
     jsonlite,
     xml2,
     digest,
-    ncdf
+    ncdf4
 Suggests:
     roxygen2,
     knitr,
-    testthat,
-    ncdf4
-Enhances:
-    taxize
+    testthat
+Enhances: taxize
+RoxygenNote: 5.0.1

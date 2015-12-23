@@ -5,3 +5,5 @@ README.Rmd
 appveyor.yml
 Makefile
 cran-comments.md
+man-roxygen
+

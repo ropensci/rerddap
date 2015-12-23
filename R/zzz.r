@@ -38,7 +38,7 @@ read_data <- function(x, nrows = -1){
   setNames(tmp, tolower(nmz))
 }
 
-read_all <- function(x, fmt, read, ncdf) {
+read_all <- function(x, fmt, read) {
   switch(fmt,
          csv = {
            if (read) {
@@ -49,15 +49,9 @@ read_all <- function(x, fmt, read, ncdf) {
          },
          nc = {
            if (read) {
-             switch(ncdf,
-                    ncdf = ncdf_get(x),
-                    ncdf4 = ncdf4_get(x)
-             )
+             ncdf4_get(x)
            } else {
-             switch(ncdf,
-                    ncdf = ncdf_summary(x),
-                    ncdf4 = ncdf4_summary(x)
-             )
+             ncdf4_summary(x)
            }
          }
   )
