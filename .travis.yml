@@ -1,19 +1,29 @@
-language: r
+language: c
+sudo: required
+dist: trusty
+script: ./travis-tool.sh run_tests
 
-apt_packages:
-- libnetcdf-dev
-- netcdf-bin
+before_script:
+  - sudo apt-get --yes --force-yes update -qq
+  - sudo apt-get install -y gdal-bin libgdal-dev libgdal1-dev netcdf-bin libproj-dev libnetcdf-dev netcdf-bin
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+  - ./travis-tool.sh install_deps
+  - ./travis-tool.sh install_github jimhester/covr hadley/xml2
 
-r_binary_packages:
-- rgdal
-
-r_github_packages:
-- jimhester/robustr
-- jimhester/covr
-- hadley/xml2
+after_failure:
+  - ./travis-tool.sh dump_logs
 
 after_success:
 - Rscript -e 'covr::codecov()'
+
+env:
+   global:
+     - R_LIBS="http://cran.rstudio.com"
+     - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+     - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
+     - BOOTSTRAP_LATEX=""
 
 notifications:
   email:
