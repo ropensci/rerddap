@@ -1,3 +1,16 @@
+rerddap 0.3.4
+===============
+
+MINOR IMPROVEMENTS
+
+* Removed use of `ncdf` package, which has been taken off CRAN.
+Using `ncdf4` now for all NetCDF file manipulation. (#35)
+* Failing better now with custom error catching (#31)
+* Added many internal checks for parameter inputs, warning or
+stopping as necessary - ERDDAP servers silently drop with no
+informative messages (#32)
+
+
 rerddap 0.3.0
 ===============
 

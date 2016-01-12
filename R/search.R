@@ -44,6 +44,7 @@ ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = e
   lists <- lapply(json$table$rows, setNames, nm = colnames)
   df$gd <- vapply(lists, function(x) if (x$griddap == "") "tabledap" else "griddap", character(1))
   df <- df[ df$gd == which, -3 ]
+  row.names(df) <- NULL
   res <- list(info = df, alldata = lists)
   structure(res, class = "ed_search")
 }

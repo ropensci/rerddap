@@ -18,6 +18,7 @@ on_failure:
 
 environment:
   _R_CHECK_FORCE_SUGGESTS_: false
+  R_LIBS: "http://www.stats.ox.ac.uk/pub/RWin"
 
 notifications:
   - provider: Slack

@@ -9,9 +9,9 @@
 #' @seealso \code{\link{cache_list}}, \code{\link{cache_details}}
 #' @examples \dontrun{
 #' # delete files by name in cache
-#' # cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
-#' # cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
-#' #                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
+#' # cache_delete('9911750294a039b8b517c8bf288978ea.csv')
+#' # cache_delete(c('9911750294a039b8b517c8bf288978ea.csv',
+#' #                'b26825b6737da13d6a52c28c8dfe690f.csv'))
 #'
 #' # You can delete from the output of griddap or tabledap fxns
 #' ## tabledap

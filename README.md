@@ -36,9 +36,9 @@ library('rerddap')
 
 ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](http://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](http://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
-## netCDF
+## NetCDF
 
-`rerddap` supports netCDF format, and is the default when using the `griddap()` function. netCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf` and `ncdf4` packages make it easy to pull data out and write data back into a netCDF file. Note the the file extension for netCDF files is `.nc`. Whether you choose netCDF or csv for small files won't make much of a difference, but will with large files.
+`rerddap` supports NetCDF format, and is the default when using the `griddap()` function. NetCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf4` package makes it easy to pull data out and write data back into a NetCDF file. Note the the file extension for NetCDF files is `.nc`. Whether you choose NetCDF or csv for small files won't make much of a difference, but will with large files.
 
 ## Caching
 
@@ -58,50 +58,78 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 ```r
 ed_search(query = 'size', which = "table")
 #> 11 results, showing first 20 
-#>                                                                                         title
-#> 1                                                                          CalCOFI Fish Sizes
-#> 2                                                                        CalCOFI Larvae Sizes
-#> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 4                                                         CalCOFI Larvae Counts Positive Tows
-#> 5                                                                                CalCOFI Tows
-#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 9                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
-#> 11                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 12                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#>             dataset_id
-#> 1     erdCalCOFIfshsiz
-#> 2     erdCalCOFIlrvsiz
-#> 3       erdCinpKfmSFNH
-#> 4  erdCalCOFIlrvcntpos
-#> 5       erdCalCOFItows
-#> 7        erdGlobecMoc1
-#> 8         erdGlobecVpt
-#> 9            aadcArgos
-#> 10            nodcPJJU
-#> 11  nwioosObsFixed2002
-#> 12  nwioosObsTrawl2002
+#>                                                                                          title
+#> 1                                                                           CalCOFI Fish Sizes
+#> 2                                                                         CalCOFI Larvae Sizes
+#> 3                 Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
+#> 309                                                        CalCOFI Larvae Counts Positive Tows
+#> 310                                                                               CalCOFI Tows
+#> 316                                                 OBIS - ARGOS Satellite Tracking of Animals
+#> 317                                                    GLOBEC NEP MOCNESS Plankton (MOC1) Data
+#> 318                                                GLOBEC NEP Vertical Plankton Tow (VPT) Data
+#> 319                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#> 320                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
+#> 322 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#>              dataset_id
+#> 1      erdCalCOFIfshsiz
+#> 2      erdCalCOFIlrvsiz
+#> 3        erdCinpKfmSFNH
+#> 309 erdCalCOFIlrvcntpos
+#> 310      erdCalCOFItows
+#> 316           aadcArgos
+#> 317       erdGlobecMoc1
+#> 318        erdGlobecVpt
+#> 319  nwioosObsFixed2002
+#> 320  nwioosObsTrawl2002
+#> 322            nodcPJJU
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> 6 results, showing first 20 
-#>                                                                                                   title
-#> 6                                                       NOAA Global Coral Bleaching Monitoring Products
-#> 13        USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_rho][xi_rho]
-#> 14            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_u][xi_u]
-#> 15            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_v][xi_v]
-#> 16 USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][s_rho][eta_rho][xi_rho]
-#> 17  USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][Nbed][eta_rho][xi_rho]
+#> 311 results, showing first 20 
+#>                                                                                                 title
+#> 4         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_rho][xi_rho]
+#> 5             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_u][xi_u]
+#> 6             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_v][xi_v]
+#> 7  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][s_rho][eta_rho][xi_rho]
+#> 8   ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][Nbed][eta_rho][xi_rho]
+#> 9         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_rho][xi_rho]
+#> 10            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_u][xi_u]
+#> 11            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_v][xi_v]
+#> 12 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][s_rho][eta_rho][xi_rho]
+#> 13  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][Nbed][eta_rho][xi_rho]
+#> 14        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_rho][xi_rho]
+#> 15            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_u][xi_u]
+#> 16            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_v][xi_v]
+#> 17 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][s_rho][eta_rho][xi_rho]
+#> 18  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][Nbed][eta_rho][xi_rho]
+#> 19        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_rho][xi_rho]
+#> 20            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_u][xi_u]
+#> 21            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_v][xi_v]
+#> 22 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][s_rho][eta_rho][xi_rho]
+#> 23  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][Nbed][eta_rho][xi_rho]
 #>             dataset_id
-#> 6             NOAA_DHW
-#> 13 whoi_ed12_89ce_9592
-#> 14 whoi_61c3_0b5d_cd61
-#> 15 whoi_62d0_9d64_c8ff
-#> 16 whoi_7dd7_db97_4bbe
-#> 17 whoi_a4fb_2c9c_16a7
+#> 4  whoi_cbae_ef31_0877
+#> 5  whoi_61f3_6dac_36c1
+#> 6  whoi_4eff_1b8e_513a
+#> 7  whoi_4d06_1f87_db0b
+#> 8  whoi_4849_5c78_58dc
+#> 9  whoi_28c3_4a74_191a
+#> 10 whoi_e627_874c_2b1b
+#> 11 whoi_9183_ea0f_9417
+#> 12 whoi_322d_c428_66b4
+#> 13 whoi_5f75_6229_f722
+#> 14 whoi_02c9_858d_bc77
+#> 15 whoi_689d_0109_9280
+#> 16 whoi_4f6e_439a_8e4b
+#> 17 whoi_5451_efbd_60ac
+#> 18 whoi_1ace_a9ee_f343
+#> 19 whoi_0524_c15f_28da
+#> 20 whoi_e5c5_72b2_af51
+#> 21 whoi_1fcf_de1b_c428
+#> 22 whoi_e305_a468_eabc
+#> 23 whoi_0657_2b81_14df
 ```
 
 ## Information
@@ -113,7 +141,7 @@ Then you can get information on a single dataset
 info('whoi_62d0_9d64_c8ff')
 #> <ERDDAP info> whoi_62d0_9d64_c8ff 
 #>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-07-01T00:00:00Z) 
+#>      time: (2012-06-25T01:00:00Z, 2015-10-14T00:00:00Z) 
 #>      eta_v: (0, 334) 
 #>      xi_v: (0, 895) 
 #>  Variables:  
@@ -161,14 +189,14 @@ info('whoi_62d0_9d64_c8ff')
 ))
 #> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
 #>    Path: [~/.rerddap/0c0d352c6ec861f6efadce493e270fd0.nc]
-#>    Last updated: [2015-06-30 11:19:40]
+#>    Last updated: [2016-01-12 08:21:21]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
 #>    Variable names: CRUTEM3: Surface Air Temperature Monthly Anomaly
 #>    data.frame (rows/columns):   [1 X 4]
-#>                   time latitude longitude air
-#> 1 2012-01-01T00:00:00Z     22.5     -77.5  NA
+#>                   time  lat   lon air
+#> 1 2012-01-01T00:00:00Z 22.5 -77.5  NA
 ```
 
 ## tabledap (tabular) data
@@ -224,21 +252,21 @@ tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
          'time>=2001-07-07', 'time<=2001-07-10')
 #> <ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rerddap/52894d2daf4c71796c44775f06dc3f16.csv]
-#>    Last updated: [2015-06-30 11:19:41]
+#>    Last updated: [2016-01-12 08:21:22]
 #>    File size:    [0.02 mb]
 #>    Dimensions:   [558 X 4]
 #> 
 #>     longitude  latitude fish_size itis_tsn
-#> 2     -118.26    33.255      22.9   623745
-#> 3     -118.26    33.255      22.9   623745
-#> 4  -118.10667 32.738335      31.5   623625
-#> 5  -118.10667 32.738335      48.3   623625
-#> 6  -118.10667 32.738335      15.5   162221
-#> 7  -118.10667 32.738335      16.3   162221
-#> 8  -118.10667 32.738335      17.8   162221
-#> 9  -118.10667 32.738335      18.2   162221
-#> 10 -118.10667 32.738335      19.2   162221
-#> 11 -118.10667 32.738335      20.0   162221
+#> 2  -118.10667 32.738335      31.5   623625
+#> 3  -118.10667 32.738335      48.3   623625
+#> 4  -118.10667 32.738335      15.5   162221
+#> 5  -118.10667 32.738335      16.3   162221
+#> 6  -118.10667 32.738335      17.8   162221
+#> 7  -118.10667 32.738335      18.2   162221
+#> 8  -118.10667 32.738335      19.2   162221
+#> 9  -118.10667 32.738335      20.0   162221
+#> 10 -118.10667 32.738335      21.0   162221
+#> 11 -118.10667 32.738335      21.5   162221
 #> ..        ...       ...       ...      ...
 ```
 
@@ -247,5 +275,6 @@ tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
 * Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
+* Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
