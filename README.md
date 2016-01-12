@@ -58,30 +58,30 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 ```r
 ed_search(query = 'size', which = "table")
 #> 11 results, showing first 20 
-#>                                                                                          title
-#> 1                                                                           CalCOFI Fish Sizes
-#> 2                                                                         CalCOFI Larvae Sizes
-#> 3                 Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 309                                                        CalCOFI Larvae Counts Positive Tows
-#> 310                                                                               CalCOFI Tows
-#> 316                                                 OBIS - ARGOS Satellite Tracking of Animals
-#> 317                                                    GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 318                                                GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 319                            NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 320                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#> 322 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
-#>              dataset_id
-#> 1      erdCalCOFIfshsiz
-#> 2      erdCalCOFIlrvsiz
-#> 3        erdCinpKfmSFNH
-#> 309 erdCalCOFIlrvcntpos
-#> 310      erdCalCOFItows
-#> 316           aadcArgos
-#> 317       erdGlobecMoc1
-#> 318        erdGlobecVpt
-#> 319  nwioosObsFixed2002
-#> 320  nwioosObsTrawl2002
-#> 322            nodcPJJU
+#>                                                                                         title
+#> 1                                                                          CalCOFI Fish Sizes
+#> 2                                                                        CalCOFI Larvae Sizes
+#> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
+#> 4                                                         CalCOFI Larvae Counts Positive Tows
+#> 5                                                                                CalCOFI Tows
+#> 6                                                  OBIS - ARGOS Satellite Tracking of Animals
+#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
+#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
+#> 9                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#> 10                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
+#> 11 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
+#>             dataset_id
+#> 1     erdCalCOFIfshsiz
+#> 2     erdCalCOFIlrvsiz
+#> 3       erdCinpKfmSFNH
+#> 4  erdCalCOFIlrvcntpos
+#> 5       erdCalCOFItows
+#> 6            aadcArgos
+#> 7        erdGlobecMoc1
+#> 8         erdGlobecVpt
+#> 9   nwioosObsFixed2002
+#> 10  nwioosObsTrawl2002
+#> 11            nodcPJJU
 ```
 
 
@@ -89,47 +89,47 @@ ed_search(query = 'size', which = "table")
 ed_search(query = 'size', which = "grid")
 #> 311 results, showing first 20 
 #>                                                                                                 title
-#> 4         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_rho][xi_rho]
-#> 5             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_u][xi_u]
-#> 6             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_v][xi_v]
-#> 7  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][s_rho][eta_rho][xi_rho]
-#> 8   ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][Nbed][eta_rho][xi_rho]
-#> 9         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_rho][xi_rho]
-#> 10            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_u][xi_u]
-#> 11            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_v][xi_v]
-#> 12 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][s_rho][eta_rho][xi_rho]
-#> 13  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][Nbed][eta_rho][xi_rho]
-#> 14        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_rho][xi_rho]
-#> 15            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_u][xi_u]
-#> 16            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_v][xi_v]
-#> 17 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][s_rho][eta_rho][xi_rho]
-#> 18  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][Nbed][eta_rho][xi_rho]
-#> 19        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_rho][xi_rho]
-#> 20            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_u][xi_u]
-#> 21            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_v][xi_v]
-#> 22 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][s_rho][eta_rho][xi_rho]
-#> 23  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][Nbed][eta_rho][xi_rho]
+#> 1         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_rho][xi_rho]
+#> 2             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_u][xi_u]
+#> 3             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_v][xi_v]
+#> 4  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][s_rho][eta_rho][xi_rho]
+#> 5   ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][Nbed][eta_rho][xi_rho]
+#> 6         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_rho][xi_rho]
+#> 7             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_u][xi_u]
+#> 8             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_v][xi_v]
+#> 9  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][s_rho][eta_rho][xi_rho]
+#> 10  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][Nbed][eta_rho][xi_rho]
+#> 11        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_rho][xi_rho]
+#> 12            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_u][xi_u]
+#> 13            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_v][xi_v]
+#> 14 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][s_rho][eta_rho][xi_rho]
+#> 15  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][Nbed][eta_rho][xi_rho]
+#> 16        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_rho][xi_rho]
+#> 17            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_u][xi_u]
+#> 18            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_v][xi_v]
+#> 19 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][s_rho][eta_rho][xi_rho]
+#> 20  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][Nbed][eta_rho][xi_rho]
 #>             dataset_id
-#> 4  whoi_cbae_ef31_0877
-#> 5  whoi_61f3_6dac_36c1
-#> 6  whoi_4eff_1b8e_513a
-#> 7  whoi_4d06_1f87_db0b
-#> 8  whoi_4849_5c78_58dc
-#> 9  whoi_28c3_4a74_191a
-#> 10 whoi_e627_874c_2b1b
-#> 11 whoi_9183_ea0f_9417
-#> 12 whoi_322d_c428_66b4
-#> 13 whoi_5f75_6229_f722
-#> 14 whoi_02c9_858d_bc77
-#> 15 whoi_689d_0109_9280
-#> 16 whoi_4f6e_439a_8e4b
-#> 17 whoi_5451_efbd_60ac
-#> 18 whoi_1ace_a9ee_f343
-#> 19 whoi_0524_c15f_28da
-#> 20 whoi_e5c5_72b2_af51
-#> 21 whoi_1fcf_de1b_c428
-#> 22 whoi_e305_a468_eabc
-#> 23 whoi_0657_2b81_14df
+#> 1  whoi_cbae_ef31_0877
+#> 2  whoi_61f3_6dac_36c1
+#> 3  whoi_4eff_1b8e_513a
+#> 4  whoi_4d06_1f87_db0b
+#> 5  whoi_4849_5c78_58dc
+#> 6  whoi_28c3_4a74_191a
+#> 7  whoi_e627_874c_2b1b
+#> 8  whoi_9183_ea0f_9417
+#> 9  whoi_322d_c428_66b4
+#> 10 whoi_5f75_6229_f722
+#> 11 whoi_02c9_858d_bc77
+#> 12 whoi_689d_0109_9280
+#> 13 whoi_4f6e_439a_8e4b
+#> 14 whoi_5451_efbd_60ac
+#> 15 whoi_1ace_a9ee_f343
+#> 16 whoi_0524_c15f_28da
+#> 17 whoi_e5c5_72b2_af51
+#> 18 whoi_1fcf_de1b_c428
+#> 19 whoi_e305_a468_eabc
+#> 20 whoi_0657_2b81_14df
 ```
 
 ## Information
@@ -189,7 +189,7 @@ info('whoi_62d0_9d64_c8ff')
 ))
 #> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
 #>    Path: [~/.rerddap/0c0d352c6ec861f6efadce493e270fd0.nc]
-#>    Last updated: [2016-01-12 08:21:21]
+#>    Last updated: [2016-01-12 12:21:40]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
@@ -252,7 +252,7 @@ tabledap(out, fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn'),
          'time>=2001-07-07', 'time<=2001-07-10')
 #> <ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rerddap/52894d2daf4c71796c44775f06dc3f16.csv]
-#>    Last updated: [2016-01-12 08:21:22]
+#>    Last updated: [2016-01-12 11:04:28]
 #>    File size:    [0.02 mb]
 #>    Dimensions:   [558 X 4]
 #> 
