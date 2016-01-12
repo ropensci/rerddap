@@ -10,6 +10,11 @@ Using `ncdf4` now for all NetCDF file manipulation. (#35)
 stopping as necessary - ERDDAP servers silently drop with no
 informative messages (#32)
 
+BUG FIXES
+
+* Using now `file.info()$size` instead of `file.size()` to be
+backwards compatible with R versions < 3.2
+
 
 rerddap 0.3.0
 ===============

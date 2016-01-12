@@ -81,7 +81,8 @@ cdetails <- function(files = NULL, cache_path = "~/.rerddap") {
 file_info_ <- function(x) {
   tmp <- strsplit(x, '\\.')[[1]]
   ext <- tmp[length(tmp)]
-  fs <- file.size(x)
+  #fs <- file.size(x)
+  fs <- file.info(x)$size
   switch(ext,
      nc = {
        list(type = "netcdf",
