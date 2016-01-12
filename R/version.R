@@ -5,9 +5,10 @@
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
 #' @examples \dontrun{
 #' version()
-#' version(servers()$url[1])
-#' version(servers()$url[2])
-#' version(servers()$url[3])
+#' ss <- servers()
+#' version(ss$url[1])
+#' version(ss$url[2])
+#' version(ss$url[3])
 #' }
 version <- function(url = eurl(), ...){
   res <- GET(paste0(pu(url), '/version'), ...)

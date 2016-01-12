@@ -7,17 +7,16 @@
 #' @seealso \code{\link{cache_delete}}, \code{\link{cache_details}}
 #' @examples \dontrun{
 #' # list files in cache
-#' cache_list()
+#' (x <- cache_list())
 #'
 #' # List info for files
-#' # cache_details(files = "243b4b41e19444515986ccf9cafbb1e9.nc")
-#' # cache_details(files = "476ea03d8d246d81f2de02bd40524adb.csv")
+#' cache_details(x$nc[1])
+#' cache_details(x$csv[1])
 #' cache_details()
 #'
 #' # delete files by name in cache
-#' # cache_delete(files = '9911750294a039b8b517c8bf288978ea.csv')
-#' # cache_delete(files = c('9911750294a039b8b517c8bf288978ea.csv',
-#' #                  'b26825b6737da13d6a52c28c8dfe690f.csv'))
+#' # cache_delete(x$nc[1])
+#' # cache_delete(x$nc[2:3])
 #' }
 cache_list <- function(cache_path = "~/.rerddap") {
   nc_files <- list.files(cache_path, pattern = ".nc")
