@@ -8,8 +8,7 @@
 \description{
 General purpose R client for ERDDAP servers
 }
-\details{
-ERDDAP Information
+\section{ERDDAP info}{
 
 NOAA's ERDDAP service holds many datasets of interest. It's built on top of
 OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
@@ -17,14 +16,20 @@ OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
 get information on a single dataset via \code{\link{info}}, then get
 data you want for either tabledap type via \code{\link{tabledap}}, or
 for griddap type via \code{\link{griddap}}.
+}
+
+\section{tabledap/griddap}{
 
 tabledap and griddap have different interfaces to query for data, so
 \code{\link{tabledap}} and \code{\link{griddap}} are separated out as
 separate functions even though some of the internals are the same. In particular,
 with tabledap you can query on/subset all variables, whereas with gridddap, you can
 only query on/subset the dimension varibles (e.g., latitude, longitude, altitude).
+}
 
-\bold{NOTE:} With griddap data vai \code{\link{griddap}} you can get a lot of
+\section{NOTE}{
+
+With griddap data via \code{\link{griddap}} you can get a lot of
 data quickly. Try small searches of a dataset to start to get a sense for the data,
 then you can increase the amount of data you get. See \code{\link{griddap}}
 for more details.
