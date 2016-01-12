@@ -4,7 +4,7 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     functions to search for 'datasets', get summary information on
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: http://upwell.pfeg.noaa.gov/erddap/information.html.
-Version: 0.3.2.9000
+Version: 0.3.3.9000
 License: MIT + file LICENSE
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut","cre"),
     email = "myrmecocystus@gmail.com"))
@@ -16,10 +16,10 @@ Imports:
     methods,
     utils,
     stats,
-    httr,
+    httr (>= 1.0.0),
     dplyr,
     data.table,
-    jsonlite,
+    jsonlite (>= 0.9.17),
     xml2,
     digest,
     ncdf4
