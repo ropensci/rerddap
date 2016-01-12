@@ -11,9 +11,9 @@ rerddap introduction
 
 `rerddap` is a general purpose R client for working with ERDDAP servers. ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](http://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](http://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
-## netCDF
+## NetCDF
 
-`rerddap` supports netCDF format, and is the default when using the `griddap()` function. netCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf` and `ncdf4` packages make it easy to pull data out and write data back into a netCDF file. Note the the file extension for netCDF files is `.nc`. Whether you choose netCDF or csv for small files won't make much of a difference, but will with large files.
+`rerddap` supports NetCDF format, and is the default when using the `griddap()` function. NetCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf4` package makes it easy to pull data out and write data back into a NetCDF file. Note the the file extension for NetCDF files is `.nc`. Whether you choose NetCDF or csv for small files won't make much of a difference, but will with large files.
 
 ## Caching
 
@@ -55,49 +55,77 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 ed_search(query = 'size', which = "table")
 #> 11 results, showing first 20 
 #>                                                                                         title
-#> 1                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 2                                                                          CalCOFI Fish Sizes
-#> 3                                                                        CalCOFI Larvae Sizes
-#> 4                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 5                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 6                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 8                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 9                                  NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
-#> 11                                                        CalCOFI Larvae Counts Positive Tows
-#> 12                                                                               CalCOFI Tows
+#> 1                                                                          CalCOFI Fish Sizes
+#> 2                                                                        CalCOFI Larvae Sizes
+#> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
+#> 4                                                         CalCOFI Larvae Counts Positive Tows
+#> 5                                                                                CalCOFI Tows
+#> 6                                                  OBIS - ARGOS Satellite Tracking of Animals
+#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
+#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
+#> 9                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#> 10                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
+#> 11 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
 #>             dataset_id
-#> 1       erdCinpKfmSFNH
-#> 2     erdCalCOFIfshsiz
-#> 3     erdCalCOFIlrvsiz
-#> 4            aadcArgos
-#> 5        erdGlobecMoc1
-#> 6         erdGlobecVpt
-#> 8   nwioosObsFixed2002
-#> 9   nwioosObsTrawl2002
-#> 10            nodcPJJU
-#> 11 erdCalCOFIlrvcntpos
-#> 12      erdCalCOFItows
+#> 1     erdCalCOFIfshsiz
+#> 2     erdCalCOFIlrvsiz
+#> 3       erdCinpKfmSFNH
+#> 4  erdCalCOFIlrvcntpos
+#> 5       erdCalCOFItows
+#> 6            aadcArgos
+#> 7        erdGlobecMoc1
+#> 8         erdGlobecVpt
+#> 9   nwioosObsFixed2002
+#> 10  nwioosObsTrawl2002
+#> 11            nodcPJJU
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> 6 results, showing first 20 
-#>                                                                                                   title
-#> 7                                                       NOAA Global Coral Bleaching Monitoring Products
-#> 13        USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_rho][xi_rho]
-#> 14            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_u][xi_u]
-#> 15            USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][eta_v][xi_v]
-#> 16 USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][s_rho][eta_rho][xi_rho]
-#> 17  USGS COAWST Forecast, US East Coast and Gulf of Mexico (Experimental) [time][Nbed][eta_rho][xi_rho]
+#> 311 results, showing first 20 
+#>                                                                                                 title
+#> 1         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_rho][xi_rho]
+#> 2             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_u][xi_u]
+#> 3             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_v][xi_v]
+#> 4  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][s_rho][eta_rho][xi_rho]
+#> 5   ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][Nbed][eta_rho][xi_rho]
+#> 6         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_rho][xi_rho]
+#> 7             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_u][xi_u]
+#> 8             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_v][xi_v]
+#> 9  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][s_rho][eta_rho][xi_rho]
+#> 10  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][Nbed][eta_rho][xi_rho]
+#> 11        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_rho][xi_rho]
+#> 12            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_u][xi_u]
+#> 13            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_v][xi_v]
+#> 14 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][s_rho][eta_rho][xi_rho]
+#> 15  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][Nbed][eta_rho][xi_rho]
+#> 16        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_rho][xi_rho]
+#> 17            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_u][xi_u]
+#> 18            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_v][xi_v]
+#> 19 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][s_rho][eta_rho][xi_rho]
+#> 20  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][Nbed][eta_rho][xi_rho]
 #>             dataset_id
-#> 7             NOAA_DHW
-#> 13 whoi_ed12_89ce_9592
-#> 14 whoi_61c3_0b5d_cd61
-#> 15 whoi_62d0_9d64_c8ff
-#> 16 whoi_7dd7_db97_4bbe
-#> 17 whoi_a4fb_2c9c_16a7
+#> 1  whoi_cbae_ef31_0877
+#> 2  whoi_61f3_6dac_36c1
+#> 3  whoi_4eff_1b8e_513a
+#> 4  whoi_4d06_1f87_db0b
+#> 5  whoi_4849_5c78_58dc
+#> 6  whoi_28c3_4a74_191a
+#> 7  whoi_e627_874c_2b1b
+#> 8  whoi_9183_ea0f_9417
+#> 9  whoi_322d_c428_66b4
+#> 10 whoi_5f75_6229_f722
+#> 11 whoi_02c9_858d_bc77
+#> 12 whoi_689d_0109_9280
+#> 13 whoi_4f6e_439a_8e4b
+#> 14 whoi_5451_efbd_60ac
+#> 15 whoi_1ace_a9ee_f343
+#> 16 whoi_0524_c15f_28da
+#> 17 whoi_e5c5_72b2_af51
+#> 18 whoi_1fcf_de1b_c428
+#> 19 whoi_e305_a468_eabc
+#> 20 whoi_0657_2b81_14df
 ```
 
 ## Information
@@ -109,7 +137,7 @@ Then you can get information on a single dataset
 info('whoi_62d0_9d64_c8ff')
 #> <ERDDAP info> whoi_62d0_9d64_c8ff 
 #>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-10-07T00:00:00Z) 
+#>      time: (2012-06-25T01:00:00Z, 2015-10-14T00:00:00Z) 
 #>      eta_v: (0, 334) 
 #>      xi_v: (0, 895) 
 #>  Variables:  
@@ -149,7 +177,7 @@ Then query for gridded data using the `griddap()` function
 ))
 #> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
 #>    Path: [~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc]
-#>    Last updated: [2015-10-09 09:20:59]
+#>    Last updated: [2016-01-12 12:18:06]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
@@ -174,13 +202,22 @@ The output of `griddap()` is a list that you can explore further. Get the summar
 
 ```r
 res$summary
-#> [1] "file ~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc has 3 dimensions:"
-#> [1] "time   Size: 2"
-#> [1] "latitude   Size: 3"
-#> [1] "longitude   Size: 3"
-#> [1] "------------------------"
-#> [1] "file ~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc has 1 variables:"
-#> [1] "float air[longitude,latitude,time]  Longname:CRUTEM3: Surface Air Temperature Monthly Anomaly Missval:-9.96920996838687e+36"
+#> $filename
+#> [1] "~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc"
+#> 
+#> $writable
+#> [1] FALSE
+#> 
+#> $id
+#> [1] 65536
+#> 
+#> $safemode
+#> [1] FALSE
+#> 
+#> $format
+#> [1] "NC_FORMAT_CLASSIC"
+#> 
+...
 ```
 
 Get the dimension variables
@@ -240,7 +277,7 @@ res$data
 (dat <- tabledap(out, 'time>=2001-07-07', 'time<=2001-07-10', fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn', 'scientific_name')))
 #> <ERDDAP tabledap> erdCalCOFIfshsiz
 #>    Path: [~/.rerddap/f013f9ee09bdb4184928d533e575e948.csv]
-#>    Last updated: [2015-10-09 09:21:00]
+#>    Last updated: [2016-01-12 12:18:07]
 #>    File size:    [0.03 mb]
 #>    Dimensions:   [558 X 5]
 #> 
