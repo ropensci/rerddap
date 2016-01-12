@@ -29,6 +29,7 @@
 #' @importFrom ncdf4 nc_open nc_close ncvar_get
 #' @importFrom xml2 xml_text xml_find_all read_html
 #' @importFrom dplyr as_data_frame rbind_all
+#' @importFrom digest digest
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package
