@@ -1,8 +1,5 @@
-# ncdf helper functions -----------------------
 # get metadata and data -----------------------
-# ncdf4
 ncdf4_get <- function(file){
-  check4ncdf4()
   nc <- ncdf4::nc_open(file)
   tmp <- unclass(nc)
 
@@ -19,11 +16,7 @@ ncdf4_get <- function(file){
   }
   df <- do.call("cbind.data.frame", outvars)
   rows <- length(outvars[[1]])
-  # out <- lapply(out, function(z) rep(z, each = rows/length(z)))
-  # meta <- data.frame(out, stringsAsFactors = FALSE)
   time <- rep(out$time, each = rows/length(out$time))
-  # lat <- rep(rep(out$latitude, each = length(out$latitude)), times = length(out$time))
-  # lon <- rep(rep(out$longitude, times = length(out$longitude)), times = length(out$time))
   lat <- rep(rep(out$latitude, each = length(out$longitude)), length(out$time))
   lon <- rep(rep(out$longitude, times = length(out$latitude)), times = length(out$time))
   meta <- data.frame(time, lat, lon, stringsAsFactors = FALSE)
@@ -33,17 +26,9 @@ ncdf4_get <- function(file){
 }
 
 # get just metadata -----------------------
-ncdf_summary <- function(file){
-  check4ncdf4()
+ncdf_summary <- function(file) {
   nc <- ncdf4::nc_open(file, readunlim = FALSE)
   tmp <- unclass(nc)
   on.exit(ncdf4::nc_close(nc))
   list(summary = tmp, data = data.frame(NULL))
-}
-
-# check for ncdf4
-check4ncdf4 <- function() {
-  if (!requireNamespace("ncdf4", quietly = TRUE)) {
-    stop("Please install ncdf4", call. = FALSE)
-  }
 }

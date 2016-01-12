@@ -8,7 +8,10 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
 
   calls <- names(sapply(match.call(), deparse))[-1]
   calls_vec <- "ncdf" %in% calls
-  if (any(calls_vec)) stop("The parameter ncdf has been removed. We use ncdf4 package now internally")
+  if (any(calls_vec)) {
+    stop("The parameter ncdf has been removed. We use ncdf4 package now internally",
+         call. = FALSE)
+  }
 
   x <- as.info(x, url)
   dimargs <- list(...)
