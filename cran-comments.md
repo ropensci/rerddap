@@ -5,9 +5,8 @@ and Win builder.
 This submission replaces package ncdf with ncdf4. In addition, 
 a number of improvements to fail more gracefully.
 
-ncdf4 Windows binaries are not on main CRAN mirrors, but are on http://www.stats.ox.ac.uk/pub/RWin.
-I included "Additional_repositories: http://www.stats.ox.ac.uk/pub/RWin"
-in the DESCRIPTION file, which seems to work for installing on 
-Windows machines.
+ncdf4 Windows binaries are now on the main CRAN mirrors, so 
+I've removed the "Additional_repositories: http://www.stats.ox.ac.uk/pub/RWin"
+entry in the DESCRIPTION file, as requested by Uwe.
 
 Thanks! Scott Chamberlain
