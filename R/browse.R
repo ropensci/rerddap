@@ -8,22 +8,23 @@
 #' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{BROWSE}} (must be a named parameter)
 #' @return the value returned by \code{\link[httr]{BROWSE}}
+#' @author Ben Tupper \email{btupper@@bigelow.org}
 #' @examples \dontrun{
-#'  # browse by dataset_id 
-#'  browse('noaa_esrl_28d5_ac3a_bb06')
-#'  
-#'  # browse info class
-#'  my_info <- info('noaa_esrl_28d5_ac3a_bb06')
-#'  browse(my_inf)
-#'  
-#'  # browse griddap class
-#'  my_griddap <- griddap('noaa_esrl_28d5_ac3a_bb06')
-#'  browse(my_griddap)
+#' # browse by dataset_id
+#' browse('noaa_esrl_28d5_ac3a_bb06')
 #'
-#'  #browse tabledap class
-#'  my_tabledap <- tabledap('erdCalCOFIfshsiz')
-#'  browse(my_tabledap)
-#'  }
+#' # browse info class
+#' my_info <- info('noaa_esrl_28d5_ac3a_bb06')
+#' browse(my_inf)
+#'
+#' # browse griddap class
+#' my_griddap <- griddap('noaa_esrl_28d5_ac3a_bb06')
+#' browse(my_griddap)
+#'
+#' #browse tabledap class
+#' my_tabledap <- tabledap('erdCalCOFIfshsiz')
+#' browse(my_tabledap)
+#' }
 browse <- function(x, ...){
     UseMethod("browse", x)
 }
