@@ -21,7 +21,20 @@ Note that it is an error to call this when \code{base::interactive()} returns FA
 }
 \examples{
 \dontrun{
- ed_browse('noaa_esrl_28d5_ac3a_bb06')
+ # browse by dataset_id 
+ browse('noaa_esrl_28d5_ac3a_bb06')
+ 
+ # browse info class
+ my_info <- info('noaa_esrl_28d5_ac3a_bb06')
+ browse(my_inf)
+ 
+ # browse griddap class
+ my_griddap <- griddap('noaa_esrl_28d5_ac3a_bb06')
+ browse(my_griddap)
+
+ #browse tabledap class
+ my_tabledap <- tabledap('erdCalCOFIfshsiz')
+ browse(my_tabledap)
  }
 }
 
