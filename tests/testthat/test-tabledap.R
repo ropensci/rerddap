@@ -4,17 +4,17 @@ context("tabledap")
 test_that("tabledap returns the correct", {
   skip_on_cran()
 
-  a <- tabledap('erdCalCOFIfshsiz')
-  b <- tabledap('erdCalCOFIfshsiz', 'time>=2001-07-07', 'time<=2001-07-08')
+  a <- tabledap('erdCinpKfmBT')
+  b <- tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 
   # class
   expect_is(a, "tabledap")
   expect_is(a, "data.frame")
-  expect_is(a$ship, "character")
+  expect_is(a$Haliotis_rufescens_Mean_Density, "character")
 
   # dimensions
-  expect_equal(NCOL(a), 24)
-  expect_equal(NCOL(b), 24)
+  expect_gt(NCOL(a), 20)
+  expect_gt(NCOL(b), 20)
 })
 
 test_that("tabledap fields parameter works, and fails correctly", {
@@ -44,8 +44,8 @@ test_that("tabledap fails well, in addition to above failure tests", {
   skip_on_cran()
 
   expect_error(tabledap(), "argument \"x\" is missing")
-  expect_error(tabledap('erdCalCOFIfshsiz', "stuff=>things"), "Unrecognized constraint variable=\"stuff\"")
-  expect_error(tabledap('erdCalCOFIfshsiz', fields = "bbbbb"), "Unrecognized variable=bbbbb")
-  expect_error(tabledap('erdCalCOFIfshsiz', distinct = "bear"), "not interpretable as logical")
-  expect_error(tabledap('erdCalCOFIfshsiz', orderby = "things"), "'orderBy' variable=things isn't in the dataset")
+  expect_error(tabledap('erdCinpKfmBT', "stuff=>things"), "Unrecognized constraint variable=\"stuff\"")
+  expect_error(tabledap('erdCinpKfmBT', fields = "bbbbb"), "Unrecognized variable=\"bbbbb\"")
+  expect_error(tabledap('erdCinpKfmBT', distinct = "bear"), "not interpretable as logical")
+  expect_error(tabledap('erdCinpKfmBT', orderby = "things"), "'orderBy' variable=things isn't in the dataset")
 })
