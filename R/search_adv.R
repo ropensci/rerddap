@@ -67,7 +67,7 @@ ed_search_adv <- function(query = NULL, page = 1, page_size = 1000, protocol = N
     x <- x[c('title', 'dataset_id')]
     dplyr::as_data_frame(x)
   })
-  df <- dplyr::rbind_all(dfs)
+  df <- dplyr::bind_rows(dfs)
   lists <- lapply(json$table$rows, setNames, nm = colnames)
   res <- list(info = df, alldata = lists)
   structure(res, class = "ed_search_adv")
