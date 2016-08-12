@@ -14,8 +14,8 @@ test_that("ed_datasets returns the correct", {
   expect_is(b$Institution, "character")
 
   # dimensions
-  expect_less_than(NCOL(a), 50)
-  expect_less_than(NCOL(b), 50)
+  expect_lt(NCOL(a), 50)
+  expect_lt(NCOL(b), 50)
 })
 
 test_that("ed_datasets fails well", {
