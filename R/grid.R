@@ -36,7 +36,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
                      args = args, store = store, fmt = fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"
   outclasses <- switch(fmt,
-                       nc = c("griddap_nc", "nc"),
+                       nc = c("griddap_nc", "nc", "data.frame"),
                        csv = c("griddap_csv", "csv", "data.frame"))
   read <- toggle_read(read, store)
   structure(read_all(resp, fmt, read), class = outclasses, datasetid = d, path = loc)
@@ -92,7 +92,7 @@ print.griddap_nc <- function(x, ...) {
   cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
   cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
   cat(sprintf("   data.frame (rows/columns):   [%s X %s]", dim(x$data)[1], dim(x$data)[2]), sep = "\n\n")
-  print(tibble::as_data_frame(x))
+  print(tibble::as_data_frame(x$data))
 }
 
 field_handler <- function(x, y){
