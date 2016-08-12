@@ -22,7 +22,7 @@
 #'
 #' # List details from output of griddap or tabledap
 #' ## tabledap
-#' (table_res <- tabledap('erdCalCOFIfshsiz'))
+#' (table_res <- tabledap('erdCinpKfmBT'))
 #' cache_details(table_res)
 #'
 #' ## griddap

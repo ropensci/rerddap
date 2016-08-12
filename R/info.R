@@ -76,7 +76,7 @@ info <- function(datasetid, url = eurl(), ...){
     names(tmp) <- colnames
     tmp
   })
-  lists <- lapply(json$table$rows, setNames, nm=colnames)
+  lists <- lapply(json$table$rows, stats::setNames, nm=colnames)
   names(lists) <- vapply(lists, function(b) b$variable_name, "", USE.NAMES = FALSE)
   outout <- list()
   for(i in seq_along(lists)){

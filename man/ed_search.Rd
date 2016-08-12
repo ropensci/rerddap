@@ -34,8 +34,8 @@ out$alldata[[1]]
 out$info
 
 # List datasets
-head( ed_datasets('table') )
-head( ed_datasets('grid') )
+ed_datasets('table')
+ed_datasets('grid')
 
 # use a different ERDDAP server
 ## Marine Institute (Ireland)

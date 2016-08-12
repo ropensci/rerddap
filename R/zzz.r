@@ -27,7 +27,7 @@ read_csv <- function(x){
 }
 
 read_data <- function(x, nrows = -1){
-  if (is(x, "response")) {
+  if (inherits(x, "response")) {
     x <- content(x, "text")
     tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
     nmz <- names(read.csv(text = x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
@@ -35,7 +35,7 @@ read_data <- function(x, nrows = -1){
     tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
     nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
   }
-  setNames(tmp, tolower(nmz))
+  stats::setNames(tmp, tolower(nmz))
 }
 
 read_all <- function(x, fmt, read) {
@@ -58,7 +58,7 @@ read_all <- function(x, fmt, read) {
 }
 
 read_table <- function(x){
-  if (is(x, "response")) {
+  if (inherits(x, "response")) {
     txt <- gsub('\n$', '', content(x, "text"))
     read.csv(text = txt, sep = ",", stringsAsFactors = FALSE,
              blank.lines.skip = FALSE)[-1, , drop = FALSE]

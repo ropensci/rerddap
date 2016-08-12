@@ -78,10 +78,10 @@ have to request the data from the web again.
 \examples{
 \dontrun{
 # Just passing the datasetid without fields gives all columns back
-tabledap('erdCalCOFIfshsiz')
+tabledap('erdCinpKfmBT')
 
 # Pass time constraints
-tabledap('erdCalCOFIfshsiz', 'time>=2001-07-07', 'time<=2001-07-08')
+tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 
 # Pass in fields (i.e., columns to retrieve) & time constraints
 tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size','itis_tsn'),

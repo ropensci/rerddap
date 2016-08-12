@@ -25,10 +25,9 @@
 #' my_tabledap <- tabledap('erdCalCOFIfshsiz')
 #' browse(my_tabledap)
 #' }
-browse <- function(x, ...){
+browse <- function(x, url = eurl(), ...){
     UseMethod("browse", x)
 }
-
 
 #' @export
 browse.character <- function(x, url = eurl(), ...){
@@ -39,36 +38,36 @@ browse.character <- function(x, url = eurl(), ...){
 }
 
 #' @export
-browse.info <- function(x, ...){
+browse.info <- function(x, url = eurl(), ...){
     datasetid <- attr(x, "datasetid")
     browse(datasetid, ...)
 }
 
 #' @export
-browse.tabledap <- function(x, ...){
+browse.tabledap <- function(x, url = eurl(), ...){
     datasetid <- attr(x, "datasetid")
     browse(datasetid, ...)
 }
 
 #' @export
-browse.griddap_nc <- function(x, ...){
+browse.griddap_nc <- function(x, url = eurl(), ...){
     datasetid <- attr(x, "datasetid")
     browse(datasetid, ...)
 }
 
 
 #' @export
-browse.griddap_csv <- function(x, ...){
+browse.griddap_csv <- function(x, url = eurl(), ...){
     datasetid <- attr(x, "datasetid")
     browse(datasetid, ...)
 }
 
 #' @export
-browse.default <- function(x, ...){
-    att <- attributes(x)
-    if (!is.null(att)){
-        if ('datasetid' %in% names(att)) browse(att, ...)
-    } else {
-      stop(sprintf("browse method not implemented for %s.", class(x)[1]), call. = FALSE)
-    }
+browse.default <- function(x, url = eurl(), ...){
+  att <- attributes(x)
+  if (!is.null(att)) {
+    if ('datasetid' %in% names(att)) browse(att, ...)
+  } else {
+    stop(sprintf("browse method not implemented for %s.", class(x)[1]), call. = FALSE)
+  }
 }

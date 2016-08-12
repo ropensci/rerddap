@@ -56,10 +56,10 @@
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # Just passing the datasetid without fields gives all columns back
-#' tabledap('erdCalCOFIfshsiz')
+#' tabledap('erdCinpKfmBT')
 #'
 #' # Pass time constraints
-#' tabledap('erdCalCOFIfshsiz', 'time>=2001-07-07', 'time<=2001-07-08')
+#' tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 #'
 #' # Pass in fields (i.e., columns to retrieve) & time constraints
 #' tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size','itis_tsn'),
@@ -171,7 +171,7 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
 }
 
 #' @export
-print.tabledap <- function(x, ..., n = 10){
+print.tabledap <- function(x, ...) {
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<ERDDAP tabledap> %s", attr(x, "datasetid")), sep = "\n")
   path <- attr(x, "path")
@@ -181,9 +181,7 @@ print.tabledap <- function(x, ..., n = 10){
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
-  cat(sprintf("   Dimensions:   [%s X %s]\n", NROW(x), NCOL(x)), sep = "\n")
-  class(x) <- "data.frame"
-  trunc_mat(x, n = n)
+  print(tibble::as_data_frame(x))
 }
 
 erd_tab_GET <- function(url, dset, store, ...) {

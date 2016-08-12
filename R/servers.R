@@ -4,7 +4,7 @@
 #' @examples
 #' servers()
 servers <- function() {
-  setNames(data.frame(do.call("rbind", list(
+  stats::setNames(data.frame(do.call("rbind", list(
     c("Marine Domain Awareness (MDA) - Italy", "https://bluehub.jrc.ec.europa.eu/erddap/"),
     c("Marine Institute - Ireland", "http://erddap.marine.ie/erddap/"),
     c("CoastWatch Caribbean/Gulf of Mexico Node", "http://cwcgom.aoml.noaa.gov/erddap/"),

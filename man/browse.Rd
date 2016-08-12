@@ -4,14 +4,14 @@
 \alias{browse}
 \title{Browse a dataset webpage.}
 \usage{
-browse(x, ...)
+browse(x, url = eurl(), ...)
 }
 \arguments{
 \item{x}{datasetid or an object associated with a datasetid such \code{\link{info}}, \code{\link{griddap}} or \code{\link{tabledap}}}
 
-\item{...}{Further args passed on to \code{\link[httr]{BROWSE}} (must be a named parameter)}
-
 \item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+
+\item{...}{Further args passed on to \code{\link[httr]{BROWSE}} (must be a named parameter)}
 }
 \value{
 the value returned by \code{\link[httr]{BROWSE}}

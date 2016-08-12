@@ -63,7 +63,7 @@ toggle_store <- function(fmt, store) {
 }
 
 #' @export
-print.griddap_csv <- function(x, ..., n = 10){
+print.griddap_csv <- function(x, ...) {
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   path <- attr(x, "path")
@@ -74,11 +74,11 @@ print.griddap_csv <- function(x, ..., n = 10){
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
   cat(sprintf("   Dimensions:   [%s X %s]\n", NROW(x), NCOL(x)), sep = "\n")
-  trunc_mat(x, n = n)
+  print(tibble::as_data_frame(x))
 }
 
 #' @export
-print.griddap_nc <- function(x, ..., n = 10){
+print.griddap_nc <- function(x, ...) {
   finfo <- file_info(attr(x, "path"))
   cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
   path <- attr(x, "path")
@@ -92,7 +92,7 @@ print.griddap_nc <- function(x, ..., n = 10){
   cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
   cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
   cat(sprintf("   data.frame (rows/columns):   [%s X %s]", dim(x$data)[1], dim(x$data)[2]), sep = "\n\n")
-  trunc_mat(x$data, n = n)
+  print(tibble::as_data_frame(x))
 }
 
 field_handler <- function(x, y){
@@ -192,14 +192,6 @@ fix_dims <- function(dimargs, .info) {
   }
   dimargs
 }
-
-# which_min <- function(x) {
-#   if (is(x, "character")) {
-#     grep(min(tmp), tmp)
-#   } else {
-#     which.min(x)
-#   }
-# }
 
 parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
   tmp <- if (dim %in% names(dimargs)) {
