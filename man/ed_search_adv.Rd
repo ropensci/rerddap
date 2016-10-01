@@ -19,37 +19,46 @@ ed_search_adv(query = NULL, page = 1, page_size = 1000, protocol = NULL,
 
 \item{protocol}{(character) One of any (default), tabledep or griddap}
 
-\item{cdm_data_type}{(character) One of grid, other, point, profile, timeseries,
-timeseriesprofile, trajectory, trajectoryprofile}
+\item{cdm_data_type}{(character) One of grid, other, point, profile,
+timeseries, timeseriesprofile, trajectory, trajectoryprofile}
 
-\item{institution}{(character) An institution. See the dataset \code{institutions}.}
+\item{institution}{(character) An institution. See the dataset
+\code{institutions}.}
 
-\item{ioos_category}{(character) An ioos category See the dataset \code{ioos_categories}.}
+\item{ioos_category}{(character) An ioos category See the dataset
+\code{ioos_categories}.}
 
 \item{keywords}{(character) A keywords. See the dataset \code{keywords}.}
 
 \item{long_name}{(character) A long name. See the dataset \code{longnames}.}
 
-\item{standard_name}{(character) A standar dname. See the dataset \code{standardnames}.}
+\item{standard_name}{(character) A standar dname. See the dataset
+\code{standardnames}}
 
-\item{variableName}{(character) A variable name. See the dataset \code{variablenames}.}
+\item{variableName}{(character) A variable name. See the dataset
+\code{variablenames}}
 
-\item{minLon, maxLon}{(numeric) Minimum and maximum longitude. Some datasets have
-longitude values within -180 to 180, others use 0 to 360. If you specify min and max
-Longitude within -180 to 180 (or 0 to 360), ERDDAP will only find datasets that
-match the values you specify. Consider doing one search: longitude -180 to 360,
-or two searches: longitude -180 to 180, and 0 to 360.}
+\item{minLon, maxLon}{(numeric) Minimum and maximum longitude. Some datasets
+have longitude values within -180 to 180, others use 0 to 360. If you
+specify min and max Longitude within -180 to 180 (or 0 to 360), ERDDAP will
+only find datasets that match the values you specify. Consider doing one
+search: longitude -180 to 360, or two searches: longitude -180 to 180,
+and 0 to 360.}
 
-\item{minLat, maxLat}{(numeric) Minimum and maximum latitude, between -90 and 90}
+\item{minLat, maxLat}{(numeric) Minimum and maximum latitude, between -90
+and 90}
 
-\item{minTime, maxTime}{(numeric/character) Minimum and maximum time. Time string with
-the format "yyyy-MM-ddTHH:mm:ssZ, (e.g., 2009-01-21T23:00:00Z). If you specify something,
-you must include at least yyyy-MM-dd; you can omit Z, :ss, :mm, :HH, and T. Always use
-UTC (GMT/Zulu) time. Or specify the number of seconds since 1970-01-01T00:00:00Z.}
+\item{minTime, maxTime}{(numeric/character) Minimum and maximum time. Time
+string with the format "yyyy-MM-ddTHH:mm:ssZ, (e.g., 2009-01-21T23:00:00Z).
+If you specify something, you must include at least yyyy-MM-dd; you can
+omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
+the number of seconds since 1970-01-01T00:00:00Z.}
 
-\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+\item{url}{A URL for an ERDDAP server. Default:
+\url{http://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
+\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a
+named parameter)}
 }
 \description{
 Advanced search for ERDDAP tabledep or griddap datasets
@@ -59,11 +68,15 @@ Advanced search for ERDDAP tabledep or griddap datasets
 ed_search_adv(query = 'temperature')
 ed_search_adv(query = 'temperature', protocol = "griddap")
 ed_search_adv(query = 'temperature', protocol = "tabledap")
-ed_search_adv(maxLat = 63, minLon = -107, maxLon = -87, minLat = 50, protocol = "griddap")
-ed_search_adv(maxLat = 63, minLon = -107, maxLon = -87, minLat = 50, protocol = "tabledap")
-ed_search_adv(minTime = "2010-01-01T00:00:00Z", maxTime="2010-02-01T00:00:00Z")
+ed_search_adv(maxLat = 63, minLon = -107, maxLon = -87, minLat = 50,
+  protocol = "griddap")
+ed_search_adv(maxLat = 63, minLon = -107, maxLon = -87, minLat = 50,
+  protocol = "tabledap")
+ed_search_adv(minTime = "2010-01-01T00:00:00Z",
+  maxTime="2010-02-01T00:00:00Z")
 (out <- ed_search_adv(maxLat = 63, minLon = -107, maxLon = -87, minLat = 50,
-             minTime = "2010-01-01T00:00:00Z", maxTime="2010-02-01T00:00:00Z"))
+             minTime = "2010-01-01T00:00:00Z",
+             maxTime="2010-02-01T00:00:00Z"))
 out$alldata[[1]]
 ed_search_adv(variableName = 'upwelling')
 ed_search_adv(query = 'upwelling', protocol = "tabledap")
