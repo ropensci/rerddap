@@ -51,9 +51,10 @@ or 'ucum' (units will be described via the UCUM standard (e.g., Cel)).}
 \item{callopts}{Further args passed on to httr::GET (must be a named parameter)}
 }
 \value{
-An object of class \code{tabledap}. This class is a thin wrapper around
-a data.frame, so the data you get back is a data.frame with metadata attached as
-attributes.
+An object of class \code{tabledap}. This class is a thin wrapper
+around a data.frame, so the data you get back is a data.frame with metadata
+attached as attributes (datasetid, path (path where the csv is stored on
+your machine), url (url for the request))
 }
 \description{
 Get ERDDAP tabledap data.
@@ -97,7 +98,7 @@ tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 # Pass in fields (i.e., columns to retrieve) & time constraints
 tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size',
    'itis_tsn'), 'time>=2001-07-07','time<=2001-07-10')
-tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
+res <- tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
    'Aplysia_californica_Mean_Density','Muricea_californica_Mean_Density'),
    'time>=2007-06-24','time<=2007-07-01')
 

@@ -39,7 +39,13 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
                        nc = c("griddap_nc", "nc", "data.frame"),
                        csv = c("griddap_csv", "csv", "data.frame"))
   read <- toggle_read(read, store)
-  structure(read_all(resp, fmt, read), class = outclasses, datasetid = d, path = loc)
+  structure(
+    read_all(resp, fmt, read),
+    class = outclasses,
+    datasetid = d,
+    path = loc,
+    url = url_build(sprintf("%sgriddap/%s.%s", url, d, fmt), args)
+  )
 }
 
 toggle_read <- function(x, store) {

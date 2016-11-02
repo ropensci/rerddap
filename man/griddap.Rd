@@ -42,8 +42,10 @@ read in data piecemeal later. Default: \code{TRUE}}
 An object of class \code{griddap_csv} if csv chosen or
 \code{griddap_nc} if nc file format chosen. These two classes are a thin
 wrapper around a data.frame, so the data you get back is a data.frame with
-metadata attached as attributes, along with a summary of the netcdf file
-(if \code{fmt="nc"}). If \code{read=FALSE}, you get back an empty data.frame
+metadata attached as attributes (datasetid, path (path where the nc or csv
+is stored on your machine), url (url for the request)), along with a
+summary of the netcdf file (if \code{fmt="nc"}). If \code{read=FALSE},
+you get back an empty data.frame
 }
 \description{
 Get ERDDAP gridded data

@@ -32,9 +32,10 @@
 #' @param store One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}
 #' @param callopts Further args passed on to httr::GET (must be a named parameter)
 #'
-#' @return An object of class \code{tabledap}. This class is a thin wrapper around
-#' a data.frame, so the data you get back is a data.frame with metadata attached as
-#' attributes.
+#' @return An object of class \code{tabledap}. This class is a thin wrapper
+#' around a data.frame, so the data you get back is a data.frame with metadata
+#' attached as attributes (datasetid, path (path where the csv is stored on
+#' your machine), url (url for the request))
 #'
 #' @details
 #' For key-value pair query constraints, the valid operators are =,
@@ -76,7 +77,7 @@
 #' # Pass in fields (i.e., columns to retrieve) & time constraints
 #' tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size',
 #'    'itis_tsn'), 'time>=2001-07-07','time<=2001-07-10')
-#' tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
+#' res <- tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
 #'    'Aplysia_californica_Mean_Density','Muricea_californica_Mean_Density'),
 #'    'time>=2007-06-24','time<=2007-07-01')
 #'
@@ -178,8 +179,13 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   }
   resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, callopts)
   loc <- if (store$store == "disk") resp else "memory"
-  structure(read_table(resp), class = c("tabledap", "data.frame"),
-            datasetid = attr(x, "datasetid"), path = loc)
+  structure(
+    read_table(resp),
+    class = c("tabledap", "data.frame"),
+    datasetid = attr(x, "datasetid"),
+    path = loc,
+    url = url
+  )
 }
 
 #' @export

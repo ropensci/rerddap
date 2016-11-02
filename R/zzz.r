@@ -108,3 +108,9 @@ erdddap_GET <- function(url, args = NULL, ...) {
   out <- content(tt, as = "text")
   jsonlite::fromJSON(out, FALSE)
 }
+
+url_build <- function(url, args = NULL) {
+  url <- httr::parse_url(url)
+  if (!is.null(args)) url$query <- args
+  httr::build_url(url)
+}
