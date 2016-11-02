@@ -37,21 +37,33 @@
 #' attributes.
 #'
 #' @details
-#' For key-value pair query constraints, the valid operators are =, != (not equals), =~ (a regular
-#' expression test), <, <=, >, and >= . For regular expressions you need to add a regular
-#' expression. For others, nothing more is needed. Construct the entry like
-#' \code{'time>=2001-07-07'} with the parameter on the left, value on the right, and the operator
-#' in the middle, all within a set of quotes. Since ERDDAP accepts values other than \code{=}, we
-#' can't simply do \code{time = '2001-07-07'} as we normally would.
+#' For key-value pair query constraints, the valid operators are =,
+#' != (not equals), =~ (a regular expression test), <, <=, >, and >= . For
+#' regular expressions you need to add a regular expression. For others, nothing
+#' more is needed. Construct the entry like \code{'time>=2001-07-07'} with the
+#' parameter on the left, value on the right, and the operator in the middle,
+#' all within a set of quotes. Since ERDDAP accepts values other than \code{=},
+#' we can't simply do \code{time = '2001-07-07'} as we normally would.
 #'
-#' Server-side functionality: Some tasks are done server side. You don't have to worry about what
-#' that means. They are provided via parameters in this function. See \code{distinct},
-#' \code{orderby}, \code{orderbymax}, \code{orderbymin}, \code{orderbyminmax}, and \code{units}.
+#' Server-side functionality: Some tasks are done server side. You don't have
+#' to worry about what that means. They are provided via parameters in this
+#' function. See \code{distinct}, \code{orderby}, \code{orderbymax},
+#' \code{orderbymin}, \code{orderbyminmax}, and \code{units}.
 #'
-#' Data is cached based on all parameters you use to get a dataset, including base url,
-#' query parameters. If you make the same exact call in the same or a different R session,
-#' as long you don't clear the cache, the function only reads data from disk, and does not
-#' have to request the data from the web again.
+#' Data is cached based on all parameters you use to get a dataset, including
+#' base url, query parameters. If you make the same exact call in the same or
+#' a different R session, as long you don't clear the cache, the function only
+#' reads data from disk, and does not have to request the data from the web
+#' again.
+#'
+#' If you run into an error like "HTTP Status 500 - There was a (temporary?)
+#' problem. Wait a minute, then try again.". it's likely they are hitting
+#' up against a size limit, and they should reduce the amount of data they
+#' are requesting either via space, time, or variables. Pass in
+#' \code{config = verbose()} to the request, and paste the URL into your
+#' browser to see if the output is garbled to examine if there's a problem
+#' with servers or this package
+#'
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
@@ -62,8 +74,8 @@
 #' tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 #'
 #' # Pass in fields (i.e., columns to retrieve) & time constraints
-#' tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size','itis_tsn'),
-#'    'time>=2001-07-07','time<=2001-07-10')
+#' tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size',
+#'    'itis_tsn'), 'time>=2001-07-07','time<=2001-07-10')
 #' tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
 #'    'Aplysia_californica_Mean_Density','Muricea_californica_Mean_Density'),
 #'    'time>=2007-06-24','time<=2007-07-01')

@@ -50,6 +50,14 @@ Get ERDDAP gridded data
 }
 \details{
 Details:
+
+If you run into an error like "HTTP Status 500 - There was a (temporary?)
+problem. Wait a minute, then try again.". it's likely they are hitting
+up against a size limit, and they should reduce the amount of data they
+are requesting either via space, time, or variables. Pass in
+\code{config = verbose()} to the request, and paste the URL into your
+browser to see if the output is garbled to examine if there's a problem
+with servers or this package
 }
 \section{Dimensions and Variables}{
 
