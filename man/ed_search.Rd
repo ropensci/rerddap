@@ -19,9 +19,11 @@ ed_datasets(which = "tabledap", url = eurl())
 
 \item{which}{(character) One of tabledep or griddap.}
 
-\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+\item{url}{A URL for an ERDDAP server. Default:
+\url{http://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
+\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be
+a named parameter)}
 }
 \description{
 Search for ERDDAP tabledep or griddap datasets

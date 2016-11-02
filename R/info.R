@@ -3,18 +3,22 @@
 #' @export
 #'
 #' @param datasetid Dataset id
-#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
+#' @param url A URL for an ERDDAP server. Default:
+#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a
+#' named parameter)
 #' @param x A datasetid or the output of \code{info}
-#' @return Prints a summary of the data on return, but you can index to various information.
+#' @return Prints a summary of the data on return, but you can index to
+#' various information.
 #'
 #' The data is a list of length two with:
 #' \itemize{
 #'  \item variables - Data.frame of variables and their types
 #'  \item alldata - List of data variables and their full attributes
 #' }
-#' Where \code{alldata} element has many data.frame's, one for each variable, with metadata
-#' for that variable. E.g., for griddap dataset \code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
+#' Where \code{alldata} element has many data.frame's, one for each variable,
+#' with metadata for that variable. E.g., for griddap dataset
+#' \code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
 #' has:
 #' \itemize{
 #'  \item NC_GLOBAL
@@ -69,27 +73,33 @@
 #' }
 
 info <- function(datasetid, url = eurl(), ...){
-  json <- erdddap_GET(sprintf(paste0(url, 'info/%s/index.json'), datasetid), NULL, ...)
-  colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
+  json <- erdddap_GET(sprintf(paste0(url, 'info/%s/index.json'), datasetid),
+                      NULL, ...)
+  colnames <- vapply(tolower(json$table$columnNames),
+                     function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
     tmp <- data.frame(x, stringsAsFactors = FALSE)
     names(tmp) <- colnames
     tmp
   })
   lists <- lapply(json$table$rows, stats::setNames, nm=colnames)
-  names(lists) <- vapply(lists, function(b) b$variable_name, "", USE.NAMES = FALSE)
+  names(lists) <- vapply(lists, function(b) b$variable_name, "",
+                         USE.NAMES = FALSE)
   outout <- list()
-  for(i in seq_along(lists)){
-    outout[[names(lists[i])]] <- unname(lists[ names(lists) %in% names(lists)[i] ])
+  for (i in seq_along(lists)) {
+    outout[[names(lists[i])]] <-
+      unname(lists[ names(lists) %in% names(lists)[i] ])
   }
 
   df <- data.frame(rbindlist(dfs))
-  vars <- df[ df$row_type == 'variable', names(df) %in% c('variable_name','data_type')]
+  vars <- df[ df$row_type == 'variable', names(df) %in%
+                c('variable_name','data_type')]
   actual <- vapply(split(df, df$variable_name), function(z){
     tmp <- z[ z$attribute_name %in% 'actual_range' , "value"]
     if(length(tmp)==0) "" else tmp
   }, "")
-  actualdf <- data.frame(variable_name=names(actual), actual_range=unname(actual))
+  actualdf <- data.frame(variable_name=names(actual),
+                         actual_range=unname(actual))
   vars <- merge(vars, actualdf, by="variable_name")
   oo <- lapply(outout, function(x) data.frame(rbindlist(x)))
   structure(list(variables=vars, alldata=oo),
@@ -101,7 +111,8 @@ info <- function(datasetid, url = eurl(), ...){
 #' @export
 print.info <- function(x, ...){
   global <- x$alldata$NC_GLOBAL
-  tt <- global[ global$attribute_name %in% c('time_coverage_end','time_coverage_start'), "value", ]
+  tt <- global[ global$attribute_name %in%
+                  c('time_coverage_end','time_coverage_start'), "value", ]
   dims <- x$alldata[dimvars(x)]
   vars <- x$alldata[x$variables$variable_name]
   cat(sprintf("<ERDDAP info> %s", attr(x, "datasetid")), "\n")
@@ -110,14 +121,16 @@ print.info <- function(x, ...){
     if(names(dims[i]) == "time"){
       cat(sprintf("     time: (%s, %s)", tt[2], tt[1]), "\n")
     } else {
-      cat(sprintf("     %s: (%s)", names(dims[i]), foo(dims[[i]], "actual_range")), "\n")
+      cat(sprintf("     %s: (%s)", names(dims[i]), foo(dims[[i]],
+                                                       "actual_range")), "\n")
     }
   }
   cat(" Variables: ", "\n")
   for(i in seq_along(vars)){
     cat(sprintf("     %s:", names(vars[i])), "\n")
     ar <- foo(vars[[i]], "actual_range")
-    if(!length(ar) == 0) cat("         Range:", foo(vars[[i]], "actual_range"), "\n")
+    if(!length(ar) == 0) cat("         Range:",
+                             foo(vars[[i]], "actual_range"), "\n")
     un <- foo(vars[[i]], "units")
     if(!length(un) == 0) cat("         Units:", foo(vars[[i]], "units"), "\n")
   }

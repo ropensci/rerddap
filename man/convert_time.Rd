@@ -13,12 +13,13 @@ convert_time(n = NULL, isoTime = NULL,
 
 \item{isoTime}{character; A string time representation.}
 
-\item{units}{character; Units to return. Default: "seconds since 1970-01-01T00:00:00Z"}
+\item{units}{character; Units to return. Default:
+"seconds since 1970-01-01T00:00:00Z"}
 
 \item{url}{Base URL of the ERDDAP server}
 
-\item{method}{(character) One of local or web. Local simply uses \code{as.POSIXct},
-while web method uses the ERDDAP time conversion service
+\item{method}{(character) One of local or web. Local simply uses
+\code{as.POSIXct}, while web method uses the ERDDAP time conversion service
 \code{/erddap/convert/time.txt}}
 
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}

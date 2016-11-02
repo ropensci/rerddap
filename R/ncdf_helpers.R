@@ -18,20 +18,16 @@ ncdf4_get <- function(file){
   df <- do.call("cbind.data.frame", outvars)
   rows <- length(outvars[[1]])
 
-  ## FIXME - generalize to expand whatever variables are in the out list
-  #out2 <- out
-  #out2$time <- NULL
-  # meta <- do.call("expand.grid", out)
-  # if ("time" %in% names(meta)) meta <- dplyr::arrange_(meta, "time", "desc(latitude)")
-
   if (length(out$time) == 0) {
     out$time <- NULL
     exout <- do.call("expand.grid", out)
     meta <- dplyr::arrange_(exout, names(exout)[1])
   } else {
     time <- suppressWarnings(rep(out$time, each = rows/length(out$time)))
-    lat <- rep(rep(out$latitude, each = length(out$longitude)), length(out$time))
-    lon <- rep(rep(out$longitude, times = length(out$latitude)), times = length(out$time))
+    lat <- rep(rep(out$latitude, each = length(out$longitude)),
+               length(out$time))
+    lon <- rep(rep(out$longitude, times = length(out$latitude)),
+               times = length(out$time))
     meta <- data.frame(time, lat, lon, stringsAsFactors = FALSE)
   }
 

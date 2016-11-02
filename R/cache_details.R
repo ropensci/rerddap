@@ -93,7 +93,8 @@ file_info_ <- function(x) {
      csv = {
        list(type = "csv",
             size = if (!is.na(fs)) getsize(fs) else NA,
-            info = if (!is.na(fs)) names(read.csv(x, nrows = 1, stringsAsFactors = FALSE)) else NA
+            info = if (!is.na(fs))
+              names(read.csv(x, nrows = 1, stringsAsFactors = FALSE)) else NA
        )
      }
   )

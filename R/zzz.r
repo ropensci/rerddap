@@ -20,8 +20,10 @@ long2utm <- function(lon, lat) {
 rc <- function(l) Filter(Negate(is.null), l)
 
 read_csv <- function(x){
-  tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 3)
-  nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, skip = 1, nrows = 1))
+  tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE,
+                  skip = 3)
+  nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE,
+                        skip = 1, nrows = 1))
   names(tmp) <- tolower(nmz)
   tmp
 }
@@ -29,11 +31,15 @@ read_csv <- function(x){
 read_data <- function(x, nrows = -1){
   if (inherits(x, "response")) {
     x <- content(x, "text")
-    tmp <- read.csv(text = x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
-    nmz <- names(read.csv(text = x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
+    tmp <- read.csv(text = x, header = FALSE, sep = ",",
+                    stringsAsFactors = FALSE, skip = 2, nrows = nrows)
+    nmz <- names(read.csv(text = x, header = TRUE, sep = ",",
+                          stringsAsFactors = FALSE, nrows = 1))
   } else {
-    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE, skip = 2, nrows = nrows)
-    nmz <- names(read.csv(x, header = TRUE, sep = ",", stringsAsFactors = FALSE, nrows = 1))
+    tmp <- read.csv(x, header = FALSE, sep = ",", stringsAsFactors = FALSE,
+                    skip = 2, nrows = nrows)
+    nmz <- names(read.csv(x, header = TRUE, sep = ",",
+                          stringsAsFactors = FALSE, nrows = 1))
   }
   stats::setNames(tmp, tolower(nmz))
 }

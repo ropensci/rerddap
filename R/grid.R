@@ -9,7 +9,8 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
   calls <- names(sapply(match.call(), deparse))[-1]
   calls_vec <- "ncdf" %in% calls
   if (any(calls_vec)) {
-    stop("The parameter ncdf has been removed. We use ncdf4 package now internally",
+    stop(
+      "The parameter ncdf has been removed. We use ncdf4 package now internally",
          call. = FALSE)
   }
 
@@ -26,10 +27,14 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
   dims <- dimvars(x)
   store <- toggle_store(fmt, store)
   if (all(var == "none")) {
-    args <- paste0(sapply(dims, function(y) parse_args(x, y, stride, dimargs, wname = TRUE)), collapse = ",")
+    args <- paste0(sapply(dims, function(y) {
+      parse_args(x, y, stride, dimargs, wname = TRUE)
+    }), collapse = ",")
   } else {
     pargs <- sapply(dims, function(y) parse_args(x, y, stride, dimargs))
-    args <- paste0(lapply(var, function(y) paste0(y, paste0(pargs, collapse = ""))), collapse = ",")
+    args <- paste0(lapply(var, function(y) {
+      paste0(y, paste0(pargs, collapse = ""))
+    }), collapse = ",")
   }
   fmt <- match.arg(fmt, c("nc", "csv"))
   resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, fmt), dset = d,

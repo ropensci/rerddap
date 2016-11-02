@@ -3,10 +3,11 @@
 #' @export
 #' @param n numeric; A unix time number.
 #' @param isoTime character; A string time representation.
-#' @param units character; Units to return. Default: "seconds since 1970-01-01T00:00:00Z"
+#' @param units character; Units to return. Default:
+#' "seconds since 1970-01-01T00:00:00Z"
 #' @param url Base URL of the ERDDAP server
-#' @param method (character) One of local or web. Local simply uses \code{as.POSIXct},
-#' while web method uses the ERDDAP time conversion service
+#' @param method (character) One of local or web. Local simply uses
+#' \code{as.POSIXct}, while web method uses the ERDDAP time conversion service
 #' \code{/erddap/convert/time.txt}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
 #' @details When \code{method = "web"} time zone is GMT/UTC
@@ -21,14 +22,16 @@
 #' }
 
 convert_time <- function(n = NULL, isoTime = NULL,
-  units = "seconds since 1970-01-01T00:00:00Z", url = "http://coastwatch.pfeg.noaa.gov",
+  units = "seconds since 1970-01-01T00:00:00Z",
+  url = "http://coastwatch.pfeg.noaa.gov",
   method = "local", ...) {
 
   if (!is.null(n)) stopifnot(is.numeric(n))
   if (!is.null(isoTime)) stopifnot(is.character(isoTime))
   check1notboth(n, isoTime)
   if (method == "local") {
-    format(as.POSIXct(rc(list(n, isoTime))[[1]], origin = "1970-01-01T00:00:00Z", tz = "UTC"),
+    format(as.POSIXct(rc(list(n, isoTime))[[1]],
+                      origin = "1970-01-01T00:00:00Z", tz = "UTC"),
            format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   } else {
     args <- rc(list(n = n, isoTime = isoTime, units = units))
@@ -45,9 +48,11 @@ depsub <- function(x) {
 
 check1notboth <- function(x, y) {
   if (is.null(x) && is.null(y)) {
-    stop(sprintf("One of %s or %s must be non-NULL", deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
+    stop(sprintf("One of %s or %s must be non-NULL",
+                 deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
   }
   if (!is.null(x) && !is.null(y)) {
-    stop(sprintf("Supply only one of %s or %s", deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
+    stop(sprintf("Supply only one of %s or %s",
+                 deparse(substitute(x)), deparse(substitute(y))), call. = FALSE)
   }
 }

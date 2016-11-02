@@ -22,17 +22,18 @@ for griddap type via \code{\link{griddap}}.
 
 tabledap and griddap have different interfaces to query for data, so
 \code{\link{tabledap}} and \code{\link{griddap}} are separated out as
-separate functions even though some of the internals are the same. In particular,
-with tabledap you can query on/subset all variables, whereas with gridddap, you can
-only query on/subset the dimension varibles (e.g., latitude, longitude, altitude).
+separate functions even though some of the internals are the same. In
+particular, with tabledap you can query on/subset all variables, whereas
+with gridddap, you can only query on/subset the dimension varibles (e.g.,
+latitude, longitude, altitude).
 }
 
 \section{NOTE}{
 
 With griddap data via \code{\link{griddap}} you can get a lot of
-data quickly. Try small searches of a dataset to start to get a sense for the data,
-then you can increase the amount of data you get. See \code{\link{griddap}}
-for more details.
+data quickly. Try small searches of a dataset to start to get a sense for
+the data, then you can increase the amount of data you get. See
+\code{\link{griddap}} for more details.
 }
 \author{
 Scott Chamberlain \email{myrmecocystus@gmail.com}

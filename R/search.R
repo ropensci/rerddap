@@ -6,8 +6,10 @@
 #' @param page (integer) Page number
 #' @param page_size (integer) Results per page
 #' @param which (character) One of tabledep or griddap.
-#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)
+#' @param url A URL for an ERDDAP server. Default:
+#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be
+#' a named parameter)
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
@@ -27,14 +29,18 @@
 #' ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 #' }
 
-ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = eurl(), ...){
+ed_search <- function(query, page=NULL, page_size=NULL, which='griddap',
+                      url = eurl(), ...){
+
   check_arg(query, "character")
   check_arg(page, "numeric")
   check_arg(page_size, "numeric")
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size))
   json <- erdddap_GET(paste0(url, 'search/index.json'), args, ...)
-  colnames <- vapply(tolower(json$table$columnNames), function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
+  colnames <- vapply(
+    tolower(json$table$columnNames), function(z) gsub("\\s", "_", z),
+    "", USE.NAMES = FALSE)
   dfs <- lapply(json$table$rows, function(x){
     names(x) <- colnames
     x <- x[c('title','dataset_id')]
@@ -42,7 +48,10 @@ ed_search <- function(query, page=NULL, page_size=NULL, which='griddap', url = e
   })
   df <- data.frame(rbindlist(dfs))
   lists <- lapply(json$table$rows, stats::setNames, nm = colnames)
-  df$gd <- vapply(lists, function(x) if (x$griddap == "") "tabledap" else "griddap", character(1))
+  df$gd <- vapply(
+    lists, function(x) {
+      if (x$griddap == "") "tabledap" else "griddap"
+    }, character(1))
   df <- df[ df$gd == which, -3 ]
   row.names(df) <- NULL
   res <- list(info = df, alldata = lists)
@@ -75,5 +84,6 @@ ed_datasets <- function(which = 'tabledap', url = eurl()){
   out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, stats::setNames, nm = nms)
-  tibble::as_data_frame(rbindlist(lapply(lists, data.frame, stringsAsFactors = FALSE)))
+  tibble::as_data_frame(rbindlist(lapply(lists, data.frame,
+                                         stringsAsFactors = FALSE)))
 }

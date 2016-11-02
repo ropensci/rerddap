@@ -12,22 +12,26 @@ as.info(x, url)
 \arguments{
 \item{datasetid}{Dataset id}
 
-\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+\item{url}{A URL for an ERDDAP server. Default:
+\url{http://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a named parameter)}
+\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a
+named parameter)}
 
 \item{x}{A datasetid or the output of \code{info}}
 }
 \value{
-Prints a summary of the data on return, but you can index to various information.
+Prints a summary of the data on return, but you can index to
+various information.
 
 The data is a list of length two with:
 \itemize{
  \item variables - Data.frame of variables and their types
  \item alldata - List of data variables and their full attributes
 }
-Where \code{alldata} element has many data.frame's, one for each variable, with metadata
-for that variable. E.g., for griddap dataset \code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
+Where \code{alldata} element has many data.frame's, one for each variable,
+with metadata for that variable. E.g., for griddap dataset
+\code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
 has:
 \itemize{
  \item NC_GLOBAL
