@@ -117,12 +117,14 @@ function calls. \code{\link{memory}} does not accept any inputs, while
  latitude = c(24, 23),
  longitude = c(88, 90)
 ))
-(res <- griddap(out, time = c('2015-12-28','2016-01-01'), latitude = c(24, 23),
-   longitude = c(88, 90), fields = 'mod_current'))
-(res <- griddap(out, time = c('2015-12-28','2016-01-01'), latitude = c(24, 23),
-   longitude = c(88, 90), fields = 'mod_current', stride = c(1,2,1,2)))
-(res <- griddap(out, time = c('2015-12-28','2016-01-01'), latitude = c(24, 23),
-   longitude = c(88, 90), fields = c('mod_current','u_current')))
+(res <- griddap(out, time = c('2015-12-28','2016-01-01'),
+   latitude = c(24, 23), longitude = c(88, 90), fields = 'mod_current'))
+(res <- griddap(out, time = c('2015-12-28','2016-01-01'),
+   latitude = c(24, 23), longitude = c(88, 90), fields = 'mod_current',
+   stride = c(1,2,1,2)))
+(res <- griddap(out, time = c('2015-12-28','2016-01-01'),
+   latitude = c(24, 23), longitude = c(88, 90),
+   fields = c('mod_current','u_current')))
 
 (out <- info('noaa_esrl_4965_b6d4_7198'))
 (res <- griddap(out,
@@ -140,7 +142,8 @@ function calls. \code{\link{memory}} does not accept any inputs, while
  longitude = c(166, 170),
  store = disk()
 ))
-## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
+## the 2nd call is much faster as it's mostly just the time of reading in
+## the table from disk
 system.time( griddap(out,
  time = c('2006-07-11','2006-07-15'),
  longitude = c(10, 15),

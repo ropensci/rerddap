@@ -2,35 +2,46 @@
 #'
 #' @export
 #'
-#' @param x Anything coercable to an object of class info. So the output of a call to
-#' \code{info}, or a datasetid, which will internally be passed through \code{info}.
-#' @param ... Any number of key-value pairs in quotes as query constraints. See Details & examples
+#' @param x Anything coercable to an object of class info. So the output of
+#' a call to \code{\link{info}}, or a datasetid, which will internally be passed
+#' through \code{\link{info}}
+#' @param ... Any number of key-value pairs in quotes as query constraints.
+#' See Details & examples
 #' @param fields Columns to return, as a character vector
-#' @param distinct If TRUE ERDDAP will sort all of the rows in the results table (starting with the
-#' first requested variable, then using the second requested variable if the first variable has a
-#' tie, ...), then remove all non-unique rows of data. In many situations, ERDDAP can return
-#' distinct values quickly and efficiently. But in some cases, ERDDAP must look through all rows
-#' of the source dataset.
-#' @param orderby If used, ERDDAP will sort all of the rows in the results table (starting with the
-#' first variable, then using the second variable if the first variable has a tie, ...). Normally,
-#' the rows of data in the response table are in the order they arrived from the data source.
-#' orderBy allows you to request that the results table be sorted in a specific way. For example,
-#' use \code{orderby=c("stationID,time")} to get the results sorted by stationID, then time. The
-#' orderby variables MUST be included in the list of requested variables in the fields parameter.
-#' @param orderbymax Give a vector of one or more fields, that must be included in the fields
-#' parameter as well. Gives back data given constraints. ERDDAP will sort all of the rows in the
-#' results table (starting with the first variable, then using the second variable if the first
-#' variable has a tie, ...) and then just keeps the rows where the value of the last sort variable
-#' is highest (for each combination of other values).
-#' @param orderbymin Same as \code{orderbymax} parameter, except returns minimum value.
-#' @param orderbyminmax Same as \code{orderbymax} parameter, except returns two rows for every
-#' combination of the n-1 variables: one row with the minimum value, and one row with the maximum
-#' value.
-#' @param units One of 'udunits' (units will be described via the UDUNITS standard (e.g.,degrees_C))
-#' or 'ucum' (units will be described via the UCUM standard (e.g., Cel)).
-#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
-#' @param store One of \code{disk} (default) or \code{memory}. You can pass options to \code{disk}
-#' @param callopts Further args passed on to httr::GET (must be a named parameter)
+#' @param distinct If TRUE ERDDAP will sort all of the rows in the results
+#' table (starting with the first requested variable, then using the second
+#' requested variable if the first variable has a tie, ...), then remove all
+#' non-unique rows of data. In many situations, ERDDAP can return distinct
+#' values quickly and efficiently. But in some cases, ERDDAP must look through
+#' all rows of the source dataset.
+#' @param orderby If used, ERDDAP will sort all of the rows in the results
+#' table (starting with the first variable, then using the second variable
+#' if the first variable has a tie, ...). Normally, the rows of data in the
+#' response table are in the order they arrived from the data source. orderBy
+#' allows you to request that the results table be sorted in a specific way.
+#' For example, use \code{orderby=c("stationID,time")} to get the results
+#' sorted by stationID, then time. The orderby variables MUST be included in
+#' the list of requested variables in the fields parameter.
+#' @param orderbymax Give a vector of one or more fields, that must be included
+#' in the fields parameter as well. Gives back data given constraints. ERDDAP
+#' will sort all of the rows in the results table (starting with the first
+#' variable, then using the second variable if the first variable has a
+#' tie, ...) and then just keeps the rows where the value of the last sort
+#' variable is highest (for each combination of other values).
+#' @param orderbymin Same as \code{orderbymax} parameter, except returns
+#' minimum value.
+#' @param orderbyminmax Same as \code{orderbymax} parameter, except returns
+#' two rows for every combination of the n-1 variables: one row with the
+#' minimum value, and one row with the maximum value.
+#' @param units One of 'udunits' (units will be described via the UDUNITS
+#' standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
+#' UCUM standard (e.g., Cel)).
+#' @param url A URL for an ERDDAP server.
+#' Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' @param store One of \code{disk} (default) or \code{memory}. You can pass
+#' options to \code{disk}
+#' @param callopts Further args passed on to httr::GET (must be a
+#' named parameter)
 #'
 #' @return An object of class \code{tabledap}. This class is a thin wrapper
 #' around a data.frame, so the data you get back is a data.frame with metadata
@@ -102,12 +113,13 @@
 #'    'time>=2001-07-14')
 #'
 #' # Use distinct parameter
-#' tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size','itis_tsn'),
+#' tabledap('erdCalCOFIfshsiz',
+#'    fields=c('longitude','latitude','fish_size','itis_tsn'),
 #'    'time>=2001-07-07','time<=2001-07-10', distinct=TRUE)
 #'
 #' # Use units parameter
-#' ## In this example, values are the same, but sometimes they can be different given the units
-#' ## value passed
+#' ## In this example, values are the same, but sometimes they can be different
+#' ## given the units value passed
 #' tabledap('erdCinpKfmT', fields=c('longitude','latitude','time','temperature'),
 #'    'time>=2007-09-19', 'time<=2007-09-21', units='udunits')
 #' tabledap('erdCinpKfmT', fields=c('longitude','latitude','time','temperature'),
@@ -126,11 +138,15 @@
 #' tabledap('erdCinpKfmT', fields=c('longitude','latitude','time','temperature'),
 #'    'time>=2007-09-19', 'time<=2007-09-21', orderbyminmax='temperature')
 #' # Use orderbymin parameter with multiple values
-#' tabledap('erdCinpKfmT', fields=c('longitude','latitude','time','depth','temperature'),
-#'    'time>=2007-06-10', 'time<=2007-09-21', orderbymax=c('depth','temperature'))
+#' tabledap('erdCinpKfmT',
+#'    fields=c('longitude','latitude','time','depth','temperature'),
+#'    'time>=2007-06-10', 'time<=2007-09-21',
+#'    orderbymax=c('depth','temperature')
+#' )
 #'
 #' # Spatial delimitation
-#' tabledap('erdCalCOFIfshsiz', fields = c('latitude','longitude','scientific_name'),
+#' tabledap('erdCalCOFIfshsiz',
+#'   fields = c('latitude','longitude','scientific_name'),
 #'  'latitude>=34.8', 'latitude<=35', 'longitude>=-125', 'longitude<=-124')
 #'
 #' # Integrate with taxize
@@ -144,7 +160,8 @@
 #' # Write to memory (within R), or to disk
 #' (out <- info('erdCalCOFIfshsiz'))
 #' ## disk, by default (to prevent bogging down system w/ large datasets)
-#' ## the 2nd call is much faster as it's mostly just the time of reading in the table from disk
+#' ## the 2nd call is much faster as it's mostly just the time of reading
+#' ## in the table from disk
 #' system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 #' system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
 #' ## memory
@@ -162,15 +179,21 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
 
   x <- as.info(x, url)
   fields <- paste(fields, collapse = ",")
-  url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"), fields)
+  url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"),
+                 fields)
   args <- list(...)
   distinct <- if (distinct) 'distinct()' else NULL
-  units <- if (!is.null(units)) makevar(toupper(units), 'units("%s")') else units
+  units <- if (!is.null(units)) {
+    makevar(toupper(units), 'units("%s")')
+  } else {
+    units
+  }
   orderby <- makevar(orderby, 'orderBy("%s")')
   orderbymax <- makevar(orderbymax, 'orderByMax("%s")')
   orderbymin <- makevar(orderbymin, 'orderByMin("%s")')
   orderbyminmax <- makevar(orderbyminmax, 'orderByMinMax("%s")')
-  moreargs <- rc(list(distinct, orderby, orderbymax, orderbymin, orderbyminmax, units))
+  moreargs <- rc(list(distinct, orderby, orderbymax, orderbymin,
+                      orderbyminmax, units))
   args <- c(args, moreargs)
   args <- lapply(args, URLencode, reserved = TRUE)
   args <- paste0(args, collapse = "&")
@@ -210,7 +233,8 @@ erd_tab_GET <- function(url, dset, store, ...) {
       file.path(store$path, key)
     } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, write_disk(file.path(store$path, key), store$overwrite), ...)
+      res <- GET(url, write_disk(file.path(store$path, key), store$overwrite),
+                 ...)
       err_handle(res, store, key)
       res$request$output$path
     }
