@@ -31,7 +31,7 @@
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # grid dap datasets
-#' info('noaa_esrl_027d_0fb5_5d38')
+#' info('erdATastnhday')
 #'
 #' (out <- ed_search(query='temperature'))
 #' info(out$info$dataset_id[5])

@@ -7,29 +7,33 @@
 browse(x, url = eurl(), ...)
 }
 \arguments{
-\item{x}{datasetid or an object associated with a datasetid such \code{\link{info}}, \code{\link{griddap}} or \code{\link{tabledap}}}
+\item{x}{datasetid or an object associated with a datasetid such
+\code{\link{info}}, \code{\link{griddap}} or \code{\link{tabledap}}}
 
-\item{url}{A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+\item{url}{A URL for an ERDDAP server. Default:
+\url{http://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{BROWSE}} (must be a named parameter)}
+\item{...}{Further args passed on to \code{\link[httr]{BROWSE}}
+(must be a named parameter)}
 }
 \value{
 the value returned by \code{\link[httr]{BROWSE}}
 }
 \description{
-Note that it is an error to call this when \code{base::interactive()} returns FALSE
+Note that it is an error to call this when \code{base::interactive()}
+returns \code{FALSE}
 }
 \examples{
 \dontrun{
 # browse by dataset_id
-browse('noaa_esrl_28d5_ac3a_bb06')
+browse('erdATastnhday')
 
 # browse info class
-my_info <- info('noaa_esrl_28d5_ac3a_bb06')
-browse(my_inf)
+(my_info <- info('erdATastnhday'))
+browse(my_info)
 
 # browse griddap class
-my_griddap <- griddap('noaa_esrl_28d5_ac3a_bb06')
+my_griddap <- griddap('erdATastnhday')
 browse(my_griddap)
 
 #browse tabledap class
