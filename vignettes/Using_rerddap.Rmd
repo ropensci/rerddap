@@ -179,7 +179,7 @@ murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), t
 
 ```
 
-Strides are done in array space, not in coordinate space - so it is not skipping say a number of degrees of longitude, but is skipping a number of values of the array index - if longitude is thought of as an array, them every fifth value is used.  There are many cases where having strides work in coordinate space would be handy,  but it can cause a lot of problems.  Consider the case where neither the starting longitude, nor the ending longitude in the request lie on the actual data grid,  and the stride is in coordinate units in such a way that no value requested actually lies on an actual grid value. This would be equivalent to the more complicated problem of data regridding and data interpolation.
+Strides are done in array space, not in coordinate space - so it is not skipping say a number of degrees of longitude, but is skipping a number of values of the array index - if longitude is thought of as an array, then every fifth value is used.  There are many cases where having strides work in coordinate space would be handy,  but it can cause a lot of problems.  Consider the case where neither the starting longitude, nor the ending longitude in the request lie on the actual data grid,  and the stride is in coordinate units in such a way that no value requested actually lies on an actual grid value. This would be equivalent to the more complicated problem of data regridding and data interpolation.
 
 When <span style="color:red">ERDDAP</span> receives a request where the bounds are not on the actual dataset grid,  <span style="color:red">ERDDAP</span> finds the closest values on the grid to the requested bounds, and returns those points and all grid points in between.  If a stride is added of a value greater than one but resricted to array space, this guarantees that every value returned lies on the dataset grid.
 
@@ -212,7 +212,7 @@ sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scie
 
 ### MUR SST
 
-MUR (Multi-scale Ultra-high Resolution) is an analyzed SST product at 0.01-degree resolution going back to 2002, providing one of the longest satellite based time series at such high resolution. The latest data available for a region off the west coast can be extracted and plotted by:
+MUR (Multi-scale Ultra-high Resolution) is an analyzed SST product at 0.01-degree resolution going back to 2002, providing one of the longest satellite based time series at such high resolution (see https://podaac.jpl.nasa.gov/dataset/MUR-JPL-L4-GLOB-v4.1). The latest data available for a region off the west coast can be extracted and plotted by:
 
 ```{r MUR, fig.width = 6, fig.height = 3, fig.align = 'center', warning = FALSE, cache = TRUE}
 require("ggplot2")
@@ -237,7 +237,7 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
 
 VIIRS (Visible Infrared Imaging Radiometer Suite)  is a scanning radiometer, that collects visible and infrared imagery and radiometric measurements of the land, atmosphere, cryosphere, and oceans. VIIRS data is used to measure cloud and aerosol properties, ocean color, sea and land surface temperature, ice motion and temperature, fires, and Earth's albedo.   Both NASA and NOAA provide VIIRS-based high resolution SST and chlorophyll products.
 
-ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product. The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
+ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product (see http://coastwatch.noaa.gov/cwn/cw_products_sst.html). The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
 
 ```{r VIIRS, fig.width = 6, fig.height = 3, fig.align = 'center', warning = FALSE}
 require("ggplot2")
@@ -281,7 +281,7 @@ ggplot(tempFrame, aes(time, sst)) + geom_line() + theme_bw() + ylab("sst") + ggt
 
 
 
-A similar 3-day composite for chloropyll for the same region from a scientific quality product developed by NOAA:
+A similar 3-day composite for chloropyll for the same region from a scientific quality product developed by NOAA (see http://coastwatch.noaa.gov/cwn/cw_products_sst.html) :
 
 ```{r VHNCHla, fig.width = 6, fig.height = 3, fig.align = 'center', warning = FALSE}
 require("ggplot2")
@@ -306,7 +306,7 @@ ggplot(data = viirsCHLA$data, aes(x = lon, y = lat, fill = log(chla))) +
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
-This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
+This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see http://www.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
 
 
 ```{r soda70}
@@ -339,7 +339,7 @@ myplot <- ggplot() +
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(-3,30), name = "temperature") +
     ylab("latitude") + xlab("longitude") +
     coord_fixed(1.3, xlim = xlim, ylim = ylim) + 
-    ggtitle(paste("temperature at 70 meters depth from SODA for", soda70$time[1]))
+    ggtitle(paste("70m temperature ", soda70$data$time[1]))
 myplot
 ```
 
@@ -377,7 +377,7 @@ myplot <- ggplot() +
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(34, 36), name = "salinity") +
     ylab("latitude") + xlab("longitude") +
     coord_fixed(1.3, xlim = xlim, ylim = ylim) + 
-    ggtitle(paste("salinity", NAtlSSS$time[1]))
+    ggtitle(paste("salinity", NAtlSSS$data$time[1]))
 myplot
 ```
 
@@ -465,7 +465,7 @@ calcofi.df$time <- as.Date(calcofi.df$time, origin = '1970-01-01', tz = "GMT")
 
 ```
 
-At this point the requested data are in the <span style="color:red">R</span> workspace - the rest of the code performs thecalculations to derive the seasonally adjusted values and plot them.
+At this point the requested data are in the <span style="color:red">R</span> workspace - the rest of the code performs the calculations to derive the seasonally adjusted values and plot them.
 
 ```{r calCOFIPlot, fig.width = 6, fig.height = 3, fig.align='center', fig.show = 'hold', warning = FALSE}
 require("dplyr")
