@@ -1,5 +1,6 @@
 language: c
 sudo: required
+cache: packages
 dist: trusty
 script: ./travis-tool.sh run_tests
 
