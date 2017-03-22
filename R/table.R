@@ -203,12 +203,38 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, callopts)
   loc <- if (store$store == "disk") resp else "memory"
   structure(
-    read_table(resp),
+    format_table(read_table(resp), x),
     class = c("tabledap", "data.frame"),
     datasetid = attr(x, "datasetid"),
     path = loc,
     url = url
   )
+}
+
+format_table <- function(table, .info) {
+
+  # format lat/lons
+  vars <- names(table)
+  lat <- which(vars %in% c("lat", "lats", "latitude"))
+  lon <- which(vars %in% c("lon", "lons", "longitude"))
+  if (lat)  {
+    table[[lat]] <- as.numeric(strtrim(table[[lat]]))
+  } else {
+    warning("No latitude available", call. = FALSE)
+  }
+  if (lon)  {
+    table[[lon]] <- as.numeric(strtrim(table[[lon]]))
+  } else {
+    warning("No longitude available", call. = FALSE)
+  }
+
+  # format time
+  if ("time" %in% vars) {
+    # TODO: will this cover all cases?
+    table[["time"]] <- as.Date(table[["time"]], origin = '1970-01-01', tz = "GMT")
+  }
+
+  table
 }
 
 #' @export
