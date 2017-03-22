@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .DS_Store
+notes.txt
+forCarson.*
+vignettes/*_cache/
+vignettes/*_files/
+vignettes/*.html

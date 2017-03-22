@@ -194,10 +194,9 @@ url <- "http://www.neracoos.org/erddap/"
 tabledap("E01_optics_hist", url = url)
 }
 }
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
-}
 \references{
 \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 }
-
+\author{
+Scott Chamberlain <myrmecocystus@gmail.com>
+}

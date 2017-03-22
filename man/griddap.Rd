@@ -93,6 +93,7 @@ function calls. \code{\link{memory}} does not accept any inputs, while
 \code{\link{disk}} does. Possibly will add other options, like
 \dQuote{sql} for storing in a SQL database.
 }
+
 \examples{
 \dontrun{
 # single variable dataset
@@ -221,10 +222,9 @@ griddap('noaa_esrl_fce0_4aad_340a',
 )
 }
 }
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
-}
 \references{
 \url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
 }
-
+\author{
+Scott Chamberlain <myrmecocystus@gmail.com>
+}

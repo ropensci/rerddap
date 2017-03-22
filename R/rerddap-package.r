@@ -30,6 +30,11 @@
 #' @importFrom xml2 xml_text xml_find_all read_html
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
+#' @importFrom grDevices extendrange
+#' @importFrom graphics plot.new
+#' @importFrom grid grid.newpage
+#' @importFrom ggplot2 ggplot geom_sf coord_sf theme_bw scale_color_gradientn scale_fill_gradientn ggtitle
+#' @importFrom raster rasterFromXYZ
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package
@@ -84,3 +89,9 @@ NULL
 #' @format A character vector
 #' @name variablenames
 NULL
+
+
+
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`

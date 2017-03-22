@@ -12,4 +12,3 @@ ERDDAP server URLS and other info
 \examples{
 servers()
 }
-

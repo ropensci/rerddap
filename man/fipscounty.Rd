@@ -26,4 +26,3 @@ fipscounty(county = "CA, Monterey")
 fipscounty(county = "OR, Multnomah")
 }
 }
-

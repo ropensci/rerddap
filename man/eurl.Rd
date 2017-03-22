@@ -9,4 +9,3 @@ eurl()
 \description{
 Default ERDDAP server URL
 }
-
