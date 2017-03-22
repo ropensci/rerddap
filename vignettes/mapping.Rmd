@@ -1,0 +1,97 @@
+---
+title: "Mapping ERDDAP Data Obtained via rerddap"
+author: "Carson Sievert"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mapping with rerddap}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  comment = "#>",
+  collapse = TRUE,
+  fig.width = 3.45,
+  fig.asp = 1,
+  fig.show = "hold",
+  cache = TRUE
+)
+```
+
+## Getting started with `plotdap()`
+
+The `plotdap()` function makes plotting objects returned by `tabledap()` and `griddap()` a breeze. Regardless of the data you want to visualize, you'll always want to start a plot via `plotdap()`. Subsequent sections will demonstrate how to add tables/grids to a plot via `add_tabledap()`/`add_griddap()`, but for now we'll focus on options provided by `plotdap()`, which essentially pertain to "global" options related to the background map. Most importantly, the first argument decides whether [base](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html) or [ggplot2](https://cran.r-project.org/package=ggplot2) graphics should be used for the actual plotting.
+
+```{r}
+library(rerddap)
+plotdap()
+plotdap("base")
+```
+
+In addition to choosing a plotting method, `plotdap()` is where you can define properties of the background map, including the target projection (via a valid [coordinate reference system](https://www.rdocumentation.org/packages/sp/versions/1.2-4/topics/CRS-class) defintion):
+
+```{r, fig.width=7}
+plotdap(
+  mapTitle = "A different perspective", mapFill = "transparent", mapColor = "steelblue",
+  crs = "+proj=laea +y_0=0 +lon_0=155 +lat_0=-90 +ellps=WGS84 +no_defs"
+)
+```
+
+The options available in `plotdap()` *just work* for either plotting method, but more advanced users that know some base/ggplot2 plotting may want more control of cer. A later section will cover this topic.
+
+## Adding `tabledap()` layers
+
+## Adding `griddap()` layers
+
+## Combining tables/grids
+
+Touch on pipes?
+
+## Customizing `plotdap()` objects
+
+By this point, you might have noticed some subtle differences in the defaults of `plotdap("ggplot2")` versus `plotdap("base")`. The default base version is left intentially minimal as it is often much harder (or impossible) to remove elements from a base graphic once it's drawn. 
+
+
+```{r}
+library(ggplot2)
+plotdap(mapTitle = "Map of the world") %>%
+  add_ggplot(
+    labs(
+      subtitle = "Bow to your leader",
+      caption = "citation needed"
+    ), 
+    ggthemes::theme_map()
+  )
+```
+
+
+
+
+Generally speaking, 
+
+it's much harder (or impossible) to remove elements from  
+
+
+<!--
+## Basic interactive map  
+
+```{r cars}
+library(rerddap)
+library(leaflet)
+
+tab <- tabledap('erdCinpKfmBT')
+# this info() function has useful meta-information about the data
+# TODO: make this info() function a generic function?
+info(attr(tab, "datasetid"))
+
+
+tab[] <- lapply(tab, as.numeric)
+
+leaflet() %>%
+  addTiles() %>%
+  addMarkers(data = tab, clusterOptions = markerClusterOptions())
+```
+-->
