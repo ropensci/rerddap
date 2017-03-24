@@ -375,8 +375,8 @@ print.plotdap <- function(plot, ...) {
     xlim = xlim,
     ylim = ylim,
     main = plot$mapTitle %||% "",
-    col = plot$mapColor,
-    border = plot$mapFill,
+    col = plot$mapFill,
+    border = plot$mapColor,
     graticule = graticule,
     ...
   )
