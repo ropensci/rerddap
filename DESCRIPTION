@@ -43,7 +43,8 @@ Suggests:
     raster,
     sf,
     plotly,
-    lazyeval
+    lazyeval,
+    Cairo
 Enhances: taxize
 RoxygenNote: 6.0.1
 Remotes:

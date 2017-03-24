@@ -33,7 +33,7 @@
 #' @importFrom grDevices extendrange
 #' @importFrom graphics plot.new
 #' @importFrom grid grid.newpage
-#' @importFrom ggplot2 ggplot geom_sf coord_sf theme_bw scale_color_gradientn scale_fill_gradientn ggtitle
+#' @importFrom ggplot2 ggplot geom_sf coord_sf theme_bw scale_color_gradientn scale_fill_gradientn ggtitle aes_string aes_
 #' @importFrom raster rasterFromXYZ
 #' @name rerddap-package
 #' @aliases rerddap

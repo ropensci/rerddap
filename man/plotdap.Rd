@@ -71,8 +71,6 @@ If gridded=TRUE maxpixels may be ignored to get a larger sample}
   \item A character string matching a time value.
 }}
 
-\item{meridian}{numeric. What}
-
 \item{plot}{a plotdap object}
 
 \item{...}{ggplot2 elements}
@@ -86,18 +84,22 @@ and/or \code{add_griddap()} to add "layers" of actual data to be visualized.
 Add ggplot2 elements to a plotdap object
 }
 \details{
-The "ggplot2" method is slower than "base" approach (especially)
-for high-res grids/rasters, but is more flexible/extensible. Additional
+The "ggplot2" method is slower than "base" approach (especially
+for high-res grids/rasters), but is more flexible/extensible. Additional ggplot2
 layers, as well as scale defaults, labels, theming, etc. may be modified via
-the \code{add_ggplot()} function.
+the \code{add_ggplot()} function. See the mapping vignette for an introduction
+and overview of rerrdap's visualization methods --
+\code{browseVignettes(package = "rerddap")}.
 }
 \examples{
 
-library(rerddap)
+plotdap()
+plotdap("base")
 
-CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
+\dontrun{
+# tabledap examples
 sardines <- tabledap(
-  CPSinfo,
+  'FRDCPSTrawlLHHaulCatch',
   fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'),
   'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"'
  )
@@ -114,25 +116,29 @@ add_tabledap(p, sardines, ~subsample_count)
 p <- plotdap(crs = "+proj=robin")
 add_tabledap(p, sardines, ~subsample_count)
 
-
-sstInfo <- info('jplMURSST41')
+# griddap examples
 murSST <- griddap(
-  sstInfo, latitude = c(22, 51), longitude = c(-140, -105),
+  'jplMURSST41', latitude = c(22, 51), longitude = c(-140, -105),
   time = c('last', 'last'), fields = 'analysed_sst'
  )
 p <- plotdap(crs = "+proj=robin")
 add_griddap(p, murSST, ~analysed_sst)
 
 # layer tables on top of grids
-plotdap() \%>\%
-  add_griddap(murSST, ~sst) \%>\%
-  add_tabledap(sardines, ~subsample_count)
-
 plotdap("base") \%>\%
   add_griddap(murSST, ~sst) \%>\%
   add_tabledap(sardines, ~subsample_count)
 
+# multiple time periods
+wind <- griddap(
+  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+  latitude = c(30, 50), longitude = c(210, 240),
+  fields = 'x_wind'
+)
+p <- plotdap("base", mapTitle = "Average wind over time")
+add_griddap(p, wind, ~x_wind)
 
+}
 
 add_ggplot(
  plotdap(

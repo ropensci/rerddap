@@ -1,18 +1,21 @@
 context("plotdap")
 
 expect_plotdap <- function(p) {
-  # yes, this test only tells us if the expression runs without error...
-  expect_s3_class(
-    if (interactive()) print(p) else force(p),
-    class(p)[1]
-  )
+  expect_s3_class(p, class(p)[1])
+  save_plotdap(p)
+}
+
+# TODO: maybe png::readPNG() and test the result?
+save_plotdap <- function(p) {
+  Cairo::Cairo(file = tempfile(fileext = ".png"))
+  print(p)
+  dev.off()
 }
 
 test_that("plotdap() runs without any data", {
   expect_plotdap(plotdap())
   expect_plotdap(plotdap("base"))
 })
-
 
 test_that("plotdap() can handle projections", {
   proj <- "+proj=laea +y_0=0 +lon_0=155 +lat_0=-90 +ellps=WGS84 +no_defs"
@@ -93,6 +96,21 @@ test_that("plotdap can project both tables and grids", {
     plotdap("base", crs = "+proj=robin") %>%
       add_griddap(murSST, ~analysed_sst) %>%
       add_tabledap(sardines, ~subsample_count)
+  )
+})
+
+# multiple time periods
+wind <- griddap(
+  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+  latitude = c(30, 50), longitude = c(210, 240),
+  fields = 'x_wind'
+)
+
+
+test_that("plotdap can handle a time series of grids", {
+  expect_plotdap(
+    plotdap("base", mapTitle = "Average wind over time") %>%
+      add_griddap(wind, ~x_wind)
   )
 })
 

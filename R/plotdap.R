@@ -5,10 +5,12 @@
 #' and set some global options/parameters. Then use \code{add_tabledap()}
 #' and/or \code{add_griddap()} to add "layers" of actual data to be visualized.
 #'
-#' @details The "ggplot2" method is slower than "base" approach (especially)
-#' for high-res grids/rasters, but is more flexible/extensible. Additional
+#' @details The "ggplot2" method is slower than "base" approach (especially
+#' for high-res grids/rasters), but is more flexible/extensible. Additional ggplot2
 #' layers, as well as scale defaults, labels, theming, etc. may be modified via
-#' the \code{add_ggplot()} function.
+#' the \code{add_ggplot()} function. See the mapping vignette for an introduction
+#' and overview of rerrdap's visualization methods --
+#' \code{browseVignettes(package = "rerddap")}.
 #'
 #' @param method the plotting method. Currently ggplot2 and base plotting
 #' are supported.
@@ -28,11 +30,13 @@
 #' @author Carson Sievert
 #' @examples
 #'
-#' library(rerddap)
+#' plotdap()
+#' plotdap("base")
 #'
-#' CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
+#' \dontrun{
+#' # tabledap examples
 #' sardines <- tabledap(
-#'   CPSinfo,
+#'   'FRDCPSTrawlLHHaulCatch',
 #'   fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'),
 #'   'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"'
 #'  )
@@ -49,25 +53,29 @@
 #' p <- plotdap(crs = "+proj=robin")
 #' add_tabledap(p, sardines, ~subsample_count)
 #'
-#'
-#' sstInfo <- info('jplMURSST41')
+#' # griddap examples
 #' murSST <- griddap(
-#'   sstInfo, latitude = c(22, 51), longitude = c(-140, -105),
+#'   'jplMURSST41', latitude = c(22, 51), longitude = c(-140, -105),
 #'   time = c('last', 'last'), fields = 'analysed_sst'
 #'  )
 #' p <- plotdap(crs = "+proj=robin")
 #' add_griddap(p, murSST, ~analysed_sst)
 #'
 #' # layer tables on top of grids
-#' plotdap() %>%
-#'   add_griddap(murSST, ~sst) %>%
-#'   add_tabledap(sardines, ~subsample_count)
-#'
 #' plotdap("base") %>%
 #'   add_griddap(murSST, ~sst) %>%
 #'   add_tabledap(sardines, ~subsample_count)
 #'
+#' # multiple time periods
+#' wind <- griddap(
+#'   'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+#'   latitude = c(30, 50), longitude = c(210, 240),
+#'   fields = 'x_wind'
+#' )
+#' p <- plotdap("base", mapTitle = "Average wind over time")
+#' add_griddap(p, wind, ~x_wind)
 #'
+#'}
 
 plotdap <- function(method = c("ggplot2", "base"),
                     crs = NULL, datum = sf::st_crs(4326), graticule = TRUE,
@@ -94,7 +102,7 @@ plotdap <- function(method = c("ggplot2", "base"),
 
   if (identical(method, "ggplot2")) {
     p <- ggplot() +
-      geom_sf(data = bgMap, fill = mapFill, color = mapColor) +
+      geom_sf(data = bgMap, fill = mapFill, color = mapColor, ...) +
       theme_bw() + ggtitle(mapTitle)
     # keep track of some "global" properties...
     # this seems to be the only way to do things like train axis ranges
@@ -116,9 +124,7 @@ plotdap <- function(method = c("ggplot2", "base"),
     mapTitle = mapTitle,
     mapColor = mapColor,
     mapFill = mapFill,
-    layers = list(bgMap),
-    # TODO: do we even need this?
-    params = list(...)
+    layers = list(bgMap)
   )
   structure(dap, class = "plotdap")
 }
@@ -133,7 +139,6 @@ plotdap <- function(method = c("ggplot2", "base"),
 #' @param size the size of the symbol.
 #' @param shape the shape of the symbol. For valid options, see the 'pch' values
 #' section on \link{points}.
-#' @param meridian numeric. What
 #' @export
 #' @rdname plotdap
 
@@ -167,7 +172,7 @@ add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
     return(
       add_ggplot(
         plot,
-        geom_sf(data = table, aes_(colour = var), size = size, pch = shape),
+        geom_sf(data = table, aes_(colour = var), size = size, pch = shape, ...),
         scale_color_gradientn(name = lazyeval::f_text(var), colours = cols)
       )
     )
@@ -212,7 +217,9 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
   if (!is.grid(grid))
     stop("The `grid` argument must be a `griddap()` object", call. = FALSE)
   if (!lazyeval::is_formula(var))
-    stop("The var argument must be a formula", call. = FALSE)
+    stop("The `var`` argument must be a formula", call. = FALSE)
+  if (!is.function(time))
+    stop("The `time` argument must be a function", call. = FALSE)
 
   # create raster object from filename; otherwise create a sensible raster from data
   r <- get_raster(grid, var)
@@ -221,6 +228,19 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
   latlon_is_valid(r)
   # adjust to ensure everthing is on standard lat/lon scale
   r <- latlon_adjust(r)
+
+  # if necessary, reduce a RasterBrick to a RasterLayer
+  # http://gis.stackexchange.com/questions/82390/summarize-values-from-a-raster-brick-by-latitude-bands-in-r
+  if (raster::nlayers(r) > 1) {
+    r <- raster::calc(r, time)
+    # TODO: eventually support this through multiple panels and animation!
+    if (raster::nlayers(r) > 1) {
+      warning(
+        "The function provided to the `time` argument needs to return a single value",
+        call. = FALSE
+      )
+    }
+  }
 
   # simplify raster, if necessary
   n <- raster::ncell(r)
@@ -236,10 +256,7 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     r <- raster::resample(r, rnew, method = 'bilinear')
   }
 
-  # TODO: aggregate time series grids with raster::aggregate()?
-
-
-  if (!is.null(plot$crs)) {
+  if (!inherits(plot$crs, "crs")) {
     r <- raster::projectRaster(r, crs = plot$crs$proj4string)
   }
 
@@ -418,7 +435,7 @@ is_ggplotdap <- function(x) {
 }
 
 is_raster <- function(x) {
-  inherits(x, "RasterLayer")
+  inherits(x, c("RasterLayer", "RasterBrick", "RasterStack"))
 }
 
 get_bbox <- function(x) {
@@ -435,23 +452,42 @@ get_bbox <- function(x) {
 
 get_raster <- function(grid, var) {
   path <- attr(grid, "path")
-  tryCatch(
-    raster::raster(path),
+  times <- grid$summary$dim$time$vals
+  readRaster <- if (length(times) > 1) raster::brick else raster::raster
+  r <- tryCatch(
+    readRaster(path),
     # try to manually construct a sensible grid from summary on error
     error = function(e) {
       lats <- grid$summary$dim$latitude$vals
       lons <- grid$summary$dim$longitude$vals
       ylim <- range(lats, na.rm = TRUE)
       xlim <- range(lons, na.rm = TRUE)
-      raster::raster(
-        nrow = length(lats),
-        ncol = length(lons),
-        ext = raster::extent(xlim[1], xlim[2], ylim[1], ylim[2]),
-        # TODO: how to ensure the order of values match?
-        vals = lazyeval::f_eval(var, grid$data)
-      )
+      ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
+      if (length(times) > 1) {
+        # ensure values appear in the right order...
+        # TODO: how to detect a south -> north ordering?
+        d <- dplyr::arrange(grid$data, time, desc(lat), lon)
+        b <- raster::brick(
+          nl = length(times),
+          nrows = length(lats),
+          ncols = length(lons)
+        )
+        raster::values(b) <- lazyeval::f_eval(var, d)
+        raster::setExtent(b, ext)
+      } else {
+        d <- dplyr::arrange(grid$data, desc(lat), lon)
+        raster::raster(
+          nrows = length(lats),
+          ncols = length(lons),
+          ext = ext,
+          vals = lazyeval::f_eval(var, d)
+        )
+      }
     }
   )
+
+  names(r) <- times %||% ""
+  r
 }
 
 latlon_is_valid <- function(x) {
@@ -520,8 +556,9 @@ latlon_adjust <- function(x) {
   }
 
   if (is_raster(x)) {
-    coord <- sp::coordinates(x)
-    lon <- coord[, 1]
+
+    ext <- raster::extent(x)
+    lon <- c(ext@xmin, ext@xmax)
 
     if (all(dplyr::between(lon, 0, 180))) {
 
@@ -533,9 +570,10 @@ latlon_adjust <- function(x) {
 
     } else if (all(dplyr::between(lon, 0, 360))) {
 
-      idx <- isTRUE(lon > 180)
-      coord[, 1][idx] <- lon[idx] - 360
-      sp::coordinates(x) <- coord
+      newExt <- raster::extent(
+        c(c(ext@xmin, ext@xmax) - 360, ext@ymin, ext@ymax)
+      )
+      x <- raster::setExtent(x, newExt, keepres = TRUE)
 
     } else if (all(dplyr::between(lon, -180, 180))) {
 
