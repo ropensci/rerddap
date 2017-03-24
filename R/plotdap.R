@@ -254,7 +254,8 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     r <- raster::resample(r, rnew, method = 'bilinear')
   }
 
-  if (!inherits(plot$crs, "crs")) {
+  # assumes we apply sf::st_crs() to plot on initiation
+  if (inherits(plot$crs, "crs")) {
     r <- raster::projectRaster(r, crs = plot$crs$proj4string)
   }
 
