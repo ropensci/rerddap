@@ -19,8 +19,6 @@
 #' or character with proj4string.
 #' @param datum crs that provides datum to use when generating graticules.
 #' Set to \code{NULL} to hide the graticule.
-#' @param graticule whether or not to plot a graticule (a grid representing
-#' the \code{crs}).
 #' @param mapTitle A title for the map.
 #' @param mapFill fill used for the map.
 #' @param mapColor color used to draw boundaries of the map.
@@ -80,7 +78,7 @@
 
 plotdap <- function(method = c("ggplot2", "base"),
                     mapData = maps::map('world', plot = FALSE, fill = TRUE),
-                    crs = NULL, datum = sf::st_crs(4326), graticule = TRUE,
+                    crs = NULL, datum = sf::st_crs(4326),
                     mapTitle = NULL, mapFill = "gray80", mapColor = "gray90",
                     ...) {
 

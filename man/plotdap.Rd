@@ -9,8 +9,7 @@
 \usage{
 plotdap(method = c("ggplot2", "base"), mapData = maps::map("world", plot =
   FALSE, fill = TRUE), crs = NULL, datum = sf::st_crs(4326),
-  graticule = TRUE, mapTitle = NULL, mapFill = "gray80",
-  mapColor = "gray90", ...)
+  mapTitle = NULL, mapFill = "gray80", mapColor = "gray90", ...)
 
 add_tabledap(plot, table, var, color = c("#132B43", "#56B1F7"), size = 1.5,
   shape = 19, ...)
@@ -31,9 +30,6 @@ or character with proj4string.}
 
 \item{datum}{crs that provides datum to use when generating graticules.
 Set to \code{NULL} to hide the graticule.}
-
-\item{graticule}{whether or not to plot a graticule (a grid representing
-the \code{crs}).}
 
 \item{mapTitle}{A title for the map.}
 
