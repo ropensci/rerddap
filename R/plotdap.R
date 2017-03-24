@@ -14,6 +14,7 @@
 #'
 #' @param method the plotting method. Currently ggplot2 and base plotting
 #' are supported.
+#' @param mapData an object coercable to an sf object via \code{st_as_sf()}.
 #' @param crs a coordinate reference system: integer with the epsg code,
 #' or character with proj4string.
 #' @param datum crs that provides datum to use when generating graticules.
@@ -78,6 +79,7 @@
 #'}
 
 plotdap <- function(method = c("ggplot2", "base"),
+                    mapData = maps::map('world', plot = FALSE, fill = TRUE),
                     crs = NULL, datum = sf::st_crs(4326), graticule = TRUE,
                     mapTitle = NULL, mapFill = "gray80", mapColor = "gray90",
                     ...) {
@@ -89,11 +91,7 @@ plotdap <- function(method = c("ggplot2", "base"),
 
   # maps is bad at namespacing
   try_require("mapdata", "plotdap")
-
-  # TODO: API for different background maps?
-  bgMap <- sf::st_as_sf(
-    maps::map('world', plot = FALSE, fill = TRUE)
-  )
+  bgMap <- sf::st_as_sf(mapData)
 
   # transform background map to target projection
   if (!is.null(crs)) {

@@ -7,9 +7,10 @@
 \alias{add_ggplot}
 \title{Visualize rerddap data}
 \usage{
-plotdap(method = c("ggplot2", "base"), crs = NULL,
-  datum = sf::st_crs(4326), graticule = TRUE, mapTitle = NULL,
-  mapFill = "gray80", mapColor = "gray90", ...)
+plotdap(method = c("ggplot2", "base"), mapData = maps::map("world", plot =
+  FALSE, fill = TRUE), crs = NULL, datum = sf::st_crs(4326),
+  graticule = TRUE, mapTitle = NULL, mapFill = "gray80",
+  mapColor = "gray90", ...)
 
 add_tabledap(plot, table, var, color = c("#132B43", "#56B1F7"), size = 1.5,
   shape = 19, ...)
@@ -22,6 +23,8 @@ add_ggplot(plot, ...)
 \arguments{
 \item{method}{the plotting method. Currently ggplot2 and base plotting
 are supported.}
+
+\item{mapData}{an object coercable to an sf object via \code{st_as_sf()}.}
 
 \item{crs}{a coordinate reference system: integer with the epsg code,
 or character with proj4string.}
