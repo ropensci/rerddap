@@ -201,9 +201,7 @@ add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
 #' \itemize{
 #'   \item A function to apply to each observation at a particular location
 #'   (\link{mean} is the default).
-#'   %\item \code{"animate"} produces an animation -- one frame per time period.
-#'   %\item \code{"trellis"} produces a trellis display -- one panel per time period.
-#'   \item A character string matching a time value.
+#'   \item A character string (of length 1) matching a time value.
 #' }
 #' @export
 #' @rdname plotdap
@@ -214,8 +212,8 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     stop("The `grid` argument must be a `griddap()` object", call. = FALSE)
   if (!lazyeval::is_formula(var))
     stop("The `var`` argument must be a formula", call. = FALSE)
-  if (!is.function(time))
-    stop("The `time` argument must be a function", call. = FALSE)
+  if (!is.function(time) && !is.character(time))
+    stop("The `time` argument must be a function or a character string", call. = FALSE)
 
   # create raster object from filename; otherwise create a sensible raster from data
   r <- get_raster(grid, var)
@@ -228,7 +226,13 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
   # if necessary, reduce a RasterBrick to a RasterLayer
   # http://gis.stackexchange.com/questions/82390/summarize-values-from-a-raster-brick-by-latitude-bands-in-r
   if (raster::nlayers(r) > 1) {
-    r <- raster::calc(r, time)
+    if (is.function(time)) {
+      r <- raster::calc(r, time)
+    } else {
+      r <- r[[make.names(time)]]
+    }
+
+
     # TODO: eventually support this through multiple panels and animation!
     if (raster::nlayers(r) > 1) {
       warning(
@@ -483,7 +487,7 @@ get_raster <- function(grid, var) {
     }
   )
 
-  names(r) <- times %||% ""
+  names(r) <- make.names(unique(grid$data$time) %||% "")
   r
 }
 

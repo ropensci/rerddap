@@ -65,9 +65,7 @@ If gridded=TRUE maxpixels may be ignored to get a larger sample}
 \itemize{
   \item A function to apply to each observation at a particular location
   (\link{mean} is the default).
-  %\item \code{"animate"} produces an animation -- one frame per time period.
-  %\item \code{"trellis"} produces a trellis display -- one panel per time period.
-  \item A character string matching a time value.
+  \item A character string (of length 1) matching a time value.
 }}
 
 \item{plot}{a plotdap object}
