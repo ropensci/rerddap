@@ -229,7 +229,18 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     if (is.function(time)) {
       r <- raster::calc(r, time)
     } else {
-      r <- r[[make.names(time)]]
+      nm <- make.names(time)
+      if (!nm %in% names(r)) {
+        warning(
+          "The `time` argument doesn't match any of time values.\n",
+          sprintf(
+            "Valid options include: '%s'",
+            paste(unique(grid$data$time), collapse = "', '")
+          ),
+          call. = FALSE
+        )
+      }
+      r <- r[[nm]]
     }
 
 
