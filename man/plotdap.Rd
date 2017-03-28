@@ -31,14 +31,17 @@ or character with proj4string.}
 \item{datum}{crs that provides datum to use when generating graticules.
 Set to \code{NULL} to hide the graticule.}
 
-\item{mapTitle}{A title for the map.}
+\item{mapTitle}{a title for the map.}
 
 \item{mapFill}{fill used for the map.}
 
 \item{mapColor}{color used to draw boundaries of the map.}
 
-\item{...}{when \code{method = 'base'}, graphical parameters (\link{par}) and
-other arguments passed along to \link{plot}. Otherwise, ignored.}
+\item{...}{for \code{plotdap()}/\code{add_tabledap()}/\code{add_griddap()},
+arguments passed along to \code{geom_sf()} (if \code{method='ggplot2'},
+otherwise ignored). For \code{add_ggplot2()}, these arguments may be
+any object of class "gg" (e.g, \code{theme()}, \code{scale_fill_gradientn()},
+\code{geom_point()}, etc.)}
 
 \item{plot}{a \link{plotdap} object.}
 

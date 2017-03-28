@@ -1,11 +1,11 @@
 #' Visualize rerddap data
 #'
 #' Visualize data returned from rerddap servers. Use \code{plotdap()} to initialize
-#' a plot, specify the plotting method (base or ggplot2),
+#' a plot, specify the plotting method (specifically, 'base' or 'ggplot2'),
 #' and set some global options/parameters. Then use \code{add_tabledap()}
 #' and/or \code{add_griddap()} to add "layers" of actual data to be visualized.
 #'
-#' @details The "ggplot2" method is slower than "base" approach (especially
+#' @details The "ggplot2" method is slower than "base" (especially
 #' for high-res grids/rasters), but is more flexible/extensible. Additional ggplot2
 #' layers, as well as scale defaults, labels, theming, etc. may be modified via
 #' the \code{add_ggplot()} function. See the mapping vignette for an introduction
@@ -19,11 +19,14 @@
 #' or character with proj4string.
 #' @param datum crs that provides datum to use when generating graticules.
 #' Set to \code{NULL} to hide the graticule.
-#' @param mapTitle A title for the map.
+#' @param mapTitle a title for the map.
 #' @param mapFill fill used for the map.
 #' @param mapColor color used to draw boundaries of the map.
-#' @param ... when \code{method = 'base'}, graphical parameters (\link{par}) and
-#' other arguments passed along to \link{plot}. Otherwise, ignored.
+#' @param ... for \code{plotdap()}/\code{add_tabledap()}/\code{add_griddap()},
+#' arguments passed along to \code{geom_sf()} (if \code{method='ggplot2'},
+#' otherwise ignored). For \code{add_ggplot2()}, these arguments may be
+#' any object of class "gg" (e.g, \code{theme()}, \code{scale_fill_gradientn()},
+#' \code{geom_point()}, etc.)
 #' @export
 #' @seealso \code{\link{tabledap}()}, \code{\link{griddap}()}
 #' @author Carson Sievert
@@ -157,7 +160,7 @@ add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
     coords = c(grep(lonPattern(), nms), grep(latPattern(), nms))
   )
   # transform to target projection
-  if (!is.null(plot$crs)) {
+  if (inherits(plot$crs, "crs")) {
     table <- sf::st_transform(table, plot$crs)
   }
 

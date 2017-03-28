@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   fig.width = 3.45,
   fig.asp = 1,
   fig.show = "hold",
+  fig.align = "center",
   cache = TRUE
 )
 ```
@@ -25,7 +26,7 @@ knitr::opts_chunk$set(
 
 The `plotdap()` function makes it easy to visualize data acquired via `tabledap()` or `griddap()`. Regardless of the data you want to visualize, you'll always want to start a plot via `plotdap()`, where you may specify some "global" plotting options. Subsequent sections will demonstrate how to add tables/grids via `add_tabledap()`/`add_griddap()`, but for now we'll focus on options provided by `plotdap()`. Most importantly, the first argument decides whether [base](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html) or [ggplot2](https://cran.r-project.org/package=ggplot2) graphics should be used for the actual plotting.
 
-```{r}
+```{r world, fig.align='default'}
 library(rerddap)
 plotdap()
 plotdap("base")
@@ -33,7 +34,7 @@ plotdap("base")
 
 In addition to choosing a plotting method, `plotdap()` is where you can define properties of the background map, including the target projection using a valid coordinate reference system (CRS) defintion. Projection is performed using the [PROJ.4 library](http://proj4.org/), and [spatialreference.org](http://www.spatialreference.org) is a great resource for finding PROJ.4 CRS descriptions. Using the search utility, you can for example, [search for "South Pole"](http://spatialreference.org/ref/sr-org/?search=South+Pole&srtext=Search) and pick from a number of options. Here I've chosen the [MODIS South Pole Stereographic](http://spatialreference.org/ref/sr-org/8375/) option and copy-pasted the [Proj4 page](http://spatialreference.org/ref/sr-org/8375/proj4/) with the CRS definition: 
 
-```{r, fig.width=7}
+```{r southPole, fig.width=7}
 plotdap("base",
   mapTitle = "MODIS South Pole Stereographic", 
   mapFill = "transparent", 
@@ -44,7 +45,7 @@ plotdap("base",
 
 You might notice that some projections aren't "well-defined" on a global scale, and thus, may result in an error, or a "broken" looking map. For instance, [this Albers projection centered on Alaska](http://spatialreference.org/ref/epsg/3467/):
 
-```{r, eval = FALSE}
+```{r alaska, eval = FALSE}
 alaska <- "+proj=aea +lat_1=55 +lat_2=65 +lat_0=50 +lon_0=-154 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
 plotdap("base", crs = alaska)
 ```
@@ -54,22 +55,111 @@ plotdap("base", crs = alaska)
 #> Error in CPL_transform(x, crs$proj4string, crs$epsg) : OGR error
 ```
 
-That does not mean we can't use this (or similar) projections -- we just have to be careful that they are sensible given the lat/lon limits. By default, those limits span the entire world, but as we'll see later, the limits are shrunk to the given data (`griddap()`/`tabledap()`) limits. In other words, we should expect this projection to work once we "add" some data located near Alaska to the visualization. However, in case you want to make a map without any data, or want to customize the background map in some special way, you can supply an [**sf**](https://CRAN.R-project.org/package=sf) object (or something coercable to an **sf** object) to the `mapData` argument.
+That does not mean we can't use this (or similar) projections -- we just have to be careful that they are sensible given the lat/lon limits. By default, those limits span the entire world, but as we'll see later, the limits are shrunk to the given data (i.e., `griddap()` / `tabledap()`) limits. In other words, we should expect this projection to work once we "add" some data located near Alaska to the visualization. However, in case you want to make a map without any data, or want to customize the background map in some special way, you can supply an [**sf**](https://CRAN.R-project.org/package=sf) object (or something coercable to an **sf** object) to the `mapData` argument.
+
+```{r, echo = FALSE}
+alaska <- "+proj=aea +lat_1=55 +lat_2=65 +lat_0=50 +lon_0=-154 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+```
 
 ```{r}
 library(sf)
 library(mapdata)
 w <- st_as_sf(maps::map("world", plot = FALSE, fill = TRUE))
-us <- st_transform(filter(w, ID == "USA"), alaska)
+us <- st_transform(subset(w, ID == "USA"), alaska)
 plotdap(mapData = us)
 ```
 
-With the odd exception of projections, the options available in `plotdap()` should *just work* for either plotting method. More advanced users that know some base/ggplot2 plotting may want more control of certain aspects of the plot. A later section (Customizing `plotdap()` objects) covers this topic.
+With the odd exception of window sizing and projections, the options in `plotdap()` should *just work* in a similar way for either plotting method. However, there are some useful options that are deliberately left out, since they work differently based on the plotting method.   
 
+Since the result of `plotdap()` is always a map, it always forces a fixed aspect ratio (i.e., $\frac{height}{width}$ of graph equals $r=\frac{latitude}{longitude}$). For this reason, the current size of your graphics device may not be sensible for the value of $r$ (for instance, if $r$ is high, but the height of the graphics device is small, you may see an error such as: `polygon edge not found` since the device cannot possibly render the result under the conditions). For a number of reasons, `plotdap()` will not automatically resize your graphics device; instead, it's recommended that you use a reliable graphics device such as Cairo, and use a height/width ratio close to $r$.
+
+```{r, eval=FALSE}
+# write plot to disk using the Cairo package
+library(Cairo)
+# (latitude limits) / (longitude limits)
+r <- 85 / 120
+CairoPNG("myPlot.png", height = 400 * r, width = 400, res = 96)
+# alter default margins for base plotting (leaving just enough space for a title)
+par(mar = c(0, 0, 1, 0))
+plotdap("base", mapData = us, mapTitle = "Albers projection of Alaska")
+dev.off()
+```
+
+```{r, echo = FALSE, out.height = 280, out.width = 400}
+knitr::include_graphics("myPlot.png")
+```
+
+More advanced users that know some base/ggplot2 plotting may want more control of certain aspects of the plot (a later section -- Customizing `plotdap()` objects -- covers this topic). 
 
 ## Adding `tabledap()` layers
 
+
+
+```{r}
+sardines <- tabledap(
+  'FRDCPSTrawlLHHaulCatch',
+  fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'),
+  'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"'
+)
+```
+
+
 ## Adding `griddap()` layers
+
+### Handling multiple time periods
+
+
+```{r}
+wind <- griddap(
+  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+  latitude = c(30, 50), longitude = c(210, 240),
+  fields = 'x_wind'
+)
+p <- plotdap(crs = alaska, mapTitle = "Average wind over time")
+add_griddap(p, wind, ~x_wind)
+```
+
+
+### Animations
+
+
+```{r, eval = FALSE}
+wind <- griddap(
+  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+  latitude = c(30, 50), longitude = c(210, 240),
+  fields = 'x_wind'
+)
+# collect all the time points and the total range of wind
+times <- unique(wind$data$time)
+rng <- range(wind$data$x_wind, na.rm = T)
+# fill scale limits should remain consistent throughout animation
+sc <- scale_fill_gradientn("wind", limits = rng, colors = colors[["viridis"]])
+
+library(animation)
+saveGIF({
+  for (i in times) {
+    gg <- plotdap(mapTitle = paste("Wind at", i))
+    gg <- add_griddap(gg, wind, ~x_wind, time = i)
+    print(add_ggplot(gg, sc))
+  }
+})
+```
+
+```{r, echo = FALSE, fig.show='animate', interval = 0.3}
+wind <- griddap(
+  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
+  latitude = c(30, 50), longitude = c(210, 240),
+  fields = 'x_wind'
+)
+# collect all the 
+times <- unique(wind$data$time)
+
+for (i in times) {
+  p <- plotdap("base", mapTitle = paste("Wind at", i))
+  print(add_griddap(p, wind, ~x_wind, time = i))
+}
+```
+
 
 ## Combining tables/grids
 
@@ -93,20 +183,6 @@ plotdap(mapTitle = "Map of the world") %>%
 ```
 
 
-## Troubleshooting
-
-* Cairo device
-
-```{r}
-library(Cairo)
-Cairo("myPlot.png")
-us
-dev.off()
-```
-
-```{r, echo=FALSE}
-knitr::include_graphics("myPlot.png")
-```
 
 
 <!--
