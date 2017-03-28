@@ -30,8 +30,7 @@
 #' @importFrom xml2 xml_text xml_find_all read_html
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
-#' @importFrom graphics plot.new
-#' @importFrom grid grid.newpage
+#' @importFrom tidyr gather_
 #' @importFrom maps map
 #' @importFrom scales rescale col_numeric
 #' @importFrom lazyeval is_formula f_text f_eval

@@ -137,12 +137,18 @@ plotdap <- function(method = c("ggplot2", "base"),
 #' of \code{var}.
 #' @param size the size of the symbol.
 #' @param shape the shape of the symbol. For valid options, see the 'pch' values
-#' section on \link{points}.
+#' section on \link{points}. \code{plot(0:25, 0:25, pch = 0:25)} also gives a
+#' quick visual of the majority of possibilities.
+#' @param animate whether to animate over the \code{time} variable (if it exists).
+#' Currently only implemented for \code{method='ggplot2'} and requires the
+#' gganimate package.
+#' @param ani.args arguments passed along to \code{gganimate()}.
 #' @export
 #' @rdname plotdap
 
 add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
-                         size = 1.5, shape = 19, ...) {
+                         size = 1.5, shape = 19, animate = FALSE,
+                         ani.args = list(filename = "ani.gif"), ...) {
   if (!is.table(table))
     stop("The `table` argument must be a `tabledap()` object", call. = FALSE)
   if (!lazyeval::is_formula(var))
@@ -168,12 +174,29 @@ add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
   cols <- if (length(color) == 1) colors[[color]] else color
 
   if (is_ggplotdap(plot)) {
+
+    mapping <- if (animate && "time" %in% names(table) && has_gganimate()) {
+      plot$animate <- TRUE
+      plot$ani.args <- ani.args
+      aes_(colour = var, frame = ~time)
+    } else {
+      aes_(colour = var)
+    }
+
     return(
       add_ggplot(
         plot,
-        geom_sf(data = table, aes_(colour = var), size = size, pch = shape, ...),
+        geom_sf(data = table, mapping = mapping, size = size, pch = shape, ...),
         scale_color_gradientn(name = lazyeval::f_text(var), colours = cols)
       )
+    )
+  }
+
+
+  if (animate) {
+    warning(
+      "Animations are currently only implemented for `method='ggplot2'`",
+      call. = FALSE
     )
   }
 
@@ -206,11 +229,16 @@ add_tabledap <- function(plot, table, var, color = c("#132B43", "#56B1F7"),
 #'   (\link{mean} is the default).
 #'   \item A character string (of length 1) matching a time value.
 #' }
+#' @param animate whether to animate over the \code{time} variable (if it exists).
+#' Currently only implemented for \code{method='ggplot2'} and requires the
+#' gganimate package.
+#' @param ani.args arguments passed along to \code{gganimate()}.
 #' @export
 #' @rdname plotdap
 
 add_griddap <- function(plot, grid, var, fill = "viridis",
-                        maxpixels = 10000, time = mean, ...) {
+                        maxpixels = 10000, time = mean, animate = FALSE,
+                        ani.args = list(filename = "ani.gif"), ...) {
   if (!is.grid(grid))
     stop("The `grid` argument must be a `griddap()` object", call. = FALSE)
   if (!lazyeval::is_formula(var))
@@ -246,11 +274,10 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
       r <- r[[nm]]
     }
 
-
-    # TODO: eventually support this through multiple panels and animation!
-    if (raster::nlayers(r) > 1) {
-      warning(
-        "The function provided to the `time` argument needs to return a single value",
+    if (raster::nlayers(r) > 1 && !animate) {
+      stop(
+        "The `time` argument hasn't reduced the raster down to a single layer.\n",
+        "Either set `animate=TRUE` or provide a suitable value to `time`.",
         call. = FALSE
       )
     }
@@ -267,7 +294,9 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
       crs = raster::crs(r),
       ext = raster::extent(r)
     )
-    r <- raster::resample(r, rnew, method = 'bilinear')
+    for (i in seq_len(raster::nlayers(r))) {
+      r[[i]] <- raster::resample(r[[i]], rnew, method = 'bilinear')
+    }
   }
 
   # assumes we apply sf::st_crs() to plot on initiation
@@ -282,10 +311,19 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     # TODO: not the most efficient approach, but it will have to do for now
     # https://twitter.com/hadleywickham/status/841763265344487424
     s <- sf::st_as_sf(raster::rasterToPolygons(r))
+    vars <- setdiff(names(s), "geometry")
+    sg <- sf::st_as_sf(tidyr::gather_(s, "variable", "value", vars))
+    mapping <- if (animate && has_gganimate()) {
+      plot$animate <- TRUE
+      plot$ani.args <- ani.args
+      aes_string(fill = "value", frame = "variable")
+    } else {
+      aes_string(fill = "value")
+    }
     return(
       add_ggplot(
         plot,
-        geom_sf(data = s, aes_string(fill = setdiff(names(s), "geometry")), size = 0, ...),
+        geom_sf(data = sg, mapping = mapping, size = 0, ...),
         scale_fill_gradientn(name = lazyeval::f_text(var), colors = cols)
       )
     )
@@ -359,9 +397,16 @@ print.ggplotdap <- function(plot, ...) {
       xlim = xlim, ylim = ylim
     )
   )
-  print(plot$ggplot)
-  plot
+  if (has_gganimate() && isTRUE(plot$animate)) {
+    p <- list(p = plot$ggplot)
+    print(do.call(gganimate::gganimate, c(p, plot$ani.args)))
+  } else {
+    print(plot$ggplot)
+  }
+  invisible(plot)
 }
+
+
 
 #' Print a plotdap object
 #'
@@ -382,8 +427,6 @@ print.plotdap <- function(plot, ...) {
   )
 
   # TODO: how to guarantee a new plot?
-  grid::grid.newpage()
-  graphics::plot.new()
 
   # plot the background map
   plot(
@@ -394,6 +437,7 @@ print.plotdap <- function(plot, ...) {
     col = plot$mapFill,
     border = plot$mapColor,
     graticule = graticule,
+    bty = "n",
     ...
   )
 
@@ -675,7 +719,18 @@ try_require <- function(package, fun) {
        "Please install and try again.", call. = FALSE)
 }
 
-
+has_gganimate <- function() {
+  if (system.file(package = "gganimate") != "") {
+    return(TRUE)
+  }
+  warning(
+    "This functionality requires the gganimate package.",
+    "Please install via devtools:\n",
+    "devtools::install_github('dgrtwo/gganimate')",
+    call. = FALSE
+  )
+  FALSE
+}
 
 
 # This is likely WRONG, SAD!

@@ -12,10 +12,11 @@ plotdap(method = c("ggplot2", "base"), mapData = maps::map("world", plot =
   mapTitle = NULL, mapFill = "gray80", mapColor = "gray90", ...)
 
 add_tabledap(plot, table, var, color = c("#132B43", "#56B1F7"), size = 1.5,
-  shape = 19, ...)
+  shape = 19, animate = FALSE, ani.args = list(filename = "ani.gif"), ...)
 
 add_griddap(plot, grid, var, fill = "viridis", maxpixels = 10000,
-  time = mean, ...)
+  time = mean, animate = FALSE, ani.args = list(filename = "ani.gif"),
+  ...)
 
 add_ggplot(plot, ...)
 }
@@ -56,7 +57,14 @@ of \code{var}.}
 \item{size}{the size of the symbol.}
 
 \item{shape}{the shape of the symbol. For valid options, see the 'pch' values
-section on \link{points}.}
+section on \link{points}. \code{plot(0:25, 0:25, pch = 0:25)} also gives a
+quick visual of the majority of possibilities.}
+
+\item{animate}{whether to animate over the \code{time} variable (if it exists).
+Currently only implemented for \code{method='ggplot2'} and requires the
+gganimate package.}
+
+\item{ani.args}{arguments passed along to \code{gganimate()}.}
 
 \item{grid}{a \link{griddap} object.}
 
@@ -71,20 +79,26 @@ If gridded=TRUE maxpixels may be ignored to get a larger sample}
   \item A character string (of length 1) matching a time value.
 }}
 
+\item{animate}{whether to animate over the \code{time} variable (if it exists).
+Currently only implemented for \code{method='ggplot2'} and requires the
+gganimate package.}
+
+\item{ani.args}{arguments passed along to \code{gganimate()}.}
+
 \item{plot}{a plotdap object}
 
 \item{...}{ggplot2 elements}
 }
 \description{
 Visualize data returned from rerddap servers. Use \code{plotdap()} to initialize
-a plot, specify the plotting method (base or ggplot2),
+a plot, specify the plotting method (specifically, 'base' or 'ggplot2'),
 and set some global options/parameters. Then use \code{add_tabledap()}
 and/or \code{add_griddap()} to add "layers" of actual data to be visualized.
 
 Add ggplot2 elements to a plotdap object
 }
 \details{
-The "ggplot2" method is slower than "base" approach (especially
+The "ggplot2" method is slower than "base" (especially
 for high-res grids/rasters), but is more flexible/extensible. Additional ggplot2
 layers, as well as scale defaults, labels, theming, etc. may be modified via
 the \code{add_ggplot()} function. See the mapping vignette for an introduction

@@ -21,6 +21,7 @@ Imports:
     utils,
     httr (>= 1.2.1),
     dplyr (>= 0.5.0),
+    tidyr,
     magrittr,
     data.table (>= 1.10.0),
     jsonlite (>= 1.2),
