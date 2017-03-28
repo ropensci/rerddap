@@ -93,7 +93,7 @@ More advanced users that know some base/ggplot2 plotting may want more control o
 
 ## Adding `tabledap()` layers
 
-
+The `add_tabledap()` function allows you to add markers that encode variable(s) obtained via `tabledap()` to an existing `plotdap()` object. For example, suppose we have the following `sardines` data, and wish to understand the frequency of subsample counts:
 
 ```{r}
 sardines <- tabledap(
@@ -101,10 +101,69 @@ sardines <- tabledap(
   fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'),
   'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"'
 )
+sardines
 ```
+
+At the very least, `add_tabledap()` needs a base map (i.e., a `plotdap()` object), the `tabledap()` data, and a *formula* defining the variable of interest (for encoding the color of the markers). In R, you can create a formula by prefixing `~` to some expression. This formula can simply reference a variable already residing in the dataset (e.g., `~subsample_count`) or it can be a function of some variables (e.g. `~log2(subsample_count)`):
+
+```{r, fig.align='default'}
+add_tabledap(
+  plotdap(), 
+  sardines, 
+  ~subsample_count
+)
+add_tabledap(
+  plotdap(crs = "+proj=robin", mapTitle = "Log subsample count"), 
+  sardines, 
+  ~log2(subsample_count)
+)
+```
+
+Since `time` is an important variable in many `tabledap()` objects, `add_tabledap()` also has a `animate` argument which allows you to easily animate over the `time` variable. It is also easy to alter the color scale and symbol type via the `color` and `shape` arguments. For details about these arguments, please refer to the documentation on `help(add_tabledap)`
+
+```{r, eval = FALSE}
+add_tabledap(
+  plotdap(crs = "+proj=robin"), 
+  sardines, 
+  ~subsample_count, 
+  color = "density", 
+  shape = 4, 
+  animate = TRUE
+)
+```
+
+<div align = "center">
+  <a href="http://i.imgur.com/87KAnsS">
+    <img src = "http://i.imgur.com/87KAnsS.gif" height = "500" width = "700" />
+  </a>
+</div>
+
 
 
 ## Adding `griddap()` layers
+
+Similar to `add_tabledap()`, the `add_griddap()` function makes it easy to add rasters (i.e., rectangular tiles) to a `plotdap()` object. To demonstrate, lets obtain some of the latest sea surface temperatures off the western coast of the US.
+
+```{r}
+murSST <- griddap(
+  'jplMURSST41', latitude = c(22, 51), longitude = c(-140, -105),
+  time = c('last', 'last'), fields = 'analysed_sst'
+)
+murSST
+```
+
+Again, similar to `add_tabledap()`, `add_griddap()` needs a base map (i.e., a `plotdap()` object), the `griddap()` data, and a *formula* defining the variable of interest (for encoding the fill of the rectangles).
+
+```{r}
+# reduce the number of trailing digits in the legend
+options(digits = 2)
+add_griddap(
+  plotdap("base", crs = "+proj=robin"), 
+  murSST, ~analysed_sst, maxpixels = 20000
+)
+```
+
+
 
 ### Handling multiple time periods
 
@@ -129,23 +188,27 @@ wind <- griddap(
   latitude = c(30, 50), longitude = c(210, 240),
   fields = 'x_wind'
 )
-# collect all the time points and the total range of wind
-times <- unique(wind$data$time)
-rng <- range(wind$data$x_wind, na.rm = T)
-# fill scale limits should remain consistent throughout animation
-sc <- scale_fill_gradientn("wind", limits = rng, colors = colors[["viridis"]])
 
-library(animation)
-saveGIF({
-  for (i in times) {
-    gg <- plotdap(mapTitle = paste("Wind at", i))
-    gg <- add_griddap(gg, wind, ~x_wind, time = i)
-    print(add_ggplot(gg, sc))
-  }
-})
+add_griddap(
+  plotdap(crs = "+proj=robin"), 
+  wind, ~x_wind, 
+  time = identity, 
+  animate = TRUE
+)
 ```
 
-```{r, echo = FALSE, fig.show='animate', interval = 0.3}
+<div align = "center">
+  <a href="http://i.imgur.com/aev0aZt">
+    <img src = "http://i.imgur.com/aev0aZt.gif" height = "500" width = "700" />
+  </a>
+</div>
+
+
+### Animations with base plotting
+
+The `animate` argument is 
+
+```{r, echo = FALSE, fig.show='animate', interval = 0.3, eval = FALSE}
 wind <- griddap(
   'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
   latitude = c(30, 50), longitude = c(210, 240),
@@ -154,10 +217,13 @@ wind <- griddap(
 # collect all the 
 times <- unique(wind$data$time)
 
-for (i in times) {
-  p <- plotdap("base", mapTitle = paste("Wind at", i))
-  print(add_griddap(p, wind, ~x_wind, time = i))
-}
+library(animation)
+saveGIF({
+  for (i in times) {
+    p <- plotdap("base", mapTitle = paste("Wind at", i))
+    print(add_griddap(p, wind, ~x_wind, time = i))
+  }
+})
 ```
 
 
@@ -183,25 +249,3 @@ plotdap(mapTitle = "Map of the world") %>%
 ```
 
 
-
-
-<!--
-## Basic interactive map  
-
-```{r cars}
-library(rerddap)
-library(leaflet)
-
-tab <- tabledap('erdCinpKfmBT')
-# this info() function has useful meta-information about the data
-# TODO: make this info() function a generic function?
-info(attr(tab, "datasetid"))
-
-
-tab[] <- lapply(tab, as.numeric)
-
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(data = tab, clusterOptions = markerClusterOptions())
-```
--->
