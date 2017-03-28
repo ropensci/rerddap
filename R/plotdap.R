@@ -430,8 +430,6 @@ print.plotdap <- function(plot, ...) {
     datum = plot$datum
   )
 
-  # TODO: how to guarantee a new plot?
-
   # plot the background map
   plot(
     plot$layers[[1]],
@@ -441,14 +439,18 @@ print.plotdap <- function(plot, ...) {
     col = plot$mapFill,
     border = plot$mapColor,
     graticule = graticule,
+    #setParUsrBB = TRUE,
     bty = "n",
     ...
   )
 
-  # TODO: compute total # of legends?
   for (i in setdiff(seq_along(plot$layers), 1)) {
     layer <- plot$layers[[i]]
     props <- attr(layer, "props")
+    rng <- range(props$values, na.rm = TRUE)
+    pal <- scales::col_numeric(props$color, rng)
+    breaks <- quantile(props$values, 0:4/4, na.rm = TRUE)
+
     # plot rasters first, otherwise we have to fiddle with legends
     if (is_raster(layer)) {
       raster::plot(
@@ -456,29 +458,33 @@ print.plotdap <- function(plot, ...) {
         add = TRUE,
         legend = FALSE,
         frame.plot = FALSE,
-        # TODO: where does this scaling occur?
+        # TODO: where does this scaling occur? In raster::plot()?
         col = props$color,
-        # TODO: are these needed?
-        #xlim = xlim,
-        #ylim = ylim,
         ...
       )
-
-      #old_par <- par(xpd = NA)
-      #plot(layer, legend.only = TRUE, legend.shrink = 1/2)
-      #par(old_par)
-
+      graphics::legend(
+        "bottomright",
+        title = props$name,
+        legend = format(breaks),
+        col = pal(breaks),
+        pch = 20
+      )
     } else {
       # should be sf POINTS
       plot(
         layer[["geometry"]],
         add = TRUE,
-        col = scales::col_numeric(props$color, range(props$values, na.rm = TRUE))(props$values),
+        col = pal(props$values),
         pch = props$shape,
         cex = props$size
       )
-      # TODO: legend creation placement (dodge raster legend)
-
+      graphics::legend(
+        "topright",
+        title = props$name,
+        legend = format(breaks),
+        col = pal(breaks),
+        pch = 20
+      )
     }
   }
   plot
