@@ -294,8 +294,12 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
       crs = raster::crs(r),
       ext = raster::extent(r)
     )
-    for (i in seq_len(raster::nlayers(r))) {
-      r[[i]] <- raster::resample(r[[i]], rnew, method = 'bilinear')
+    if (inherits(r, "RasterBrick")) {
+      for (i in seq_len(raster::nlayers(r))) {
+        r[[i]] <- raster::resample(r[[i]], rnew, method = 'bilinear')
+      }
+    } else {
+      r <- raster::resample(r, rnew, method = 'bilinear')
     }
   }
 
