@@ -139,10 +139,9 @@ add_tabledap(
 </div>
 
 
-
 ## Adding `griddap()` layers
 
-Similar to `add_tabledap()`, the `add_griddap()` function makes it easy to add rasters (i.e., rectangular tiles) to a `plotdap()` object. To demonstrate, lets obtain some of the latest sea surface temperatures off the western coast of the US.
+Similar to `add_tabledap()`, the `add_griddap()` function makes it easy to add rasters (i.e., rectangular tiles) to a `plotdap()` object. To demonstrate, lets obtain some of the latest sea surface temperatures along the western coast of the US.
 
 ```{r}
 murSST <- griddap(
@@ -152,21 +151,18 @@ murSST <- griddap(
 murSST
 ```
 
-Again, similar to `add_tabledap()`, `add_griddap()` needs a base map (i.e., a `plotdap()` object), the `griddap()` data, and a *formula* defining the variable of interest (for encoding the fill of the rectangles).
+Again, similar to `add_tabledap()`, `add_griddap()` needs a base map (i.e., a `plotdap()` object), the `griddap()` data, and a *formula* defining the variable of interest (for encoding the fill of the rectangles). The `add_griddap()` function also has a `maxpixels` argument which sets a maximum threshold for the number of cells (i.e., pixels) to use before projection and plotting occurs. Compared to ggplot2, base plotting is much more efficient at rendering raster objects, so it might be worth increasing the threshold in that case:
 
 ```{r}
 # reduce the number of trailing digits in the legend
 options(digits = 2)
 add_griddap(
   plotdap("base", crs = "+proj=robin"), 
-  murSST, ~analysed_sst, maxpixels = 20000
+  murSST, ~analysed_sst, maxpixels = 50000
 )
 ```
 
-
-
-### Handling multiple time periods
-
+The `murSST` grid has a single time point (i.e., `length(unique(murSST$data$time)) == 1`), but what do we do when there are multiple time points? In addition to animating multiple grids (a la `add_tabledap()`), you also have the option to summarize multiple grids into a single grid. To demonstrate, lets grab some wind speeds measured along the west coast of the US.
 
 ```{r}
 wind <- griddap(
@@ -174,21 +170,25 @@ wind <- griddap(
   latitude = c(30, 50), longitude = c(210, 240),
   fields = 'x_wind'
 )
-p <- plotdap(crs = alaska, mapTitle = "Average wind over time")
-add_griddap(p, wind, ~x_wind)
+unique(wind$data$time)
 ```
 
+When faced with multiple time periods, and `animate = FALSE` (the default), the `time` argument is used to reduce multiple grids (i.e., raster bricks) to a single grid (i.e., a single raster layer). You can pass any R function to the `time` argument, but when `animate = FALSE`, you should take care to ensure the function returns a single value. The default uses the `mean()` function so that each cell represents the average (in this case amongst three time points), but we could easily set this to `var()` to get the variance for each cell:
 
-### Animations
+```{r, fig.align='default'}
+add_griddap(
+  plotdap("base", crs = alaska, mapTitle = "Mean wind speed"), 
+  wind, ~x_wind
+)
+add_griddap(
+  plotdap("base", crs = alaska, mapTitle = "Variance of wind speed"), 
+  wind, ~x_wind, time = var
+)
+```
 
+If you just want to animate the raw grid values over time (instead of computing summary statistic(s) for each cell), you can set `time` to the `identity` function, then set `animate = TRUE`:
 
 ```{r, eval = FALSE}
-wind <- griddap(
-  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
-  latitude = c(30, 50), longitude = c(210, 240),
-  fields = 'x_wind'
-)
-
 add_griddap(
   plotdap(crs = "+proj=robin"), 
   wind, ~x_wind, 
@@ -204,47 +204,31 @@ add_griddap(
 </div>
 
 
-### Animations with base plotting
-
-The `animate` argument is 
-
-```{r, echo = FALSE, fig.show='animate', interval = 0.3, eval = FALSE}
-wind <- griddap(
-  'erdQMwindmday', time = c('2016-11-16', '2017-01-16'),
-  latitude = c(30, 50), longitude = c(210, 240),
-  fields = 'x_wind'
-)
-# collect all the 
-times <- unique(wind$data$time)
-
-library(animation)
-saveGIF({
-  for (i in times) {
-    p <- plotdap("base", mapTitle = paste("Wind at", i))
-    print(add_griddap(p, wind, ~x_wind, time = i))
-  }
-})
-```
-
-
 ## Combining tables/grids
 
-Touch on pipes?
+The `plotdap()` interface is designed so that you can plot both tables and grids at once (although I don't recommend trying to plot more than one `griddap()` or `tabledap()` object at once). It's also designed to work well with the `%>%` operator from the **magrittr** package so that code can be expressed in a left-to-right (rather than inside-out) fashion:
 
-## Customizing `plotdap()` objects
+```{r}
+plotdap("base") %>%
+  add_griddap(murSST, ~analysed_sst) %>%
+  add_tabledap(sardines, ~subsample_count)
+```
 
-By this point, you might have noticed some subtle differences in the defaults of `plotdap("ggplot2")` versus `plotdap("base")`. The default base version is left intentially minimal as it is often much harder (or impossible) to remove elements from a base graphic once it's drawn. 
+## Modifying `ggplotdap` objects
 
+By this point, you might have noticed some subtle differences in the defaults of `plotdap("ggplot2")` versus `plotdap("base")`. The default base version is left intentially minimal as it is often much harder (or impossible) to modify/remove elements from a base graphic once it's drawn. However, this is fairly easy using the **ggplot2** approach (assuming you know a bit of **ggplot2**), thanks to the `add_ggplot()` function (think of it like the `+` operator in **ggplot2**). 
 
 ```{r}
 library(ggplot2)
-plotdap(mapTitle = "Map of the world") %>%
+plotdap(crs = "+proj=robin") %>%
+  add_tabledap(sardines, ~subsample_count, size = 1) %>%
   add_ggplot(
     labs(
-      subtitle = "Bow to your leader",
-      caption = "citation needed"
+      subtitle = "Sardinops sagax samples",
+      caption = "Sardines are yummy"
     ), 
-    ggthemes::theme_map()
+    if (require(hrbrthemes)) hrbrthemes::theme_ipsum(),
+    theme(axis.ticks = element_blank(), axis.text = element_blank())
   )
 ```
 
