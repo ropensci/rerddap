@@ -333,6 +333,13 @@ add_griddap <- function(plot, grid, var, fill = "viridis",
     )
   }
 
+  if (animate) {
+    warning(
+      "Animations are currently only implemented for `method='ggplot2'`",
+      call. = FALSE
+    )
+  }
+
   # TODO: more props!
   grid <- structure(
     r, props = list(
