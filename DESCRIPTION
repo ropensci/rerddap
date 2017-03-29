@@ -40,6 +40,7 @@ Suggests:
     ggthemes,
     maps,
     mapdata,
+    maptools,
     plot3D,
     raster,
     sf,
