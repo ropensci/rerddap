@@ -153,9 +153,11 @@ murSST
 
 Again, similar to `add_tabledap()`, `add_griddap()` needs a base map (i.e., a `plotdap()` object), the `griddap()` data, and a *formula* defining the variable of interest (for encoding the fill of the rectangles). The `add_griddap()` function also has a `maxpixels` argument which sets a maximum threshold for the number of cells (i.e., pixels) to use before projection and plotting occurs. Compared to ggplot2, base plotting is much more efficient at rendering raster objects, so it might be worth increasing the threshold in that case:
 
-```{r}
+```{r, fig.width=7}
 # reduce the number of trailing digits in the legend
 options(digits = 2)
+# remove plotting margins
+par(mar = c(0, 0, 0, 0))
 add_griddap(
   plotdap("base", crs = "+proj=robin"), 
   murSST, ~analysed_sst, maxpixels = 50000
@@ -176,6 +178,8 @@ unique(wind$data$time)
 When faced with multiple time periods, and `animate = FALSE` (the default), the `time` argument is used to reduce multiple grids (i.e., raster bricks) to a single grid (i.e., a single raster layer). You can pass any R function to the `time` argument, but when `animate = FALSE`, you should take care to ensure the function returns a single value. The default uses the `mean()` function so that each cell represents the average (in this case amongst three time points), but we could easily set this to `var()` to get the variance for each cell:
 
 ```{r, fig.align='default'}
+# add space for a title
+par(mar = c(0, 0, 1, 0))
 add_griddap(
   plotdap("base", crs = alaska, mapTitle = "Mean wind speed"), 
   wind, ~x_wind
@@ -208,7 +212,7 @@ add_griddap(
 
 The `plotdap()` interface is designed so that you can plot both tables and grids at once (although I don't recommend trying to plot more than one `griddap()` or `tabledap()` object at once). It's also designed to work well with the `%>%` operator from the **magrittr** package so that code can be expressed in a left-to-right (rather than inside-out) fashion:
 
-```{r}
+```{r, fig.width=7}
 plotdap("base") %>%
   add_griddap(murSST, ~analysed_sst) %>%
   add_tabledap(sardines, ~subsample_count)
@@ -218,7 +222,7 @@ plotdap("base") %>%
 
 By this point, you might have noticed some subtle differences in the defaults of `plotdap("ggplot2")` versus `plotdap("base")`. The default base version is left intentially minimal as it is often much harder (or impossible) to modify/remove elements from a base graphic once it's drawn. However, this is fairly easy using the **ggplot2** approach (assuming you know a bit of **ggplot2**), thanks to the `add_ggplot()` function (think of it like the `+` operator in **ggplot2**). 
 
-```{r}
+```{r, fig.width=7}
 library(ggplot2)
 plotdap(crs = "+proj=robin") %>%
   add_tabledap(sardines, ~subsample_count, size = 1) %>%
