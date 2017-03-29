@@ -45,7 +45,7 @@ Suggests:
     raster,
     sf,
     rgeos,
-    plotly,
+    rgdal,
     lazyeval,
     Cairo
 Enhances: taxize
