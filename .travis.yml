@@ -15,8 +15,8 @@ before_install:
   - sudo apt-get install -y netcdf-bin libnetcdf-dev netcdf-bin
 
 r_github_packages:
-  - tidyverse/ggplot2,
-  - hadley/testthat,
+  - tidyverse/ggplot2
+  - hadley/testthat
   - hadley/xml2
 
 after_success:
