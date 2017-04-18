@@ -231,7 +231,7 @@ plotdap(crs = "+proj=robin") %>%
       subtitle = "Sardinops sagax samples",
       caption = "Sardines are yummy"
     ), 
-    if (require(hrbrthemes)) hrbrthemes::theme_ipsum(),
+    theme_minimal(),
     theme(axis.ticks = element_blank(), axis.text = element_blank())
   )
 ```
