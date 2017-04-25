@@ -2,7 +2,7 @@
 #'
 #' @export
 #' @param cache_path path to cached files
-#' @references \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' @references \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @seealso \code{\link{cache_delete}}, \code{\link{cache_details}}
 #' @examples \dontrun{

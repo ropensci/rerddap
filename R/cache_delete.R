@@ -4,7 +4,7 @@
 #' @param x File names
 #' @param cache_path path to cached files
 #' @param force (logical) Should files be force deleted? Default: \code{FALSE}
-#' @references \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' @references \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @seealso \code{\link{cache_list}}, \code{\link{cache_details}}
 #' @examples \dontrun{

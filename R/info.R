@@ -4,7 +4,7 @@
 #'
 #' @param datasetid Dataset id
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' \url{https://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a
 #' named parameter)
 #' @param x A datasetid or the output of \code{info}
@@ -27,7 +27,7 @@
 #'  \item longitude
 #'  \item sss
 #' }
-#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' @references  \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # grid dap datasets

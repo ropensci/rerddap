@@ -37,7 +37,7 @@
 #' standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 #' UCUM standard (e.g., Cel)).
 #' @param url A URL for an ERDDAP server.
-#' Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' Default: \url{https://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{disk} (default) or \code{memory}. You can pass
 #' options to \code{disk}
 #' @param callopts Further args passed on to httr::GET (must be a
@@ -76,7 +76,7 @@
 #' browser to see if the output is garbled to examine if there's a problem
 #' with servers or this package
 #'
-#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' @references  \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # Just passing the datasetid without fields gives all columns back

@@ -53,7 +53,7 @@ standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 UCUM standard (e.g., Cel)).}
 
 \item{url}{A URL for an ERDDAP server.
-Default: \url{http://upwell.pfeg.noaa.gov/erddap/}}
+Default: \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{store}{One of \code{disk} (default) or \code{memory}. You can pass
 options to \code{disk}}
@@ -195,7 +195,7 @@ tabledap("E01_optics_hist", url = url)
 }
 }
 \references{
-\url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \author{
 Scott Chamberlain <myrmecocystus@gmail.com>

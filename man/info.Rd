@@ -13,7 +13,7 @@ as.info(x, url)
 \item{datasetid}{Dataset id}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{http://upwell.pfeg.noaa.gov/erddap/}}
+\url{https://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a
 named parameter)}
@@ -89,7 +89,7 @@ info("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 }
 }
 \references{
-\url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \author{
 Scott Chamberlain <myrmecocystus@gmail.com>
