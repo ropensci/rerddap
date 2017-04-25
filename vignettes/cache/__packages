@@ -1,0 +1,11 @@
+base
+devtools
+rerddap
+akima
+dplyr
+ggplot2
+maps
+mapdata
+ncdf4
+plot3D
+bindrcpp
