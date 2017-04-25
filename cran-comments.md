@@ -8,7 +8,11 @@
 
 0 errors | 0 warnings | 1 note
 
-
+License components with restrictions and base license permitting such:
+  MIT + file LICENSE
+File 'LICENSE':
+  YEAR: 2017
+  COPYRIGHT HOLDER: Scott Chamberlain
 
 ## Reverse dependencies
 
@@ -16,7 +20,7 @@ There are no reverse dependencies.
 
 ---
 
-This version includes xxxx.
+This version includes x and x.
 
 Thanks! 
 Scott Chamberlain
