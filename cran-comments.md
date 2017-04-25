@@ -1,12 +1,22 @@
-R CMD CHECK passed on my local OS X install with R 3.2.3 and
-R development version, Ubuntu running on Travis-CI, 
-and Win builder.
+## Test environments
 
-This submission replaces package ncdf with ncdf4. In addition, 
-a number of improvements to fail more gracefully.
+* local OS X install, R 3.4.0
+* ubuntu 12.04 (on travis-ci), R 3.4.0
+* win-builder (devel and release)
 
-ncdf4 Windows binaries are now on the main CRAN mirrors, so 
-I've removed the "Additional_repositories: http://www.stats.ox.ac.uk/pub/RWin"
-entry in the DESCRIPTION file, as requested by Uwe.
+## R CMD check results
 
-Thanks! Scott Chamberlain
+0 errors | 0 warnings | 1 note
+
+
+
+## Reverse dependencies
+
+There are no reverse dependencies.
+
+---
+
+This version includes xxxx.
+
+Thanks! 
+Scott Chamberlain
