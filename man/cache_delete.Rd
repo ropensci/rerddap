@@ -40,13 +40,12 @@ cache_delete(table_res)
 cache_delete(grid_res)
 }
 }
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
-}
 \references{
 \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
 \code{\link{cache_list}}, \code{\link{cache_details}}
 }
-
+\author{
+Scott Chamberlain <myrmecocystus@gmail.com>
+}

@@ -27,13 +27,12 @@ cache_details()
 # cache_delete(x$nc[2:3])
 }
 }
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
-}
 \references{
 \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
 \code{\link{cache_delete}}, \code{\link{cache_details}}
 }
-
+\author{
+Scott Chamberlain <myrmecocystus@gmail.com>
+}

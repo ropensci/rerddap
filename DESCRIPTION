@@ -27,7 +27,7 @@ Imports:
     ncdf4 (>= 1.15),
     tibble
 Suggests:
-    roxygen2 (>= 5.0.1),
+    roxygen2 (>= 6.0.1),
     knitr,
     rmarkdown,
     testthat,
@@ -36,4 +36,4 @@ Suggests:
     mapdata,
     plot3D
 Enhances: taxize
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

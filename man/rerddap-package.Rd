@@ -2,8 +2,8 @@
 % Please edit documentation in R/rerddap-package.r
 \docType{package}
 \name{rerddap-package}
-\alias{rerddap}
 \alias{rerddap-package}
+\alias{rerddap}
 \title{General purpose R client for ERDDAP servers}
 \description{
 General purpose R client for ERDDAP servers
@@ -35,8 +35,8 @@ data quickly. Try small searches of a dataset to start to get a sense for
 the data, then you can increase the amount of data you get. See
 \code{\link{griddap}} for more details.
 }
+
 \author{
 Scott Chamberlain \email{myrmecocystus@gmail.com}
 }
 \keyword{package}
-

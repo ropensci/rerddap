@@ -44,4 +44,3 @@ browse(my_tabledap)
 \author{
 Ben Tupper \email{btupper@bigelow.org}
 }
-

@@ -85,10 +85,9 @@ ed_search_adv(query = 'upwelling', protocol = "tabledap")
 ed_search_adv(query = 'temperature', url = servers()$url[6])
 }
 }
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
-}
 \references{
 \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
 }
-
+\author{
+Scott Chamberlain <myrmecocystus@gmail.com>
+}

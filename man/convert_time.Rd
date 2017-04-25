@@ -41,4 +41,3 @@ convert_time(n = 473472000, method = "web")
 convert_time(isoTime = "1985-01-02T00:00:00Z", method = "web")
 }
 }
-
