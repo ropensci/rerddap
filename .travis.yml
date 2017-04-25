@@ -16,8 +16,11 @@ before_script:
 after_failure:
   - ./travis-tool.sh dump_logs
 
+github_packages:
+  - jimhester/covr
+
 after_success:
-- Rscript -e 'covr::codecov()'
+  - Rscript -e 'covr::codecov()'
 
 env:
    global:
