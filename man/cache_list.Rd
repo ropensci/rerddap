@@ -28,7 +28,7 @@ cache_details()
 }
 }
 \references{
-\url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
 \code{\link{cache_delete}}, \code{\link{cache_details}}

@@ -2,7 +2,7 @@
 #'
 #' @export
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' \url{https://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
 #' @examples \dontrun{
 #' version()

@@ -5,7 +5,7 @@
 #' \url{http://cfconventions.org/Data/cf-standard-names/27/build/cf-standard-name-table.html}
 #' @param gcmd character; A GCMD science keyword
 #' \url{http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
-#' @param url A URL for an ERDDAP server. Default: \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' @param url A URL for an ERDDAP server. Default: \url{https://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Curl args passed on to \code{\link[httr]{GET}}
 #' @examples  \dontrun{
 #' key_words(cf = "air_pressure")

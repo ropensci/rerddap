@@ -44,7 +44,7 @@ cache_details(grid_res)
 }
 }
 \references{
-\url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
 \code{\link{cache_list}}, \code{\link{cache_delete}}

@@ -32,10 +32,10 @@
 #' omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 #' the number of seconds since 1970-01-01T00:00:00Z.
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' \url{https://upwell.pfeg.noaa.gov/erddap/}
 #' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a
 #' named parameter)
-#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/index.html}
+#' @references  \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' ed_search_adv(query = 'temperature')

@@ -3,8 +3,9 @@ Title: General Purpose Client for 'ERDDAP' Servers
 Description: General purpose R client for 'ERDDAP' servers. Includes
     functions to search for 'datasets', get summary information on
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
-    'ERDDAP' information: <http://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 0.3.7.9200
+    'ERDDAP' information: 
+    <https://upwell.pfeg.noaa.gov/erddap/information.html>.
+Version: 0.4.0
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut","cre"), email = "myrmecocystus@gmail.com"),
@@ -17,6 +18,7 @@ BugReports: https://github.com/ropensci/rerddap/issues
 LazyData: true
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
+Encoding: UTF-8
 Imports:
     utils,
     httr (>= 1.2.1),
@@ -30,7 +32,7 @@ Imports:
     ncdf4 (>= 1.15),
     tibble
 Suggests:
-    roxygen2 (>= 5.0.1),
+    roxygen2 (>= 6.0.1),
     knitr,
     rmarkdown,
     testthat,
@@ -53,4 +55,3 @@ RoxygenNote: 6.0.1
 Remotes:
   tidyverse/ggplot2,
   hadley/testthat
-  
