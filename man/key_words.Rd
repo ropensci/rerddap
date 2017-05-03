@@ -8,12 +8,13 @@ key_words(cf = NULL, gcmd = NULL, url = eurl(), ...)
 }
 \arguments{
 \item{cf}{character; A cf standard name
-\url{http://cfconventions.org/Data/cf-standard-names/27/build/cf-standard-name-table.html}}
+http://cfconventions.org/Data/cf-standard-names/27/build/cf-standard-name-table.html}
 
 \item{gcmd}{character; A GCMD science keyword
-\url{http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}}
+http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
 
-\item{url}{A URL for an ERDDAP server. Default: \url{https://upwell.pfeg.noaa.gov/erddap/}}
+\item{url}{A URL for an ERDDAP server. Default:
+https://upwell.pfeg.noaa.gov/erddap/}
 
 \item{...}{Curl args passed on to \code{\link[httr]{GET}}}
 }

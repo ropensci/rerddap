@@ -20,7 +20,9 @@ There are no reverse dependencies.
 
 ---
 
-This version includes x and x.
+This version adds a new vignette, uses tibble package for 
+compact data.frame's, makes a numbef of small improvements, 
+including fixes for new dplyr coming soon.
 
 Thanks! 
 Scott Chamberlain
