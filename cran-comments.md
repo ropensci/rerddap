@@ -25,9 +25,9 @@ This version is being submitted to fix archiving of this package.
 This is a new release. I have read and agree to the the CRAN
 policies at https://cran.r-project.org/web/packages/policies.html
 
-This version adds a new vignette, uses tibble package for 
-compact data.frame's, makes a numbef of small improvements, 
-including fixes for new dplyr coming soon.
+This submissions changes how cache path is determined, and now asks
+the user where to cache files when they use functions that use 
+file caching (not all do). Examples and tests now use temp dirs.
 
 Thanks! 
 Scott Chamberlain
