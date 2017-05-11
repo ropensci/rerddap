@@ -9,4 +9,6 @@ man-roxygen
 ^CONDUCT\.md$
 ^cran-comments\.md$
 vignettes/cache
-vignettes/fig
+vignettes/figure
+inst/vign/cache
+inst/vign/figure
