@@ -14,6 +14,9 @@ get_cache_path <- function(path_suffix = NULL) {
 
 # setup full cache path with optional user supplied path suffix
 setup_cache_path <- function(path_suffix = NULL) {
+  if (!is.null(rrcache$cache_path_get())) {
+    return(rrcache$cache_path_get())
+  }
   if (is.null(path_suffix)) path_suffix <- get_cache_path()
 
   # If already set, nothing to do.
@@ -45,13 +48,13 @@ setup_cache_path <- function(path_suffix = NULL) {
       path <- switch(
         ans,
         yes = {
-          defpath
           rrcache$mkdir()
+          return(defpath)
         },
         no = {
           rrcache$cache_path_set(path_suffix %||% "rerddap", type = "tempdir")
-          rrcache$cache_path_get()
           rrcache$mkdir()
+          return(rrcache$cache_path_get())
         }
       )
     }
