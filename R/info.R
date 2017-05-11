@@ -56,7 +56,7 @@
 #' info(out$info$dataset_id[3])
 #' info(out$info$dataset_id[4])
 #'
-#' info('erdCalCOFIfshsiz')
+#' info('erdCinpKfmBT')
 #' out <- info('erdCinpKfmBT')
 #' ## See brief overview of the variables and range of possible values, if given
 #' out$variables

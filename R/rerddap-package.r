@@ -30,6 +30,7 @@
 #' @importFrom xml2 xml_text xml_find_all read_html
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
+#' @importFrom hoardr hoard
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package

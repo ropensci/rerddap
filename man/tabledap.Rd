@@ -104,14 +104,13 @@ with servers or this package
 tabledap('erdCinpKfmBT')
 
 # Pass time constraints
-tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
+tabledap('hawaii_b55f_a8f2_ad70', 'time>=2010-06-24', 'time<=2010-07-01')
 
 # Pass in fields (i.e., columns to retrieve) & time constraints
-tabledap('erdCalCOFIfshsiz',fields=c('longitude','latitude','fish_size',
-   'itis_tsn'), 'time>=2001-07-07','time<=2001-07-10')
-res <- tabledap('erdCinpKfmBT', fields=c('latitude','longitude',
-   'Aplysia_californica_Mean_Density','Muricea_californica_Mean_Density'),
-   'time>=2007-06-24','time<=2007-07-01')
+tabledap('hawaii_b55f_a8f2_ad70',
+  fields = c('longitude', 'latitude', 'chlorophyll', 'salinity'),
+  'time>=2010-06-24', 'time<=2010-07-01'
+)
 
 # Get info on a datasetid, then get data given information learned
 info('erdCalCOFIlrvsiz')$variables
@@ -129,14 +128,15 @@ tabledap(id, fields = c('scientificName', 'tsn', 'sex'))
 
 # Time constraint
 ## Limit by time with date only
-(info <- info('erdCalCOFIfshsiz'))
-tabledap(info, fields = c('latitude','longitude','scientific_name'),
-   'time>=2001-07-14')
+(info <- info('erdCinpKfmBT'))
+tabledap(info, fields = c(
+  'latitude','longitude','Haliotis_fulgens_Mean_Density'),
+  'time>=2001-07-14')
 
-# Use distinct parameter
-tabledap('erdCalCOFIfshsiz',
-   fields=c('longitude','latitude','fish_size','itis_tsn'),
-   'time>=2001-07-07','time<=2001-07-10', distinct=TRUE)
+# Use distinct parameter - compare to distinct = FALSE
+tabledap('hawaii_b55f_a8f2_ad70',
+   fields=c('longitude','latitude','depth','salinity'),
+   'time>=2010-06-24', 'time<=2010-07-01', distinct = TRUE)
 
 # Use units parameter
 ## In this example, values are the same, but sometimes they can be different
@@ -166,27 +166,29 @@ tabledap('erdCinpKfmT',
 )
 
 # Spatial delimitation
-tabledap('erdCalCOFIfshsiz',
+tabledap('erdCinpKfmBT',
   fields = c('latitude','longitude','scientific_name'),
  'latitude>=34.8', 'latitude<=35', 'longitude>=-125', 'longitude<=-124')
 
 # Integrate with taxize
-out <- tabledap('erdCalCOFIfshsiz',
-   fields = c('latitude','longitude','scientific_name','itis_tsn'))
+out <- tabledap('erdCalCOFIlrvcntHBtoHI',
+   fields = c('latitude','longitude','scientific_name','itis_tsn'),
+   'time>=2007-06-10', 'time<=2007-09-21'
+)
 tsns <- unique(out$itis_tsn[1:100])
 library("taxize")
 classif <- classification(tsns, db = "itis")
 head(rbind(classif)); tail(rbind(classif))
 
 # Write to memory (within R), or to disk
-(out <- info('erdCalCOFIfshsiz'))
+(out <- info('erdCinpKfmBT'))
 ## disk, by default (to prevent bogging down system w/ large datasets)
 ## the 2nd call is much faster as it's mostly just the time of reading
 ## in the table from disk
-system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
-system.time( tabledap('erdCalCOFIfshsiz', store = disk()) )
+system.time( tabledap('erdCinpKfmBT', store = disk()) )
+system.time( tabledap('erdCinpKfmBT', store = disk()) )
 ## memory
-tabledap(x='erdCalCOFIfshsiz', store = memory())
+tabledap(x='erdCinpKfmBT', store = memory())
 
 # use a different ERDDAP server
 ## NOAA IOOS NERACOOS

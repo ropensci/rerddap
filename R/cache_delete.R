@@ -2,11 +2,8 @@
 #'
 #' @export
 #' @param x File names
-#' @param cache_path path to cached files
 #' @param force (logical) Should files be force deleted? Default: \code{FALSE}
-#' @references \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-#' @author Scott Chamberlain <myrmecocystus@@gmail.com>
-#' @seealso \code{\link{cache_list}}, \code{\link{cache_details}}
+#' @family cache
 #' @examples \dontrun{
 #' # delete files by name in cache
 #' # cache_delete('9911750294a039b8b517c8bf288978ea.csv')
@@ -15,7 +12,7 @@
 #'
 #' # You can delete from the output of griddap or tabledap fxns
 #' ## tabledap
-#' (table_res <- tabledap('erdCalCOFIfshsiz'))
+#' (table_res <- tabledap('erdCinpKfmBT'))
 #' cache_delete(table_res)
 #'
 #' ## griddap
@@ -26,41 +23,38 @@
 #' ))
 #' cache_delete(grid_res)
 #' }
-cache_delete <- function(x, cache_path = "~/.rerddap", force = FALSE) {
+cache_delete <- function(x, force = FALSE) {
   UseMethod("cache_delete")
 }
 
 #' @export
-cache_delete.tabledap <- function(x, cache_path = "~/.rerddap", force = FALSE) {
-  cdel(basename(attr(x, "path")), cache_path, force)
+cache_delete.tabledap <- function(x, force = FALSE) {
+  cdel(basename(attr(x, "path")), force)
 }
 
 #' @export
-cache_delete.griddap_nc <- function(x, cache_path = "~/.rerddap",
-                                    force = FALSE) {
-  cdel(basename(attr(x, "path")), cache_path, force)
+cache_delete.griddap_nc <- function(x, force = FALSE) {
+  cdel(basename(attr(x, "path")), force)
 }
 
 #' @export
-cache_delete.griddap_csv <- function(x, cache_path = "~/.rerddap",
-                                     force = FALSE) {
-  cdel(basename(attr(x, "path")), cache_path, force)
+cache_delete.griddap_csv <- function(x, force = FALSE) {
+  cdel(basename(attr(x, "path")), force)
 }
 
 #' @export
-cache_delete.list <- function(x, cache_path = "~/.rerddap", force = FALSE) {
-  cdel(unlist(x), cache_path, force)
+cache_delete.list <- function(x, force = FALSE) {
+  cdel(unlist(x), force)
 }
 
 #' @export
-cache_delete.character <- function(x, cache_path = "~/.rerddap",
-                                   force = FALSE) {
-  cdel(x, cache_path, force)
+cache_delete.character <- function(x, force = FALSE) {
+  cdel(x, force)
 }
 
 # cache_delete helper
-cdel <- function(files, cache_path = "~/.rerddap", force = FALSE) {
-  files <- file.path(cache_path, files)
+cdel <- function(files, force = FALSE) {
+  files <- file.path(rrcache$cache_path_get(), files)
   if (!all(file.exists(files))) {
     stop("These files don't exist or can't be found: \n",
          strwrap(files[!file.exists(files)], indent = 5), call. = FALSE)
@@ -70,7 +64,7 @@ cdel <- function(files, cache_path = "~/.rerddap", force = FALSE) {
 
 #' @export
 #' @rdname cache_delete
-cache_delete_all <- function(cache_path = "~/.rerddap", force = FALSE) {
-  files <- list.files(cache_path, full.names = TRUE)
+cache_delete_all <- function(force = FALSE) {
+  files <- list.files(rrcache$cache_path_get(), full.names = TRUE)
   unlink(files, force = force)
 }

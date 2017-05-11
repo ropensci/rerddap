@@ -16,7 +16,7 @@
 #' key_words(gcmd = "Atmosphere > Atmospheric Pressure > Sea Level Pressure"))
 #'
 #' # a different ERDDAP server
-#' key_words(cf = "air_pressure", url = servers()$url[5])
+#' # key_words(cf = "air_pressure", url = servers()$url[6])
 #' }
 
 key_words <- function(cf = NULL, gcmd = NULL, url = eurl(), ...){

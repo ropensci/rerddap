@@ -5,13 +5,13 @@
 \alias{memory}
 \title{Options for saving ERDDAP datasets.}
 \usage{
-disk(path = "~/.rerddap", overwrite = TRUE)
+disk(path = NULL, overwrite = TRUE)
 
 memory()
 }
 \arguments{
 \item{path}{Path to store files in. A directory, not a file.
-Default: \code{~/.rerddap}}
+Default: the root cache path, see \code{\link{cache_setup}}}
 
 \item{overwrite}{(logical) Overwrite an existing file of the same name?
 Default: \code{TRUE}}

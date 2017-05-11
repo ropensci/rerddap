@@ -157,27 +157,27 @@ system.time( griddap(out,
 ) )
 
 ## memory
-(res <- griddap("hawaii_463b_5b04_35b7",
+(res <- griddap("erdMBchla1day",
  time = c('2015-01-01','2015-01-03'),
  latitude = c(14, 15),
- longitude = c(75, 76),
+ longitude = c(125, 126),
  store = memory()
 ))
 
 ## Use ncdf4 package to parse data
-info("hawaii_463b_5b04_35b7")
-(res <- griddap("hawaii_463b_5b04_35b7",
+info("erdMBchla1day")
+(res <- griddap("erdMBchla1day",
  time = c('2015-01-01','2015-01-03'),
  latitude = c(14, 15),
- longitude = c(75, 76)
+ longitude = c(125, 126)
 ))
 
 # Get data in csv format
 ## by default, we get netcdf format data
-(res <- griddap('hawaii_463b_5b04_35b7',
+(res <- griddap('erdMBchla1day',
  time = c('2015-01-01','2015-01-03'),
  latitude = c(14, 15),
- longitude = c(75, 76),
+ longitude = c(125, 126),
  fmt = "csv"
 ))
 

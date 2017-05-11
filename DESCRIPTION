@@ -5,7 +5,7 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 0.4.0.9100
+Version: 0.4.1.9810
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut","cre"), email = "myrmecocystus@gmail.com"),
@@ -26,7 +26,8 @@ Imports:
     xml2 (>= 1.1.0),
     digest,
     ncdf4 (>= 1.15),
-    tibble
+    tibble,
+    hoardr (>= 0.2.0)
 Suggests:
     roxygen2 (>= 6.0.1),
     knitr,

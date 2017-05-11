@@ -120,3 +120,7 @@ url_build <- function(url, args = NULL) {
   if (!is.null(args)) url$query <- args
   httr::build_url(url)
 }
+
+`%||%` <- function (x, y) {
+  if (is.null(x) || length(x) == 0) y else x
+}

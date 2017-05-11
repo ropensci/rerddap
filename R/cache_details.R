@@ -2,78 +2,56 @@
 #'
 #' @export
 #' @param x File names
-#' @param cache_path path to cached files
-#' @references \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-#' @author Scott Chamberlain <myrmecocystus@@gmail.com>
-#' @seealso \code{\link{cache_list}}, \code{\link{cache_delete}}
+#' @family cache
+#' @details Can be used to list details for all files, both .nc and .csv
+#' types, or details for just individual files of class \code{tabledap},
+#' \code{griddap_nc}, and \code{griddap_csv}
 #' @examples \dontrun{
 #' # List details for all cached files
 #' cache_details()
-#'
-#' # List details for specific files
-#' (x <- cache_list())
-#' cache_details(x$nc[1])
-#' cache_details(x$csv[1])
-#'
-#' # For a list or character vector of files
-#' ff <- cache_list()[[1]]
-#' cache_details(ff[1:3])
-#' cache_details(as.list(ff[1:3]))
-#'
-#' # List details from output of griddap or tabledap
-#' ## tabledap
-#' (table_res <- tabledap('erdCinpKfmBT'))
-#' cache_details(table_res)
-#'
-#' ## griddap
-#' (grid_res <- griddap('noaa_esrl_027d_0fb5_5d38',
-#'  time = c('2012-01-01','2012-06-12'),
-#'  latitude = c(21, 18),
-#'  longitude = c(-80, -75)
-#' ))
-#' cache_details(grid_res)
 #' }
-cache_details <- function(x, cache_path = "~/.rerddap") {
+cache_details <- function(x) {
   UseMethod("cache_details")
 }
 
 #' @export
-cache_details.default <- function(x, cache_path = "~/.rerddap") {
-  cdetails(NULL, cache_path)
+cache_details.default <- function(x) {
+  cdetails(NULL)
 }
 
 #' @export
-cache_details.tabledap <- function(x, cache_path = "~/.rerddap") {
-  cdetails(basename(attr(x, "path")), cache_path)
+cache_details.tabledap <- function(x) {
+  cdetails(basename(attr(x, "path")))
 }
 
 #' @export
-cache_details.griddap_nc <- function(x, cache_path = "~/.rerddap") {
-  cdetails(basename(attr(x, "path")), cache_path)
+cache_details.griddap_nc <- function(x) {
+  cdetails(basename(attr(x, "path")))
 }
 
 #' @export
-cache_details.griddap_csv <- function(x, cache_path = "~/.rerddap") {
-  cdetails(basename(attr(x, "path")), cache_path)
+cache_details.griddap_csv <- function(x) {
+  cdetails(basename(attr(x, "path")))
 }
 
 #' @export
-cache_details.list <- function(x, cache_path = "~/.rerddap") {
-  cdetails(unlist(x), cache_path)
+cache_details.list <- function(x) {
+  cdetails(unlist(x))
 }
 
 #' @export
-cache_details.character <- function(x, cache_path = "~/.rerddap") {
-  cdetails(x, cache_path)
+cache_details.character <- function(x) {
+  cdetails(x)
 }
 
 # Helper fxn
-cdetails <- function(files = NULL, cache_path = "~/.rerddap") {
+cdetails <- function(files = NULL) {
+  setup_cache_path()
   if (is.null(files)) {
-    files <- list.files(cache_path, full.names = TRUE)
+    files <- list.files(rrcache$cache_path_get(), full.names = TRUE)
     structure(lapply(files, file_info_), class = "rerddap_cache_info")
   } else {
-    files <- file.path(cache_path, files)
+    files <- file.path(rrcache$cache_path_get(), files)
     structure(lapply(files, file_info_), class = "rerddap_cache_info")
   }
 }
@@ -81,7 +59,6 @@ cdetails <- function(files = NULL, cache_path = "~/.rerddap") {
 file_info_ <- function(x) {
   tmp <- strsplit(x, '\\.')[[1]]
   ext <- tmp[length(tmp)]
-  #fs <- file.size(x)
   fs <- file.info(x)$size
   switch(ext,
      nc = {

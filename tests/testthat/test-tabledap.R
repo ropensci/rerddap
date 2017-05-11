@@ -49,3 +49,5 @@ test_that("tabledap fails well, in addition to above failure tests", {
   expect_error(tabledap('erdCinpKfmBT', distinct = "bear"), "not interpretable as logical")
   expect_error(tabledap('erdCinpKfmBT', orderby = "things"), "'orderBy' variable=things isn't in the dataset")
 })
+
+unlink(cache_info()$path, recursive = TRUE)

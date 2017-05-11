@@ -5,14 +5,12 @@
 \alias{cache_delete_all}
 \title{Delete cached files}
 \usage{
-cache_delete(x, cache_path = "~/.rerddap", force = FALSE)
+cache_delete(x, force = FALSE)
 
-cache_delete_all(cache_path = "~/.rerddap", force = FALSE)
+cache_delete_all(force = FALSE)
 }
 \arguments{
 \item{x}{File names}
-
-\item{cache_path}{path to cached files}
 
 \item{force}{(logical) Should files be force deleted? Default: \code{FALSE}}
 }
@@ -28,7 +26,7 @@ Delete cached files
 
 # You can delete from the output of griddap or tabledap fxns
 ## tabledap
-(table_res <- tabledap('erdCalCOFIfshsiz'))
+(table_res <- tabledap('erdCinpKfmBT'))
 cache_delete(table_res)
 
 ## griddap
@@ -40,12 +38,7 @@ cache_delete(table_res)
 cache_delete(grid_res)
 }
 }
-\references{
-\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-}
 \seealso{
-\code{\link{cache_list}}, \code{\link{cache_details}}
-}
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Other cache: \code{\link{cache_details}},
+  \code{\link{cache_list}}, \code{\link{cache_setup}}
 }
