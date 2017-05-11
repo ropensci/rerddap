@@ -50,4 +50,4 @@ test_that("tabledap fails well, in addition to above failure tests", {
   expect_error(tabledap('erdCinpKfmBT', orderby = "things"), "'orderBy' variable=things isn't in the dataset")
 })
 
-unlink(cache_info()$path, recursive = TRUE)
+# unlink(cache_info()$path, recursive = TRUE)

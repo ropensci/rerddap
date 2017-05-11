@@ -92,7 +92,7 @@ test_that("griddap fails well, in addition to above failure tests", {
                        longitude = c(-80, -78)), "One or both latitude values")
 })
 
-unlink(cache_info()$path, recursive = TRUE)
+# unlink(cache_info()$path, recursive = TRUE)
 
 ## FIXME more tests to add
 # * fmt parameter

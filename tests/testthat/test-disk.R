@@ -10,5 +10,5 @@ test_that("disk works", {
   expect_match(disk()$path, "rerddap")
   expect_true(disk()$overwrite)
 
-  unlink(cache_info()$path, recursive = TRUE)
+  #unlink(cache_info()$path, recursive = TRUE)
 })
