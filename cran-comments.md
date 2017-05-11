@@ -20,7 +20,9 @@ There are no reverse dependencies.
 
 ---
 
-This version is being submitted to fix archiving of this package.
+This version is being submitted to fix archiving of this package. In addition, 
+this is a re-submission of this same version fixing vignette building 
+errors.
 
 This is a new release. I have read and agree to the the CRAN
 policies at https://cran.r-project.org/web/packages/policies.html
