@@ -3,10 +3,11 @@ context("griddap")
 test_that("griddap returns the correct class", {
   skip_on_cran()
 
-  a <- griddap('noaa_esrl_027d_0fb5_5d38',
-               time = c('2012-01-01', '2012-01-12'),
-               latitude = c(21, 18),
-               longitude = c(-80, -78)
+  a <- griddap(
+    'erdQMekm14day',
+    time = c('2015-12-28','2016-01-01'),
+    latitude = c(24, 23),
+    longitude = c(88, 90)
   )
 
   expect_is(a, "griddap_nc")
@@ -21,22 +22,22 @@ test_that("griddap fixes incorrect user inputs", {
   skip_on_cran()
 
   # wrong order of latitude
-  a <- griddap('noaa_esrl_027d_0fb5_5d38',
-               time = c('2012-01-01', '2012-01-30'),
-               latitude = c(18, 21),
-               longitude = c(-80, -78)
+  a <- griddap('erdQMekm14day',
+               time = c('2015-12-28','2016-01-01'),
+               latitude = c(23, 24),
+               longitude = c(88, 90)
   )
   # wrong order of longitude
-  b <- griddap('noaa_esrl_027d_0fb5_5d38',
-               time = c('2012-01-01', '2012-01-30'),
-               latitude = c(21, 18),
-               longitude = c(-70, -80)
+  b <- griddap('erdQMekm14day',
+               time = c('2015-12-28','2016-01-01'),
+               latitude = c(24, 23),
+               longitude = c(90, 88)
   )
   # wrong order of time
-  c <- griddap('noaa_esrl_027d_0fb5_5d38',
-               time = c('2012-02-01', '2012-01-12'),
-               latitude = c(21, 18),
-               longitude = c(-80, -78)
+  c <- griddap('erdQMekm14day',
+               time = c('2016-01-01', '2015-12-28'),
+               latitude = c(24, 23),
+               longitude = c(88, 90)
   )
 
   expect_is(a, "griddap_nc")
@@ -62,11 +63,12 @@ test_that("griddap fixes incorrect user inputs", {
 test_that("griddap fields parameter works, and fails correctly", {
   skip_on_cran()
 
-  d <- griddap('noaa_esrl_027d_0fb5_5d38',
-   time = c('2006-11-01', '2006-11-03'),
-   latitude = c(20, 21),
-   longitude = c(10, 11),
-   fields = "air"
+  d <- griddap(
+    'erdQMekm14day',
+    time = c('2015-12-28','2016-01-01'),
+    latitude = c(24, 23),
+    longitude = c(88, 90),
+    fields = "mod_current"
   )
 
   expect_is(d, "griddap_nc")
@@ -82,8 +84,10 @@ test_that("griddap fails well, in addition to above failure tests", {
   skip_on_cran()
 
   # named dimargs parameters not allowed when don't match those in dataset
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', stuff = 5), "Some input dimensions \\(stuff\\)")
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', a = "5"), "Some input dimensions \\(a\\)")
+  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', stuff = 5),
+               "Some input dimensions \\(stuff\\)")
+  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', a = "5"),
+               "Some input dimensions \\(a\\)")
 
   # wrong latitude formatting given
   expect_error(griddap('noaa_esrl_027d_0fb5_5d38',

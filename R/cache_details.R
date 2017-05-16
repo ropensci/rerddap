@@ -46,7 +46,6 @@ cache_details.character <- function(x) {
 
 # Helper fxn
 cdetails <- function(files = NULL) {
-  setup_cache_path()
   if (is.null(files)) {
     files <- list.files(rrcache$cache_path_get(), full.names = TRUE)
     structure(lapply(files, file_info_), class = "rerddap_cache_info")

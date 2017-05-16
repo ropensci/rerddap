@@ -1,4 +1,6 @@
-rrcache <- NULL
+rrcache <- NULL # nocov start
 .onLoad <- function(libname, pkgname) {
-  rrcache <<- hoardr::hoard()
-}
+  x <- hoardr::hoard()
+  x$cache_path_set('rerddap')
+  rrcache <<- x
+} # nocov end

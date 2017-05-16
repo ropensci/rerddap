@@ -5,13 +5,17 @@
 \alias{cache_info}
 \title{Setup cache path}
 \usage{
-cache_setup(path_suffix = NULL)
+cache_setup(path_suffix = NULL, temp_dir = FALSE)
 
 cache_info()
 }
 \arguments{
-\item{path_suffix}{(character) the path suffix to be use for storing
-cached files}
+\item{path_suffix}{(character) the path suffix to use for storing cached
+files, appended to user cache dir.}
+
+\item{temp_dir}{(logical) if \code{TRUE} use a randomly assigned
+\code{tempdir} (and \code{path_suffix} is ignored), if \code{FALSE}, you
+can use \code{path_suffix}.}
 }
 \value{
 the full cache path, a directory (character)
@@ -34,6 +38,9 @@ cache_setup()
 
 # you can define your own path
 cache_setup(path = "foobar")
+
+# set a tempdir - better for programming with to avoid prompt
+cache_setup(temp_dir = TRUE)
 
 # cache info
 cache_info()

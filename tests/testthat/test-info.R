@@ -3,7 +3,7 @@ context("info")
 test_that("info returns the correct", {
   skip_on_cran()
 
-  a <- info('noaa_esrl_027d_0fb5_5d38')
+  a <- info('erdRWtanm1day')
   #b <- info('noaa_gfdl_31d5_ca95_1287')
   d <- info('noaa_esrl_5ee0_7c46_db68')
   e <- info('noaa_esrl_c028_2e8a_9caf')
@@ -19,7 +19,7 @@ test_that("info returns the correct", {
   expect_is(a$variables, "data.frame")
   expect_is(a$alldata, "list")
   expect_is(a$alldata$NC_GLOBAL, "data.frame")
-  expect_is(a$alldata$air, "data.frame")
+  expect_is(a$alldata$sstAnomaly, "data.frame")
 
   #expect_is(b$alldata$clivi, "data.frame")
   expect_is(d$alldata$air, "data.frame")

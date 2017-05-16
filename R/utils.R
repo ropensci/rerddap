@@ -6,7 +6,6 @@
 #' @param overwrite (logical) Overwrite an existing file of the same name?
 #' Default: \code{TRUE}
 disk <- function(path = NULL, overwrite = TRUE) {
-  path <- setup_cache_path(path_suffix = path)
   if (is.null(path)) {
     # path is NULL - use cache path already setup
     path <- rrcache$cache_path_get()
