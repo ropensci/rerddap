@@ -4,51 +4,26 @@
 \alias{cache_details}
 \title{Get details of cached files}
 \usage{
-cache_details(x, cache_path = "~/.rerddap")
+cache_details(x)
 }
 \arguments{
 \item{x}{File names}
-
-\item{cache_path}{path to cached files}
 }
 \description{
 Get details of cached files
+}
+\details{
+Can be used to list details for all files, both .nc and .csv
+types, or details for just individual files of class \code{tabledap},
+\code{griddap_nc}, and \code{griddap_csv}
 }
 \examples{
 \dontrun{
 # List details for all cached files
 cache_details()
-
-# List details for specific files
-(x <- cache_list())
-cache_details(x$nc[1])
-cache_details(x$csv[1])
-
-# For a list or character vector of files
-ff <- cache_list()[[1]]
-cache_details(ff[1:3])
-cache_details(as.list(ff[1:3]))
-
-# List details from output of griddap or tabledap
-## tabledap
-(table_res <- tabledap('erdCinpKfmBT'))
-cache_details(table_res)
-
-## griddap
-(grid_res <- griddap('noaa_esrl_027d_0fb5_5d38',
- time = c('2012-01-01','2012-06-12'),
- latitude = c(21, 18),
- longitude = c(-80, -75)
-))
-cache_details(grid_res)
 }
-}
-\references{
-\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \seealso{
-\code{\link{cache_list}}, \code{\link{cache_delete}}
-}
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Other cache: \code{\link{cache_delete}},
+  \code{\link{cache_list}}, \code{\link{cache_setup}}
 }

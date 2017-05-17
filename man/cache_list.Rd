@@ -4,10 +4,7 @@
 \alias{cache_list}
 \title{List cached files}
 \usage{
-cache_list(cache_path = "~/.rerddap")
-}
-\arguments{
-\item{cache_path}{path to cached files}
+cache_list()
 }
 \description{
 List cached files
@@ -27,12 +24,7 @@ cache_details()
 # cache_delete(x$nc[2:3])
 }
 }
-\references{
-\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-}
 \seealso{
-\code{\link{cache_delete}}, \code{\link{cache_details}}
-}
-\author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Other cache: \code{\link{cache_delete}},
+  \code{\link{cache_details}}, \code{\link{cache_setup}}
 }

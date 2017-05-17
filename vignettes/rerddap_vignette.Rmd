@@ -9,7 +9,7 @@
 rerddap introduction
 ====================
 
-`rerddap` is a general purpose R client for working with ERDDAP servers. ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](http://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](http://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+`rerddap` is a general purpose R client for working with ERDDAP servers. ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
 ## NetCDF
 
@@ -53,79 +53,39 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 
 ```r
 ed_search(query = 'size', which = "table")
-#> 11 results, showing first 20 
-#>                                                                                         title
-#> 1                                                                          CalCOFI Fish Sizes
-#> 2                                                                        CalCOFI Larvae Sizes
-#> 3                Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habitat
-#> 4                                                         CalCOFI Larvae Counts Positive Tows
-#> 5                                                                                CalCOFI Tows
-#> 6                                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 7                                                     GLOBEC NEP MOCNESS Plankton (MOC1) Data
-#> 8                                                 GLOBEC NEP Vertical Plankton Tow (VPT) Data
-#> 9                             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#> 10                                 NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#> 11 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboard the Oleander
-#>             dataset_id
-#> 1     erdCalCOFIfshsiz
-#> 2     erdCalCOFIlrvsiz
-#> 3       erdCinpKfmSFNH
-#> 4  erdCalCOFIlrvcntpos
-#> 5       erdCalCOFItows
-#> 6            aadcArgos
-#> 7        erdGlobecMoc1
-#> 8         erdGlobecVpt
-#> 9   nwioosObsFixed2002
-#> 10  nwioosObsTrawl2002
-#> 11            nodcPJJU
+#> # A tibble: 10 x 2
+#>                                                                          title
+#>                                                                          <chr>
+#>  1                                                        CalCOFI Larvae Sizes
+#>  2 Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habita
+#>  3                          GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002
+#>  4                      GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001
+#>  5                                         CalCOFI Larvae Counts Positive Tows
+#>  6                                                                CalCOFI Tows
+#>  7                                  OBIS - ARGOS Satellite Tracking of Animals
+#>  8             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
+#>  9                  NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
+#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboa
+#> # ... with 1 more variables: dataset_id <chr>
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> 311 results, showing first 20 
-#>                                                                                                 title
-#> 1         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_rho][xi_rho]
-#> 2             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_u][xi_u]
-#> 3             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][eta_v][xi_v]
-#> 4  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][s_rho][eta_rho][xi_rho]
-#> 5   ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0008) [time][Nbed][eta_rho][xi_rho]
-#> 6         ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_rho][xi_rho]
-#> 7             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_u][xi_u]
-#> 8             ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][eta_v][xi_v]
-#> 9  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][s_rho][eta_rho][xi_rho]
-#> 10  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0009) [time][Nbed][eta_rho][xi_rho]
-#> 11        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_rho][xi_rho]
-#> 12            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_u][xi_u]
-#> 13            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][eta_v][xi_v]
-#> 14 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][s_rho][eta_rho][xi_rho]
-#> 15  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0010) [time][Nbed][eta_rho][xi_rho]
-#> 16        ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_rho][xi_rho]
-#> 17            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_u][xi_u]
-#> 18            ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][eta_v][xi_v]
-#> 19 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][s_rho][eta_rho][xi_rho]
-#> 20  ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0011) [time][Nbed][eta_rho][xi_rho]
-#>             dataset_id
-#> 1  whoi_cbae_ef31_0877
-#> 2  whoi_61f3_6dac_36c1
-#> 3  whoi_4eff_1b8e_513a
-#> 4  whoi_4d06_1f87_db0b
-#> 5  whoi_4849_5c78_58dc
-#> 6  whoi_28c3_4a74_191a
-#> 7  whoi_e627_874c_2b1b
-#> 8  whoi_9183_ea0f_9417
-#> 9  whoi_322d_c428_66b4
-#> 10 whoi_5f75_6229_f722
-#> 11 whoi_02c9_858d_bc77
-#> 12 whoi_689d_0109_9280
-#> 13 whoi_4f6e_439a_8e4b
-#> 14 whoi_5451_efbd_60ac
-#> 15 whoi_1ace_a9ee_f343
-#> 16 whoi_0524_c15f_28da
-#> 17 whoi_e5c5_72b2_af51
-#> 18 whoi_1fcf_de1b_c428
-#> 19 whoi_e305_a468_eabc
-#> 20 whoi_0657_2b81_14df
+#> # A tibble: 347 x 2
+#>                                                                          title
+#>                                                                          <chr>
+#>  1 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
+#>  2 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
+#>  3 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
+#>  4 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
+#>  5 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
+#>  6 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0002) [time][
+#>  7 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0002) [time][
+#>  8 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0002) [time][
+#>  9 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0002) [time][
+#> 10 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0002) [time][
+#> # ... with 337 more rows, and 1 more variables: dataset_id <chr>
 ```
 
 ## Information
@@ -134,17 +94,17 @@ Then you can get information on a single dataset
 
 
 ```r
-info('whoi_62d0_9d64_c8ff')
-#> <ERDDAP info> whoi_62d0_9d64_c8ff 
-#>  Dimensions (range):  
-#>      time: (2012-06-25T01:00:00Z, 2015-10-14T00:00:00Z) 
-#>      eta_v: (0, 334) 
-#>      xi_v: (0, 895) 
+info('erdCalCOFIlrvsiz')
+#> <ERDDAP info> erdCalCOFIlrvsiz 
 #>  Variables:  
-#>      bedload_Vsand_01: 
-#>          Units: kilogram meter-1 s-1 
-#>      bedload_Vsand_02: 
-#>          Units: kilogram meter-1 s-1 
+#>      calcofi_species_code: 
+#>          Range: 19, 9760 
+#>      common_name: 
+#>      cruise: 
+#>      itis_tsn: 
+#>      larvae_1000m3: 
+#>          Units: Fish larvae per 1,000 cubic meters of water sampled 
+#>      larvae_10m2: 
 ...
 ```
 
@@ -176,25 +136,34 @@ Then query for gridded data using the `griddap()` function
   longitude = c(-80, -70)
 ))
 #> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
-#>    Path: [~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc]
-#>    Last updated: [2016-01-12 12:18:06]
+#>    Path: [/Users/sacmac/Library/Caches/R/rerddap/1a664ce4d6af316b611ac5a74a68d704.nc]
+#>    Last updated: [2017-05-11 09:00:03]
 #>    File size:    [0 mb]
 #>    Dimensions (dims/vars):   [3 X 1]
 #>    Dim names: time, latitude, longitude
 #>    Variable names: CRUTEM3: Surface Air Temperature Monthly Anomaly
 #>    data.frame (rows/columns):   [18 X 4]
-#>                    time  lat   lon  air
-#> 1  2012-01-01T00:00:00Z 22.5 -77.5   NA
-#> 2  2012-01-01T00:00:00Z 22.5 -72.5   NA
-#> 3  2012-01-01T00:00:00Z 22.5 -67.5   NA
-#> 4  2012-01-01T00:00:00Z 17.5 -77.5 -0.1
-#> 5  2012-01-01T00:00:00Z 17.5 -72.5   NA
-#> 6  2012-01-01T00:00:00Z 17.5 -67.5 -0.2
-#> 7  2012-01-01T00:00:00Z 12.5 -77.5  0.2
-#> 8  2012-01-01T00:00:00Z 12.5 -72.5   NA
-#> 9  2012-01-01T00:00:00Z 12.5 -67.5  0.3
-#> 10 2012-02-01T00:00:00Z 22.5 -77.5   NA
-#> ..                  ...  ...   ...  ...
+#> # A tibble: 18 x 4
+#>                    time   lat   lon   air
+#>                   <chr> <dbl> <dbl> <dbl>
+#>  1 2012-01-01T00:00:00Z  22.5 -77.5    NA
+#>  2 2012-01-01T00:00:00Z  22.5 -72.5    NA
+#>  3 2012-01-01T00:00:00Z  22.5 -67.5    NA
+#>  4 2012-01-01T00:00:00Z  17.5 -77.5 -0.10
+#>  5 2012-01-01T00:00:00Z  17.5 -72.5    NA
+#>  6 2012-01-01T00:00:00Z  17.5 -67.5 -0.20
+#>  7 2012-01-01T00:00:00Z  12.5 -77.5  0.20
+#>  8 2012-01-01T00:00:00Z  12.5 -72.5    NA
+#>  9 2012-01-01T00:00:00Z  12.5 -67.5  0.30
+#> 10 2012-02-01T00:00:00Z  22.5 -77.5    NA
+#> 11 2012-02-01T00:00:00Z  22.5 -72.5    NA
+#> 12 2012-02-01T00:00:00Z  22.5 -67.5    NA
+#> 13 2012-02-01T00:00:00Z  17.5 -77.5  0.40
+#> 14 2012-02-01T00:00:00Z  17.5 -72.5    NA
+#> 15 2012-02-01T00:00:00Z  17.5 -67.5  0.20
+#> 16 2012-02-01T00:00:00Z  12.5 -77.5  0.00
+#> 17 2012-02-01T00:00:00Z  12.5 -72.5    NA
+#> 18 2012-02-01T00:00:00Z  12.5 -67.5  0.32
 ```
 
 The output of `griddap()` is a list that you can explore further. Get the summary
@@ -203,7 +172,7 @@ The output of `griddap()` is a list that you can explore further. Get the summar
 ```r
 res$summary
 #> $filename
-#> [1] "~/.rerddap/648ed11e8b911b65e39eb63c8df339df.nc"
+#> [1] "/Users/sacmac/Library/Caches/R/rerddap/1a664ce4d6af316b611ac5a74a68d704.nc"
 #> 
 #> $writable
 #> [1] FALSE
@@ -258,41 +227,42 @@ res$data
 
 
 ```r
-(out <- info('erdCalCOFIfshsiz'))
-#> <ERDDAP info> erdCalCOFIfshsiz 
+(out <- info('erdCalCOFIlrvsiz'))
+#> <ERDDAP info> erdCalCOFIlrvsiz 
 #>  Variables:  
 #>      calcofi_species_code: 
-#>          Range: 19, 1550 
+#>          Range: 19, 9760 
 #>      common_name: 
 #>      cruise: 
-#>      fish_1000m3: 
-#>          Units: Fish per 1,000 cubic meters of water sampled 
-#>      fish_count: 
-#>      fish_size: 
+#>      itis_tsn: 
+#>      larvae_1000m3: 
+#>          Units: Fish larvae per 1,000 cubic meters of water sampled 
+#>      larvae_10m2: 
 ...
 ```
 
 
 ```r
-(dat <- tabledap(out, 'time>=2001-07-07', 'time<=2001-07-10', fields = c('longitude', 'latitude', 'fish_size', 'itis_tsn', 'scientific_name')))
-#> <ERDDAP tabledap> erdCalCOFIfshsiz
-#>    Path: [~/.rerddap/f013f9ee09bdb4184928d533e575e948.csv]
-#>    Last updated: [2016-01-12 12:18:07]
-#>    File size:    [0.03 mb]
-#>    Dimensions:   [558 X 5]
-#> 
-#>     longitude  latitude fish_size itis_tsn       scientific_name
-#> 2  -118.10667 32.738335      31.5   623625  Lipolagus ochotensis
-#> 3  -118.10667 32.738335      48.3   623625  Lipolagus ochotensis
-#> 4  -118.10667 32.738335      15.5   162221 Argyropelecus sladeni
-#> 5  -118.10667 32.738335      16.3   162221 Argyropelecus sladeni
-#> 6  -118.10667 32.738335      17.8   162221 Argyropelecus sladeni
-#> 7  -118.10667 32.738335      18.2   162221 Argyropelecus sladeni
-#> 8  -118.10667 32.738335      19.2   162221 Argyropelecus sladeni
-#> 9  -118.10667 32.738335      20.0   162221 Argyropelecus sladeni
-#> 10 -118.10667 32.738335      21.0   162221 Argyropelecus sladeni
-#> 11 -118.10667 32.738335      21.5   162221 Argyropelecus sladeni
-#> ..        ...       ...       ...      ...                   ...
+(dat <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
+  'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
+#> <ERDDAP tabledap> erdCalCOFIlrvsiz
+#>    Path: [/Users/sacmac/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
+#>    Last updated: [2017-05-11 09:04:58]
+#>    File size:    [0.05 mb]
+#> # A tibble: 1,217 x 4
+#>     latitude longitude larvae_size        scientific_name
+#>  *     <chr>     <chr>       <chr>                  <chr>
+#>  1 32.956665  -117.305         4.5       Engraulis mordax
+#>  2 32.956665  -117.305         2.9 Doryteuthis opalescens
+#>  3 32.956665  -117.305         2.7 Doryteuthis opalescens
+#>  4 32.956665  -117.305         3.3 Doryteuthis opalescens
+#>  5 32.956665  -117.305         3.0 Doryteuthis opalescens
+#>  6 32.956665  -117.305         3.7 Doryteuthis opalescens
+#>  7 32.956665  -117.305         3.4 Doryteuthis opalescens
+#>  8 32.956665  -117.305         3.2 Doryteuthis opalescens
+#>  9 32.956665  -117.305         2.8 Doryteuthis opalescens
+#> 10 32.956665  -117.305         3.6 Doryteuthis opalescens
+#> # ... with 1,207 more rows
 ```
 
 Since both `griddap()` and `tabledap()` give back data.frame's, it's easy to do downstream manipulation. For example, we can use `dplyr` to filter, summarize, group, and sort:
@@ -300,34 +270,18 @@ Since both `griddap()` and `tabledap()` give back data.frame's, it's easy to do 
 
 ```r
 library("dplyr")
-dat$fish_size <- as.numeric(dat$fish_size)
-tbl_df(dat) %>%
-  filter(fish_size > 30) %>%
+dat$larvae_size <- as.numeric(dat$larvae_size)
+dat %>%
   group_by(scientific_name) %>%
-  summarise(mean_size = mean(fish_size)) %>%
+  summarise(mean_size = mean(larvae_size)) %>%
   arrange(desc(mean_size))
-#> Source: local data frame [20 x 2]
-#> 
-#>                 scientific_name mean_size
-#>                           (chr)     (dbl)
-#> 1       Idiacanthus antrostomus 253.00000
-#> 2            Stomias atriventer 189.25000
-#> 3            Lestidiops ringens  98.70000
-#> 4     Tarletonbeania crenularis  56.50000
-#> 5      Ceratoscopelus townsendi  53.70000
-#> 6     Stenobrachius leucopsarus  47.74538
-#> 7               Sardinops sagax  47.00000
-#> 8         Nannobrachium ritteri  43.30250
-#> 9         Bathylagoides wesethi  43.09167
-#> 10         Vinciguerria lucetia  42.00000
-#> 11       Cyclothone acclinidens  40.80000
-#> 12         Lipolagus ochotensis  39.72500
-#> 13        Leuroglossus stilbius  38.35385
-#> 14        Triphoturus mexicanus  38.21342
-#> 15                Diaphus theta  37.88571
-#> 16       Trachipterus altivelis  37.70000
-#> 17 Symbolophorus californiensis  37.66000
-#> 18         Nannobrachium regale  37.50000
-#> 19         Merluccius productus  36.61333
-#> 20        Argyropelecus sladeni  32.43333
+#> # A tibble: 6 x 2
+#>          scientific_name mean_size
+#>                    <chr>     <dbl>
+#> 1       Engraulis mordax  8.446067
+#> 2        Sardinops sagax  5.828738
+#> 3   Merluccius productus  5.512176
+#> 4 Doryteuthis opalescens  3.653363
+#> 5      Scomber japonicus  3.400000
+#> 6  Trachurus symmetricus  3.264444
 ```

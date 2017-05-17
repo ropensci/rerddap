@@ -29,14 +29,10 @@ returns \code{FALSE}
 browse('erdATastnhday')
 
 # browse info class
-(my_info <- info('erdATastnhday'))
+my_info <- info('erdATastnhday')
 browse(my_info)
 
-# browse griddap class
-my_griddap <- griddap('erdATastnhday')
-browse(my_griddap)
-
-#browse tabledap class
+# browse tabledap class
 my_tabledap <- tabledap('erdCalCOFIfshsiz')
 browse(my_tabledap)
 }

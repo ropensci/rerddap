@@ -39,6 +39,7 @@
 #' scale_fill_gradientn ggtitle aes_string aes_
 #' @importFrom raster raster nlayers calc ncell nrow ncol crs extent resample
 #' projectRaster rasterToPolygons values plot brick setExtent isLonLat
+#' @importFrom hoardr hoard
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package

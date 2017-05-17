@@ -1,3 +1,25 @@
+rerddap 0.4.2
+=============
+
+### NEW FEATURES
+
+* Now using `hoardr` to manage caching paths and such (#60). Also
+now asking users where they want to cache files, either in a 
+`rappdirs` user cache dir or a temp directory. Now on tests and examples
+we use temp dirs.
+* Related to above, new functions `cache_info()` to get cache path and 
+number of cached files, and `cache_setup()` to set cache path.
+* Related to above, `cache_details()`, `cache_list()`, and `cache_delete()`
+lose their `cache_path` parameter - now cache path is set package wide and 
+we use the same cache path, so no need to set in the fxn call.
+
+### MINOR IMPROVEMENTS
+
+* Fixes to a number of `griddap()` and `tabledap()` examples to use 
+datasets that still exist (previous examples used datasets that are no
+gone)
+
+
 rerddap 0.4.0
 =============
 

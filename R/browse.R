@@ -18,14 +18,10 @@
 #' browse('erdATastnhday')
 #'
 #' # browse info class
-#' (my_info <- info('erdATastnhday'))
+#' my_info <- info('erdATastnhday')
 #' browse(my_info)
 #'
-#' # browse griddap class
-#' my_griddap <- griddap('erdATastnhday')
-#' browse(my_griddap)
-#'
-#' #browse tabledap class
+#' # browse tabledap class
 #' my_tabledap <- tabledap('erdCalCOFIfshsiz')
 #' browse(my_tabledap)
 #' }
@@ -43,18 +39,21 @@ browse.character <- function(x, url = eurl(), ...){
 
 #' @export
 browse.info <- function(x, url = eurl(), ...){
+  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
 
 #' @export
 browse.tabledap <- function(x, url = eurl(), ...){
+  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
 
 #' @export
 browse.griddap_nc <- function(x, url = eurl(), ...){
+  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
@@ -62,6 +61,7 @@ browse.griddap_nc <- function(x, url = eurl(), ...){
 
 #' @export
 browse.griddap_csv <- function(x, url = eurl(), ...){
+  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
