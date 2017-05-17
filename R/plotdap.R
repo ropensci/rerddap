@@ -527,41 +527,32 @@ get_bbox <- function(x) {
 }
 
 get_raster <- function(grid, var) {
-  path <- attr(grid, "path")
   times <- grid$summary$dim$time$vals
-  readRaster <- if (length(times) > 1) raster::brick else raster::raster
-  r <- tryCatch(
-    readRaster(path),
-    # try to manually construct a sensible grid from summary on error
-    error = function(e) {
-      lats <- grid$summary$dim$latitude$vals
-      lons <- grid$summary$dim$longitude$vals
-      ylim <- range(lats, na.rm = TRUE)
-      xlim <- range(lons, na.rm = TRUE)
-      ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
-      if (length(times) > 1) {
-        # ensure values appear in the right order...
-        # TODO: how to detect a south -> north ordering?
-        d <- dplyr::arrange(grid$data, time, desc(lat), lon)
-        b <- raster::brick(
-          nl = length(times),
-          nrows = length(lats),
-          ncols = length(lons)
-        )
-        raster::values(b) <- lazyeval::f_eval(var, d)
-        raster::setExtent(b, ext)
-      } else {
-        d <- dplyr::arrange(grid$data, desc(lat), lon)
-        raster::raster(
-          nrows = length(lats),
-          ncols = length(lons),
-          ext = ext,
-          vals = lazyeval::f_eval(var, d)
-        )
-      }
-    }
-  )
-
+  lats <- grid$summary$dim$latitude$vals
+  lons <- grid$summary$dim$longitude$vals
+  ylim <- range(lats, na.rm = TRUE)
+  xlim <- range(lons, na.rm = TRUE)
+  ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
+  r <- if (length(times) > 1) {
+    # ensure values appear in the right order...
+    # TODO: how to detect a south -> north ordering?
+    d <- dplyr::arrange(grid$data, time, desc(lat), lon)
+    b <- raster::brick(
+      nl = length(times),
+      nrows = length(lats),
+      ncols = length(lons)
+    )
+    raster::values(b) <- lazyeval::f_eval(var, d)
+    raster::setExtent(b, ext)
+  } else {
+    d <- dplyr::arrange(grid$data, desc(lat), lon)
+    raster::raster(
+      nrows = length(lats),
+      ncols = length(lons),
+      ext = ext,
+      vals = lazyeval::f_eval(var, d)
+    )
+  }
   names(r) <- make.names(unique(grid$data$time) %||% "")
   r
 }
