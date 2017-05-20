@@ -30,6 +30,15 @@
 #' @importFrom xml2 xml_text xml_find_all read_html
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
+#' @importFrom tidyr gather_
+#' @importFrom maps map
+#' @importFrom scales rescale col_numeric
+#' @importFrom lazyeval is_formula f_text f_eval
+#' @importFrom sf st_as_sf st_transform st_crs st_bbox st_graticule
+#' @importFrom ggplot2 ggplot geom_sf coord_sf theme_bw scale_color_gradientn
+#' scale_fill_gradientn ggtitle aes_string aes_
+#' @importFrom raster raster nlayers calc ncell nrow ncol crs extent resample
+#' projectRaster rasterToPolygons values plot brick setExtent isLonLat
 #' @importFrom hoardr hoard
 #' @name rerddap-package
 #' @aliases rerddap
@@ -85,3 +94,9 @@ NULL
 #' @format A character vector
 #' @name variablenames
 NULL
+
+
+
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
