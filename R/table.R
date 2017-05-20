@@ -219,12 +219,12 @@ format_table <- function(table, .info) {
   vars <- names(table)
   lat <- which(vars %in% c("lat", "lats", "latitude"))
   lon <- which(vars %in% c("lon", "lons", "longitude"))
-  if (lat)  {
+  if (isTRUE(lat))  {
     table[[lat]] <- as.numeric(strtrim(table[[lat]]))
   } else {
     warning("No latitude available", call. = FALSE)
   }
-  if (lon)  {
+  if (isTRUE(lon))  {
     table[[lon]] <- as.numeric(strtrim(table[[lon]]))
   } else {
     warning("No longitude available", call. = FALSE)
