@@ -23,7 +23,7 @@ servers <- function() {
     c("NOAA IOOS PacIOOS (Pacific Islands Ocean Observing System) at the University of Hawaii (UH)",
       "http://oos.soest.hawaii.edu/erddap/"),
     c("NOAA IOOS SECOORA (Southeast Coastal Ocean Observing Regional Association)",
-      "http://129.252.139.124/erddap/"),
+      "http://erddap.secoora.org/erddap/"),
     c("NOAA NCEI (National Centers for Environmental Information) / NCDDC",
       "http://ecowatch.ncddc.noaa.gov/erddap/"),
     c("NOAA OSMC (Observing System Monitoring Center)",
