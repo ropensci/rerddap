@@ -5,7 +5,7 @@ test_that("info returns the correct", {
 
   a <- info('erdRWtanm1day')
   #b <- info('noaa_gfdl_31d5_ca95_1287')
-  d <- info('noaa_esrl_5ee0_7c46_db68')
+  d <- info('erdMBchlamday_LonPM180')
   e <- info('noaa_esrl_c028_2e8a_9caf')
   f <- info('nodcWoa09mon5t')
 
@@ -45,5 +45,5 @@ test_that("info fails well", {
   skip_on_cran()
 
   expect_error(info(), "is missing, with no default")
-  expect_error(info("stuff"), "HTTP Status 404 - Resource not found")
+  expect_error(info("stuff"), "Not Found")
 })

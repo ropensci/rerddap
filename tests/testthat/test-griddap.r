@@ -48,16 +48,16 @@ test_that("griddap fixes incorrect user inputs", {
   expect_is(c$data, "data.frame")
 
   # wrong longitude formatting given
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38',
-                       time = c('2012-01-01', '2012-01-30'),
-                       latitude = c(21, 18),
-                       longitude = c(175, 183)), "One or both longitude values")
+  expect_error(griddap('erdMBchlamday_LonPM180',
+               time = c('2015-12-28','2016-01-01'),
+               latitude = c(18.4, 18.6),
+               longitude = c(-65, -197)), "One or both longitude values")
 
   # wrong latitude formatting given
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38',
-                       time = c('2012-01-01', '2012-01-30'),
-                       latitude = c(21, -120),
-                       longitude = c(-80, -78)), "One or both latitude values")
+  expect_error(griddap('erdMBchlamday_LonPM180',
+               time = c('2015-12-28','2016-01-01'),
+               latitude = c(18.4, 150),
+               longitude = c(-65, -63)), "One or both latitude values")
 })
 
 test_that("griddap fields parameter works, and fails correctly", {
@@ -73,8 +73,8 @@ test_that("griddap fields parameter works, and fails correctly", {
 
   expect_is(d, "griddap_nc")
 
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38',
-                       time = c('2006-11-01', '2006-11-03'),
+  expect_error(griddap('erdMBchlamday_LonPM180',
+                       time = c('2015-12-28','2016-01-01'),
                        latitude = c(20, 21),
                        longitude = c(10, 11),
                        fields = "mmmmmm"), "'arg' should be one of")
@@ -84,13 +84,13 @@ test_that("griddap fails well, in addition to above failure tests", {
   skip_on_cran()
 
   # named dimargs parameters not allowed when don't match those in dataset
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', stuff = 5),
+  expect_error(griddap('erdMBchlamday_LonPM180', stuff = 5),
                "Some input dimensions \\(stuff\\)")
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38', a = "5"),
+  expect_error(griddap('erdMBchlamday_LonPM180', a = "5"),
                "Some input dimensions \\(a\\)")
 
   # wrong latitude formatting given
-  expect_error(griddap('noaa_esrl_027d_0fb5_5d38',
+  expect_error(griddap('erdMBchlamday_LonPM180',
                        time = c('2012-01-01', '2012-01-30'),
                        latitude = c(21, -120),
                        longitude = c(-80, -78)), "One or both latitude values")

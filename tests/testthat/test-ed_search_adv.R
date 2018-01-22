@@ -55,6 +55,6 @@ test_that("ed_search_adv correctly catches invalid parameter types", {
 test_that("ed_search_adv fails well", {
   skip_on_cran()
 
-  expect_error(ed_search_adv(), "HTTP Status 404 - Resource not found")
-  expect_error(ed_search_adv(query = "adfafadfsd"), "HTTP Status 500 - Your query produced no")
+  expect_error(ed_search_adv(), "Not Found")
+  expect_error(ed_search_adv(query = "adfafadfsd"), "Internal Server Error")
 })
