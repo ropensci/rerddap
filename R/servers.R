@@ -36,8 +36,8 @@ servers <- function() {
       "http://bmlsc.ucdavis.edu:8080/erddap/"),
     c("R.Tech Engineering", "http://meteo.rtech.fr/erddap/"),
     c("French Research Institute for the Exploitation of the Sea",
-      "http://www.ifremer.fr/erddap/index.html"),
+      "http://www.ifremer.fr/erddap/"),
     c("UBC Earth, Ocean & Atmospheric Sciences SalishSeaCast Project",
-      "https://salishsea.eos.ubc.ca/erddap/index.html")
+      "https://salishsea.eos.ubc.ca/erddap/")
   )), stringsAsFactors = FALSE), c('name', 'url'))
 }
