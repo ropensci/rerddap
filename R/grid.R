@@ -201,6 +201,15 @@ fix_dims <- function(dimargs, .info) {
         dimargs[[i]] <- rev(dimargs[[i]])
       }
     }
+
+    ## new
+    if (nm %in% c('latitude', 'longitude')) {
+      z <- unlist(strsplit(.info$alldata[[nm]]$value[1], ","))
+      spacing <- as.numeric(unlist(strsplit(z[3], "=")[[1]])[2])
+      if (spacing < 0) {
+        dimargs[[i]] <- rev(dimargs[[i]])
+      }
+    }
   }
   dimargs
 }
