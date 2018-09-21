@@ -27,3 +27,4 @@ cache_details()
 Other cache: \code{\link{cache_delete}},
   \code{\link{cache_list}}, \code{\link{cache_setup}}
 }
+\concept{cache}

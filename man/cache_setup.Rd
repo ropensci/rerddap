@@ -50,3 +50,4 @@ cache_info()
 Other cache: \code{\link{cache_delete}},
   \code{\link{cache_details}}, \code{\link{cache_list}}
 }
+\concept{cache}
