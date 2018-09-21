@@ -3,10 +3,11 @@ rerddap
 
 
 
+[![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rerddap)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
@@ -32,8 +33,8 @@ devtools::install_github("ropensci/rerddap")
 library('rerddap')
 ```
 
-Some users may experience an installation error, stating to install 1 or more
-packages, e.g., you may need `DBI`, in which case do, for example,
+Some users may experience an installation error, stating to install 1 or more 
+packages, e.g., you may need `DBI`, in which case do, for example, 
 `install.packages("DBI")` before installing `rerddap`.
 
 ## Background
@@ -61,39 +62,37 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 
 ```r
 ed_search(query = 'size', which = "table")
-#> # A tibble: 10 x 2
-#>                                                                          title
-#>                                                                          <chr>
-#>  1                                                        CalCOFI Larvae Sizes
-#>  2 Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natural Habita
-#>  3             NWFSC Observer Fixed Gear Data, off West Coast of US, 2002-2006
-#>  4                  NWFSC Observer Trawl Data, off West Coast of US, 2002-2006
-#>  5                                         CalCOFI Larvae Counts Positive Tows
-#>  6                                                                CalCOFI Tows
-#>  7                          GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002
-#>  8                      GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001
-#>  9                                  OBIS - ARGOS Satellite Tracking of Animals
-#> 10 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature and Salinity Aboa
-#> # ... with 1 more variables: dataset_id <chr>
+#> # A tibble: 9 x 2
+#>   title                                                   dataset_id      
+#>   <chr>                                                   <chr>           
+#> 1 CalCOFI Larvae Sizes                                    erdCalCOFIlrvsiz
+#> 2 Channel Islands, Kelp Forest Monitoring, Size and Freq… erdCinpKfmSFNH  
+#> 3 CalCOFI Larvae Counts Positive Tows                     erdCalCOFIlrvcn…
+#> 4 CalCOFI Tows                                            erdCalCOFItows  
+#> 5 NWFSC Observer Fixed Gear Data, off West Coast of US, … nwioosObsFixed2…
+#> 6 NWFSC Observer Trawl Data, off West Coast of US, 2002-… nwioosObsTrawl2…
+#> 7 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002      erdGlobecMoc1   
+#> 8 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001  erdGlobecVpt    
+#> 9 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperat… nodcPJJU
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> # A tibble: 290 x 2
-#>                                                                          title
-#>                                                                          <chr>
-#>  1 COAWST Hindcast:MVCO/CBlast 2007:ripples with SWAN-40m res (00 dir roms) [t
-#>  2 COAWST Hindcast:MVCO/CBlast 2007:ripples with SWAN-40m res (00 dir roms) [t
-#>  3 COAWST Hindcast:MVCO/CBlast 2007:ripples with SWAN-40m res (00 dir roms) [t
-#>  4 COAWST Hindcast:MVCO/CBlast 2007:ripples with SWAN-40m res (00 dir roms) [t
-#>  5 COAWST Hindcast:MVCO/CBlast 2007:ripples with SWAN-40m res (00 dir roms) [t
-#>  6 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
-#>  7 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
-#>  8 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
-#>  9 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
-#> 10 ROMS3.0 CBLAST2007 Ripples with SWAN-40m res (his case7 ar0fd 0001) [time][
-#> # ... with 280 more rows, and 1 more variables: dataset_id <chr>
+#> # A tibble: 11 x 2
+#>    title                                             dataset_id           
+#>    <chr>                                             <chr>                
+#>  1 Archived Suite of NOAA Coral Reef Watch Operatio… noaa_nodc_9f8b_ab7e_…
+#>  2 Extended AVHRR Polar Pathfinder Fundamental Clim… noaa_ngdc_da08_dcdf_…
+#>  3 Extended AVHRR Polar Pathfinder Fundamental Clim… noaa_ngdc_0fe5_a4b9_…
+#>  4 Extended AVHRR Polar Pathfinder Fundamental Clim… noaa_ngdc_5253_bf9e_…
+#>  5 Extended AVHRR Polar Pathfinder Fundamental Clim… noaa_ngdc_0f24_2f8c_…
+#>  6 Archived Suite of NOAA Coral Reef Watch Operatio… noaa_nodc_da4e_3fc9_…
+#>  7 USGS COAWST Forecast, US East Coast and Gulf of … whoi_geoport_ed12_89…
+#>  8 USGS COAWST Forecast, US East Coast and Gulf of … whoi_geoport_61c3_0b…
+#>  9 USGS COAWST Forecast, US East Coast and Gulf of … whoi_geoport_62d0_9d…
+#> 10 USGS COAWST Forecast, US East Coast and Gulf of … whoi_geoport_7dd7_db…
+#> 11 USGS COAWST Forecast, US East Coast and Gulf of … whoi_geoport_a4fb_2c…
 ```
 
 ## Information
@@ -102,56 +101,63 @@ Then you can get information on a single dataset
 
 
 ```r
-info('noaa_esrl_027d_0fb5_5d38')
-#> <ERDDAP info> noaa_esrl_027d_0fb5_5d38
-#>  Dimensions (range):
-#>      time: (1850-01-01T00:00:00Z, 2014-05-01T00:00:00Z)
-#>      latitude: (87.5, -87.5)
-#>      longitude: (-177.5, 177.5)
-#>  Variables:
-#>      air:
-#>          Range: -20.9, 19.5
-#>          Units: degC
+info('erdMBchla1day')
+#> <ERDDAP info> erdMBchla1day 
+#>  Dimensions (range):  
+#>      time: (2006-01-01T12:00:00Z, 2018-09-19T12:00:00Z) 
+#>      altitude: (0.0, 0.0) 
+#>      latitude: (-45.0, 65.0) 
+#>      longitude: (120.0, 320.0) 
+#>  Variables:  
+#>      chlorophyll: 
+#>          Units: mg m-3
 ```
 
 ## griddap (gridded) data
 
 
 ```r
-(out <- info('noaa_esrl_027d_0fb5_5d38'))
-#> <ERDDAP info> noaa_esrl_027d_0fb5_5d38
-#>  Dimensions (range):
-#>      time: (1850-01-01T00:00:00Z, 2014-05-01T00:00:00Z)
-#>      latitude: (87.5, -87.5)
-#>      longitude: (-177.5, 177.5)
-#>  Variables:
-#>      air:
-#>          Range: -20.9, 19.5
-#>          Units: degC
+(out <- info('erdMBchla1day'))
+#> <ERDDAP info> erdMBchla1day 
+#>  Dimensions (range):  
+#>      time: (2006-01-01T12:00:00Z, 2018-09-19T12:00:00Z) 
+#>      altitude: (0.0, 0.0) 
+#>      latitude: (-45.0, 65.0) 
+#>      longitude: (120.0, 320.0) 
+#>  Variables:  
+#>      chlorophyll: 
+#>          Units: mg m-3
 ```
 
 
 ```r
 (res <- griddap(out,
-  time = c('2012-01-01', '2012-01-31'),
-  latitude = c(25, 20),
-  longitude = c(-80, -79)
+  time = c('2015-01-01','2015-01-03'),
+  latitude = c(14, 15),
+  longitude = c(125, 126)
 ))
-#> <ERDDAP griddap> noaa_esrl_027d_0fb5_5d38
-#>    Path: [/Users/sacmac/Library/Caches/R/rerddap/255eef5d77931489e5282a3db6e807d9.nc]
-#>    Last updated: [2017-07-11 13:30:33]
-#>    File size:    [0 mb]
-#>    Dimensions (dims/vars):   [3 X 1]
-#>    Dim names: time, latitude, longitude
-#>    Variable names: CRUTEM3: Surface Air Temperature Monthly Anomaly
-#>    data.frame (rows/columns):   [4 X 4]
-#> # A tibble: 4 x 4
-#>                   time   lat   lon   air
-#>                  <chr> <dbl> <dbl> <dbl>
-#> 1 2012-01-01T00:00:00Z  27.5 -77.5    NA
-#> 2 2012-01-01T00:00:00Z  22.5 -77.5    NA
-#> 3 2012-02-01T00:00:00Z  27.5 -77.5     2
-#> 4 2012-02-01T00:00:00Z  22.5 -77.5    NA
+#> <ERDDAP griddap> erdMBchla1day
+#>    Path: [/Users/sckott/Library/Caches/R/rerddap/8574dac19acbc8f34f042428b034516a.nc]
+#>    Last updated: [2018-09-21 14:39:09]
+#>    File size:    [0.03 mb]
+#>    Dimensions (dims/vars):   [4 X 1]
+#>    Dim names: time, altitude, latitude, longitude
+#>    Variable names: Chlorophyll Concentration in Sea Water
+#>    data.frame (rows/columns):   [5043 X 4]
+#> # A tibble: 5,043 x 4
+#>    time                   lat   lon chlorophyll
+#>    <chr>                <dbl> <dbl>       <dbl>
+#>  1 2015-01-01T12:00:00Z    14  125           NA
+#>  2 2015-01-01T12:00:00Z    14  125.          NA
+#>  3 2015-01-01T12:00:00Z    14  125.          NA
+#>  4 2015-01-01T12:00:00Z    14  125.          NA
+#>  5 2015-01-01T12:00:00Z    14  125.          NA
+#>  6 2015-01-01T12:00:00Z    14  125.          NA
+#>  7 2015-01-01T12:00:00Z    14  125.          NA
+#>  8 2015-01-01T12:00:00Z    14  125.          NA
+#>  9 2015-01-01T12:00:00Z    14  125.          NA
+#> 10 2015-01-01T12:00:00Z    14  125.          NA
+#> # ... with 5,033 more rows
 ```
 
 ## tabledap (tabular) data
@@ -159,21 +165,21 @@ info('noaa_esrl_027d_0fb5_5d38')
 
 ```r
 (out <- info('erdCinpKfmBT'))
-#> <ERDDAP info> erdCinpKfmBT
-#>  Variables:
-#>      Aplysia_californica_Mean_Density:
-#>          Range: 0.0, 0.95
-#>          Units: m-2
-#>      Aplysia_californica_StdDev:
-#>          Range: 0.0, 0.35
-#>      Aplysia_californica_StdErr:
-#>          Range: 0.0, 0.1
-#>      Crassedoma_giganteum_Mean_Density:
-#>          Range: 0.0, 0.92
-#>          Units: m-2
-#>      Crassedoma_giganteum_StdDev:
-#>          Range: 0.0, 0.71
-#>      Crassedoma_giganteum_StdErr:
+#> <ERDDAP info> erdCinpKfmBT 
+#>  Variables:  
+#>      Aplysia_californica_Mean_Density: 
+#>          Range: 0.0, 0.95 
+#>          Units: m-2 
+#>      Aplysia_californica_StdDev: 
+#>          Range: 0.0, 0.35 
+#>      Aplysia_californica_StdErr: 
+#>          Range: 0.0, 0.1 
+#>      Crassedoma_giganteum_Mean_Density: 
+#>          Range: 0.0, 0.92 
+#>          Units: m-2 
+#>      Crassedoma_giganteum_StdDev: 
+#>          Range: 0.0, 0.71 
+#>      Crassedoma_giganteum_StdErr: 
 ...
 ```
 
@@ -181,30 +187,30 @@ info('noaa_esrl_027d_0fb5_5d38')
 ```r
 tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 #> <ERDDAP tabledap> erdCinpKfmBT
-#>    Path: [/Users/sacmac/Library/Caches/R/rerddap/268b2474e9e613336b900d3289304bb0.csv]
-#>    Last updated: [2017-07-11 13:30:37]
+#>    Path: [/Users/sckott/Library/Caches/R/rerddap/268b2474e9e613336b900d3289304bb0.csv]
+#>    Last updated: [2018-09-21 15:02:13]
 #>    File size:    [0.01 mb]
 #> # A tibble: 37 x 53
-#>                       station         longitude         latitude depth
-#>  *                      <chr>             <chr>            <chr> <chr>
-#>  1       Anacapa_AdmiralsReef -119.416666666667             34.0  16.0
-#>  2   Anacapa_BlackSeaBassReef -119.383333333333             34.0  17.0
-#>  3      Anacapa_CathedralCove -119.366666666667             34.0   6.0
-#>  4       Anacapa_EastFishCamp -119.383333333333             34.0  11.0
-#>  5            Anacapa_Keyhole -119.416666666667             34.0  11.0
-#>  6        Anacapa_LandingCove           -119.35 34.0166666666667   5.0
-#>  7         Anacapa_Lighthouse           -119.35             34.0   8.0
-#>  8   SanClemente_BoyScoutCamp -118.533333333333             33.0  11.0
-#>  9       SanClemente_EelPoint -118.533333333333            32.95  10.0
-#> 10 SanClemente_HorseBeachCove            -118.4             32.8  13.0
-#> # ... with 27 more rows, and 49 more variables: time <chr>,
-#> #   Aplysia_californica_Mean_Density <chr>,
-#> #   Aplysia_californica_StdDev <dbl>, Aplysia_californica_StdErr <dbl>,
+#>    station longitude latitude depth time  Aplysia_califor… Aplysia_califor…
+#>  * <chr>   <chr>     <chr>    <chr> <chr> <chr>                       <dbl>
+#>  1 Anacap… -119.416… 34.0     16.0  2007… 0.009722223                  0.01
+#>  2 Anacap… -119.383… 34.0     17.0  2007… 0.0                          0   
+#>  3 Anacap… -119.366… 34.0     6.0   2007… 0.0                          0   
+#>  4 Anacap… -119.383… 34.0     11.0  2007… 0.16                         0.17
+#>  5 Anacap… -119.416… 34.0     11.0  2007… 0.03                         0.01
+#>  6 Anacap… -119.35   34.0166… 5.0   2007… 0.0                          0   
+#>  7 Anacap… -119.35   34.0     8.0   2007… 0.008333334                  0.01
+#>  8 SanCle… -118.533… 33.0     11.0  2007… NaN                        NaN   
+#>  9 SanCle… -118.533… 32.95    10.0  2007… NaN                        NaN   
+#> 10 SanCle… -118.4    32.8     13.0  2007… NaN                        NaN   
+#> # ... with 27 more rows, and 46 more variables:
+#> #   Aplysia_californica_StdErr <dbl>,
 #> #   Crassedoma_giganteum_Mean_Density <chr>,
 #> #   Crassedoma_giganteum_StdDev <dbl>, Crassedoma_giganteum_StdErr <dbl>,
 #> #   Haliotis_corrugata_Mean_Density <chr>,
 #> #   Haliotis_corrugata_StdDev <dbl>, Haliotis_corrugata_StdErr <dbl>,
 #> #   Haliotis_fulgens_Mean_Density <chr>, Haliotis_fulgens_StdDev <dbl>,
+#> #   Haliotis_fulgens_StdErr <dbl>, Haliotis_rufescens_Mean_Density <chr>,
 ...
 ```
 

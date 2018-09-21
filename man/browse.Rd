@@ -33,7 +33,8 @@ my_info <- info('erdATastnhday')
 browse(my_info)
 
 # browse tabledap class
-my_tabledap <- tabledap('erdCalCOFIfshsiz')
+my_tabledap <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
+   'itis_tsn'), 'time>=2011-10-25', 'time<=2011-10-31')
 browse(my_tabledap)
 }
 }

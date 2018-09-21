@@ -104,12 +104,12 @@ with servers or this package
 tabledap('erdCinpKfmBT')
 
 # Pass time constraints
-tabledap('hawaii_b55f_a8f2_ad70', 'time>=2010-06-24', 'time<=2010-07-01')
+tabledap('hawaii_soest_5742_4f35_ff55', 'time>=2011-08-24', 'time<=2011-09-01')
 
 # Pass in fields (i.e., columns to retrieve) & time constraints
-tabledap('hawaii_b55f_a8f2_ad70',
-  fields = c('longitude', 'latitude', 'chlorophyll', 'salinity'),
-  'time>=2010-06-24', 'time<=2010-07-01'
+tabledap('hawaii_soest_5742_4f35_ff55',
+  fields = c('longitude', 'latitude', 'speed_over_ground'),
+  'time>=2011-08-24', 'time<=2011-09-01'
 )
 
 # Get info on a datasetid, then get data given information learned
@@ -121,10 +121,10 @@ tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
 ## Search for data
 (out <- ed_search(query='fish', which = 'table'))
 ## Using a datasetid, search for information on a datasetid
-id <- "hawaii_43a8_6d6d_9052"
+id <- "nwioosHudFishDetails"
 info(id)$variables
 ## Get data from the dataset
-tabledap(id, fields = c('scientificName', 'tsn', 'sex'))
+tabledap(id, fields = c('scientific_name', 'species_id', 'life_stage'))
 
 # Time constraint
 ## Limit by time with date only
@@ -134,9 +134,9 @@ tabledap(info, fields = c(
   'time>=2001-07-14')
 
 # Use distinct parameter - compare to distinct = FALSE
-tabledap('hawaii_b55f_a8f2_ad70',
-   fields=c('longitude','latitude','depth','salinity'),
-   'time>=2010-06-24', 'time<=2010-07-01', distinct = TRUE)
+tabledap('hawaii_soest_5742_4f35_ff55',
+   fields=c('longitude','latitude','speed_over_ground'),
+   'time>=2011-08-24', 'time<=2011-09-01', distinct = TRUE)
 
 # Use units parameter
 ## In this example, values are the same, but sometimes they can be different
@@ -164,11 +164,6 @@ tabledap('erdCinpKfmT',
    'time>=2007-06-10', 'time<=2007-09-21',
    orderbymax=c('depth','temperature')
 )
-
-# Spatial delimitation
-tabledap('erdCinpKfmBT',
-  fields = c('latitude','longitude','scientific_name'),
- 'latitude>=34.8', 'latitude<=35', 'longitude>=-125', 'longitude<=-124')
 
 # Integrate with taxize
 out <- tabledap('erdCalCOFIlrvcntHBtoHI',

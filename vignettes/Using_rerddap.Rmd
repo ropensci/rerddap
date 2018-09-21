@@ -1,11 +1,15 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
-%\VignetteEncoding{UTF-8}
--->
+---
+title: "Using rerddap to Access Data from ERDDAP Servers"
+author: "Roy Mendelssohn and Scott Chamberlain"
+date: "2017-05-11"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{usimg rerddap}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
-Using rerddap to Access Data from ERDDAP Servers
-================================================
+
 
 
 ## Introduction
@@ -178,107 +182,107 @@ The other method is to use the `rerddap` function `info`:
 
 ```r
 info('jplMURSST41')
-#> <ERDDAP info> jplMURSST41
-#>  Dimensions (range):
-#>      time: (2002-06-01T09:00:00Z, 2017-05-10T09:00:00Z)
-#>      latitude: (-89.99, 89.99)
-#>      longitude: (-179.99, 180.0)
-#>  Variables:
-#>      analysed_sst:
-#>          Units: degree_C
-#>      analysis_error:
-#>          Units: degree_C
-#>      mask:
-#>      sea_ice_fraction:
+#> <ERDDAP info> jplMURSST41 
+#>  Dimensions (range):  
+#>      time: (2002-06-01T09:00:00Z, 2017-05-10T09:00:00Z) 
+#>      latitude: (-89.99, 89.99) 
+#>      longitude: (-179.99, 180.0) 
+#>  Variables:  
+#>      analysed_sst: 
+#>          Units: degree_C 
+#>      analysis_error: 
+#>          Units: degree_C 
+#>      mask: 
+#>      sea_ice_fraction: 
 #>          Units: fraction
 info('siocalcofiHydroCasts')
-#> <ERDDAP info> siocalcofiHydroCasts
-#>  Variables:
-#>      ac_line:
-#>      ac_sta:
-#>      barometer:
-#>          Units: millibars
-#>      bottom_d:
-#>          Units: meters
-#>      cast_id:
-#>      civil_t:
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      cloud_amt:
-#>          Units: oktas
-#>      cloud_typ:
-#>      cruise_id:
-#>      cruz_leg:
-#>      cruz_num:
-#>      cruz_sta:
-#>      cst_cnt:
-#>      data_or:
-#>      data_type:
-#>      date:
-#>      dbsta_id:
-#>      distance:
-#>      dry_t:
-#>          Units: degree C
-#>      event_num:
-#>      forelu:
-#>          Units: Forel-Ule scale
-#>      inc_end:
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      inc_str:
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      intc14:
-#>          Units: milligrams Carbon per square meter
-#>      intchl:
-#>      julian_date:
-#>      julian_day:
-#>      latitude:
-#>          Range: 18.417, 47.917
-#>          Units: degrees_north
-#>      latitude_degrees:
-#>      latitude_hemisphere:
-#>      latitude_minutes:
-#>      longitude:
-#>          Range: -164.083, -105.967
-#>          Units: degrees_east
-#>      longitude_degrees:
-#>      longitude_hemisphere:
-#>      longitude_minutes:
-#>      month:
-#>          Range: 1, 12
-#>      order_occ:
-#>      orig_sta_id:
-#>      pst_lan:
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      quarter:
-#>      rpt_line:
-#>      rpt_sta:
-#>      secchi:
-#>          Units: meters
-#>      ship_code:
-#>      ship_name:
-#>      st_line:
-#>      st_station:
-#>      sta_code:
-#>      sta_id:
-#>      time:
-#>          Range: -6.5759508E8, 1.423140778E9
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      time_ascii:
-#>      timezone:
-#>      visibility:
-#>      wave_dir:
-#>          Units: degrees
-#>      wave_ht:
-#>          Units: feet
-#>      wave_prd:
-#>          Units: seconds
-#>      wea:
-#>      wet_t:
-#>          Units: degree C
-#>      wind_dir:
-#>          Units: degrees
-#>      wind_spd:
-#>          Units: knots
-#>      year:
+#> <ERDDAP info> siocalcofiHydroCasts 
+#>  Variables:  
+#>      ac_line: 
+#>      ac_sta: 
+#>      barometer: 
+#>          Units: millibars 
+#>      bottom_d: 
+#>          Units: meters 
+#>      cast_id: 
+#>      civil_t: 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      cloud_amt: 
+#>          Units: oktas 
+#>      cloud_typ: 
+#>      cruise_id: 
+#>      cruz_leg: 
+#>      cruz_num: 
+#>      cruz_sta: 
+#>      cst_cnt: 
+#>      data_or: 
+#>      data_type: 
+#>      date: 
+#>      dbsta_id: 
+#>      distance: 
+#>      dry_t: 
+#>          Units: degree C 
+#>      event_num: 
+#>      forelu: 
+#>          Units: Forel-Ule scale 
+#>      inc_end: 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      inc_str: 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      intc14: 
+#>          Units: milligrams Carbon per square meter 
+#>      intchl: 
+#>      julian_date: 
+#>      julian_day: 
+#>      latitude: 
+#>          Range: 18.417, 47.917 
+#>          Units: degrees_north 
+#>      latitude_degrees: 
+#>      latitude_hemisphere: 
+#>      latitude_minutes: 
+#>      longitude: 
+#>          Range: -164.083, -105.967 
+#>          Units: degrees_east 
+#>      longitude_degrees: 
+#>      longitude_hemisphere: 
+#>      longitude_minutes: 
+#>      month: 
+#>          Range: 1, 12 
+#>      order_occ: 
+#>      orig_sta_id: 
+#>      pst_lan: 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      quarter: 
+#>      rpt_line: 
+#>      rpt_sta: 
+#>      secchi: 
+#>          Units: meters 
+#>      ship_code: 
+#>      ship_name: 
+#>      st_line: 
+#>      st_station: 
+#>      sta_code: 
+#>      sta_id: 
+#>      time: 
+#>          Range: -6.5759508E8, 1.423140778E9 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      time_ascii: 
+#>      timezone: 
+#>      visibility: 
+#>      wave_dir: 
+#>          Units: degrees 
+#>      wave_ht: 
+#>          Units: feet 
+#>      wave_prd: 
+#>          Units: seconds 
+#>      wea: 
+#>      wet_t: 
+#>          Units: degree C 
+#>      wind_dir: 
+#>          Units: degrees 
+#>      wind_spd: 
+#>          Units: knots 
+#>      year: 
 #>          Range: 1949, 2015
 ```
 
@@ -368,7 +372,8 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
     coord_fixed(1.3, xlim = c(-140, -105),  ylim = c(22., 51.)) + ggtitle("Latest MUR SST")
 ```
 
-![](figure/MUR-1.png)
+<img src="figure/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
+
 
 
 ### VIIRS SST and Chlorophyll
@@ -405,7 +410,7 @@ ggplot(data = tempFrame, aes(x = lon, y = lat, fill = sst)) +
     coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + ggtitle("Latest VIIRS 3-day SST")
 ```
 
-![](figure/VIIRS-1.png)
+<img src="figure/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
 
 A time series from the same dataset at a given location,  here (36., -126.):
 
@@ -413,8 +418,8 @@ A time series from the same dataset at a given location,  here (36., -126.):
 ```r
 require("ggplot2")
 require("rerddap")
-viirsSST1 <- griddap(sstInfo, latitude = c(36., 36.),
-                     longitude = c(-126., -126.),
+viirsSST1 <- griddap(sstInfo, latitude = c(36., 36.), 
+                     longitude = c(-126., -126.), 
                      time = c('2015-01-01','2015-12-31'), fields = 'sst')
 tempTime <- as.Date(viirsSST1$data$time, origin = '1970-01-01', tz = "GMT")
 tempFrame <- data.frame(time = tempTime, sst = viirsSST1$data$sst)
@@ -422,9 +427,9 @@ tempFrame <- data.frame(time = tempTime, sst = viirsSST1$data$sst)
 
 
 ```r
-ggplot(tempFrame, aes(time, sst)) +
-  geom_line() +
-  theme_bw() +
+ggplot(tempFrame, aes(time, sst)) + 
+  geom_line() + 
+  theme_bw() + 
   ylab("sst") +
   ggtitle("VIIRS SST at (36N, 126W)")
 ```
@@ -441,8 +446,8 @@ require("ggplot2")
 require("mapdata")
 require("rerddap")
 chlaInfo <- info('erdVHNchla3day')
-viirsCHLA <- griddap(chlaInfo, latitude = c(41., 31.),
-                     longitude = c(-128., -115), time = c('last','last'),
+viirsCHLA <- griddap(chlaInfo, latitude = c(41., 31.), 
+                     longitude = c(-128., -115), time = c('last','last'), 
                      fields = 'chla')
 ```
 
@@ -456,7 +461,7 @@ ggplot(data = viirsCHLA$data, aes(x = lon, y = lat, fill = log(chla))) +
   geom_raster(interpolate = FALSE) +
   scale_fill_gradientn(colours = mycolor, na.value = NA) +
   theme_bw() + ylab("latitude") + xlab("longitude") +
-  coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) +
+  coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + 
   ggtitle("Latest VIIRS 3-day Chla")
 #> Warning: Removed 1781323 rows containing missing values (geom_raster).
 ```
@@ -476,7 +481,7 @@ xpos <- c(135.25, 240.25)
 ypos <- c(20.25, 60.25)
 zpos <- c(70.02, 70.02)
 tpos <- c('2010-12-15', '2010-12-15')
-soda70 <- griddap(dataInfo,  longitude = xpos, latitude = ypos,
+soda70 <- griddap(dataInfo,  longitude = xpos, latitude = ypos, 
                   time = tpos, depth = zpos, fields = 'temp' )
 str(soda70$data)
 #> 'data.frame':	17091 obs. of  4 variables:
@@ -510,7 +515,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-![](figure/soda70Plot-1.png)
+<img src="figure/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
 
 
 
@@ -557,7 +562,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-![](figure/NAtlSSSplot-1.png)
+<img src="figure/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
 
 
 
@@ -616,7 +621,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
  myplot
 ```
 
-![](figure/ifrPSALplot-1.png)
+<img src="figure/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
 
 
 ## tabledap
@@ -626,7 +631,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 
 CalCOFI (California Cooperative Oceanic Fisheries Investigations - http://www.calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
 
-The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see http://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html ):
+The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see http://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html):
 
 
 ```r
@@ -700,7 +705,7 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
   theme_bw() + ggtitle('yearly pp anom')
 ```
 
-![](figure/calCOFIPlot-1.png)
+<img src="figure/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="figure/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
 
 
 
@@ -729,42 +734,42 @@ Then get the information for the CPS dataset:
 ```r
 require("rerddap")
 (CPSinfo <- info('FRDCPSTrawlLHHaulCatch'))
-#> <ERDDAP info> FRDCPSTrawlLHHaulCatch
-#>  Variables:
-#>      collection:
-#>          Range: 2003, 3623
-#>      cruise:
-#>          Range: 200307, 201604
-#>      haul:
-#>          Range: 1, 160
-#>      haulback_time:
-#>          Range: -6.5759508E8, 1.3977129E9
-#>          Units: seconds since 1970-01-01T00:00:00Z
-#>      itis_tsn:
-#>      latitude:
-#>          Range: 30.7001, 54.3997
-#>          Units: degrees_north
-#>      longitude:
-#>          Range: -134.0793, -117.3796
-#>          Units: degrees_east
-#>      remaining_weight:
-#>          Units: kg
-#>      scientific_name:
-#>      ship:
-#>      ship_spd_through_water:
-#>          Units: knot
-#>      stop_latitude:
-#>          Range: 30.6663, 51.0923
-#>      stop_longitude:
-#>          Range: -132.184, -117.4116
-#>      subsample_count:
-#>      subsample_weight:
-#>          Units: kg
-#>      surface_temp:
-#>          Units: degree C
-#>      surface_temp_method:
-#>      time:
-#>          Range: 1.05771978E9, 1.4613093E9
+#> <ERDDAP info> FRDCPSTrawlLHHaulCatch 
+#>  Variables:  
+#>      collection: 
+#>          Range: 2003, 3623 
+#>      cruise: 
+#>          Range: 200307, 201604 
+#>      haul: 
+#>          Range: 1, 160 
+#>      haulback_time: 
+#>          Range: -6.5759508E8, 1.3977129E9 
+#>          Units: seconds since 1970-01-01T00:00:00Z 
+#>      itis_tsn: 
+#>      latitude: 
+#>          Range: 30.7001, 54.3997 
+#>          Units: degrees_north 
+#>      longitude: 
+#>          Range: -134.0793, -117.3796 
+#>          Units: degrees_east 
+#>      remaining_weight: 
+#>          Units: kg 
+#>      scientific_name: 
+#>      ship: 
+#>      ship_spd_through_water: 
+#>          Units: knot 
+#>      stop_latitude: 
+#>          Range: 30.6663, 51.0923 
+#>      stop_longitude: 
+#>          Range: -132.184, -117.4116 
+#>      subsample_count: 
+#>      subsample_weight: 
+#>          Units: kg 
+#>      surface_temp: 
+#>          Units: degree C 
+#>      surface_temp_method: 
+#>      time: 
+#>          Range: 1.05771978E9, 1.4613093E9 
 #>          Units: seconds since 1970-01-01T00:00:00Z
 ```
 
@@ -821,7 +826,7 @@ p1 + geom_point(data = sardine2010, aes(x = longitude, y = latitude, colour = su
 p2 +   geom_point(data = sardine2011, aes(x = longitude, y = latitude, colour = subsample_count)) + scale_colour_gradient(space = "Lab", na.value = NA, limits = c(0,80))
 ```
 
-![](figure/CPSPlot-1.png)
+<img src="figure/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="figure/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
 
 Also of interest is the distribution of sardines through the years:
 
@@ -847,7 +852,7 @@ ggplot() +
     ggtitle("Location of sardines by year in EPM Trawls")
 ```
 
-![](figure/sardinesPlot-1.png)
+<img src="figure/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
 
 ### NDBC Buoys
 
@@ -875,7 +880,7 @@ ggplot() +
    ggtitle("Location of buoys in given region")
 ```
 
-![](figure/NDBC-1.png)
+<img src="figure/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
 
 Looking at wind speed for 2012 for station "46012"
 
@@ -888,14 +893,14 @@ buoyData$time <- as.Date(buoyData$time, origin = '1970-01-01', tz = "GMT")
 
 
 ```r
-ggplot(buoyData, aes(time, wspd)) +
-  geom_line() +
-  theme_bw() +
+ggplot(buoyData, aes(time, wspd)) + 
+  geom_line() + 
+  theme_bw() + 
   ylab("wind speed") +
   ggtitle("Wind Speed in 2012 from buoy 46012 ")
 ```
 
-![](figure/NDBCTS-1.png)
+<img src="figure/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
 
 ###  IOOS Glider Data
 
@@ -921,7 +926,7 @@ scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar
            cex = c(0.5, 1, 1.5))
 ```
 
-![](figure/glider-1.png)
+<img src="figure/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
 
 ## Animal Telemetry Network (ATN)
 
@@ -958,7 +963,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
   coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle("SST Along Track")
 ```
 
-![](figure/unnamed-chunk-28-1.png)
+<img src="figure/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
 
 
@@ -986,13 +991,13 @@ alldata <- data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$max
 ggplot(alldata) + geom_line(aes(x = year, y = coho), colour = 'blue') + theme_bw() + ggtitle("Log(coho)")
 ```
 
-![](figure/unnamed-chunk-30-1.png)
+<img src="figure/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 ```r
 ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_bw() + ggtitle("MaxSLP")
 ```
 
-![](figure/unnamed-chunk-30-2.png)
+<img src="figure/unnamed-chunk-30-2.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 
 

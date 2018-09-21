@@ -6,7 +6,7 @@ test_that("info returns the correct", {
   a <- info('erdRWtanm1day')
   #b <- info('noaa_gfdl_31d5_ca95_1287')
   d <- info('erdMBchlamday_LonPM180')
-  e <- info('noaa_esrl_c028_2e8a_9caf')
+  e <- info('erdMBchla1day')
   f <- info('nodcWoa09mon5t')
 
   # class
@@ -22,7 +22,7 @@ test_that("info returns the correct", {
   expect_is(a$alldata$sstAnomaly, "data.frame")
 
   #expect_is(b$alldata$clivi, "data.frame")
-  expect_is(d$alldata$air, "data.frame")
+  expect_is(d$alldata$chlorophyll, "data.frame")
   expect_is(e$alldata$time, "data.frame")
   expect_is(f$alldata$depth, "data.frame")
 
@@ -34,7 +34,7 @@ test_that("info returns the correct", {
 test_that("info works with different ERDDAP servers", {
   skip_on_cran()
 
-  h <- info("erdMH1kd4908day", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+  h <- info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 
   expect_is(h, "info")
   expect_is(h$variables, "data.frame")

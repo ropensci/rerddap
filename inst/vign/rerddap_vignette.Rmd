@@ -100,16 +100,16 @@ info('erdCalCOFIlrvsiz')
 First, get information on a dataset to see time range, lat/long range, and variables.
 
 ```{r}
-(out <- info('noaa_esrl_027d_0fb5_5d38'))
+(out <- info('erdMBchla1day'))
 ```
 
 Then query for gridded data using the `griddap()` function
 
 ```{r}
 (res <- griddap(out,
-  time = c('2012-01-01', '2012-01-30'),
-  latitude = c(21, 10),
-  longitude = c(-80, -70)
+  time = c('2015-01-01','2015-01-03'),
+  latitude = c(14, 15),
+  longitude = c(125, 126)
 ))
 ```
 

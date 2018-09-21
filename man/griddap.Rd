@@ -4,8 +4,8 @@
 \alias{griddap}
 \title{Get ERDDAP gridded data}
 \usage{
-griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(),
-  store = disk(), read = TRUE, callopts = list())
+griddap(x, ..., fields = "all", stride = 1, fmt = "nc",
+  url = eurl(), store = disk(), read = TRUE, callopts = list())
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of a
@@ -98,17 +98,12 @@ function calls. \code{\link{memory}} does not accept any inputs, while
 \dontrun{
 # single variable dataset
 ## You can pass in the outpu of a call to info
-(out <- info('noaa_esrl_027d_0fb5_5d38'))
-(res <- griddap(out,
- time = c('2012-01-01','2012-06-12'),
- latitude = c(21, 18),
- longitude = c(-80, -75)
-))
+(out <- info('erdVHNchlamday'))
 ## Or, pass in a dataset id
-(res <- griddap('noaa_esrl_027d_0fb5_5d38',
- time = c('2012-01-01','2012-06-12'),
- latitude = c(21, 18),
- longitude = c(-80, -75)
+(res <- griddap('erdVHNchlamday',
+ time = c('2015-04-01','2015-04-10'),
+ latitude = c(18, 21),
+ longitude = c(-120, -119)
 ))
 
 # multi-variable dataset
@@ -127,12 +122,6 @@ function calls. \code{\link{memory}} does not accept any inputs, while
    latitude = c(24, 23), longitude = c(88, 90),
    fields = c('mod_current','u_current')))
 
-(out <- info('noaa_esrl_4965_b6d4_7198'))
-(res <- griddap(out,
- time = c('1990-10-01', '1991-02-01'),
- latitude = c(20, 21),
- longitude = c(2, 5)
-))
 
 # Write to memory (within R), or to disk
 (out <- info('erdQSwindmday'))
@@ -184,41 +173,37 @@ info("erdMBchla1day")
 # Use a different ERDDAP server url
 ## NOAA IOOS PacIOOS
 url = "http://oos.soest.hawaii.edu/erddap/"
-out <- info("NOAA_DHW", url = url)
+out <- info("NOAA_DHW_5km", url = url)
 (res <- griddap(out,
- time = c('2005-11-01','2006-01-01'),
+ time = c('2015-11-01','2015-11-03'),
  latitude = c(21, 20),
  longitude = c(10, 11)
 ))
 ## pass directly into griddap()
-griddap("NOAA_DHW", url = url,
- time = c('2005-11-01','2006-01-01'),
+griddap("NOAA_DHW_5km", url = url,
+ time = c('2015-11-01','2015-11-03'),
  latitude = c(21, 20),
  longitude = c(10, 11)
 )
 
-# You don't have to pass in all of the dimensions
-## They do have to be named!
-griddap(out, time = c('2005-11-01','2005-11-03'))
-
 # Using 'last'
 ## with time
-griddap('noaa_esrl_fce0_4aad_340a',
+griddap('erdVHNchlamday',
  time = c('last-5','last'),
- latitude = c(21, 18),
- longitude = c(3, 5)
+ latitude = c(18, 21),
+ longitude = c(-120, -119)
 )
 ## with latitude
-griddap('noaa_esrl_fce0_4aad_340a',
-  time = c('2008-01-01','2009-01-01'),
+griddap('erdVHNchlamday',
+  time = c('2015-04-01','2015-04-10'),
   latitude = c('last', 'last'),
-  longitude = c(3, 5)
+  longitude = c(-120, -119)
 )
 ## with longitude
-griddap('noaa_esrl_fce0_4aad_340a',
- time = c('2008-01-01','2009-01-01'),
- latitude = c(21, 18),
- longitude = c('last', 'last')
+griddap('erdVHNchlamday',
+  time = c('2015-04-01','2015-04-10'),
+  latitude = c(18, 21),
+  longitude = c('last', 'last')
 )
 }
 }

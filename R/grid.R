@@ -193,6 +193,7 @@ fix_dims <- function(dimargs, .info) {
     if (nm == "time") {
       tmp <- as.Date(tmp)
     }
+    
     val <- .info$alldata[[nm]][ .info$alldata[[nm]]$attribute_name == "actual_range", "value"]
     val2 <- as.numeric(strtrim(strsplit(val, ",")[[1]]))
     if (length(tmp) != 0) {

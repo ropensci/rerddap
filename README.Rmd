@@ -35,6 +35,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
@@ -100,20 +101,20 @@ ed_search(query = 'size', which = "grid")
 Then you can get information on a single dataset
 
 ```{r}
-info('noaa_esrl_027d_0fb5_5d38')
+info('erdMBchla1day')
 ```
 
 ## griddap (gridded) data
 
 ```{r}
-(out <- info('noaa_esrl_027d_0fb5_5d38'))
+(out <- info('erdMBchla1day'))
 ```
 
 ```{r griddap_data}
 (res <- griddap(out,
-  time = c('2012-01-01', '2012-01-31'),
-  latitude = c(25, 20),
-  longitude = c(-80, -79)
+  time = c('2015-01-01','2015-01-03'),
+  latitude = c(14, 15),
+  longitude = c(125, 126)
 ))
 ```
 

@@ -25,9 +25,6 @@ Convert a CF Standard Name to/from a GCMD Science Keyword
  \dontrun{
 key_words(cf = "air_pressure")
 cat(key_words(cf = "air_pressure"))
-key_words(gcmd = "Atmosphere > Atmospheric Pressure > Sea Level Pressure")
-cat(
-key_words(gcmd = "Atmosphere > Atmospheric Pressure > Sea Level Pressure"))
 
 # a different ERDDAP server
 # key_words(cf = "air_pressure", url = servers()$url[6])

@@ -41,13 +41,13 @@
 #' info(out$info$dataset_id[400])
 #' info(out$info$dataset_id[678])
 #'
-#' out <- info(datasetid='noaa_esrl_027d_0fb5_5d38')
+#' out <- info(datasetid='erdMBchla1day')
 #' ## See brief overview of the variables and range of possible values, if given
 #' out$variables
 #' ## all information on longitude
 #' out$alldata$longitude
-#' ## all information on air
-#' out$alldata$air
+#' ## all information on chlorophyll
+#' out$alldata$chlorophyll
 #'
 #' # table dap datasets
 #' (out <- ed_search(query='temperature', which = "table"))
@@ -68,8 +68,6 @@
 #' # use a different ERDDAP server
 #' ## Marine Institute (Ireland)
 #' info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
-#' ## Marine Domain Awareness (MDA) (Italy)
-#' info("erdMH1chlamday", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 #' }
 
 info <- function(datasetid, url = eurl(), ...){
