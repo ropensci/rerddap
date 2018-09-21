@@ -1,6 +1,6 @@
 #' Default ERDDAP server URL
 #' 
-#' @details default url is https://coastwatch.pfeg.noaa.gov/erddap
+#' @details default url is https://upwell.pfeg.noaa.gov/erddap
 #'
 #' @export
-eurl <- function() "https://coastwatch.pfeg.noaa.gov/erddap/"
+eurl <- function() "https://upwell.pfeg.noaa.gov/erddap/"
