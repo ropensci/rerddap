@@ -90,10 +90,18 @@ check_key <- function(x){
 
 pu <- function(x) sub("/$|//$", "", x)
 
+strect <- function (str, pattern) regmatches(str, regexpr(pattern, str))
+
 err_handle <- function(x, store, key) {
   if (x$status_code > 201) {
     tt <- content(x, "text")
-    mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
+    html <- read_html(tt)
+    # mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
+    mssg <- xml_text(xml_find_all(html, '//body//p[text()[contains(., "error")]]')) %||% ""
+    mssg <- sub("Message\\s", "", mssg)
+    if (nchar(mssg) == 0) {
+      mssg <- strect(xml_text(xml_find_first(html, '//body')), "Query error.+")
+    }
     if (store$store != "memory") unlink(file.path(store$path, key))
     stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }

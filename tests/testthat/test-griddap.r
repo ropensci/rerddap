@@ -94,8 +94,12 @@ test_that("griddap fails well, in addition to above failure tests", {
                        time = c('2012-01-01', '2012-01-30'),
                        latitude = c(21, -120),
                        longitude = c(-80, -78)), "One or both latitude values")
-})
 
+  # bad date value
+  expect_error(griddap('erdVHNchlamday',
+     time = c('015-04-01','2015-04-10'),
+     latitude = c(18, 21)), "Query error")
+})
 # unlink(cache_info()$path, recursive = TRUE)
 
 ## FIXME more tests to add
