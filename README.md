@@ -219,6 +219,6 @@ tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 * Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
-* Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)

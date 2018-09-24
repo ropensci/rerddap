@@ -6,7 +6,7 @@ appveyor.yml
 Makefile
 cran-comments.md
 man-roxygen
-^CONDUCT\.md$
+^CODE_OF_CONDUCT\.md$
 ^cran-comments\.md$
 vignettes/cache
 vignettes/figure
