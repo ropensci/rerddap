@@ -8,16 +8,17 @@ browse(x, url = eurl(), ...)
 }
 \arguments{
 \item{x}{datasetid or an object associated with a datasetid such
-\code{\link{info}}, \code{\link{griddap}} or \code{\link{tabledap}}}
+\code{\link[=info]{info()}}, \code{\link[=griddap]{griddap()}} or \code{\link[=tabledap]{tabledap()}}}
 
 \item{url}{A URL for an ERDDAP server. Default:
 \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{BROWSE}}
+\item{...}{Further args passed on to \code{utils::browseURL}
 (must be a named parameter)}
 }
 \value{
-the value returned by \code{\link[httr]{BROWSE}}
+if in interactive mode, opens a URL in your default browser;
+if not, then prints the URL in the console
 }
 \description{
 Note that it is an error to call this when \code{base::interactive()}

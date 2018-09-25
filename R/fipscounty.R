@@ -4,8 +4,8 @@
 #' @param county character; A county name.
 #' @param code numeric; A FIPS code.
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Curl args passed on to \code{\link[httr]{GET}}
+#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples  \dontrun{
 #' fipscounty(code = "06053")
 #' fipscounty(county = "CA, Monterey")
@@ -15,9 +15,11 @@
 fipscounty <- function(county = NULL, code = NULL, url = eurl(), ...){
   either_or_fips(county, code)
   args <- rc(list(county = county, code = code))
-  res <- GET(paste0(pu(url), '/convert/fipscounty.txt'), query = args, ...)
-  stop_for_status(res)
-  content(res, "text")
+  cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/fipscounty.txt'), 
+    opts = list(...))
+  res <- cli$get(query = args)
+  res$raise_for_status()
+  res$parse("UTF-8")
 }
 
 either_or_fips <- function(county, code) {

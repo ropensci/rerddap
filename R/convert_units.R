@@ -2,22 +2,22 @@
 #'
 #' @export
 #' @param udunits character; A UDUNITS character string
-#' \url{http://www.unidata.ucar.edu/software/udunits/}
+#' <http://www.unidata.ucar.edu/software/udunits/>
 #' @param ucum character; A UCUM character string
-#' \url{http://unitsofmeasure.org/ucum.html}
+#' <http://unitsofmeasure.org/ucum.html>
 #' @param url Base URL of the ERDDAP server
-#' @param ... Curl args passed on to \code{\link[httr]{GET}}
+#' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples  \dontrun{
 #' convert_units(udunits = "degree_C meter-1")
 #' convert_units(ucum = "Cel.m-1")
 #' }
 
-convert_units <- function(udunits = NULL, ucum = NULL,
-                          url="http://coastwatch.pfeg.noaa.gov", ...) {
-
+convert_units <- function(udunits = NULL, ucum = NULL, url = eurl(), ...) {
   check1notboth(udunits, ucum)
   args <- rc(list(UDUNITS = udunits, UCUM = ucum))
-  res <- GET(paste0(pu(url), '/erddap/convert/units.txt'), query = args, ...)
-  stop_for_status(res)
-  content(res, "text")
+  cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/units.txt'), 
+    opts = list(...))
+  res <- cli$get(query = args)
+  res$raise_for_status()
+  res$parse("UTF-8")
 }

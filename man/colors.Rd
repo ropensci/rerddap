@@ -12,18 +12,18 @@ colors
 \description{
 str(colors)
 List of 13
- $ viridis
- $ cdom
- $ chlorophyll
- $ density
- $ freesurface
- $ oxygen
- $ par
- $ phase
- $ salinity
- $ temperature
- $ turbidity
- $ velocity
- $ vorticity
+$ viridis
+$ cdom
+$ chlorophyll
+$ density
+$ freesurface
+$ oxygen
+$ par
+$ phase
+$ salinity
+$ temperature
+$ turbidity
+$ velocity
+$ vorticity
 }
 \keyword{datasets}

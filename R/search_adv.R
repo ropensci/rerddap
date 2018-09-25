@@ -9,15 +9,15 @@
 #' @param cdm_data_type (character) One of grid, other, point, profile,
 #' timeseries, timeseriesprofile, trajectory, trajectoryprofile
 #' @param institution (character) An institution. See the dataset
-#' \code{institutions}.
+#' `institutions`
 #' @param ioos_category (character) An ioos category See the dataset
-#' \code{ioos_categories}.
-#' @param keywords (character) A keywords. See the dataset \code{keywords}.
-#' @param long_name (character) A long name. See the dataset \code{longnames}.
+#' `ioos_categories`
+#' @param keywords (character) A keywords. See the dataset `keywords`
+#' @param long_name (character) A long name. See the dataset `longnames`
 #' @param standard_name (character) A standar dname. See the dataset
-#' \code{standardnames}
+#' `standardnames`
 #' @param variableName (character) A variable name. See the dataset
-#' \code{variablenames}
+#' `variablenames`
 #' @param minLat,maxLat (numeric) Minimum and maximum latitude, between -90
 #' and 90
 #' @param minLon,maxLon (numeric) Minimum and maximum longitude. Some datasets
@@ -32,10 +32,10 @@
 #' omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 #' the number of seconds since 1970-01-01T00:00:00Z.
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a
-#' named parameter)
-#' @references  \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
+#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param ... Curl options passed on to [crul::HttpClient] (must be
+#' named parameters)
+#' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' ed_search_adv(query = 'temperature')

@@ -4,9 +4,18 @@
 #' @family cache
 #' @examples \dontrun{
 #' # list files in cache
-#' (x <- cache_list())
+#' cache_list()
 #'
 #' # List info for files
+#' ## download some data first
+#' tabledap('erdCinpKfmBT')
+#' griddap('erdVHNchlamday',
+#'  time = c('2015-04-01','2015-04-10'),
+#'  latitude = c(18, 21),
+#'  longitude = c(-120, -119)
+#' )
+#' 
+#' (x <- cache_list())
 #' cache_details(x$nc[1])
 #' cache_details(x$csv[1])
 #' cache_details()

@@ -14,7 +14,7 @@ fipscounty(county = NULL, code = NULL, url = eurl(), ...)
 \item{url}{A URL for an ERDDAP server. Default:
 \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Curl args passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }
 \description{
 Convert a FIPS County Code to/from a County Name

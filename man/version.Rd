@@ -10,7 +10,7 @@ version(url = eurl(), ...)
 \item{url}{A URL for an ERDDAP server. Default:
 \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Curl args passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }
 \description{
 Get ERDDAP version

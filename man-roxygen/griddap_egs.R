@@ -48,12 +48,12 @@
 #'  store = disk()
 #' ) )
 #'
-#' ## memory
+#' ## memory - you have to choose fmt="csv" if you use memory
 #' (res <- griddap("erdMBchla1day",
 #'  time = c('2015-01-01','2015-01-03'),
 #'  latitude = c(14, 15),
 #'  longitude = c(125, 126),
-#'  store = memory()
+#'  fmt = "csv", store = memory()
 #' ))
 #'
 #' ## Use ncdf4 package to parse data

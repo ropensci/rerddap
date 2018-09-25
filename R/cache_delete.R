@@ -16,10 +16,11 @@
 #' cache_delete(table_res)
 #'
 #' ## griddap
-#' (grid_res <- griddap('noaa_esrl_027d_0fb5_5d38',
-#'  time = c('2012-01-01','2012-06-12'),
-#'  latitude = c(21, 18),
-#'  longitude = c(-80, -75)
+#' (out <- info('erdQMekm14day'))
+#' (grid_res <- griddap(out,
+#'  time = c('2015-12-28','2016-01-01'),
+#'  latitude = c(24, 23),
+#'  longitude = c(88, 90)
 #' ))
 #' cache_delete(grid_res)
 #' }

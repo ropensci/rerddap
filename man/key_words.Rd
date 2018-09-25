@@ -16,7 +16,7 @@ http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
 \item{url}{A URL for an ERDDAP server. Default:
 https://upwell.pfeg.noaa.gov/erddap/}
 
-\item{...}{Curl args passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }
 \description{
 Convert a CF Standard Name to/from a GCMD Science Keyword

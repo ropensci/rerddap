@@ -12,13 +12,14 @@
 #' @param url A URL for an ERDDAP server. Default:
 #' \url{http://upwell.pfeg.noaa.gov/erddap/}
 #' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
-#' can pass options to \code{\link{disk}}
+#' can pass options to \code{\link{disk}}. Beware: if you choose \code{fmt="nc"},
+#' we force \code{store=disk()} because nc files have to be written to disk.
 #' @param read (logical) Read data into memory or not. Does not apply when
 #' \code{store} parameter is set to memory (which reads data into memory).
 #' For large csv, or especially netcdf files, you may want to set this to
 #' \code{FALSE}, which simply returns a summary of the dataset - and you can
 #' read in data piecemeal later. Default: \code{TRUE}
-#' @param callopts Pass on curl options to \code{\link[httr]{GET}}
+#' @param callopts Curl options passed on to \code{\link[crul]{HttClient}}
 #'
 #' @return An object of class \code{griddap_csv} if csv chosen or
 #' \code{griddap_nc} if nc file format chosen. These two classes are a thin

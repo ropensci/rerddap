@@ -15,7 +15,7 @@ as.info(x, url)
 \item{url}{A URL for an ERDDAP server. Default:
 \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a
+\item{...}{Further args passed on to \link[crul:HttpClient]{crul::HttpClient} (must be a
 named parameter)}
 
 \item{x}{A datasetid or the output of \code{info}}
@@ -26,19 +26,19 @@ various information.
 
 The data is a list of length two with:
 \itemize{
- \item variables - Data.frame of variables and their types
- \item alldata - List of data variables and their full attributes
+\item variables - Data.frame of variables and their types
+\item alldata - List of data variables and their full attributes
 }
+
 Where \code{alldata} element has many data.frame's, one for each variable,
 with metadata for that variable. E.g., for griddap dataset
-\code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
-has:
+\code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata} has:
 \itemize{
- \item NC_GLOBAL
- \item time
- \item latitude
- \item longitude
- \item sss
+\item NC_GLOBAL
+\item time
+\item latitude
+\item longitude
+\item sss
 }
 }
 \description{
@@ -90,5 +90,5 @@ info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
 }

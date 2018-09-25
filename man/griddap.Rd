@@ -28,7 +28,8 @@ every other value, etc. Default: 1 (i.e., get every value)}
 \url{http://upwell.pfeg.noaa.gov/erddap/}}
 
 \item{store}{One of \code{\link{disk}} (default) or \code{\link{memory}}. You
-can pass options to \code{\link{disk}}}
+can pass options to \code{\link{disk}}. Beware: if you choose \code{fmt="nc"},
+we force \code{store=disk()} because nc files have to be written to disk.}
 
 \item{read}{(logical) Read data into memory or not. Does not apply when
 \code{store} parameter is set to memory (which reads data into memory).
@@ -36,7 +37,7 @@ For large csv, or especially netcdf files, you may want to set this to
 \code{FALSE}, which simply returns a summary of the dataset - and you can
 read in data piecemeal later. Default: \code{TRUE}}
 
-\item{callopts}{Pass on curl options to \code{\link[httr]{GET}}}
+\item{callopts}{Curl options passed on to \code{\link[crul]{HttClient}}}
 }
 \value{
 An object of class \code{griddap_csv} if csv chosen or
@@ -145,12 +146,12 @@ system.time( griddap(out,
  store = disk()
 ) )
 
-## memory
+## memory - you have to choose fmt="csv" if you use memory
 (res <- griddap("erdMBchla1day",
  time = c('2015-01-01','2015-01-03'),
  latitude = c(14, 15),
  longitude = c(125, 126),
- store = memory()
+ fmt = "csv", store = memory()
 ))
 
 ## Use ncdf4 package to parse data
@@ -211,5 +212,5 @@ griddap('erdVHNchlamday',
 \url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
 }
 \author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
 }

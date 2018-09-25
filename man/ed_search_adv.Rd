@@ -24,14 +24,14 @@ ed_search_adv(query = NULL, page = 1, page_size = 1000,
 timeseries, timeseriesprofile, trajectory, trajectoryprofile}
 
 \item{institution}{(character) An institution. See the dataset
-\code{institutions}.}
+\code{institutions}}
 
 \item{ioos_category}{(character) An ioos category See the dataset
-\code{ioos_categories}.}
+\code{ioos_categories}}
 
-\item{keywords}{(character) A keywords. See the dataset \code{keywords}.}
+\item{keywords}{(character) A keywords. See the dataset \code{keywords}}
 
-\item{long_name}{(character) A long name. See the dataset \code{longnames}.}
+\item{long_name}{(character) A long name. See the dataset \code{longnames}}
 
 \item{standard_name}{(character) A standar dname. See the dataset
 \code{standardnames}}
@@ -58,8 +58,8 @@ the number of seconds since 1970-01-01T00:00:00Z.}
 \item{url}{A URL for an ERDDAP server. Default:
 \url{https://upwell.pfeg.noaa.gov/erddap/}}
 
-\item{...}{Further args passed on to \code{\link[httr]{GET}} (must be a
-named parameter)}
+\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient} (must be
+named parameters)}
 }
 \description{
 Advanced search for ERDDAP tabledep or griddap datasets
@@ -90,5 +90,5 @@ ed_search_adv(query = 'temperature', url = servers()$url[6])
 \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
 }

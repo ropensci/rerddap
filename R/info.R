@@ -4,30 +4,29 @@
 #'
 #' @param datasetid Dataset id
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Further args passed on to \code{\link[httr]{GET}} (must be a
+#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param ... Further args passed on to [crul::HttpClient] (must be a
 #' named parameter)
-#' @param x A datasetid or the output of \code{info}
+#' @param x A datasetid or the output of `info`
 #' @return Prints a summary of the data on return, but you can index to
 #' various information.
 #'
 #' The data is a list of length two with:
-#' \itemize{
-#'  \item variables - Data.frame of variables and their types
-#'  \item alldata - List of data variables and their full attributes
-#' }
-#' Where \code{alldata} element has many data.frame's, one for each variable,
+#' 
+#' - variables - Data.frame of variables and their types
+#' - alldata - List of data variables and their full attributes
+#' 
+#' Where `alldata` element has many data.frame's, one for each variable,
 #' with metadata for that variable. E.g., for griddap dataset
-#' \code{noaa_pfeg_696e_ec99_6fa6}, \code{alldata}
-#' has:
-#' \itemize{
-#'  \item NC_GLOBAL
-#'  \item time
-#'  \item latitude
-#'  \item longitude
-#'  \item sss
-#' }
-#' @references  \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
+#' `noaa_pfeg_696e_ec99_6fa6`, `alldata` has:
+#' 
+#' - NC_GLOBAL
+#' - time
+#' - latitude
+#' - longitude
+#' - sss
+#' 
+#' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
 #' @examples \dontrun{
 #' # grid dap datasets

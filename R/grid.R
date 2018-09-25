@@ -271,7 +271,9 @@ dimvars <- function(x){
   vars[ !vars %in% c("NC_GLOBAL", x$variables$variable_name) ]
 }
 
-erd_up_GET <- function(url, dset, args, store, fmt, ...){
+erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
+  if (length(args) > 0) url <- sprintf("%s?%s", url, args)
+  cli <- crul::HttpClient$new(url = url, opts = callopts)
   if (store$store == "disk") {
     # store on disk
     key <- gen_key(url, args, fmt)
@@ -279,15 +281,18 @@ erd_up_GET <- function(url, dset, args, store, fmt, ...){
       file.path(store$path, key)
     } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, query = args, write_disk(file.path(store$path, key), store$overwrite), ...)
+      if (!store$overwrite) {
+        stop('overwrite was `FALSE`, see ?disk')
+      }
+      res <- cli$get(disk = file.path(store$path, key))
       # delete file if error, and stop message
       err_handle(res, store, key)
       # return file path
-      res$request$output$path
+      res$content
     }
   } else {
     # read into memory, bypass disk storage
-    res <- GET(url, query = args, ...)
+    res <- cli$get()
     # if error stop message
     err_handle(res, store, key)
     # return response object

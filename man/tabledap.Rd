@@ -10,8 +10,8 @@ tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL,
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of
-a call to \code{\link{info}}, or a datasetid, which will internally be passed
-through \code{\link{info}}}
+a call to \code{\link[=info]{info()}}, or a datasetid, which will internally be passed
+through \code{\link[=info]{info()}}}
 
 \item{...}{Any number of key-value pairs in quotes as query constraints.
 See Details & examples}
@@ -58,8 +58,8 @@ Default: \url{https://upwell.pfeg.noaa.gov/erddap/}}
 \item{store}{One of \code{disk} (default) or \code{memory}. You can pass
 options to \code{disk}}
 
-\item{callopts}{Further args passed on to httr::GET (must be a
-named parameter)}
+\item{callopts}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient} (must be
+named parameters)}
 }
 \value{
 An object of class \code{tabledap}. This class is a thin wrapper
@@ -183,7 +183,7 @@ head(rbind(classif)); tail(rbind(classif))
 system.time( tabledap('erdCinpKfmBT', store = disk()) )
 system.time( tabledap('erdCinpKfmBT', store = disk()) )
 ## memory
-tabledap(x='erdCinpKfmBT', store = memory())
+tabledap('erdCinpKfmBT', store = memory())
 
 # use a different ERDDAP server
 ## NOAA IOOS NERACOOS
@@ -195,5 +195,5 @@ tabledap("E01_optics_hist", url = url)
 \url{https://upwell.pfeg.noaa.gov/erddap/index.html}
 }
 \author{
-Scott Chamberlain <myrmecocystus@gmail.com>
+Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
 }

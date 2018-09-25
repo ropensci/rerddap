@@ -3,8 +3,8 @@
 #' @export
 #'
 #' @param x Anything coercable to an object of class info. So the output of
-#' a call to \code{\link{info}}, or a datasetid, which will internally be passed
-#' through \code{\link{info}}
+#' a call to [info()], or a datasetid, which will internally be passed
+#' through [info()]
 #' @param ... Any number of key-value pairs in quotes as query constraints.
 #' See Details & examples
 #' @param fields Columns to return, as a character vector
@@ -19,7 +19,7 @@
 #' if the first variable has a tie, ...). Normally, the rows of data in the
 #' response table are in the order they arrived from the data source. orderBy
 #' allows you to request that the results table be sorted in a specific way.
-#' For example, use \code{orderby=c("stationID,time")} to get the results
+#' For example, use `orderby=c("stationID,time")` to get the results
 #' sorted by stationID, then time. The orderby variables MUST be included in
 #' the list of requested variables in the fields parameter.
 #' @param orderbymax Give a vector of one or more fields, that must be included
@@ -28,20 +28,20 @@
 #' variable, then using the second variable if the first variable has a
 #' tie, ...) and then just keeps the rows where the value of the last sort
 #' variable is highest (for each combination of other values).
-#' @param orderbymin Same as \code{orderbymax} parameter, except returns
+#' @param orderbymin Same as `orderbymax` parameter, except returns
 #' minimum value.
-#' @param orderbyminmax Same as \code{orderbymax} parameter, except returns
+#' @param orderbyminmax Same as `orderbymax` parameter, except returns
 #' two rows for every combination of the n-1 variables: one row with the
 #' minimum value, and one row with the maximum value.
 #' @param units One of 'udunits' (units will be described via the UDUNITS
 #' standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 #' UCUM standard (e.g., Cel)).
 #' @param url A URL for an ERDDAP server.
-#' Default: \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param store One of \code{disk} (default) or \code{memory}. You can pass
-#' options to \code{disk}
-#' @param callopts Further args passed on to httr::GET (must be a
-#' named parameter)
+#' Default: <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param store One of `disk` (default) or `memory`. You can pass
+#' options to `disk`
+#' @param callopts Curl options passed on to [crul::HttpClient] (must be
+#' named parameters)
 #'
 #' @return An object of class \code{tabledap}. This class is a thin wrapper
 #' around a data.frame, so the data you get back is a data.frame with metadata
@@ -162,7 +162,7 @@
 #' system.time( tabledap('erdCinpKfmBT', store = disk()) )
 #' system.time( tabledap('erdCinpKfmBT', store = disk()) )
 #' ## memory
-#' tabledap(x='erdCinpKfmBT', store = memory())
+#' tabledap('erdCinpKfmBT', store = memory())
 #'
 #' # use a different ERDDAP server
 #' ## NOAA IOOS NERACOOS
@@ -222,7 +222,8 @@ print.tabledap <- function(x, ...) {
   print(tibble::as_data_frame(x))
 }
 
-erd_tab_GET <- function(url, dset, store, ...) {
+erd_tab_GET <- function(url, dset, store, callopts) {
+  cli <- crul::HttpClient$new(url = url, opts = callopts)
   if (store$store == "disk") {
     # store on disk
     key <- gen_key(url, NULL, "csv")
@@ -230,13 +231,15 @@ erd_tab_GET <- function(url, dset, store, ...) {
       file.path(store$path, key)
     } else {
       dir.create(store$path, showWarnings = FALSE, recursive = TRUE)
-      res <- GET(url, write_disk(file.path(store$path, key), store$overwrite),
-                 ...)
+      if (!store$overwrite) {
+        stop('overwrite was `FALSE`, see ?disk')
+      }
+      res <- cli$get(disk = file.path(store$path, key))
       err_handle(res, store, key)
-      res$request$output$path
+      res$content
     }
   } else {
-    res <- GET(url, ...)
+    res <- cli$get()
     err_handle(res, store, key)
     res
   }

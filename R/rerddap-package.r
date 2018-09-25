@@ -2,28 +2,28 @@
 #'
 #' @section ERDDAP info:
 #' NOAA's ERDDAP service holds many datasets of interest. It's built on top of
-#' OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
-#' \code{\link{ed_search}}, list datasets via \code{\link{ed_datasets}},
-#' get information on a single dataset via \code{\link{info}}, then get
-#' data you want for either tabledap type via \code{\link{tabledap}}, or
-#' for griddap type via \code{\link{griddap}}.
+#' OPenDAP <http://www.opendap.org/>. You can search for datasets via
+#' [ed_search()], list datasets via [ed_datasets()],
+#' get information on a single dataset via [info()], then get
+#' data you want for either tabledap type via [tabledap()], or
+#' for griddap type via [griddap()]
 #'
 #' @section tabledap/griddap:
 #' tabledap and griddap have different interfaces to query for data, so
-#' \code{\link{tabledap}} and \code{\link{griddap}} are separated out as
+#' [tabledap()] and [griddap()] are separated out as
 #' separate functions even though some of the internals are the same. In
 #' particular, with tabledap you can query on/subset all variables, whereas
 #' with gridddap, you can only query on/subset the dimension varibles (e.g.,
 #' latitude, longitude, altitude).
 #'
 #' @section NOTE:
-#' With griddap data via \code{\link{griddap}} you can get a lot of
+#' With griddap data via [griddap()] you can get a lot of
 #' data quickly. Try small searches of a dataset to start to get a sense for
 #' the data, then you can increase the amount of data you get. See
-#' \code{\link{griddap}} for more details.
+#' [griddap()] for more details.
 #'
 #' @importFrom utils head read.csv read.delim URLencode
-#' @importFrom httr GET write_disk stop_for_status content
+#' @importFrom crul HttpClient
 #' @importFrom jsonlite fromJSON
 #' @importFrom data.table rbindlist
 #' @importFrom ncdf4 nc_open nc_close ncvar_get

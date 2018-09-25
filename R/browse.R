@@ -1,17 +1,18 @@
 #' Browse a dataset webpage.
 #'
-#' Note that it is an error to call this when \code{base::interactive()}
-#' returns \code{FALSE}
+#' Note that it is an error to call this when `base::interactive()`
+#' returns `FALSE`
 #'
 #' @export
 #'
 #' @param x  datasetid or an object associated with a datasetid such
-#' \code{\link{info}}, \code{\link{griddap}} or \code{\link{tabledap}}
+#' [info()], [griddap()] or [tabledap()]
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Further args passed on to \code{\link[httr]{BROWSE}}
+#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param ... Further args passed on to `utils::browseURL`
 #' (must be a named parameter)
-#' @return the value returned by \code{\link[httr]{BROWSE}}
+#' @return if in interactive mode, opens a URL in your default browser; 
+#' if not, then prints the URL in the console
 #' @author Ben Tupper \email{btupper@@bigelow.org}
 #' @examples \dontrun{
 #' # browse by dataset_id
@@ -35,7 +36,7 @@ browse.character <- function(x, url = eurl(), ...){
   stopifnot(interactive())
   if (missing(x)) stop("datasetid is required")
   uri <- sprintf(paste0(url, 'info/%s/index.html'), x)
-  httr::BROWSE(uri, ...)
+  utils::browseURL(uri)
 }
 
 #' @export

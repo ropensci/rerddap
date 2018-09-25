@@ -2,8 +2,8 @@
 #'
 #' @export
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{https://upwell.pfeg.noaa.gov/erddap/}
-#' @param ... Curl args passed on to \code{\link[httr]{GET}}
+#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples \dontrun{
 #' version()
 #' ss <- servers()
@@ -12,7 +12,9 @@
 #' version(ss$url[3])
 #' }
 version <- function(url = eurl(), ...){
-  res <- GET(paste0(pu(url), '/version'), ...)
-  stop_for_status(res)
-  sub("\n", "", content(res, "text"))
+  cli <- crul::HttpClient$new(url = file.path(pu(url), 'version'), 
+    opts = list(...))
+  res <- cli$get()
+  res$raise_for_status()
+  sub("\n", "", res$parse("UTF-8"))
 }

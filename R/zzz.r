@@ -29,8 +29,8 @@ read_csv <- function(x){
 }
 
 read_data <- function(x, nrows = -1){
-  if (inherits(x, "response")) {
-    x <- content(x, "text")
+  if (inherits(x, "HttpResponse")) {
+    x <- x$parse("UTF-8")
     tmp <- read.csv(text = x, header = FALSE, sep = ",",
                     stringsAsFactors = FALSE, skip = 2, nrows = nrows)
     nmz <- names(read.csv(text = x, header = TRUE, sep = ",",
@@ -64,8 +64,8 @@ read_all <- function(x, fmt, read) {
 }
 
 read_table <- function(x){
-  if (inherits(x, "response")) {
-    txt <- gsub('\n$', '', content(x, "text"))
+  if (inherits(x, "HttpResponse")) {
+    txt <- gsub('\n$', '', x$parse("UTF-8"))
     read.csv(text = txt, sep = ",", stringsAsFactors = FALSE,
              blank.lines.skip = FALSE)[-1, , drop = FALSE]
   } else {
@@ -94,9 +94,8 @@ strect <- function (str, pattern) regmatches(str, regexpr(pattern, str))
 
 err_handle <- function(x, store, key) {
   if (x$status_code > 201) {
-    tt <- content(x, "text")
+    tt <- if (store$store == "disk") x$content else x$parse("UTF-8")
     html <- read_html(tt)
-    # mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
     mssg <- xml_text(xml_find_all(html, '//body//p[text()[contains(., "error")]]')) %||% ""
     mssg <- sub("Message\\s", "", mssg)
     if (nchar(mssg) == 0) {
@@ -109,24 +108,24 @@ err_handle <- function(x, store, key) {
 
 err_handle2 <- function(x) {
   if (x$status_code > 201) {
-    tt <- content(x, "text")
+    tt <- x$parse("UTF-8")
     mssg <- xml_text(xml_find_all(read_html(tt), "//h1"))
     stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
   }
 }
 
 erdddap_GET <- function(url, args = NULL, ...) {
-  tt <- GET(url, query = args, ...)
+  cli <- crul::HttpClient$new(url = url, opts = list(...))
+  tt <- cli$get(query = args)
   err_handle2(tt)
-  stopifnot(tt$headers$`content-type` == 'application/json;charset=UTF-8')
-  out <- content(tt, as = "text")
+  stopifnot(tt$response_headers$`content-type` == 'application/json;charset=UTF-8')
+  out <- tt$parse("UTF-8")
   jsonlite::fromJSON(out, FALSE)
 }
 
 url_build <- function(url, args = NULL) {
-  url <- httr::parse_url(url)
-  if (!is.null(args)) url$query <- args
-  httr::build_url(url)
+  if (is.null(args)) return(url)
+  paste0(url, "?", args)
 }
 
 `%||%` <- function (x, y) {

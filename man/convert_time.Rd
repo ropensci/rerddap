@@ -5,8 +5,8 @@
 \title{Convert a UDUNITS compatible time to ISO time}
 \usage{
 convert_time(n = NULL, isoTime = NULL,
-  units = "seconds since 1970-01-01T00:00:00Z",
-  url = "http://coastwatch.pfeg.noaa.gov", method = "local", ...)
+  units = "seconds since 1970-01-01T00:00:00Z", url = eurl(),
+  method = "local", ...)
 }
 \arguments{
 \item{n}{numeric; A unix time number.}
@@ -19,10 +19,10 @@ convert_time(n = NULL, isoTime = NULL,
 \item{url}{Base URL of the ERDDAP server}
 
 \item{method}{(character) One of local or web. Local simply uses
-\code{as.POSIXct}, while web method uses the ERDDAP time conversion service
+\code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP time conversion service
 \code{/erddap/convert/time.txt}}
 
-\item{...}{Curl args passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }
 \description{
 Convert a UDUNITS compatible time to ISO time
