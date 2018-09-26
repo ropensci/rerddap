@@ -115,6 +115,23 @@ test_that("griddap fails well, in addition to above failure tests", {
 })
 # unlink(cache_info()$path, recursive = TRUE)
 
+test_that("griddap read parameter works", {
+  vcr::use_cassette("griddap_read_parameter", {
+    e <- griddap(
+      'erdQMekm14day',
+      time = c('2015-12-28','2016-01-01'),
+      latitude = c(24, 23),
+      longitude = c(88, 90),
+      store = disk('fixtures/'),
+      read = FALSE
+    )
+
+    expect_is(e, "griddap_nc")
+    expect_equal(NROW(e$data), 0)
+  })
+})
+
+
 ## FIXME more tests to add
 # * fmt parameter
 # * stride parameter
