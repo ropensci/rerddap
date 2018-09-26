@@ -6,7 +6,8 @@
 #' @param gcmd character; A GCMD science keyword
 #' http://gcmd.gsfc.nasa.gov/learn/keyword_list.html
 #' @param url A URL for an ERDDAP server. Default:
-#' https://upwell.pfeg.noaa.gov/erddap/
+#' https://upwell.pfeg.noaa.gov/erddap/. See [eurl()] for 
+#' more information
 #' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples  \dontrun{
 #' key_words(cf = "air_pressure")

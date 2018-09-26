@@ -5,7 +5,8 @@
 #' <http://www.unidata.ucar.edu/software/udunits/>
 #' @param ucum character; A UCUM character string
 #' <http://unitsofmeasure.org/ucum.html>
-#' @param url Base URL of the ERDDAP server
+#' @param url Base URL of the ERDDAP server. See [eurl()] for 
+#' more information
 #' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples  \dontrun{
 #' convert_units(udunits = "degree_C meter-1")

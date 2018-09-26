@@ -2,7 +2,8 @@
 #'
 #' @export
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' more information
 #' @param ... Curl options passed on to [crul::HttpClient]
 #' @examples \dontrun{
 #' version()

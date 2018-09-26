@@ -10,7 +10,8 @@
 #' every other value, etc. Default: 1 (i.e., get every value)
 #' @param fmt (character) One of csv or nc (for netcdf). Default: nc
 #' @param url A URL for an ERDDAP server. Default:
-#' \url{http://upwell.pfeg.noaa.gov/erddap/}
+#' \url{https://upwell.pfeg.noaa.gov/erddap/}. See [eurl()] for 
+#' more information
 #' @param store One of \code{\link{disk}} (default) or \code{\link{memory}}. You
 #' can pass options to \code{\link{disk}}. Beware: if you choose \code{fmt="nc"},
 #' we force \code{store=disk()} because nc files have to be written to disk.

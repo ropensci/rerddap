@@ -12,7 +12,8 @@ fipscounty(county = NULL, code = NULL, url = eurl(), ...)
 \item{code}{numeric; A FIPS code.}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}}
+\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+more information}
 
 \item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }

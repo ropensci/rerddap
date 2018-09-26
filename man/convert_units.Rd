@@ -13,7 +13,8 @@ convert_units(udunits = NULL, ucum = NULL, url = eurl(), ...)
 \item{ucum}{character; A UCUM character string
 \url{http://unitsofmeasure.org/ucum.html}}
 
-\item{url}{Base URL of the ERDDAP server}
+\item{url}{Base URL of the ERDDAP server. See \code{\link[=eurl]{eurl()}} for
+more information}
 
 \item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
 }

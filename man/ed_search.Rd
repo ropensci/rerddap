@@ -20,7 +20,8 @@ ed_datasets(which = "tabledap", url = eurl())
 \item{which}{(character) One of tabledep or griddap.}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}}
+\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+more information}
 
 \item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient} (must be
 named parameters)}

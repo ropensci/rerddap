@@ -5,7 +5,8 @@
 #' @param isoTime character; A string time representation.
 #' @param units character; Units to return. Default:
 #' "seconds since 1970-01-01T00:00:00Z"
-#' @param url Base URL of the ERDDAP server
+#' @param url Base URL of the ERDDAP server. See [eurl()] for 
+#' more information
 #' @param method (character) One of local or web. Local simply uses
 #' [as.POSIXct()], while web method uses the ERDDAP time conversion service
 #' `/erddap/convert/time.txt`

@@ -16,7 +16,8 @@ convert_time(n = NULL, isoTime = NULL,
 \item{units}{character; Units to return. Default:
 "seconds since 1970-01-01T00:00:00Z"}
 
-\item{url}{Base URL of the ERDDAP server}
+\item{url}{Base URL of the ERDDAP server. See \code{\link[=eurl]{eurl()}} for
+more information}
 
 \item{method}{(character) One of local or web. Local simply uses
 \code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP time conversion service

@@ -37,7 +37,8 @@
 #' standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 #' UCUM standard (e.g., Cel)).
 #' @param url A URL for an ERDDAP server.
-#' Default: <https://upwell.pfeg.noaa.gov/erddap/>
+#' Default: <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' more information
 #' @param store One of `disk` (default) or `memory`. You can pass
 #' options to `disk`
 #' @param callopts Curl options passed on to [crul::HttpClient] (must be

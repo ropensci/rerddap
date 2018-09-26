@@ -32,7 +32,8 @@
 #' omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 #' the number of seconds since 1970-01-01T00:00:00Z.
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' more information
 #' @param ... Curl options passed on to [crul::HttpClient] (must be
 #' named parameters)
 #' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>

@@ -4,7 +4,8 @@
 #'
 #' @param datasetid Dataset id
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>
+#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' more information
 #' @param ... Further args passed on to [crul::HttpClient] (must be a
 #' named parameter)
 #' @param x A datasetid or the output of `info`
