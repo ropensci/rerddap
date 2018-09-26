@@ -47,9 +47,7 @@ ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can
 
 ## Caching
 
-Data files downloaded are cached in a single hidden directory `~/.rerddap` on your machine. It's hidden so that you don't accidentally delete the data, but you can still easily delete the data if you like.
-
-When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
+Data files downloaded are cached in a single directory on your machine determined by the [hoardr][] package. When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in the cache directory for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
 
 ## ERDDAP servers
 
@@ -222,3 +220,5 @@ tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
 * Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+
+[hoardr]: https://github.com/ropensci/hoardr
