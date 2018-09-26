@@ -68,6 +68,15 @@
 #' function calls. \code{\link{memory}} does not accept any inputs, while
 #' \code{\link{disk}} does. Possibly will add other options, like
 #' \dQuote{sql} for storing in a SQL database.
+#' 
+#' @section Non-lat/lon grid data:
+#' Some gridded datasets have latitude/longitude components, but some do not. 
+#' When nc format gridded datasets have latitude and longitude we "melt" them into a 
+#' data.frame for easy downstream consumption. When nc format gridded datasets do 
+#' not have latitude and longitude components, we do not read in the data, throw
+#' a warning saying so. You can readin the nc file yourself with the file path. 
+#' CSV format is not affected by this issue as CSV data is easily turned into 
+#' a data.frame regardless of whether latitude/longitude data are present.
 #'
 #' @references  \url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>

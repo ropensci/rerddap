@@ -5,6 +5,16 @@ ncdf4_get <- function(file){
   tmp <- unclass(nc)
 
   dims <- names(nc$dim)
+
+  # check if likely on a lat/lon grid, or not; if not, throw message
+  if (
+    !any(c('lat', 'latitude') %in% dims) && 
+    !any(c('lon', 'longitude') %in% dims)
+  ) {
+    warning("data not on lat/lon grid - not reading in data; see help")
+    return(list(summary = tmp, data = data.frame(NULL)))
+  }
+
   out <- list()
   for (i in seq_along(dims)) {
     out[[dims[i]]] <- ncdf4::ncvar_get(nc, nc$dim[[dims[i]]])
