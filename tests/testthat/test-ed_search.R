@@ -1,38 +1,38 @@
 context("ed_search")
 
 test_that("ed_search returns the correct", {
-  skip_on_cran()
+  vcr::use_cassette("ed_search", {
+    a <- ed_search(query = 'temperature')
+    b <- ed_search(query = 'size')
 
-  a <- ed_search(query = 'temperature')
-  b <- ed_search(query = 'size')
+    # class
+    expect_is(a, "ed_search")
+    expect_is(a$info, "data.frame")
+    expect_is(a$alldata, "list")
 
-  # class
-  expect_is(a, "ed_search")
-  expect_is(a$info, "data.frame")
-  expect_is(a$alldata, "list")
-
-  # dimensions
-  expect_equal(length(a), 2)
-  expect_equal(NCOL(a$info), 2)
-  expect_equal(length(b), 2)
-  expect_equal(NCOL(b$info), 2)
+    # dimensions
+    expect_equal(length(a), 2)
+    expect_equal(NCOL(a$info), 2)
+    expect_equal(length(b), 2)
+    expect_equal(NCOL(b$info), 2)
+  })
 })
 
 test_that("ed_search works with different ERDDAP servers", {
-  skip_on_cran()
+  vcr::use_cassette("ed_search_diff_servers", {
+    #' ## Marine Domain Awareness (MDA) (Italy)
+    d <- ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
+    ## Marine Institute (Ireland)
+    e <- ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 
-  #' ## Marine Domain Awareness (MDA) (Italy)
-  d <- ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
-  ## Marine Institute (Ireland)
-  e <- ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
+    expect_is(d, "ed_search")
+    expect_is(d$info, "data.frame")
+    expect_is(d$alldata, "list")
 
-  expect_is(d, "ed_search")
-  expect_is(d$info, "data.frame")
-  expect_is(d$alldata, "list")
-
-  expect_is(e, "ed_search")
-  expect_is(e$info, "data.frame")
-  expect_is(e$alldata, "list")
+    expect_is(e, "ed_search")
+    expect_is(e$info, "data.frame")
+    expect_is(e$alldata, "list")
+  })
 })
 
 test_that("ed_search correctly catches invalid parameter types", {

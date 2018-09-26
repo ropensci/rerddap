@@ -9,7 +9,7 @@ Version: 0.4.4.9314
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut","cre"), 
-        email = "myrmecocystus@gmail.com"
+        email = "myrmecocystus@gmail.com",
         comment = c(ORCID = "0000-0003-1444-9135")),
     person("Ben", "Tupper", role = "ctb"),
     person("Roy", "Mendelssohn", role = "ctb")
@@ -41,6 +41,8 @@ Suggests:
     akima,
     ggplot2,
     mapdata,
-    plot3D
+    plot3D,
+    vcr (>= 0.1.0.9110)
 Enhances: taxize
+Remotes: ropensci/vcr@content-file-paths
 RoxygenNote: 6.1.0

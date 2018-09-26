@@ -1,0 +1,57 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/time.txt?n=473472000&units=seconds%20since%201970-01-01T00%3A00%3A00Z
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:20:25 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      string: '1985-01-02T00:00:00Z'
+  recorded_at: 2018-09-25 20:21:00 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/time.txt?isoTime=1985-01-02T00%3A00%3A00Z&units=seconds%20since%201970-01-01T00%3A00%3A00Z
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:20:25 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      string: '473472000'
+  recorded_at: 2018-09-25 20:21:00 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0

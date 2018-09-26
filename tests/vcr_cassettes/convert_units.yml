@@ -1,0 +1,309 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=degree_C%20meter-1
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:53 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: Q2VsLm0tMQ==
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UCUM=Cel.m-1
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:53 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: ZGVncmVlX0MgbS0x
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=degC
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:54 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: Q2Vs
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UCUM=Cel
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:54 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: ZGVncmVlX0M=
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=degF
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:55 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: W2RlZ0Zd
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UCUM=%5BdegF%5D
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:55 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: ZGVncmVlX0Y=
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=sec
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:55 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: cw==
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UCUM=s
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:56 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: cw==
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=day
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:56 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: ZA==
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UCUM=d
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:57 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: ZGF5
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=gggg
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Tue, 25 Sep 2018 20:22:57 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: ASCII-8BIT
+      string: Z2dnZw==
+  recorded_at: 2018-09-25 20:23:32 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0

@@ -1,0 +1,82 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/search/advanced.json?page=1&itemsPerPage=1000
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '404'
+      message: Not Found
+      explanation: Nothing matches the given URI
+    headers:
+      status: 'HTTP/1.1 404 '
+      date: Tue, 25 Sep 2018 20:33:13 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-type: text/html;charset=utf-8
+      content-language: en
+      content-length: '1273'
+      connection: close
+    body:
+      encoding: UTF-8
+      string: '<!doctype html><html lang="en"><head><title>HTTP Status 404 – Not Found</title><style
+        type="text/css">h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}
+        h2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;}
+        h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
+        body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;}
+        b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
+        p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}
+        a {color:black;} a.name {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP
+        Status 404 – Not Found</h1><hr class="line" /><p><b>Type</b> Status Report</p><p><b>Message</b>
+        Resource not found: /erddap/search/advanced.json (A .json Advanced Search
+        request must include one or more criteria, for example, &quot;?page=1&amp;itemsPerPage=1000&amp;searchFor=wind+temperature&quot;.)</p><p><b>Description</b>
+        The origin server did not find a current representation for the target resource
+        or is not willing to disclose that one exists.</p><hr class="line" /><h3>Apache
+        Tomcat/8.5.14</h3></body></html>'
+  recorded_at: 2018-09-25 20:33:50 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/search/advanced.json?searchFor=adfafadfsd&page=1&itemsPerPage=1000
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '500'
+      message: Internal Server Error
+      explanation: Server got itself in trouble
+    headers:
+      status: 'HTTP/1.1 500 '
+      date: Tue, 25 Sep 2018 20:33:16 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-type: text/html;charset=utf-8
+      content-language: en
+      content-length: '1112'
+      connection: close
+    body:
+      encoding: UTF-8
+      string: <!doctype html><html lang="en"><head><title>HTTP Status 500 – Internal
+        Server Error</title><style type="text/css">h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}
+        h2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;}
+        h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
+        body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;}
+        b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
+        p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}
+        a {color:black;} a.name {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP
+        Status 500 – Internal Server Error</h1><hr class="line" /><p><b>Type</b> Status
+        Report</p><p><b>Message</b> Your query produced no matching results. (nRows
+        = 0)</p><p><b>Description</b> The server encountered an unexpected condition
+        that prevented it from fulfilling the request.</p><hr class="line" /><h3>Apache
+        Tomcat/8.5.14</h3></body></html>
+  recorded_at: 2018-09-25 20:33:50 GMT
+  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
