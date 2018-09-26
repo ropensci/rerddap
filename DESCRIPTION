@@ -44,5 +44,5 @@ Suggests:
     plot3D,
     vcr (>= 0.1.0.9110)
 Enhances: taxize
-Remotes: ropensci/vcr@content-file-paths
+Remotes: ropensci/vcr
 RoxygenNote: 6.1.0
