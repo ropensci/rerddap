@@ -128,7 +128,7 @@ names(res$summary$dim)
 Get the data.frame (beware: you may want to just look at the `head` of the data.frame if large)
 
 ```{r}
-res$data
+head(res$data)
 ```
 
 ## tabledap (tabular) data
