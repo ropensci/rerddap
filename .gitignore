@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .DS_Store
+revdep/checks.noindex
+revdep/data.sqlite
+revdep/library.noindex

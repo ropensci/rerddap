@@ -16,7 +16,7 @@ File 'LICENSE':
 
 ## Reverse dependencies
 
-There are no reverse dependencies.
+* I have run R CMD check on the 1 downstream dependency. No problems were found related to this package.
 
 ---
 

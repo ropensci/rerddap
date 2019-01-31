@@ -13,3 +13,4 @@ vignettes/figure
 inst/vign/cache
 inst/vign/figure
 ^codemeta\.json$
+^revdep$
