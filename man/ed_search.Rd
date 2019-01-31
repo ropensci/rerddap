@@ -43,8 +43,6 @@ ed_datasets('grid')
 # use a different ERDDAP server
 ## Marine Institute (Ireland)
 ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
-## Marine Domain Awareness (MDA) (Italy)
-ed_search("temperature", url = "https://bluehub.jrc.ec.europa.eu/erddap/")
 }
 }
 \references{

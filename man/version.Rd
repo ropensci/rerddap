@@ -20,7 +20,6 @@ Get ERDDAP version
 \dontrun{
 version()
 ss <- servers()
-version(ss$url[1])
 version(ss$url[2])
 version(ss$url[3])
 }
