@@ -9,10 +9,11 @@ test_that("convert_time works", {
   vcr::use_cassette("convert_time", {
     a_web <- convert_time(n = 473472000, method = "web")
     b_web <- convert_time(isoTime = "1985-01-02T00:00:00Z", method = "web")
-    expect_is(a_web, "character")
-    expect_is(b_web, "character")
-    expect_equal(b_web, "473472000")
   })
+
+  expect_is(a_web, "character")
+  expect_is(b_web, "character")
+  expect_equal(b_web, "473472000")
 })
 
 test_that("convert_time fails well", {

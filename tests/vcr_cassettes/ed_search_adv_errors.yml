@@ -6,7 +6,7 @@ http_interactions:
       encoding: ''
       string: ''
     headers:
-      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
   response:
@@ -16,7 +16,7 @@ http_interactions:
       explanation: Nothing matches the given URI
     headers:
       status: 'HTTP/1.1 404 '
-      date: Tue, 25 Sep 2018 20:33:13 GMT
+      date: Thu, 31 Jan 2019 19:31:20 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
       content-type: text/html;charset=utf-8
       content-language: en
@@ -38,8 +38,8 @@ http_interactions:
         The origin server did not find a current representation for the target resource
         or is not willing to disclose that one exists.</p><hr class="line" /><h3>Apache
         Tomcat/8.5.14</h3></body></html>'
-  recorded_at: 2018-09-25 20:33:50 GMT
-  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+  recorded_at: 2019-01-31 19:30:27 GMT
+  recorded_with: vcr/0.2.2, webmockr/0.3.0
 - request:
     method: get
     uri: https://upwell.pfeg.noaa.gov/erddap/search/advanced.json?searchFor=adfafadfsd&page=1&itemsPerPage=1000
@@ -47,7 +47,7 @@ http_interactions:
       encoding: ''
       string: ''
     headers:
-      User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
   response:
@@ -57,7 +57,7 @@ http_interactions:
       explanation: Server got itself in trouble
     headers:
       status: 'HTTP/1.1 500 '
-      date: Tue, 25 Sep 2018 20:33:16 GMT
+      date: Thu, 31 Jan 2019 19:31:23 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
       content-type: text/html;charset=utf-8
       content-language: en
@@ -78,5 +78,5 @@ http_interactions:
         = 0)</p><p><b>Description</b> The server encountered an unexpected condition
         that prevented it from fulfilling the request.</p><hr class="line" /><h3>Apache
         Tomcat/8.5.14</h3></body></html>
-  recorded_at: 2018-09-25 20:33:50 GMT
-  recorded_with: vcr/0.1.0, webmockr/0.2.6, crul/0.6.0
+  recorded_at: 2019-01-31 19:30:27 GMT
+  recorded_with: vcr/0.2.2, webmockr/0.3.0
