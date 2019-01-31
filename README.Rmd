@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rerddap)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
@@ -59,7 +59,7 @@ devtools::install_github("ropensci/rerddap")
 ```
 
 ```{r}
-library('rerddap')
+library("rerddap")
 ```
 
 Some users may experience an installation error, stating to install 1 or more 
@@ -87,11 +87,11 @@ You can get a data.frame of ERDDAP servers using the function `servers()`. Most 
 First, you likely want to search for data, specify either `griddadp` or `tabledap`
 
 ```{r ed_search_table}
-ed_search(query = 'size', which = "table")
+ed_search(query = "size", which = "table")
 ```
 
 ```{r ed_search_grid}
-ed_search(query = 'size', which = "grid")
+ed_search(query = "size", which = "grid")
 ```
 
 ## Information
@@ -99,18 +99,18 @@ ed_search(query = 'size', which = "grid")
 Then you can get information on a single dataset
 
 ```{r}
-info('erdMBchla1day')
+info("erdMBchla1day")
 ```
 
 ## griddap (gridded) data
 
 ```{r}
-(out <- info('erdMBchla1day'))
+(out <- info("erdMBchla1day"))
 ```
 
 ```{r griddap_data}
 (res <- griddap(out,
-  time = c('2015-01-01','2015-01-03'),
+  time = c("2015-01-01", "2015-01-03"),
   latitude = c(14, 15),
   longitude = c(125, 126)
 ))
@@ -119,11 +119,11 @@ info('erdMBchla1day')
 ## tabledap (tabular) data
 
 ```{r tabledap_info, output.lines=1:15}
-(out <- info('erdCinpKfmBT'))
+(out <- info("erdCinpKfmBT"))
 ```
 
 ```{r tabledap_data, output.lines=1:25}
-tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01')
+tabledap("erdCinpKfmBT", "time>=2007-06-24", "time<=2007-07-01")
 ```
 
 ## Meta
