@@ -1,15 +1,8 @@
----
-title: "Using rerddap to Access Data from ERDDAP Servers"
-author: "Roy Mendelssohn and Scott Chamberlain"
-date: "2019-01-31"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{usimg rerddap}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
----
-
-
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
+%\VignetteEncoding{UTF-8}
+-->
 
 
 ## Introduction
@@ -118,7 +111,6 @@ servers()
 #> 14                    UC Davis BML (University of California at Davis, Bodega Marine Laboratory)
 #> 15                                                                            R.Tech Engineering
 #> 16                                     French Research Institute for the Exploitation of the Sea
-#> 17                                 UBC Earth, Ocean & Atmospheric Sciences SalishSeaCast Project
 #>                                         url
 #> 1  https://bluehub.jrc.ec.europa.eu/erddap/
 #> 2           http://erddap.marine.ie/erddap/
@@ -128,15 +120,14 @@ servers()
 #> 6           http://www.neracoos.org/erddap/
 #> 7       http://data.ioos.us/gliders/erddap/
 #> 8       http://oos.soest.hawaii.edu/erddap/
-#> 9         http://erddap.secoora.org/erddap/
+#> 9            http://129.252.139.124/erddap/
 #> 10   http://ecowatch.ncddc.noaa.gov/erddap/
 #> 11             http://osmc.noaa.gov/erddap/
 #> 12     https://upwell.pfeg.noaa.gov/erddap/
 #> 13           http://dap.onc.uvic.ca/erddap/
 #> 14    http://bmlsc.ucdavis.edu:8080/erddap/
 #> 15            http://meteo.rtech.fr/erddap/
-#> 16            http://www.ifremer.fr/erddap/
-#> 17     https://salishsea.eos.ubc.ca/erddap/
+#> 16  http://www.ifremer.fr/erddap/index.html
 ```
 
 
@@ -186,7 +177,7 @@ The other method is to use the `rerddap` function `info`:
 info('jplMURSST41')
 #> <ERDDAP info> jplMURSST41 
 #>  Dimensions (range):  
-#>      time: (2002-06-01T09:00:00Z, 2019-01-29T09:00:00Z) 
+#>      time: (2002-06-01T09:00:00Z, 2017-05-10T09:00:00Z) 
 #>      latitude: (-89.99, 89.99) 
 #>      longitude: (-179.99, 180.0) 
 #>  Variables:  
@@ -196,7 +187,7 @@ info('jplMURSST41')
 #>          Units: degree_C 
 #>      mask: 
 #>      sea_ice_fraction: 
-#>          Units: 1
+#>          Units: fraction
 info('siocalcofiHydroCasts')
 #> <ERDDAP info> siocalcofiHydroCasts 
 #>  Variables:  
@@ -633,7 +624,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 
 CalCOFI (California Cooperative Oceanic Fisheries Investigations - http://www.calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
 
-The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see http://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html ):
+The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see http://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html):
 
 
 ```r
