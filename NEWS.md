@@ -1,3 +1,23 @@
+rerddap 0.5.0
+=============
+
+### MINOR IMPROVEMENTS
+
+* added new `Caching` section to package level manual file (`?rerddap`) about caching  (#52)
+* use markdown docs in package (#75)
+* replace `httr` with `crul` (#54)
+* cache most tests with HTTP requests using `vcr` (#76)
+* add test for `read` parameter in `griddap()` (#47)
+* use default url via `eurl()`; used as default in main functions; set default url with env vars, see `?eurl`  (#41)
+* improve handling and reporting back to user of ERDDAP server errors (#70) (#73)
+* change to `griddap()`: when nc format gridded datasets have latitude and longitude we "melt" them into a data.frame for easy downstream consumption. When nc format gridded datasets do not have latitude and longitude components, we do not read in the data, throw a warning saying so. You can readin the nc file yourself with the file path (#74)
+* for for `griddap()` to support cases in wihch lat/lon runs north to south and south to north (#68)
+
+### BUG FIXES
+
+* `memory()` usage in `griddap()` wasn't working. fixed now (#77)
+
+
 rerddap 0.4.2
 =============
 

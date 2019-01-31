@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.4.0
-* ubuntu 12.04 (on travis-ci), R 3.4.0
+* local OS X install, R 3.5.2
+* ubuntu 14.04 (on travis-ci), R 3.5.2
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -11,7 +11,7 @@
 License components with restrictions and base license permitting such:
   MIT + file LICENSE
 File 'LICENSE':
-  YEAR: 2017
+  YEAR: 2019
   COPYRIGHT HOLDER: Scott Chamberlain
 
 ## Reverse dependencies
@@ -20,16 +20,7 @@ There are no reverse dependencies.
 
 ---
 
-This version is being submitted to fix archiving of this package. In addition, 
-this is a re-submission of this same version fixing vignette building 
-errors.
-
-This is a new release. I have read and agree to the the CRAN
-policies at https://cran.r-project.org/web/packages/policies.html
-
-This submissions changes how cache path is determined, and now asks
-the user where to cache files when they use functions that use 
-file caching (not all do). Examples and tests now use temp dirs.
+This version makes many fixes and small improvements.
 
 Thanks! 
 Scott Chamberlain
