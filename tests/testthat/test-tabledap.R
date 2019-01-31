@@ -68,8 +68,7 @@ test_that("tabledap units parameter fails correctly", {
 test_that("tabledap fails well on common mistakes", {
   # failures that do HTTP requests
   vcr::use_cassette("tabledap_fails_well", {
-    expect_error(tabledap('hawaii_b55f_a8f2_ad70', "stuff=>things", store = memory()), 
-      "HTTP Status 404 – Not Found")
+    expect_error(tabledap('hawaii_b55f_a8f2_ad70', "stuff=>things", store = memory()))
     expect_error(tabledap('erdCinpKfmBT', fields = "bbbbb", store = memory()), 
       "Unrecognized variable=\"bbbbb\"")
     expect_error(tabledap('erdCinpKfmBT', orderby = "things", store = memory()), 
