@@ -373,7 +373,7 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
 
 VIIRS (Visible Infrared Imaging Radiometer Suite)  is a scanning radiometer, that collects visible and infrared imagery and radiometric measurements of the land, atmosphere, cryosphere, and oceans. VIIRS data is used to measure cloud and aerosol properties, ocean color, sea and land surface temperature, ice motion and temperature, fires, and Earth's albedo.   Both NASA and NOAA provide VIIRS-based high resolution SST and chlorophyll products.
 
-ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product (see http://coastwatch.noaa.gov/cwn/cw_products_sst.html). The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
+ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product. The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
 
 
 ```r

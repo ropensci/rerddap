@@ -78,5 +78,5 @@
 #' CSV format is not affected by this issue as CSV data is easily turned into 
 #' a data.frame regardless of whether latitude/longitude data are present.
 #'
-#' @references  \url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
+#' @references https://upwell.pfeg.noaa.gov/erddap/rest.html
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>

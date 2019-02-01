@@ -233,7 +233,7 @@ ncdf4::nc_open(res$summary$filename)
 }
 }
 \references{
-\url{http://upwell.pfeg.noaa.gov/erddap/rest.html}
+https://upwell.pfeg.noaa.gov/erddap/rest.html
 }
 \author{
 Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
