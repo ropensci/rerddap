@@ -5,3 +5,5 @@
 revdep/checks.noindex
 revdep/data.sqlite
 revdep/library.noindex
+rerddap-*.tar.gz
+rerddap_*.tar.gz

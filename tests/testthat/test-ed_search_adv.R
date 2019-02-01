@@ -2,6 +2,7 @@ context("ed_search_adv")
 
 
 test_that("ed_search_adv returns the correct", {
+  skip_on_cran()
   vcr::use_cassette("ed_search_adv", {
     a <- ed_search_adv(query = "temperature")
     b <- ed_search_adv(query = "temperature", protocol = "griddap")
@@ -36,6 +37,7 @@ test_that("ed_search_adv returns the correct", {
 })
 
 test_that("ed_search_adv works with different ERDDAP servers", {
+  skip_on_cran()
   vcr::use_cassette("ed_search_adv_diff_servers", {
     h <- ed_search_adv(query = "temperature", url = servers()$url[6])
   })
@@ -56,6 +58,7 @@ test_that("ed_search_adv correctly catches invalid parameter types", {
 })
 
 test_that("ed_search_adv fails well", {
+  skip_on_cran()
   vcr::use_cassette("ed_search_adv_errors", {
     expect_error(ed_search_adv(), "Not Found")
     expect_error(ed_search_adv(query = "adfafadfsd"), "Internal Server Error")

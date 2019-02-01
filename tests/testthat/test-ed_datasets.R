@@ -1,6 +1,7 @@
 context("ed_datasets")
 
 test_that("ed_datasets returns the correct", {
+  skip_on_cran()
   vcr::use_cassette("ed_datasets_table", {
     a <- ed_datasets('table')
   })

@@ -1,6 +1,7 @@
 context("info")
 
 test_that("info returns the correct", {
+  skip_on_cran()
    vcr::use_cassette("info", {
     a <- info('erdRWtanm1day')
     #b <- info('noaa_gfdl_31d5_ca95_1287')
@@ -32,6 +33,7 @@ test_that("info returns the correct", {
 })
 
 test_that("info works with different ERDDAP servers", {
+  skip_on_cran()
   vcr::use_cassette("info_diff_servers", {
     h <- info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
   })

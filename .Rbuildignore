@@ -14,3 +14,14 @@ inst/vign/cache
 inst/vign/figure
 ^codemeta\.json$
 ^revdep$
+^rerddap-.*\.tar\.gz$
+^rerddap-_.*\.tar\.gz$
+tests/vcr_cassettes/ed_datasets_grid.yml
+tests/vcr_cassettes/ed_search_adv.yml
+tests/vcr_cassettes/info.yml
+tests/vcr_cassettes/griddap_fixes_user_inputs.yml
+tests/vcr_cassettes/griddap_fields_parameter.yml
+tests/vcr_cassettes/tabledap_memory.yml
+tests/vcr_cassettes/tabledap_fails_well.yml
+tests/vcr_cassettes/tabledap_disk.yml
+tests/vcr_cassettes/griddap_fixes_user_inputs_2.yml
