@@ -440,7 +440,7 @@ ggplot(tempFrame, aes(time, sst)) +
 
 
 
-A similar 3-day composite for chloropyll for the same region from a scientific quality product developed by NOAA (see <https://coastwatch.noaa.gov/cwn/cw_products_sst.html>):
+A similar 3-day composite for chloropyll for the same region from a scientific quality product developed by NOAA:
 
 
 ```r
@@ -633,7 +633,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 
 CalCOFI (California Cooperative Oceanic Fisheries Investigations - http://www.calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
 
-The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see http://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html ):
+The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset (see https://coastwatch.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.html):
 
 
 ```r
