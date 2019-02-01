@@ -10,14 +10,14 @@
   "codeRepository": "https://github.com/ropensci/rerddap",
   "issueTracker": "https://github.com/ropensci/rerddap/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.4.9310",
+  "version": "0.5.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.5.1 Patched (2018-08-12 r75119)",
+  "runtimePlatform": "R version 3.5.2 Patched (2018-12-31 r75943)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -29,7 +29,8 @@
       "@type": "Person",
       "givenName": "Scott",
       "familyName": "Chamberlain",
-      "email": "myrmecocystus@gmail.com"
+      "email": "myrmecocystus@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1444-9135"
     }
   ],
   "contributor": [
@@ -49,7 +50,8 @@
       "@type": "Person",
       "givenName": "Scott",
       "familyName": "Chamberlain",
-      "email": "myrmecocystus@gmail.com"
+      "email": "myrmecocystus@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1444-9135"
     }
   ],
   "softwareSuggestions": [
@@ -57,7 +59,7 @@
       "@type": "SoftwareApplication",
       "identifier": "roxygen2",
       "name": "roxygen2",
-      "version": ">= 6.1.0",
+      "version": ">= 6.1.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -149,6 +151,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=plot3D"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "vcr",
+      "name": "vcr",
+      "version": ">= 0.2.2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=vcr"
     }
   ],
   "softwareRequirements": [
@@ -167,7 +182,7 @@
       "@type": "SoftwareApplication",
       "identifier": "crul",
       "name": "crul",
-      "version": ">= 0.6.0",
+      "version": ">= 0.7.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -193,7 +208,7 @@
       "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
-      "version": ">= 1.10.0",
+      "version": ">= 1.12.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -206,7 +221,7 @@
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
-      "version": ">= 1.2",
+      "version": ">= 1.6",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -219,7 +234,7 @@
       "@type": "SoftwareApplication",
       "identifier": "xml2",
       "name": "xml2",
-      "version": ">= 1.1.0",
+      "version": ">= 1.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -244,7 +259,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ncdf4",
       "name": "ncdf4",
-      "version": ">= 1.15",
+      "version": ">= 1.16",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -269,7 +284,7 @@
       "@type": "SoftwareApplication",
       "identifier": "hoardr",
       "name": "hoardr",
-      "version": ">= 0.2.0",
+      "version": ">= 0.5.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -282,6 +297,13 @@
   "contIntegration": "https://travis-ci.org/ropensci/rerddap",
   "releaseNotes": "https://github.com/ropensci/rerddap/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rerddap/blob/master/README.md",
-  "fileSize": "385.941KB",
-  "keywords": ["rstats", "erddap", "noaa-data", "api-client", "r", "r-package"]
+  "fileSize": "4558.913KB",
+  "keywords": [
+    "rstats",
+    "erddap",
+    "noaa-data",
+    "api-client",
+    "r",
+    "r-package"
+  ]
 }
