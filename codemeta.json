@@ -297,7 +297,7 @@
   "contIntegration": "https://travis-ci.org/ropensci/rerddap",
   "releaseNotes": "https://github.com/ropensci/rerddap/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rerddap/blob/master/README.md",
-  "fileSize": "4558.913KB",
+  "fileSize": "1146.642KB",
   "keywords": [
     "rstats",
     "erddap",
