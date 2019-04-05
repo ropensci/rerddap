@@ -220,7 +220,7 @@ print.tabledap <- function(x, ...) {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
-  print(tibble::as_data_frame(x))
+  print(tibble::as_tibble(x))
 }
 
 erd_tab_GET <- function(url, dset, store, callopts) {

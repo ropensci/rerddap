@@ -84,7 +84,7 @@ ed_search_adv <- function(query = NULL, page = 1, page_size = 1000,
   dfs <- lapply(json$table$rows, function(x){
     names(x) <- colnames
     x <- x[c('title', 'dataset_id')]
-    dplyr::as_data_frame(x)
+    dplyr::as_tibble(x)
   })
   df <- dplyr::bind_rows(dfs)
   lists <- lapply(json$table$rows, stats::setNames, nm = colnames)

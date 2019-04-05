@@ -59,7 +59,7 @@ ed_search <- function(query, page=NULL, page_size=NULL, which='griddap',
 
 #' @export
 print.ed_search <- function(x, ...){
-  print(tibble::as_data_frame(x$info))
+  print(tibble::as_tibble(x$info))
 }
 
 table_or_grid <- function(datasetid){
@@ -83,6 +83,6 @@ ed_datasets <- function(which = 'tabledap', url = eurl()){
   out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, stats::setNames, nm = nms)
-  tibble::as_data_frame(rbindlist(lapply(lists, data.frame,
+  tibble::as_tibble(rbindlist(lapply(lists, data.frame,
                                          stringsAsFactors = FALSE)))
 }
