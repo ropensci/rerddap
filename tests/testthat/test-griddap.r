@@ -1,5 +1,8 @@
 context("griddap")
 
+# delete all cached files before running tests
+cache_delete_all()
+
 test_that("griddap returns the correct class", {
   vcr::use_cassette("griddap", {
     a <- griddap(
@@ -135,15 +138,16 @@ test_that("griddap read parameter works", {
 
 
 # related to https://github.com/ropensci/rerddap/issues/78
-test_that("griddap read parameter works", {
-  vcr::use_cassette("griddap_negative_spacing", {
+test_that("griddap north south latitude", {
+  vcr::use_cassette("griddap_north_south_latitude", {
     f <- griddap("noaacwNPPVIIRSchlaMonthly",
       fields = 'chlor_a',
       time = c("2019-01-16T12:00:00Z", "2019-01-16T12:00:00Z"),
       altitude = c(0, 0),
       latitude = c(30, 40),
       longitude = c(-120, -105),
-      url = "https://coastwatch.noaa.gov/erddap/"
+      url = "https://coastwatch.noaa.gov/erddap/",
+      store = disk("fixtures/")
     )
   })
 

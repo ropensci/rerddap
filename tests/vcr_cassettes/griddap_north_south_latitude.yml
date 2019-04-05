@@ -16,7 +16,7 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: 'HTTP/1.1 200 '
-      date: Fri, 05 Apr 2019 21:34:42 GMT
+      date: Fri, 05 Apr 2019 21:46:07 GMT
       server: Apache
       cache-control: private, max-age=0, must-revalidate
       strict-transport-security: max-age=63072000; includeSubdomains;
@@ -129,7 +129,7 @@ http_interactions:
             ]
           }
         }
-  recorded_at: 2019-04-05 21:34:47 GMT
+  recorded_at: 2019-04-05 21:46:13 GMT
   recorded_with: vcr/0.2.6, webmockr/0.3.4
 - request:
     method: get
@@ -148,9 +148,9 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: 'HTTP/1.1 200 '
-      date: Fri, 05 Apr 2019 21:32:04 GMT
+      date: Fri, 05 Apr 2019 21:43:30 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
-      last-modified: Fri, 05 Apr 2019 21:32:04 GMT
+      last-modified: Fri, 05 Apr 2019 21:43:30 GMT
       xdods-server: dods/3.7
       erddap-server: '1.82'
       content-disposition: attachment;filename=tabledap.json
@@ -569,5 +569,5 @@ http_interactions:
             ]
           }
         }
-  recorded_at: 2019-04-05 21:34:47 GMT
+  recorded_at: 2019-04-05 21:46:13 GMT
   recorded_with: vcr/0.2.6, webmockr/0.3.4
