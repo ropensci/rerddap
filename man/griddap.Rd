@@ -220,16 +220,17 @@ griddap('erdVHNchlamday',
 )
 
 # datasets without lat/lon grid and with fmt=nc
-(x <- info('glos_tds_5912_ca66_3f41'))
-res <- griddap(x,
-  time = c('2018-04-01','2018-04-10'),
-  ny = c(1, 2),
-  nx = c(3, 5)
-)
+# FIXME: this dataset is gone
+# (x <- info('glos_tds_5912_ca66_3f41'))
+# res <- griddap(x,
+#   time = c('2018-04-01','2018-04-10'),
+#   ny = c(1, 2),
+#   nx = c(3, 5)
+# )
 ## data.frame is empty
-res$data
+# res$data
 ## read in from the nc file path
-ncdf4::nc_open(res$summary$filename)
+# ncdf4::nc_open(res$summary$filename)
 }
 }
 \references{
