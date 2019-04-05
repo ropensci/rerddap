@@ -134,6 +134,24 @@ test_that("griddap read parameter works", {
 })
 
 
+# related to https://github.com/ropensci/rerddap/issues/78
+test_that("griddap read parameter works", {
+  vcr::use_cassette("griddap_negative_spacing", {
+    f <- griddap("noaacwNPPVIIRSchlaMonthly",
+      fields = 'chlor_a',
+      time = c("2019-01-16T12:00:00Z", "2019-01-16T12:00:00Z"),
+      altitude = c(0, 0),
+      latitude = c(30, 40),
+      longitude = c(-120, -105),
+      url = "https://coastwatch.noaa.gov/erddap/"
+    )
+  })
+
+  expect_is(f, "griddap_nc")
+  expect_is(f$data, "data.frame")
+})
+
+
 ## FIXME more tests to add
 # * fmt parameter
 # * stride parameter
