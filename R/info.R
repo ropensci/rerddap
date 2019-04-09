@@ -100,7 +100,7 @@ info <- function(datasetid, url = eurl(), ...){
                          actual_range=unname(actual))
   vars <- merge(vars, actualdf, by="variable_name")
   oo <- lapply(outout, function(x) data.frame(rbindlist(x)))
-  structure(list(variables=vars, alldata=oo),
+  structure(list(variables=vars, alldata=oo, base_url=url),
             class="info",
             datasetid=datasetid,
             type=table_or_grid(datasetid))
@@ -114,6 +114,7 @@ print.info <- function(x, ...){
   dims <- x$alldata[dimvars(x)]
   vars <- x$alldata[x$variables$variable_name]
   cat(sprintf("<ERDDAP info> %s", attr(x, "datasetid")), "\n")
+  cat(paste0(" Base URL: ", x$base_url), "\n")
   if(attr(x, "type") == "griddap") cat(" Dimensions (range): ", "\n")
   for(i in seq_along(dims)){
     if(names(dims[i]) == "time"){

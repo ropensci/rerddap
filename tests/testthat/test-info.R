@@ -4,7 +4,6 @@ test_that("info returns the correct", {
   skip_on_cran()
    vcr::use_cassette("info", {
     a <- info('erdRWtanm1day')
-    #b <- info('noaa_gfdl_31d5_ca95_1287')
     d <- info('erdMBchlamday_LonPM180')
     e <- info('erdMBchla1day')
     f <- info('nodcWoa09mon5t')
@@ -12,11 +11,12 @@ test_that("info returns the correct", {
 
   # class
   expect_is(a, "info")
-  #expect_is(b, "info")
   expect_is(d, "info")
   expect_is(e, "info")
   expect_is(f, "info")
 
+  expect_is(a$base_url, "character")
+  expect_match(a$base_url, "erddap")
   expect_is(a$variables, "data.frame")
   expect_is(a$alldata, "list")
   expect_is(a$alldata$NC_GLOBAL, "data.frame")
@@ -28,7 +28,7 @@ test_that("info returns the correct", {
   expect_is(f$alldata$depth, "data.frame")
 
   # dimensions
-  expect_equal(length(a), 2)
+  expect_equal(length(a), 3)
   expect_equal(NCOL(a$variables), 3)
 })
 
