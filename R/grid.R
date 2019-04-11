@@ -41,7 +41,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
                      args = args, store = store, fmt = fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"
   outclasses <- switch(fmt,
-                       nc = c("griddap_nc", "nc", "data.frame"),
+                       nc = c("griddap_nc", "nc", "list"),
                        csv = c("griddap_csv", "csv", "data.frame"))
   read <- toggle_read(read, store)
   structure(

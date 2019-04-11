@@ -23,12 +23,23 @@
 #' @param callopts Curl options passed on to \code{\link[crul]{HttpClient}}
 #'
 #' @return An object of class \code{griddap_csv} if csv chosen or
-#' \code{griddap_nc} if nc file format chosen. These two classes are a thin
-#' wrapper around a data.frame, so the data you get back is a data.frame with
-#' metadata attached as attributes (datasetid, path (path where the nc or csv
-#' is stored on your machine), url (url for the request)), along with a
-#' summary of the netcdf file (if \code{fmt="nc"}). If \code{read=FALSE},
-#' you get back an empty data.frame
+#' \code{griddap_nc} if nc file format chosen. 
+#' 
+#' \itemize{
+#'  \item \code{griddap_csv}: a data.frame created from the downloaded csv 
+#'  data
+#'  \item \code{griddap_nc}: a list, with slots "summary" and "data". "summary"
+#'  is the unclassed output from \code{ncdf4::nc_open}, from which you can 
+#'  do any netcdf operations you like. "data" is a data.frame created 
+#'  from the netcdf data. the data.frame may be empty if there were problems
+#'  parsing the netcdf data
+#' }
+#' 
+#' Both have the attributes: datasetid (the dataset id), path (the path on file
+#' for the csv or nc file), url (the url requested to the ERDDAP server)
+#' 
+#' If \code{read=FALSE}, the data.frame for \code{griddap_csv}
+#' and the data.frame in the "data" slot is empty for \code{griddap_nc}
 #'
 #' @details Details:
 #'
