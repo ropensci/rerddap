@@ -25,3 +25,4 @@ tests/vcr_cassettes/tabledap_memory.yml
 tests/vcr_cassettes/tabledap_fails_well.yml
 tests/vcr_cassettes/tabledap_disk.yml
 tests/vcr_cassettes/griddap_fixes_user_inputs_2.yml
+^\.github$
