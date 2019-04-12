@@ -38,7 +38,23 @@ ncdf4_get <- function(file){
                length(out$time))
     lon <- rep(rep(out$longitude, times = length(out$latitude)),
                times = length(out$time))
+    # check for other dimensions besides time,lat,lon
+    tll <- c("time", "latitude", "longitude")
+    remain_out <- list()
+    if (!all(names(out) %in% tll)) {
+      remain <- out[!names(out) %in% tll]
+      remain_out <- list()
+      for (i in seq_along(remain)) {
+        result <- rep(remain[[i]],
+          each = length(out$longitude) * length(out$latitude))
+        remain_out[[ names(remain)[i] ]] <- result
+      }
+    }
     meta <- data.frame(time, lat, lon, stringsAsFactors = FALSE)
+    if (length(remain_out) != 0) {
+      for (i in seq_along(remain_out)) 
+        meta[[names(remain_out)[i]]] <- remain_out[[i]]
+    }
   }
 
   # make data.frame
