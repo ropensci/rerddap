@@ -1,3 +1,20 @@
+rerddap 0.6.0
+=============
+
+### MINOR IMPROVEMENTS
+
+* change all `tibble::as_data_frame`/`tibble::data_frame` to `tibble::as_tibble` (#79)
+* `info()` gains new element in its output list, `base_url`, the base url for the ERDDAP server under consideration (#80)
+* improved docs for `griddap()` with respect to what's returned from the function  (#81)
+* fix some test fixtures to use preserve exact bytes so that cran checks on debian clang devel don't fail (#83)
+* add .github files: contributing, issue template, pull request template
+
+### BUG FIXES
+
+* fix for lat/lon parsing within `griddap()` to account for cases when min and max are reversed from the order they should be in (#78)
+* fix to `griddap()` to parse additioanl dimensions returned; previously we were only returning time, lat, and lon, plus one more (#82) thanks @afredstonhermann
+
+
 rerddap 0.5.0
 =============
 
