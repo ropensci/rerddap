@@ -59,9 +59,8 @@ test_that("ed_search_adv correctly catches invalid parameter types", {
 
 test_that("ed_search_adv fails well", {
   skip_on_cran()
-  skip_if_non_ascii("ed_search_adv_errors")
   vcr::use_cassette("ed_search_adv_errors", {
     expect_error(ed_search_adv(), "Not Found")
     expect_error(ed_search_adv(query = "adfafadfsd"), "Internal Server Error")
-  })
+  }, preserve_exact_body_bytes = TRUE)
 })

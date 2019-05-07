@@ -6,7 +6,7 @@ http_interactions:
       encoding: ''
       string: ''
     headers:
-      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
+      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.4
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
   response:
@@ -16,30 +16,17 @@ http_interactions:
       explanation: Nothing matches the given URI
     headers:
       status: 'HTTP/1.1 404 '
-      date: Thu, 31 Jan 2019 19:31:20 GMT
+      date: Tue, 07 May 2019 22:53:59 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
       content-type: text/html;charset=utf-8
       content-language: en
-      content-length: '1273'
+      content-length: '1285'
       connection: close
     body:
-      encoding: UTF-8
-      string: '<!doctype html><html lang="en"><head><title>HTTP Status 404 – Not Found</title><style
-        type="text/css">h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}
-        h2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;}
-        h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
-        body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;}
-        b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
-        p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}
-        a {color:black;} a.name {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP
-        Status 404 – Not Found</h1><hr class="line" /><p><b>Type</b> Status Report</p><p><b>Message</b>
-        Resource not found: /erddap/search/advanced.json (A .json Advanced Search
-        request must include one or more criteria, for example, &quot;?page=1&amp;itemsPerPage=1000&amp;searchFor=wind+temperature&quot;.)</p><p><b>Description</b>
-        The origin server did not find a current representation for the target resource
-        or is not willing to disclose that one exists.</p><hr class="line" /><h3>Apache
-        Tomcat/8.5.14</h3></body></html>'
-  recorded_at: 2019-01-31 19:30:27 GMT
-  recorded_with: vcr/0.2.2, webmockr/0.3.0
+      encoding: ASCII-8BIT
+      string: PCFkb2N0eXBlIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjx0aXRsZT5IVFRQIFN0YXR1cyA0MDQg4oCTIE5vdCBGb3VuZDwvdGl0bGU+PHN0eWxlIHR5cGU9InRleHQvY3NzIj5oMSB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6d2hpdGU7YmFja2dyb3VuZC1jb2xvcjojNTI1RDc2O2ZvbnQtc2l6ZToyMnB4O30gaDIge2ZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxzYW5zLXNlcmlmO2NvbG9yOndoaXRlO2JhY2tncm91bmQtY29sb3I6IzUyNUQ3Njtmb250LXNpemU6MTZweDt9IGgzIHtmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsc2Fucy1zZXJpZjtjb2xvcjp3aGl0ZTtiYWNrZ3JvdW5kLWNvbG9yOiM1MjVENzY7Zm9udC1zaXplOjE0cHg7fSBib2R5IHtmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsc2Fucy1zZXJpZjtjb2xvcjpibGFjaztiYWNrZ3JvdW5kLWNvbG9yOndoaXRlO30gYiB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6d2hpdGU7YmFja2dyb3VuZC1jb2xvcjojNTI1RDc2O30gcCB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7YmFja2dyb3VuZDp3aGl0ZTtjb2xvcjpibGFjaztmb250LXNpemU6MTJweDt9IGEge2NvbG9yOmJsYWNrO30gYS5uYW1lIHtjb2xvcjpibGFjazt9IC5saW5lIHtoZWlnaHQ6MXB4O2JhY2tncm91bmQtY29sb3I6IzUyNUQ3Njtib3JkZXI6bm9uZTt9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGgxPkhUVFAgU3RhdHVzIDQwNCDigJMgTm90IEZvdW5kPC9oMT48aHIgY2xhc3M9ImxpbmUiIC8+PHA+PGI+VHlwZTwvYj4gU3RhdHVzIFJlcG9ydDwvcD48cD48Yj5NZXNzYWdlPC9iPiBSZXNvdXJjZSBub3QgZm91bmQ6ICYjNDc7ZXJkZGFwJiM0NztzZWFyY2gmIzQ3O2FkdmFuY2VkLmpzb24gKEEgLmpzb24gQWR2YW5jZWQgU2VhcmNoIHJlcXVlc3QgbXVzdCBpbmNsdWRlIG9uZSBvciBtb3JlIGNyaXRlcmlhLCBmb3IgZXhhbXBsZSwgJnF1b3Q7P3BhZ2U9MSZhbXA7aXRlbXNQZXJQYWdlPTEwMDAmYW1wO3NlYXJjaEZvcj13aW5kK3RlbXBlcmF0dXJlJnF1b3Q7Lik8L3A+PHA+PGI+RGVzY3JpcHRpb248L2I+IFRoZSBvcmlnaW4gc2VydmVyIGRpZCBub3QgZmluZCBhIGN1cnJlbnQgcmVwcmVzZW50YXRpb24gZm9yIHRoZSB0YXJnZXQgcmVzb3VyY2Ugb3IgaXMgbm90IHdpbGxpbmcgdG8gZGlzY2xvc2UgdGhhdCBvbmUgZXhpc3RzLjwvcD48aHIgY2xhc3M9ImxpbmUiIC8+PGgzPkFwYWNoZSBUb21jYXQvOC41LjQwPC9oMz48L2JvZHk+PC9odG1sPg==
+  recorded_at: 2019-05-07 22:58:36 GMT
+  recorded_with: vcr/0.2.6, webmockr/0.3.4.9100
 - request:
     method: get
     uri: https://upwell.pfeg.noaa.gov/erddap/search/advanced.json?searchFor=adfafadfsd&page=1&itemsPerPage=1000
@@ -47,7 +34,7 @@ http_interactions:
       encoding: ''
       string: ''
     headers:
-      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
+      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.4
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
   response:
@@ -57,26 +44,14 @@ http_interactions:
       explanation: Server got itself in trouble
     headers:
       status: 'HTTP/1.1 500 '
-      date: Thu, 31 Jan 2019 19:31:23 GMT
+      date: Tue, 07 May 2019 22:54:01 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
       content-type: text/html;charset=utf-8
       content-language: en
       content-length: '1112'
       connection: close
     body:
-      encoding: UTF-8
-      string: <!doctype html><html lang="en"><head><title>HTTP Status 500 – Internal
-        Server Error</title><style type="text/css">h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}
-        h2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;}
-        h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
-        body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;}
-        b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
-        p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}
-        a {color:black;} a.name {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP
-        Status 500 – Internal Server Error</h1><hr class="line" /><p><b>Type</b> Status
-        Report</p><p><b>Message</b> Your query produced no matching results. (nRows
-        = 0)</p><p><b>Description</b> The server encountered an unexpected condition
-        that prevented it from fulfilling the request.</p><hr class="line" /><h3>Apache
-        Tomcat/8.5.14</h3></body></html>
-  recorded_at: 2019-01-31 19:30:27 GMT
-  recorded_with: vcr/0.2.2, webmockr/0.3.0
+      encoding: ASCII-8BIT
+      string: PCFkb2N0eXBlIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjx0aXRsZT5IVFRQIFN0YXR1cyA1MDAg4oCTIEludGVybmFsIFNlcnZlciBFcnJvcjwvdGl0bGU+PHN0eWxlIHR5cGU9InRleHQvY3NzIj5oMSB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6d2hpdGU7YmFja2dyb3VuZC1jb2xvcjojNTI1RDc2O2ZvbnQtc2l6ZToyMnB4O30gaDIge2ZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxzYW5zLXNlcmlmO2NvbG9yOndoaXRlO2JhY2tncm91bmQtY29sb3I6IzUyNUQ3Njtmb250LXNpemU6MTZweDt9IGgzIHtmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsc2Fucy1zZXJpZjtjb2xvcjp3aGl0ZTtiYWNrZ3JvdW5kLWNvbG9yOiM1MjVENzY7Zm9udC1zaXplOjE0cHg7fSBib2R5IHtmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsc2Fucy1zZXJpZjtjb2xvcjpibGFjaztiYWNrZ3JvdW5kLWNvbG9yOndoaXRlO30gYiB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6d2hpdGU7YmFja2dyb3VuZC1jb2xvcjojNTI1RDc2O30gcCB7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLHNhbnMtc2VyaWY7YmFja2dyb3VuZDp3aGl0ZTtjb2xvcjpibGFjaztmb250LXNpemU6MTJweDt9IGEge2NvbG9yOmJsYWNrO30gYS5uYW1lIHtjb2xvcjpibGFjazt9IC5saW5lIHtoZWlnaHQ6MXB4O2JhY2tncm91bmQtY29sb3I6IzUyNUQ3Njtib3JkZXI6bm9uZTt9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGgxPkhUVFAgU3RhdHVzIDUwMCDigJMgSW50ZXJuYWwgU2VydmVyIEVycm9yPC9oMT48aHIgY2xhc3M9ImxpbmUiIC8+PHA+PGI+VHlwZTwvYj4gU3RhdHVzIFJlcG9ydDwvcD48cD48Yj5NZXNzYWdlPC9iPiBZb3VyIHF1ZXJ5IHByb2R1Y2VkIG5vIG1hdGNoaW5nIHJlc3VsdHMuIChuUm93cyA9IDApPC9wPjxwPjxiPkRlc2NyaXB0aW9uPC9iPiBUaGUgc2VydmVyIGVuY291bnRlcmVkIGFuIHVuZXhwZWN0ZWQgY29uZGl0aW9uIHRoYXQgcHJldmVudGVkIGl0IGZyb20gZnVsZmlsbGluZyB0aGUgcmVxdWVzdC48L3A+PGhyIGNsYXNzPSJsaW5lIiAvPjxoMz5BcGFjaGUgVG9tY2F0LzguNS40MDwvaDM+PC9ib2R5PjwvaHRtbD4=
+  recorded_at: 2019-05-07 22:58:36 GMT
+  recorded_with: vcr/0.2.6, webmockr/0.3.4.9100

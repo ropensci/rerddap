@@ -57,25 +57,23 @@ test_that("tabledap units parameter works", {
 })
 
 test_that("tabledap units parameter fails correctly", {
-  skip_if_non_ascii("tabledap_units_fails_well")
   vcr::use_cassette("tabledap_units_fails_well", {
     expect_error(
       tabledap('erdCinpKfmBT', 'time>=2001-07-14', units = "stuff", store = memory()),
       "toUnits=UDUNITS must be UDUNITS or UCUM"
     )
-  })
+  }, preserve_exact_body_bytes = TRUE)
 })
 
 test_that("tabledap fails well on common mistakes", {
   # failures that do HTTP requests
-  skip_if_non_ascii("tabledap_fails_well")
   vcr::use_cassette("tabledap_fails_well", {
     expect_error(tabledap('hawaii_b55f_a8f2_ad70', "stuff=>things", store = memory()))
     expect_error(tabledap('erdCinpKfmBT', fields = "bbbbb", store = memory()), 
       "Unrecognized variable=\"bbbbb\"")
     expect_error(tabledap('erdCinpKfmBT', orderby = "things", store = memory()), 
       "'orderBy' variable=things isn't in the dataset")
-  })
+  }, preserve_exact_body_bytes = TRUE)
 
   # failures that do not do HTTP requests
   skip_on_cran()
