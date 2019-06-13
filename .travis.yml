@@ -7,7 +7,7 @@ r_packages:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:jeroen/jq'
+      - sourceline: 'ppa:cran/jq'
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
       - gdal-bin 
