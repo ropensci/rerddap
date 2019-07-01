@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/rerddap",
   "issueTracker": "https://github.com/ropensci/rerddap/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.6.0",
+  "version": "0.6.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -297,7 +297,7 @@
   "contIntegration": "https://travis-ci.org/ropensci/rerddap",
   "releaseNotes": "https://github.com/ropensci/rerddap/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rerddap/blob/master/README.md",
-  "fileSize": "1339.681KB",
+  "fileSize": "1339.79KB",
   "keywords": ["earth", "science", "climate", "precipitation", "temperature", "storm", "buoy", "NOAA", "rstats", "erddap", "noaa-data", "api-client", "r", "r-package"],
   "copyrightHolder": {},
   "funder": {},
