@@ -70,7 +70,7 @@ test_that("tabledap fails well on common mistakes", {
   vcr::use_cassette("tabledap_fails_well", {
     expect_error(tabledap('hawaii_b55f_a8f2_ad70', "stuff=>things", store = memory()))
     expect_error(tabledap('erdCinpKfmBT', fields = "bbbbb", store = memory()), 
-      "Unrecognized variable=\"bbbbb\"")
+      "Unrecognized variable")
     expect_error(tabledap('erdCinpKfmBT', orderby = "things", store = memory()), 
       "'orderBy' variable=things isn't in the dataset")
   }, preserve_exact_body_bytes = TRUE)
