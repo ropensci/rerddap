@@ -1,6 +1,6 @@
 ## Test environments
 
-* local OS X install, R 3.6.0
+* local OS X install, R 3.6.0 Patched
 * ubuntu 14.04 (on travis-ci), R 3.6.0
 * win-builder (devel and release)
 
@@ -14,8 +14,8 @@
 
 ---
 
-This version fixes a number of bugs in griddap function, and makes a few small 
-improvements.
+This version fixes a bug in an internal function that was causing 
+a test to fail on CRAN.
 
 Thanks! 
 Scott Chamberlain

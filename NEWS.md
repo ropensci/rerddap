@@ -1,3 +1,11 @@
+rerddap 0.6.4
+=============
+
+### BUG FIXES
+
+* fix to internal fxn `err_handle()` for handling http errors - ERDDAP servers changed to some weird JSON-ish type format (#85)
+
+
 rerddap 0.6.0
 =============
 
