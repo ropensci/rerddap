@@ -63,12 +63,12 @@ ed_search(query = "size", which = "table")
 #> # A tibble: 9 x 2
 #>   title                                                    dataset_id      
 #>   <chr>                                                    <chr>           
-#> 1 CalCOFI Larvae Sizes                                     erdCalCOFIlrvsiz
-#> 2 Channel Islands, Kelp Forest Monitoring, Size and Frequ… erdCinpKfmSFNH  
-#> 3 NWFSC Observer Fixed Gear Data, off West Coast of US, 2… nwioosObsFixed2…
-#> 4 NWFSC Observer Trawl Data, off West Coast of US, 2002-2… nwioosObsTrawl2…
-#> 5 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002       erdGlobecMoc1   
-#> 6 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001   erdGlobecVpt    
+#> 1 Channel Islands, Kelp Forest Monitoring, Size and Frequ… erdCinpKfmSFNH  
+#> 2 CalCOFI Larvae Sizes                                     erdCalCOFIlrvsiz
+#> 3 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002       erdGlobecMoc1   
+#> 4 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001   erdGlobecVpt    
+#> 5 NWFSC Observer Fixed Gear Data, off West Coast of US, 2… nwioosObsFixed2…
+#> 6 NWFSC Observer Trawl Data, off West Coast of US, 2002-2… nwioosObsTrawl2…
 #> 7 CalCOFI Larvae Counts Positive Tows                      erdCalCOFIlrvcn…
 #> 8 CalCOFI Tows                                             erdCalCOFItows  
 #> 9 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperatu… nodcPJJU
@@ -80,11 +80,11 @@ ed_search(query = "size", which = "grid")
 #> # A tibble: 11 x 2
 #>    title                                              dataset_id           
 #>    <chr>                                              <chr>                
-#>  1 Archived Suite of NOAA Coral Reef Watch Operation… noaa_nodc_9f8b_ab7e_…
-#>  2 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_da08_dcdf_…
-#>  3 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_0fe5_a4b9_…
-#>  4 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_5253_bf9e_…
-#>  5 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_0f24_2f8c_…
+#>  1 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_da08_dcdf_…
+#>  2 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_0fe5_a4b9_…
+#>  3 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_5253_bf9e_…
+#>  4 Extended AVHRR Polar Pathfinder Fundamental Clima… noaa_ngdc_0f24_2f8c_…
+#>  5 Archived Suite of NOAA Coral Reef Watch Operation… noaa_nodc_9f8b_ab7e_…
 #>  6 Archived Suite of NOAA Coral Reef Watch Operation… noaa_nodc_da4e_3fc9_…
 #>  7 USGS COAWST Forecast, US East Coast and Gulf of M… whoi_geoport_ed12_89…
 #>  8 USGS COAWST Forecast, US East Coast and Gulf of M… whoi_geoport_61c3_0b…
@@ -103,7 +103,7 @@ info("erdMBchla1day")
 #> <ERDDAP info> erdMBchla1day 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
 #>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2019-05-06T12:00:00Z) 
+#>      time: (2006-01-01T12:00:00Z, 2019-06-30T12:00:00Z) 
 #>      altitude: (0.0, 0.0) 
 #>      latitude: (-45.0, 65.0) 
 #>      longitude: (120.0, 320.0) 
@@ -120,7 +120,7 @@ info("erdMBchla1day")
 #> <ERDDAP info> erdMBchla1day 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
 #>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2019-05-06T12:00:00Z) 
+#>      time: (2006-01-01T12:00:00Z, 2019-06-30T12:00:00Z) 
 #>      altitude: (0.0, 0.0) 
 #>      latitude: (-45.0, 65.0) 
 #>      longitude: (120.0, 320.0) 
@@ -138,7 +138,7 @@ info("erdMBchla1day")
 ))
 #> <ERDDAP griddap> erdMBchla1day
 #>    Path: [/Users/sckott/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
-#>    Last updated: [2019-05-07 16:47:13]
+#>    Last updated: [2019-07-01 12:06:12]
 #>    File size:    [0.03 mb]
 #>    Dimensions (dims/vars):   [4 X 1]
 #>    Dim names: time, altitude, latitude, longitude
@@ -188,7 +188,7 @@ info("erdMBchla1day")
 tabledap("erdCinpKfmBT", "time>=2007-06-24", "time<=2007-07-01")
 #> <ERDDAP tabledap> erdCinpKfmBT
 #>    Path: [/Users/sckott/Library/Caches/R/rerddap/268b2474e9e613336b900d3289304bb0.csv]
-#>    Last updated: [2019-05-07 16:47:16]
+#>    Last updated: [2019-07-01 12:06:14]
 #>    File size:    [0.01 mb]
 #> # A tibble: 37 x 53
 #>    station longitude latitude depth time  Aplysia_califor… Aplysia_califor…
@@ -219,8 +219,11 @@ tabledap("erdCinpKfmBT", "time>=2007-06-24", "time<=2007-07-01")
 * Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this project is released with a [Contributor Code of Conduct][coc].
+By participating in this project you agree to abide by its terms.
 
-[![ropensci_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
 [hoardr]: https://github.com/ropensci/hoardr
+
+[coc]: https://github.com/ropensci/rerddap/blob/master/CODE_OF_CONDUCT.md
