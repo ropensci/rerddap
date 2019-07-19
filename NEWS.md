@@ -1,3 +1,11 @@
+rerddap 0.6.5
+=============
+
+### BUG FIXES
+
+* fix a `convert_units` test that was failing because remote service had changed the response
+
+
 rerddap 0.6.4
 =============
 
