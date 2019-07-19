@@ -4,13 +4,13 @@ RSCRIPT = Rscript --no-init-file
 all: move rmd2md
 
 move:
-		cp inst/vign/rerddap_vignette.md vignettes;\
+		cp inst/vign/rerddap.md vignettes;\
 		cp inst/vign/Using_rerddap.md vignettes;\
 		cp -r inst/vign/figure/ vignettes/figure/
 
 rmd2md:
 		cd vignettes;\
-		mv rerddap_vignette.md rerddap_vignette.Rmd;\
+		mv rerddap.md rerddap.Rmd;\
 		mv Using_rerddap.md Using_rerddap.Rmd
 
 test:
