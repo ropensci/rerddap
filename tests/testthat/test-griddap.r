@@ -23,6 +23,8 @@ test_that("griddap returns the correct class", {
 })
 
 test_that("griddap fixes incorrect user inputs", {
+  skip_on_cran()
+
   vcr::use_cassette("griddap_fixes_user_inputs", {
     # wrong order of latitude
     a <- griddap("erdQMekm14day",
@@ -72,6 +74,8 @@ test_that("griddap fixes incorrect user inputs", {
 })
 
 test_that("griddap fields parameter works, and fails correctly", {
+  skip_on_cran()
+  
   vcr::use_cassette("griddap_fields_parameter", {
     d <- griddap(
       "erdQMekm14day",
