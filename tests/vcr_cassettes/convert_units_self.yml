@@ -1,0 +1,29 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/convert/units.txt?UDUNITS=gggg
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.8.1.9100
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Fri, 19 Jul 2019 19:12:08 GMT
+      strict-transport-security: max-age=31536000; includeSubDomains
+      content-encoding: gzip
+      content-type: text/plain;charset=UTF-8
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      string: '{gggg}'
+  recorded_at: 2019-07-19 19:11:31 GMT
+  recorded_with: vcr/0.2.6, webmockr/0.3.4
