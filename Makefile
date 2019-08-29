@@ -16,12 +16,12 @@ rmd2md:
 test:
 	${RSCRIPT} -e 'library(methods); devtools::test()'
 
-roxygen:
+doc:
 	@mkdir -p man
 	${RSCRIPT} -e "library(methods); devtools::document()"
 
-install:
-	R CMD INSTALL .
+install: doc build
+	R CMD INSTALL . && rm *.tar.gz
 
 build:
 	R CMD build .
@@ -37,4 +37,4 @@ README.md: README.Rmd
 	rm -f $@.bak
 
 # No real targets!
-.PHONY: all test document install
+.PHONY: all test doc install
