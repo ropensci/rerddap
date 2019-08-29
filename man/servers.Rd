@@ -4,11 +4,24 @@
 \alias{servers}
 \title{ERDDAP server URLS and other info}
 \usage{
-servers()
+servers(...)
+}
+\arguments{
+\item{...}{curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
+}
+\value{
+data.frame with 3 columns:
+\itemize{
+\item name (character): ERDDAP name
+\item url (character): ERDDAP url
+\item public (logical): whether it's public or not
+}
 }
 \description{
 ERDDAP server URLS and other info
 }
 \examples{
+\dontrun{
 servers()
+}
 }
