@@ -38,7 +38,7 @@ For large csv, or especially netcdf files, you may want to set this to
 \code{FALSE}, which simply returns a summary of the dataset - and you can
 read in data piecemeal later. Default: \code{TRUE}}
 
-\item{callopts}{Curl options passed on to \code{\link[crul]{HttpClient}}}
+\item{callopts}{Curl options passed on to \code{\link[crul]{verb-GET}}}
 }
 \value{
 An object of class \code{griddap_csv} if csv chosen or

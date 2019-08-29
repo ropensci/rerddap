@@ -10,7 +10,7 @@
 #' @param method (character) One of local or web. Local simply uses
 #' [as.POSIXct()], while web method uses the ERDDAP time conversion service
 #' `/erddap/convert/time.txt`
-#' @param ... Curl options passed on to [crul::HttpClient]
+#' @param ... Curl options passed on to [crul::verb-GET]
 #' @details When `method = "web"` time zone is GMT/UTC
 #' @examples  \dontrun{
 #' # local conversions

@@ -17,7 +17,7 @@ http://gcmd.gsfc.nasa.gov/learn/keyword_list.html}
 https://upwell.pfeg.noaa.gov/erddap/. See \code{\link[=eurl]{eurl()}} for
 more information}
 
-\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
+\item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
 }
 \description{
 Convert a CF Standard Name to/from a GCMD Science Keyword

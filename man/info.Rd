@@ -16,7 +16,7 @@ as.info(x, url)
 \url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
 more information}
 
-\item{...}{Further args passed on to \link[crul:HttpClient]{crul::HttpClient} (must be a
+\item{...}{Further args passed on to \link[crul:verb-GET]{crul::verb-GET} (must be a
 named parameter)}
 
 \item{x}{A datasetid or the output of \code{info}}

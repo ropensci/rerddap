@@ -16,7 +16,7 @@ convert_units(udunits = NULL, ucum = NULL, url = eurl(), ...)
 \item{url}{Base URL of the ERDDAP server. See \code{\link[=eurl]{eurl()}} for
 more information}
 
-\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
+\item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
 }
 \description{
 Convert a CF Standard Name to/from a GCMD Science Keyword

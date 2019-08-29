@@ -20,7 +20,7 @@
 #' For large csv, or especially netcdf files, you may want to set this to
 #' \code{FALSE}, which simply returns a summary of the dataset - and you can
 #' read in data piecemeal later. Default: \code{TRUE}
-#' @param callopts Curl options passed on to \code{\link[crul]{HttpClient}}
+#' @param callopts Curl options passed on to \code{\link[crul]{verb-GET}}
 #'
 #' @return An object of class \code{griddap_csv} if csv chosen or
 #' \code{griddap_nc} if nc file format chosen. 

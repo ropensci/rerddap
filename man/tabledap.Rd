@@ -59,7 +59,7 @@ more information}
 \item{store}{One of \code{disk} (default) or \code{memory}. You can pass
 options to \code{disk}}
 
-\item{callopts}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient} (must be
+\item{callopts}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET} (must be
 named parameters)}
 }
 \value{

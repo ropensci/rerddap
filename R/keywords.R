@@ -8,7 +8,7 @@
 #' @param url A URL for an ERDDAP server. Default:
 #' https://upwell.pfeg.noaa.gov/erddap/. See [eurl()] for 
 #' more information
-#' @param ... Curl options passed on to [crul::HttpClient]
+#' @param ... Curl options passed on to [crul::verb-GET]
 #' @examples  \dontrun{
 #' key_words(cf = "air_pressure")
 #' cat(key_words(cf = "air_pressure"))

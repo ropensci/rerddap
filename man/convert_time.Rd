@@ -23,7 +23,7 @@ more information}
 \code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP time conversion service
 \code{/erddap/convert/time.txt}}
 
-\item{...}{Curl options passed on to \link[crul:HttpClient]{crul::HttpClient}}
+\item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
 }
 \description{
 Convert a UDUNITS compatible time to ISO time

@@ -41,7 +41,7 @@
 #' more information
 #' @param store One of `disk` (default) or `memory`. You can pass
 #' options to `disk`
-#' @param callopts Curl options passed on to [crul::HttpClient] (must be
+#' @param callopts Curl options passed on to [crul::verb-GET] (must be
 #' named parameters)
 #'
 #' @return An object of class \code{tabledap}. This class is a thin wrapper

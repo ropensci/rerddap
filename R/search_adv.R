@@ -34,7 +34,7 @@
 #' @param url A URL for an ERDDAP server. Default:
 #' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
 #' more information
-#' @param ... Curl options passed on to [crul::HttpClient] (must be
+#' @param ... Curl options passed on to [crul::verb-GET] (must be
 #' named parameters)
 #' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>
 #' @author Scott Chamberlain <myrmecocystus@@gmail.com>
