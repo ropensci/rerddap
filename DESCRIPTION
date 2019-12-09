@@ -14,7 +14,7 @@ Authors@R: c(
     person("Ben", "Tupper", role = "ctb"),
     person("Roy", "Mendelssohn", role = "ctb")
     )
-URL: https://github.com/ropensci/rerddap
+URL: https://docs.ropensci.org/rerddap, https://github.com/ropensci/rerddap
 BugReports: https://github.com/ropensci/rerddap/issues
 LazyData: true
 VignetteBuilder: knitr
