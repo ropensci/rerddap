@@ -4,12 +4,27 @@
 \alias{ed_search_adv}
 \title{Advanced search for ERDDAP tabledep or griddap datasets}
 \usage{
-ed_search_adv(query = NULL, page = 1, page_size = 1000,
-  protocol = NULL, cdm_data_type = NULL, institution = NULL,
-  ioos_category = NULL, keywords = NULL, long_name = NULL,
-  standard_name = NULL, variableName = NULL, maxLat = NULL,
-  minLon = NULL, maxLon = NULL, minLat = NULL, minTime = NULL,
-  maxTime = NULL, url = eurl(), ...)
+ed_search_adv(
+  query = NULL,
+  page = 1,
+  page_size = 1000,
+  protocol = NULL,
+  cdm_data_type = NULL,
+  institution = NULL,
+  ioos_category = NULL,
+  keywords = NULL,
+  long_name = NULL,
+  standard_name = NULL,
+  variableName = NULL,
+  maxLat = NULL,
+  minLon = NULL,
+  maxLon = NULL,
+  minLat = NULL,
+  minTime = NULL,
+  maxTime = NULL,
+  url = eurl(),
+  ...
+)
 }
 \arguments{
 \item{query}{(character) Search terms}

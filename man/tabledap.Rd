@@ -4,9 +4,20 @@
 \alias{tabledap}
 \title{Get ERDDAP tabledap data.}
 \usage{
-tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL,
-  orderbymax = NULL, orderbymin = NULL, orderbyminmax = NULL,
-  units = NULL, url = eurl(), store = disk(), callopts = list())
+tabledap(
+  x,
+  ...,
+  fields = NULL,
+  distinct = FALSE,
+  orderby = NULL,
+  orderbymax = NULL,
+  orderbymin = NULL,
+  orderbyminmax = NULL,
+  units = NULL,
+  url = eurl(),
+  store = disk(),
+  callopts = list()
+)
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of

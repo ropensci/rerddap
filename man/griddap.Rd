@@ -4,8 +4,17 @@
 \alias{griddap}
 \title{Get ERDDAP gridded data}
 \usage{
-griddap(x, ..., fields = "all", stride = 1, fmt = "nc",
-  url = eurl(), store = disk(), read = TRUE, callopts = list())
+griddap(
+  x,
+  ...,
+  fields = "all",
+  stride = 1,
+  fmt = "nc",
+  url = eurl(),
+  store = disk(),
+  read = TRUE,
+  callopts = list()
+)
 }
 \arguments{
 \item{x}{Anything coercable to an object of class info. So the output of a

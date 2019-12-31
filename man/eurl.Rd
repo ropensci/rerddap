@@ -18,7 +18,7 @@ function calls.
 
 In your .Renviron file or similar set a URL for the environment
 variable \code{RERDDAP_DEFAULT_URL}, like
-\code{RERDDAP_DEFAULT_URL=https://upwell.pfeg.noaa.gov/erddap/}
+\verb{RERDDAP_DEFAULT_URL=https://upwell.pfeg.noaa.gov/erddap/}
 
 It's important that you include a trailing slash in your URL
 }

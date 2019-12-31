@@ -34,7 +34,9 @@ cache_details()
 }
 }
 \seealso{
-Other cache: \code{\link{cache_delete}},
-  \code{\link{cache_details}}, \code{\link{cache_setup}}
+Other cache: 
+\code{\link{cache_delete}()},
+\code{\link{cache_details}()},
+\code{\link{cache_setup}()}
 }
 \concept{cache}

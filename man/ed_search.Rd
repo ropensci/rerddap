@@ -5,8 +5,14 @@
 \alias{ed_datasets}
 \title{Search for ERDDAP tabledep or griddap datasets}
 \usage{
-ed_search(query, page = NULL, page_size = NULL, which = "griddap",
-  url = eurl(), ...)
+ed_search(
+  query,
+  page = NULL,
+  page_size = NULL,
+  which = "griddap",
+  url = eurl(),
+  ...
+)
 
 ed_datasets(which = "tabledap", url = eurl())
 }

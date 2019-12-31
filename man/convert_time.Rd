@@ -4,9 +4,14 @@
 \alias{convert_time}
 \title{Convert a UDUNITS compatible time to ISO time}
 \usage{
-convert_time(n = NULL, isoTime = NULL,
-  units = "seconds since 1970-01-01T00:00:00Z", url = eurl(),
-  method = "local", ...)
+convert_time(
+  n = NULL,
+  isoTime = NULL,
+  units = "seconds since 1970-01-01T00:00:00Z",
+  url = eurl(),
+  method = "local",
+  ...
+)
 }
 \arguments{
 \item{n}{numeric; A unix time number.}
@@ -21,7 +26,7 @@ more information}
 
 \item{method}{(character) One of local or web. Local simply uses
 \code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP time conversion service
-\code{/erddap/convert/time.txt}}
+\verb{/erddap/convert/time.txt}}
 
 \item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
 }
