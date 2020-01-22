@@ -38,12 +38,6 @@ for further details.
 
 Check out our [discussion forum](https://discuss.ropensci.org) if you think your issue requires a longer form discussion.
 
-### Prefer to Email? 
-
-Email the person listed as maintainer in the `DESCRIPTION` file of this repo.
-
-Though note that private discussions over email don't help others - of course email is totally warranted if it's a sensitive problem of any kind.
-
 ### Thanks for contributing!
 
 This contributing guide is adapted from the tidyverse contributing guide available at https://raw.githubusercontent.com/r-lib/usethis/master/inst/templates/tidy-contributing.md 
