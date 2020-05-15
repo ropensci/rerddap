@@ -1,5 +1,5 @@
-#' General purpose R client for ERDDAP servers
-#'
+#' @title rerddap
+#' @description General purpose R client for ERDDAP servers
 #' @section ERDDAP info:
 #' NOAA's ERDDAP service holds many datasets of interest. It's built on top of
 #' OPenDAP <http://www.opendap.org/>. You can search for datasets via
