@@ -4,7 +4,9 @@
 \name{institutions}
 \alias{institutions}
 \title{institutions}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 institutions
 }

@@ -5,7 +5,7 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 0.6.5.91
+Version: 0.6.5.92
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut","cre"), 
@@ -43,7 +43,7 @@ Suggests:
     plot3D,
     vcr (>= 0.2.6)
 Enhances: taxize
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 X-schema.org-applicationCategory: Climate
 X-schema.org-keywords: earth, science, climate, precipitation, temperature, storm, buoy, NOAA
 X-schema.org-isPartOf: https://ropensci.org

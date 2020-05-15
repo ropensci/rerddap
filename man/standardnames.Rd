@@ -4,7 +4,9 @@
 \name{standardnames}
 \alias{standardnames}
 \title{standardnames}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 standardnames
 }

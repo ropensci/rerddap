@@ -4,7 +4,9 @@
 \name{longnames}
 \alias{longnames}
 \title{longnames}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 longnames
 }

@@ -4,7 +4,9 @@
 \name{variablenames}
 \alias{variablenames}
 \title{variablenames}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 variablenames
 }

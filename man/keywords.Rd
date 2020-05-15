@@ -4,7 +4,9 @@
 \name{keywords}
 \alias{keywords}
 \title{keywords}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 keywords
 }

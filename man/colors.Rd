@@ -5,7 +5,9 @@
 \alias{colors}
 \title{cmocean colors
 The cmocean color palette by Kristen Thyng as implemented in the R package "oce"}
-\format{An object of class \code{list} of length 13.}
+\format{
+An object of class \code{list} of length 13.
+}
 \usage{
 colors
 }

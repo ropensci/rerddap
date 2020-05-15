@@ -4,7 +4,9 @@
 \name{ioos_categories}
 \alias{ioos_categories}
 \title{ioos_categories}
-\format{A character vector}
+\format{
+A character vector
+}
 \description{
 ioos_categories
 }
