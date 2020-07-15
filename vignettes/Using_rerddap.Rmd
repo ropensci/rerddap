@@ -9,6 +9,16 @@ vignette: >
     %\VignetteEncoding{UTF-8}
 ---
 
+```{r initialize, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>", 
+  cache.path = "cache/",
+  fig.path = "../man/figures/"
+)
+data("colors")
+```
+
 ## Introduction
 
 `rerddap` is a general purpose <span style="color:red">R</span> client for working with <span style="color:red">ERDDAP</span> servers.  <span style="color:red">ERDDAP</span> is a web service developed by Bob Simons of NOAA.  At the time of this writing, there are over sixty <span style="color:red">ERDDAP</span> servers  (though not all are public facing) providing access to literally petabytes of data and model output relevant to oceanography, meteorology, fisheries and marine mammals, among other areas. <span style="color:red">ERDDAP</span> is a simple to use, RESTful web service, that allows data to be subsetted and returned in a variety of formats.
@@ -29,7 +39,7 @@ or the development version can be installed from GitHub:
 
 
 ```r
-devtools::install_github("ropensci/rerddap")
+remotes::install_github("ropensci/rerddap")
 ```
 
 and to load the library:
@@ -369,7 +379,7 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
     coord_fixed(1.3, xlim = c(-140, -105),  ylim = c(22., 51.)) + ggtitle("Latest MUR SST")
 ```
 
-<img src="figure/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
+<img src="../man/figures/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
 
 
 
@@ -407,7 +417,7 @@ ggplot(data = tempFrame, aes(x = lon, y = lat, fill = sst)) +
     coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + ggtitle("Latest VIIRS 3-day SST")
 ```
 
-<img src="figure/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
+<img src="../man/figures/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
 
 A time series from the same dataset at a given location,  here (36., -126.):
 
@@ -431,7 +441,7 @@ ggplot(tempFrame, aes(time, sst)) +
   ggtitle("VIIRS SST at (36N, 126W)")
 ```
 
-![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-18](../man/figures/unnamed-chunk-18-1.png)
 
 
 
@@ -463,7 +473,7 @@ ggplot(data = viirsCHLA$data, aes(x = lon, y = lat, fill = log(chla))) +
 #> Warning: Removed 1781323 rows containing missing values (geom_raster).
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png)
+![plot of chunk unnamed-chunk-19](../man/figures/unnamed-chunk-19-1.png)
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
@@ -512,7 +522,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="figure/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
+<img src="../man/figures/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
 
 
 
@@ -559,7 +569,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="figure/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
+<img src="../man/figures/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
 
 
 
@@ -618,7 +628,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
  myplot
 ```
 
-<img src="figure/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
+<img src="../man/figures/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
 
 
 ## tabledap
@@ -702,7 +712,7 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
   theme_bw() + ggtitle('yearly pp anom')
 ```
 
-<img src="figure/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="figure/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
+<img src="../man/figures/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="../man/figures/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
 
 
 
@@ -823,7 +833,7 @@ p1 + geom_point(data = sardine2010, aes(x = longitude, y = latitude, colour = su
 p2 +   geom_point(data = sardine2011, aes(x = longitude, y = latitude, colour = subsample_count)) + scale_colour_gradient(space = "Lab", na.value = NA, limits = c(0,80))
 ```
 
-<img src="figure/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="figure/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
+<img src="../man/figures/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="../man/figures/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
 
 Also of interest is the distribution of sardines through the years:
 
@@ -849,7 +859,7 @@ ggplot() +
     ggtitle("Location of sardines by year in EPM Trawls")
 ```
 
-<img src="figure/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
+<img src="../man/figures/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
 
 ### NDBC Buoys
 
@@ -877,7 +887,7 @@ ggplot() +
    ggtitle("Location of buoys in given region")
 ```
 
-<img src="figure/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
+<img src="../man/figures/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
 
 Looking at wind speed for 2012 for station "46012"
 
@@ -897,7 +907,7 @@ ggplot(buoyData, aes(time, wspd)) +
   ggtitle("Wind Speed in 2012 from buoy 46012 ")
 ```
 
-<img src="figure/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
+<img src="../man/figures/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
 
 ###  IOOS Glider Data
 
@@ -923,7 +933,7 @@ scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar
            cex = c(0.5, 1, 1.5))
 ```
 
-<img src="figure/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
+<img src="../man/figures/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
 
 ## Animal Telemetry Network (ATN)
 
@@ -960,7 +970,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
   coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle("SST Along Track")
 ```
 
-<img src="figure/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
+<img src="../man/figures/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
 
 
@@ -988,13 +998,13 @@ alldata <- data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$max
 ggplot(alldata) + geom_line(aes(x = year, y = coho), colour = 'blue') + theme_bw() + ggtitle("Log(coho)")
 ```
 
-<img src="figure/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
+<img src="../man/figures/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 ```r
 ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_bw() + ggtitle("MaxSLP")
 ```
 
-<img src="figure/unnamed-chunk-30-2.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
+<img src="../man/figures/unnamed-chunk-30-2.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 
 
