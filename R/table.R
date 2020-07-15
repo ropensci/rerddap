@@ -8,7 +8,7 @@
 #' @param ... Any number of key-value pairs in quotes as query constraints.
 #' See Details & examples
 #' @param fields Columns to return, as a character vector
-#' @param distinct If TRUE ERDDAP will sort all of the rows in the results
+#' @param distinct If `TRUE` ERDDAP will sort all of the rows in the results
 #' table (starting with the first requested variable, then using the second
 #' requested variable if the first variable has a tie, ...), then remove all
 #' non-unique rows of data. In many situations, ERDDAP can return distinct
@@ -84,12 +84,12 @@
 #' tabledap('erdCinpKfmBT')
 #'
 #' # Pass time constraints
-#' tabledap('hawaii_soest_5742_4f35_ff55', 'time>=2011-08-24', 'time<=2011-09-01')
+#' tabledap('erdCinpKfmBT', 'time>=2006-08-24')
 #'
 #' # Pass in fields (i.e., columns to retrieve) & time constraints
-#' tabledap('hawaii_soest_5742_4f35_ff55',
-#'   fields = c('longitude', 'latitude', 'speed_over_ground'),
-#'   'time>=2011-08-24', 'time<=2011-09-01'
+#' tabledap('erdCinpKfmBT',
+#'   fields = c('longitude', 'latitude', 'Aplysia_californica_Mean_Density'),
+#'   'time>=2006-08-24'
 #' )
 #'
 #' # Get info on a datasetid, then get data given information learned
@@ -101,10 +101,11 @@
 #' ## Search for data
 #' (out <- ed_search(query='fish', which = 'table'))
 #' ## Using a datasetid, search for information on a datasetid
-#' id <- "nwioosHudFishDetails"
-#' info(id)$variables
+#' id <- out$alldata[[1]]$dataset_id
+#' vars <- info(id)$variables
 #' ## Get data from the dataset
-#' tabledap(id, fields = c('scientific_name', 'species_id', 'life_stage'))
+#' vars$variable_name[1:3]
+#' tabledap(id, fields = vars$variable_name[1:3])
 #'
 #' # Time constraint
 #' ## Limit by time with date only
@@ -114,9 +115,9 @@
 #'   'time>=2001-07-14')
 #'
 #' # Use distinct parameter - compare to distinct = FALSE
-#' tabledap('hawaii_soest_5742_4f35_ff55',
-#'    fields=c('longitude','latitude','speed_over_ground'),
-#'    'time>=2011-08-24', 'time<=2011-09-01', distinct = TRUE)
+#' tabledap('sg114_3',
+#'    fields=c('longitude','latitude','trajectory'),
+#'    'time>=2008-12-05', distinct = TRUE)
 #'
 #' # Use units parameter
 #' ## In this example, values are the same, but sometimes they can be different
