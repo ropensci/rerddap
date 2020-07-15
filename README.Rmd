@@ -44,6 +44,8 @@ knitr::opts_chunk$set(
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
+Package Docs: <https://docs.ropensci.org/rerddap/>
+
 ## Installation
 
 From CRAN
@@ -55,7 +57,7 @@ install.packages("rerddap")
 Or development version from GitHub
 
 ```{r eval=FALSE}
-devtools::install_github("ropensci/rerddap")
+remotes::install_github("ropensci/rerddap")
 ```
 
 ```{r}
@@ -82,60 +84,13 @@ Data files downloaded are cached in a single directory on your machine determine
 
 You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
 
-## Search
-
-First, you likely want to search for data, specify either `griddadp` or `tabledap`
-
-```{r ed_search_table}
-ed_search(query = "size", which = "table")
-```
-
-```{r ed_search_grid}
-ed_search(query = "size", which = "grid")
-```
-
-## Information
-
-Then you can get information on a single dataset
-
-```{r}
-info("erdMBchla1day")
-```
-
-## griddap (gridded) data
-
-```{r}
-(out <- info("erdMBchla1day"))
-```
-
-```{r griddap_data}
-(res <- griddap(out,
-  time = c("2015-01-01", "2015-01-03"),
-  latitude = c(14, 15),
-  longitude = c(125, 126)
-))
-```
-
-## tabledap (tabular) data
-
-```{r tabledap_info, output.lines=1:15}
-(out <- info("erdCinpKfmBT"))
-```
-
-```{r tabledap_data, output.lines=1:25}
-tabledap("erdCinpKfmBT", "time>=2007-06-24", "time<=2007-07-01")
-```
-
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
-* Please note that this project is released with a [Contributor Code of Conduct][coc].
-By participating in this project you agree to abide by its terms.
+* Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
 [hoardr]: https://github.com/ropensci/hoardr
-
-[coc]: https://github.com/ropensci/rerddap/blob/master/CODE_OF_CONDUCT.md
