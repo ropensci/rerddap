@@ -1,9 +1,13 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
-%\VignetteEncoding{UTF-8}
--->
-
+---
+title: Using rerddap to Access Data from ERDDAP Servers
+author: Scott Chamberlain
+date: "2020-07-15"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
 
 ## Introduction
 

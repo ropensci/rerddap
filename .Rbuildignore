@@ -10,8 +10,6 @@ man-roxygen
 ^cran-comments\.md$
 vignettes/cache
 vignettes/figure
-inst/vign/cache
-inst/vign/figure
 ^codemeta\.json$
 ^revdep$
 ^rerddap-.*\.tar\.gz$

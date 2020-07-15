@@ -1,17 +1,15 @@
 PACKAGE := $(shell grep '^Package:' DESCRIPTION | sed -E 's/^Package:[[:space:]]+//')
 RSCRIPT = Rscript --no-init-file
 
-all: move rmd2md
+vign:
+	cd vignettes;\
+	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('rerddap.Rmd.og', output = 'rerddap.Rmd')";\
+	cd ..
 
-move:
-		cp inst/vign/rerddap.md vignettes;\
-		cp inst/vign/Using_rerddap.md vignettes;\
-		cp -r inst/vign/figure/ vignettes/figure/
-
-rmd2md:
-		cd vignettes;\
-		mv rerddap.md rerddap.Rmd;\
-		mv Using_rerddap.md Using_rerddap.Rmd
+vign_using_rerddap:
+	cd vignettes;\
+	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('Using_rerddap.Rmd.og', output = 'Using_rerddap.Rmd')";\
+	cd ..
 
 test:
 	${RSCRIPT} -e 'library(methods); devtools::test()'
@@ -27,10 +25,10 @@ install: doc build
 	R CMD INSTALL . && rm *.tar.gz
 
 build:
-	R CMD build . --no-build-vignettes
+	R CMD build .
 
 check: build
-	_R_CHECK_CRAN_INCOMING_=FALSE R CMD check --as-cran --no-manual --no-build-vignettes `ls -1tr ${PACKAGE}*gz | tail -n1`
+	_R_CHECK_CRAN_INCOMING_=FALSE R CMD check --as-cran --no-manual `ls -1tr ${PACKAGE}*gz | tail -n1`
 	@rm -f `ls -1tr ${PACKAGE}*gz | tail -n1`
 	@rm -rf ${PACKAGE}.Rcheck
 

@@ -7,3 +7,4 @@ revdep/data.sqlite
 revdep/library.noindex
 rerddap-*.tar.gz
 rerddap_*.tar.gz
+vignettes/cache

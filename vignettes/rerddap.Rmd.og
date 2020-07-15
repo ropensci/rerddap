@@ -1,0 +1,157 @@
+---
+title: rerddap introduction
+author: Scott Chamberlain
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{rerddap introduction}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+library("knitr")
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines) == 1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(if (abs(lines[1]) > 1) more else NULL,
+            x[lines],
+            if (length(x) > lines[abs(length(lines))]) more else NULL
+           )
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+`rerddap` is a general purpose R client for working with ERDDAP servers. ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+
+## NetCDF
+
+`rerddap` supports NetCDF format, and is the default when using the `griddap()` function. NetCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf4` package makes it easy to pull data out and write data back into a NetCDF file. Note the the file extension for NetCDF files is `.nc`. Whether you choose NetCDF or csv for small files won't make much of a difference, but will with large files.
+
+## Caching
+
+Data files downloaded are cached in a single hidden directory `~/.rerddap` on your machine. It's hidden so that you don't accidentally delete the data, but you can still easily delete the data if you like.
+
+When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
+
+## ERDDAP servers
+
+You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
+
+## Install
+
+Stable version from CRAN
+
+```{r eval=FALSE}
+install.packages("rerddap")
+```
+
+Or, the development version from GitHub
+
+```{r eval=FALSE}
+remotes::install_github("ropensci/rerddap")
+```
+
+```{r}
+library("rerddap")
+```
+
+## Search
+
+First, you likely want to search for data, specify either `griddadp` or `tabledap`
+
+```{r}
+ed_search(query = 'size', which = "table")
+```
+
+```{r}
+ed_search(query = 'size', which = "grid")
+```
+
+## Information
+
+Then you can get information on a single dataset
+
+```{r output.lines=1:10}
+info('erdCalCOFIlrvsiz')
+```
+
+## griddap (gridded) data
+
+First, get information on a dataset to see time range, lat/long range, and variables.
+
+```{r}
+(out <- info('erdMBchla1day'))
+```
+
+Then query for gridded data using the `griddap()` function
+
+```{r}
+(res <- griddap(out,
+  time = c('2015-01-01','2015-01-03'),
+  latitude = c(14, 15),
+  longitude = c(125, 126)
+))
+```
+
+The output of `griddap()` is a list that you can explore further. Get the summary
+
+```{r output.lines=1:15}
+res$summary
+```
+
+Get the dimension variables
+
+```{r}
+names(res$summary$dim)
+```
+
+Get the data.frame (beware: you may want to just look at the `head` of the data.frame if large)
+
+```{r}
+head(res$data)
+```
+
+## tabledap (tabular) data
+
+```{r output.lines=1:10}
+(out <- info('erdCalCOFIlrvsiz'))
+```
+
+```{r}
+(dat <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
+  'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
+```
+
+Since both `griddap()` and `tabledap()` give back data.frame's, it's easy to do downstream manipulation. For example, we can use `dplyr` to filter, summarize, group, and sort:
+
+```{r}
+library("dplyr")
+dat$larvae_size <- as.numeric(dat$larvae_size)
+dat %>%
+  group_by(scientific_name) %>%
+  summarise(mean_size = mean(larvae_size)) %>%
+  arrange(desc(mean_size))
+```
