@@ -16,7 +16,7 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: 'HTTP/1.1 200 '
-      date: Wed, 15 Jul 2020 22:18:46 GMT
+      date: Wed, 15 Jul 2020 22:14:35 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
       content-disposition: attachment;filename=erdQMekm14day_info.json
       content-encoding: gzip
@@ -148,7 +148,7 @@ http_interactions:
             ]
           }
         }
-  recorded_at: 2020-07-15 22:18:34 GMT
+  recorded_at: 2020-07-15 22:14:23 GMT
   recorded_with: vcr/0.5.4, webmockr/0.6.2
 - request:
     method: get
@@ -167,9 +167,9 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: 'HTTP/1.1 200 '
-      date: Wed, 15 Jul 2020 22:18:46 GMT
+      date: Wed, 15 Jul 2020 22:14:35 GMT
       strict-transport-security: max-age=31536000; includeSubDomains
-      last-modified: Wed, 15 Jul 2020 22:18:46 GMT
+      last-modified: Wed, 15 Jul 2020 22:14:35 GMT
       xdods-server: dods/3.7
       erddap-server: '2.02'
       content-disposition: attachment;filename=tabledap.json
@@ -641,7 +641,7 @@ http_interactions:
             ]
           }
         }
-  recorded_at: 2020-07-15 22:18:34 GMT
+  recorded_at: 2020-07-15 22:14:23 GMT
   recorded_with: vcr/0.5.4, webmockr/0.6.2
 - request:
     method: get
@@ -660,10 +660,10 @@ http_interactions:
       explanation: Request fulfilled, document follows
     headers:
       status: 'HTTP/1.1 200 '
-      date: Wed, 15 Jul 2020 22:18:34 GMT
+      date: Wed, 15 Jul 2020 22:14:22 GMT
       x-frame-options: SAMEORIGIN
       strict-transport-security: max-age=31536000; includeSubDomains
-      last-modified: Wed, 15 Jul 2020 22:18:34 GMT
+      last-modified: Wed, 15 Jul 2020 22:14:22 GMT
       xdods-server: dods/3.7
       erddap-server: '2.02'
       content-disposition: attachment;filename=erdQMekm14day_3a6f_f1d0_a65b.nc
@@ -675,5 +675,5 @@ http_interactions:
       encoding: UTF-8
       file: yes
       string: ../fixtures/188571c95282bcb224bb987dd83d22b7.nc
-  recorded_at: 2020-07-15 22:18:34 GMT
+  recorded_at: 2020-07-15 22:14:23 GMT
   recorded_with: vcr/0.5.4, webmockr/0.6.2
