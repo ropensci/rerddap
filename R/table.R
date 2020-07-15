@@ -176,6 +176,10 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL,
   url = eurl(), store = disk(), callopts=list()) {
 
+  if (inherits(x, "info")) {
+    url <- x$base_url
+    message("info() output passed to x; setting base url to: ", url)
+  }
   x <- as.info(x, url)
   fields <- paste(fields, collapse = ",")
   url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"),

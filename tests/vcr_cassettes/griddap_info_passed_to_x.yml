@@ -1,0 +1,35 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/griddap/erdVHNchlamday.nc?chla[(2015-04-01):1:(2015-04-10)][(0.0):1:(0.0)][(21):1:(18)][(-120):1:(-119)]
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.71.1 r-curl/4.3 crul/0.9.4.91
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Wed, 15 Jul 2020 22:46:02 GMT
+      x-frame-options: SAMEORIGIN
+      strict-transport-security: max-age=31536000; includeSubDomains
+      last-modified: Wed, 15 Jul 2020 22:46:02 GMT
+      xdods-server: dods/3.7
+      erddap-server: '2.02'
+      content-disposition: attachment;filename=erdVHNchlamday_c41f_2891_eac7.nc
+      content-encoding: gzip
+      content-type: application/x-netcdf
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      file: yes
+      string: ../fixtures/d618e5bdf14da795fb83ba2e6feae588.nc
+  recorded_at: 2020-07-15 22:46:03 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.6.2

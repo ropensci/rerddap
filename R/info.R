@@ -103,11 +103,11 @@ info <- function(datasetid, url = eurl(), ...){
   structure(list(variables=vars, alldata=oo, base_url=url),
             class="info",
             datasetid=datasetid,
-            type=table_or_grid(datasetid))
+            type=table_or_grid(datasetid, url))
 }
 
 #' @export
-print.info <- function(x, ...){
+print.info <- function(x, ...) {
   global <- x$alldata$NC_GLOBAL
   tt <- global[ global$attribute_name %in%
                   c('time_coverage_end','time_coverage_start'), "value", ]
@@ -115,6 +115,7 @@ print.info <- function(x, ...){
   vars <- x$alldata[x$variables$variable_name]
   cat(sprintf("<ERDDAP info> %s", attr(x, "datasetid")), "\n")
   cat(paste0(" Base URL: ", x$base_url), "\n")
+  cat(paste0(" Dataset Type: ", attr(x, "type")), "\n")
   if(attr(x, "type") == "griddap") cat(" Dimensions (range): ", "\n")
   for(i in seq_along(dims)){
     if(names(dims[i]) == "time"){
@@ -153,4 +154,17 @@ as.info.info <- function(x, url) {
 #' @export
 as.info.character <- function(x, url) {
   info(x, url)
+}
+
+table_or_grid <- function(datasetid, url) {
+  table_url <- paste0(url, 'tabledap/index.json')
+  tab <- toghelper(table_url)
+  if (datasetid %in% tab) "tabledap" else "griddap"
+}
+
+toghelper <- function(url) {
+  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
+  nms <- out$table$columnNames
+  lists <- lapply(out$table$rows, stats::setNames, nm = nms)
+  vapply(lists, "[[", "", "Dataset ID")
 }

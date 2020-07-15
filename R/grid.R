@@ -14,8 +14,15 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
          call. = FALSE)
   }
 
-  x <- as.info(x, url)
   dimargs <- list(...)
+  if (length(dimargs) == 0) stop("no dimension arguments passed, see ?griddap")
+  if (inherits(x, "info")) {
+    url <- x$base_url
+    message("info() output passed to x; setting base url to: ", url)
+  }
+  x <- as.info(x, url)
+  if (attr(x, "type") != "griddap")
+    stop("datasetid '", attr(x, "datasetid"), "' not of type griddap")
   check_dims(dimargs, x)
   check_lat_text(dimargs)
   check_lon_text(dimargs)

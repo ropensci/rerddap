@@ -23,9 +23,35 @@ test_that("griddap returns the correct class", {
 })
 
 test_that("griddap - user forgets to set any queries", {
+  skip_on_cran()
   # when no dimension args passed to `...`, stop with error
   # (& no http requests made)
   expect_error(griddap("erdQMekm14day"), "no dimension arguments")
+})
+
+test_that("griddap - there's no griddap data available for the dataset", {
+  skip_on_cran()
+  url = "http://tds.marine.rutgers.edu/erddap/"
+  expect_error(
+    griddap('DOPPIO_REANALYSIS_OBS', latitude = c(41, 45), url=url), 
+    "not of type griddap")
+})
+
+test_that("griddap - info() output passed to griddap", {
+  skip_on_cran()
+  # info_output <- info('erdVHNchlamday')
+  # save(info_output, file="tests/testthat/info_output.rda", version=2)
+  load("info_output.rda")
+  vcr::use_cassette("griddap_info_passed_to_x", {
+    expect_message(
+      griddap(info_output,
+       time = c('2015-04-01','2015-04-10'),
+       latitude = c(18, 21),
+       longitude = c(-120, -119)
+      ),
+      "setting base url"
+    )
+  })
 })
 
 test_that("griddap fixes incorrect user inputs", {

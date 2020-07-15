@@ -75,18 +75,20 @@
 #'
 #' # Use a different ERDDAP server url
 #' ## NOAA IOOS PacIOOS
-#' url = "http://oos.soest.hawaii.edu/erddap/"
-#' out <- info("NOAA_DHW_5km", url = url)
+#' url = "https://cwcgom.aoml.noaa.gov/erddap/"
+#' out <- info("miamiacidification", url = url)
 #' (res <- griddap(out,
-#'  time = c('2015-11-01','2015-11-03'),
-#'  latitude = c(21, 20),
-#'  longitude = c(10, 11)
+#'  time = c('2019-11-01','2019-11-03'),
+#'  latitude = c(15, 16),
+#'  longitude = c(-90, -88)
 #' ))
-#' ## pass directly into griddap()
-#' griddap("NOAA_DHW_5km", url = url,
-#'  time = c('2015-11-01','2015-11-03'),
-#'  latitude = c(21, 20),
-#'  longitude = c(10, 11)
+#' ## pass directly into griddap() - if you pass a datasetid string directly
+#' ## you must pass in the url or you'll be querying the default ERDDAP url,
+#' ## which isn't the one you want if you're not using the default ERDDAP url
+#' griddap("miamiacidification", url = url,
+#'  time = c('2019-11-01','2019-11-03'),
+#'  latitude = c(15, 16),
+#'  longitude = c(-90, -88)
 #' )
 #'
 #' # Using 'last'

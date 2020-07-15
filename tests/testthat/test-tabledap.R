@@ -86,4 +86,17 @@ test_that("tabledap fails well on common mistakes", {
   expect_error(tabledap('erdCinpKfmBT', distinct = "bear"), "not interpretable as logical")
 })
 
+test_that("tabledap - info() output passed to griddap", {
+  skip_on_cran()
+  # info_output2 <- info('erdCinpKfmBT')
+  # save(info_output2, file="tests/testthat/info_output2.rda", version=2)
+  load("info_output2.rda")
+  vcr::use_cassette("tabledap_info_passed_to_x", {
+    expect_message(
+      tabledap(info_output2, 'time>=2007-06-24', 'time<=2007-07-01'),
+      "setting base url"
+    )
+  })
+})
+
 # unlink(cache_info()$path, recursive = TRUE)

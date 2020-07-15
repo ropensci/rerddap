@@ -62,19 +62,6 @@ print.ed_search <- function(x, ...){
   print(tibble::as_tibble(x$info))
 }
 
-table_or_grid <- function(datasetid){
-  table_url <- paste0(eurl(), 'tabledap/index.json')
-  tab <- toghelper(table_url)
-  if (datasetid %in% tab) "tabledap" else "griddap"
-}
-
-toghelper <- function(url){
-  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
-  nms <- out$table$columnNames
-  lists <- lapply(out$table$rows, stats::setNames, nm = nms)
-  vapply(lists, "[[", "", "Dataset ID")
-}
-
 #' @export
 #' @rdname ed_search
 ed_datasets <- function(which = 'tabledap', url = eurl()){
