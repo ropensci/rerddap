@@ -6,14 +6,14 @@ test_that("info returns the correct", {
     a <- info('erdRWtanm1day')
     d <- info('erdMBchlamday_LonPM180')
     e <- info('erdMBchla1day')
-    f <- info('nodcWoa09mon5t')
+    # f <- info('nodcWoa09mon5t')
   })
 
   # class
   expect_is(a, "info")
   expect_is(d, "info")
   expect_is(e, "info")
-  expect_is(f, "info")
+  # expect_is(f, "info")
 
   expect_is(a$base_url, "character")
   expect_match(a$base_url, "erddap")
@@ -25,7 +25,7 @@ test_that("info returns the correct", {
   #expect_is(b$alldata$clivi, "data.frame")
   expect_is(d$alldata$chlorophyll, "data.frame")
   expect_is(e$alldata$time, "data.frame")
-  expect_is(f$alldata$depth, "data.frame")
+  # expect_is(f$alldata$depth, "data.frame")
 
   # dimensions
   expect_equal(length(a), 3)
