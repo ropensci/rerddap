@@ -4,8 +4,7 @@ rerddap
 
 
 [![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
-[![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
-[![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
+[![R-check](https://github.com/ropensci/rerddap/workflows/R-check/badge.svg)](https://github.com/ropensci/rerddap/actions)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
