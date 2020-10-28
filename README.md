@@ -7,12 +7,12 @@ rerddap
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
-[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
-Package Docs: <https://docs.ropensci.org/rerddap/>
+Package Docs: https://docs.ropensci.org/rerddap/
 
 ## Installation
 
@@ -41,7 +41,7 @@ packages, e.g., you may need `DBI`, in which case do, for example,
 
 ## Background
 
-ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarities, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data (griddap (https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data (tabledap (https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarities, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
 ## NetCDF
 
@@ -49,7 +49,7 @@ ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can
 
 ## Caching
 
-Data files downloaded are cached in a single directory on your machine determined by the [hoardr][] package. When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in the cache directory for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
+Data files downloaded are cached in a single directory on your machine determined by the `hoardr` package. When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in the cache directory for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
 
 ## ERDDAP servers
 
@@ -63,5 +63,3 @@ You can get a data.frame of ERDDAP servers using the function `servers()`. Most 
 * Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
-
-[hoardr]: https://github.com/ropensci/hoardr
