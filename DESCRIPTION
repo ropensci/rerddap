@@ -5,7 +5,7 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 0.6.6.91
+Version: 0.6.6.95
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut","cre"), 
@@ -17,7 +17,6 @@ Authors@R: c(
 URL: https://docs.ropensci.org/rerddap/, https://github.com/ropensci/rerddap
 BugReports: https://github.com/ropensci/rerddap/issues
 LazyData: true
-VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
@@ -34,8 +33,6 @@ Imports:
     tibble,
     hoardr (>= 0.5.2)
 Suggests:
-    knitr,
-    rmarkdown,
     testthat,
     akima,
     ggplot2,
