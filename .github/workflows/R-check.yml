@@ -50,19 +50,16 @@ jobs:
         if: runner.os == 'macOS'
         continue-on-error: true
         run: |
-          brew install pkg-config gdal geos openssl udunits protobuf proj
+          brew install pkg-config gdal openssl udunits proj netcdf
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable ppa:cran/jq
-          sudo -s eval "$sysreqs"
           sudo apt update
-          sudo apt install \
+          sudo apt install -y --no-install-recommends \
             gdal-bin \
             libgdal-dev \
             libgdal1-dev \
