@@ -39,12 +39,12 @@ knitr::opts_chunk$set(
 [![Build Status](https://travis-ci.org/ropensci/rerddap.svg?branch=master)](https://travis-ci.org/ropensci/rerddap)
 [![Build status](https://ci.appveyor.com/api/projects/status/nw858vlk4wx05mxm?svg=true)](https://ci.appveyor.com/project/sckott/rerddap)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
-[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
-Package Docs: <https://docs.ropensci.org/rerddap/>
+Package Docs: https://docs.ropensci.org/rerddap/
 
 ## Installation
 
