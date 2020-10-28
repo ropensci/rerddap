@@ -61,7 +61,6 @@ jobs:
           sudo apt install -y --no-install-recommends \
             gdal-bin \
             libgdal-dev \
-            libgdal1-dev \
             netcdf-bin \
             libproj-dev \
             libnetcdf-dev \ 
