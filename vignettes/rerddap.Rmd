@@ -1,7 +1,7 @@
 ---
 title: rerddap introduction
 author: Scott Chamberlain
-date: "2020-07-15"
+date: "2020-11-02"
 output: rmarkdown::html_vignette
 vignette: >
     %\VignetteIndexEntry{rerddap introduction}
@@ -56,41 +56,32 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 
 ```r
 ed_search(query = 'size', which = "table")
-#> # A tibble: 107 x 2
-#>    title                                               dataset_id               
-#>    <chr>                                               <chr>                    
-#>  1 CalCOFI Larvae Sizes                                erdCalCOFIlrvsiz         
-#>  2 Channel Islands, Kelp Forest Monitoring, Size and … erdCinpKfmSFNH           
-#>  3 File Names from the AWS S3 fast-ai-imageclas Bucke… awsS3Files_fast_ai_image…
-#>  4 File Names from the AWS S3 mf-nwp-models Bucket: A… awsS3Files_mf_nwp_models 
-#>  5 File Names from the AWS S3 nasanex Bucket with pre… awsS3Files_nasanex_LOCA  
-#>  6 File Names from the AWS S3 nasanex Bucket with pre… awsS3Files_nasanex_MODIS 
-#>  7 File Names from the AWS S3 noaa-ghe-pds Bucket: NO… awsS3Files_noaa_ghe_pds  
-#>  8 File Names from the AWS S3 sentinel1-slc-seasia-pd… awsS3Files_sentinel1_slc…
-#>  9 File Names from the AWS S3 noaa-nexrad-level2 Buck… awsS3Files_noaa_nexrad_l…
-#> 10 File Names from the AWS S3 mwapublic Bucket: Epoch… awsS3Files_mwapublic     
-#> # … with 97 more rows
+#> # A tibble: 9 x 2
+#>   title                                                         dataset_id      
+#>   <chr>                                                         <chr>           
+#> 1 CalCOFI Larvae Sizes                                          erdCalCOFIlrvsiz
+#> 2 Channel Islands, Kelp Forest Monitoring, Size and Frequency,… erdCinpKfmSFNH  
+#> 3 PacIOOS Beach Camera 001: Waikiki, Oahu, Hawaii               BEACHCAM-001    
+#> 4 CalCOFI Larvae Counts Positive Tows                           erdCalCOFIlrvcn…
+#> 5 CalCOFI Tows                                                  erdCalCOFItows  
+#> 6 File Names from the AWS S3 noaa-goes16 Bucket                 awsS3NoaaGoes16 
+#> 7 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature an… nodcPJJU        
+#> 8 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002            erdGlobecMoc1   
+#> 9 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001        erdGlobecVpt
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> # A tibble: 13 x 2
-#>    title                                                   dataset_id           
-#>    <chr>                                                   <chr>                
-#>  1 Extended AVHRR Polar Pathfinder Fundamental Climate Da… noaa_ngdc_da08_dcdf_…
-#>  2 Extended AVHRR Polar Pathfinder Fundamental Climate Da… noaa_ngdc_0fe5_a4b9_…
-#>  3 Extended AVHRR Polar Pathfinder Fundamental Climate Da… noaa_ngdc_5253_bf9e_…
-#>  4 Extended AVHRR Polar Pathfinder Fundamental Climate Da… noaa_ngdc_0f24_2f8c_…
-#>  5 Archived Suite of NOAA Coral Reef Watch Operational Tw… noaa_nodc_9f8b_ab7e_…
-#>  6 Archived Suite of NOAA Coral Reef Watch Operational Tw… noaa_nodc_da4e_3fc9_…
-#>  7 SST and SST Anomaly, NOAA Global Coral Bleaching Monit… NOAA_DHW_monthly     
-#>  8 NOAA Coral Reef Watch Operational Daily Near-Real-Time… dhw_5km              
-#>  9 USGS COAWST Forecast, US East Coast and Gulf of Mexico… whoi_geoport_ed12_89…
-#> 10 USGS COAWST Forecast, US East Coast and Gulf of Mexico… whoi_geoport_61c3_0b…
-#> 11 USGS COAWST Forecast, US East Coast and Gulf of Mexico… whoi_geoport_62d0_9d…
-#> 12 USGS COAWST Forecast, US East Coast and Gulf of Mexico… whoi_geoport_7dd7_db…
-#> 13 USGS COAWST Forecast, US East Coast and Gulf of Mexico… whoi_geoport_a4fb_2c…
+#> # A tibble: 6 x 2
+#>   title                                                      dataset_id         
+#>   <chr>                                                      <chr>              
+#> 1 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_da08_dcd…
+#> 2 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0fe5_a4b…
+#> 3 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_5253_bf9…
+#> 4 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0f24_2f8…
+#> 5 SST and SST Anomaly, NOAA Global Coral Bleaching Monitori… NOAA_DHW_monthly   
+#> 6 NOAA Coral Reef Watch Operational Daily Near-Real-Time Gl… dhw_5km
 ```
 
 ## Information
@@ -124,7 +115,7 @@ First, get information on a dataset to see time range, lat/long range, and varia
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2020-07-14T12:00:00Z) 
+#>      time: (2006-01-01T12:00:00Z, 2020-10-31T12:00:00Z) 
 #>      altitude: (0.0, 0.0) 
 #>      latitude: (-45.0, 65.0) 
 #>      longitude: (120.0, 320.0) 
@@ -144,7 +135,7 @@ Then query for gridded data using the `griddap()` function
 ))
 #> <ERDDAP griddap> erdMBchla1day
 #>    Path: [/Users/sckott/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
-#>    Last updated: [2020-07-15 16:11:54]
+#>    Last updated: [2020-11-02 14:30:54]
 #>    File size:    [0.03 mb]
 #>    Dimensions (dims/vars):   [4 X 1]
 #>    Dim names: time, altitude, latitude, longitude
@@ -235,7 +226,7 @@ head(res$data)
   'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
 #> <ERDDAP tabledap> erdCalCOFIlrvsiz
 #>    Path: [/Users/sckott/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
-#>    Last updated: [2020-07-15 16:12:03]
+#>    Last updated: [2020-11-02 14:30:57]
 #>    File size:    [0.05 mb]
 #> # A tibble: 1,304 x 4
 #>    latitude  longitude   larvae_size scientific_name     
