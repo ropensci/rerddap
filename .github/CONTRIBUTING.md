@@ -5,8 +5,8 @@
 Small typos or grammatical errors in documentation may be edited directly using
 the GitHub web interface, so long as the changes are made in the _source_ file.
 
-*  YES: you edit a roxygen comment in a `.R` file below `R/`.
-*  NO: you edit an `.Rd` file below `man/`.
+*  CORRECT: you edit a roxygen comment in a `.R` file below `R/`.
+*  INCORRECT: you edit an `.Rd` file below `man/`.
 
 ### Prerequisites
 
@@ -28,11 +28,9 @@ GitHub username, and links to relevant issue(s)/PR(s).
 ### Code of Conduct
 
 Please note that the `rerddadp` project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
-project you agree to abide by its terms.
+[Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project you agree to abide by its terms.
 
-### See rOpenSci [contributing guide](https://ropensci.github.io/dev_guide/contributingguide.html)
-for further details.
+### See rOpenSci [contributing guide](https://ropensci.github.io/dev_guide/contributingguide.html) for further details.
 
 ### Discussion forum
 
