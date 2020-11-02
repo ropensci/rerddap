@@ -16,6 +16,7 @@
 #' if not, then prints the URL in the console
 #' @author Ben Tupper \email{btupper@@bigelow.org}
 #' @examples \dontrun{
+#' if (interactive()) {
 #' # browse by dataset_id
 #' browse('erdATastnhday')
 #'
@@ -27,7 +28,7 @@
 #' my_tabledap <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
 #'    'itis_tsn'), 'time>=2011-10-25', 'time<=2011-10-31')
 #' browse(my_tabledap)
-#' }
+#' }}
 browse <- function(x, url = eurl(), ...){
   UseMethod("browse", x)
 }

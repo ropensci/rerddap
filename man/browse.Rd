@@ -27,6 +27,7 @@ returns \code{FALSE}
 }
 \examples{
 \dontrun{
+if (interactive()) {
 # browse by dataset_id
 browse('erdATastnhday')
 
@@ -38,7 +39,7 @@ browse(my_info)
 my_tabledap <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
    'itis_tsn'), 'time>=2011-10-25', 'time<=2011-10-31')
 browse(my_tabledap)
-}
+}}
 }
 \author{
 Ben Tupper \email{btupper@bigelow.org}
