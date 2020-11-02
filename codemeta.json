@@ -10,14 +10,13 @@
   "codeRepository": "https://github.com/ropensci/rerddap",
   "issueTracker": "https://github.com/ropensci/rerddap/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 Patched (2019-07-17 r76848)",
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -57,43 +56,6 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "roxygen2",
-      "name": "roxygen2",
-      "version": ">= 6.1.1",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=roxygen2"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "knitr",
-      "name": "knitr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=knitr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "rmarkdown",
-      "name": "rmarkdown",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -103,54 +65,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "akima",
-      "name": "akima",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=akima"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "ggplot2",
-      "name": "ggplot2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "mapdata",
-      "name": "mapdata",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=mapdata"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "plot3D",
-      "name": "plot3D",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=plot3D"
     },
     {
       "@type": "SoftwareApplication",
@@ -294,13 +208,14 @@
       "sameAs": "https://CRAN.R-project.org/package=hoardr"
     }
   ],
-  "contIntegration": "https://travis-ci.org/ropensci/rerddap",
+  "contIntegration": "https://codecov.io/github/ropensci/rerddap?branch=master",
   "releaseNotes": "https://github.com/ropensci/rerddap/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rerddap/blob/master/README.md",
-  "fileSize": "1339.911KB",
+  "fileSize": "15475.704KB",
   "keywords": ["earth", "science", "climate", "precipitation", "temperature", "storm", "buoy", "NOAA", "rstats", "erddap", "noaa-data", "api-client", "r", "r-package"],
   "copyrightHolder": {},
   "funder": {},
   "applicationCategory": "Climate",
-  "isPartOf": "https://ropensci.org"
+  "isPartOf": "https://ropensci.org",
+  "relatedLink": "https://docs.ropensci.org/rerddap/"
 }

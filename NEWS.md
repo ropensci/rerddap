@@ -1,3 +1,14 @@
+rerddap 0.7.0
+=============
+
+### MINOR IMPROVEMENTS
+
+* vignettes only on package documentation site now  (#87)
+* `server()` (to fetch known ERDDAP server URLs) now uses the list maintained by `irishmarineinstitute/awesome-erddap` on GitHub (#86)
+* better error handling for `griddap()`: if no dimension arguments passed, we error saying so (and no http requests made); in addition, if a dataset is passed to `griddap()`, to which the output of `info()` was also passed, then we can check if the dataset has griddap data or not, and fail saying so if not (#91)
+* `griddap()` and `tabledap()`: if `info()` output passed to these two funcitons, we will now use the url within that info output, and use a message telling the user we are doing so; now you don't have to set the url if you pass info output  (#92)
+
+
 rerddap 0.6.5
 =============
 

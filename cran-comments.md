@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.6.1 Patched
-* ubuntu 14.04 (on travis-ci), R 3.6.1
+* local macOS install, R 4.0.3
+* ubuntu 16.04 (on travis-ci), R 4.0.3
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -10,11 +10,11 @@
 
 ## Reverse dependencies
 
-* I have run R CMD check on the 1 downstream dependency. No problems were found related to this package.
+* I have run R CMD check on the 4 reverse dependencies. No problems were found.
 
 ---
 
-This version fixes a test that was failing on CRAN checks.
+This version makes some improvements in error handling.
 
 Thanks! 
 Scott Chamberlain

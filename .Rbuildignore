@@ -27,3 +27,4 @@ tests/vcr_cassettes/griddap_fixes_user_inputs_2.yml
 ^LICENSE\.md$
 vignettes/rerddap.Rmd
 vignettes/Using_rerddap.Rmd
+revdep/
