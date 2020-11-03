@@ -11,7 +11,7 @@ General purpose R client for ERDDAP servers
 \section{ERDDAP info}{
 
 NOAA's ERDDAP service holds many datasets of interest. It's built on top of
-OPenDAP \url{http://www.opendap.org/}. You can search for datasets via
+OPenDAP. You can search for datasets via
 \code{\link[=ed_search]{ed_search()}}, list datasets via \code{\link[=ed_datasets]{ed_datasets()}},
 get information on a single dataset via \code{\link[=info]{info()}}, then get
 data you want for either tabledap type via \code{\link[=tabledap]{tabledap()}}, or
@@ -57,7 +57,4 @@ same,  and the data from the last request, rather than the latest data,
 will be returned.
 }
 
-\author{
-Scott Chamberlain \email{myrmecocystus@gmail.com}
-}
 \keyword{package}

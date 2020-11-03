@@ -32,12 +32,11 @@
 #' omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 #' the number of seconds since 1970-01-01T00:00:00Z.
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Curl options passed on to [crul::verb-GET] (must be
 #' named parameters)
-#' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>
-#' @author Scott Chamberlain <myrmecocystus@@gmail.com>
+#' @references https://upwell.pfeg.noaa.gov/erddap/index.html
 #' @examples \dontrun{
 #' ed_search_adv(query = 'temperature')
 #' ed_search_adv(query = 'temperature', protocol = "griddap")

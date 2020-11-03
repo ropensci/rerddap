@@ -26,7 +26,7 @@ ed_datasets(which = "tabledap", url = eurl())
 \item{which}{(character) One of tabledep or griddap.}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
 \item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET} (must be
@@ -52,8 +52,5 @@ ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 }
 }
 \references{
-\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-}
-\author{
-Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
+https://upwell.pfeg.noaa.gov/erddap/index.html
 }

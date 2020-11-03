@@ -8,7 +8,7 @@
 #' @param x  datasetid or an object associated with a datasetid such
 #' [info()], [griddap()] or [tabledap()]
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Further args passed on to `utils::browseURL`
 #' (must be a named parameter)

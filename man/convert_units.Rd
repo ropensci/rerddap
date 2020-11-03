@@ -8,10 +8,10 @@ convert_units(udunits = NULL, ucum = NULL, url = eurl(), ...)
 }
 \arguments{
 \item{udunits}{character; A UDUNITS character string
-\url{http://www.unidata.ucar.edu/software/udunits/}}
+https://www.unidata.ucar.edu/software/udunits/}
 
 \item{ucum}{character; A UCUM character string
-\url{http://unitsofmeasure.org/ucum.html}}
+https://ucum.org/ucum.html}
 
 \item{url}{Base URL of the ERDDAP server. See \code{\link[=eurl]{eurl()}} for
 more information}

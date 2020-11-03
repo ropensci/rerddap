@@ -4,7 +4,7 @@
 #'
 #' @param datasetid Dataset id
 #' @param url A URL for an ERDDAP server. Default:
-#' <https://upwell.pfeg.noaa.gov/erddap/>. See [eurl()] for 
+#' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Further args passed on to [crul::verb-GET] (must be a
 #' named parameter)
@@ -27,8 +27,7 @@
 #' - longitude
 #' - sss
 #' 
-#' @references <https://upwell.pfeg.noaa.gov/erddap/index.html>
-#' @author Scott Chamberlain <myrmecocystus@@gmail.com>
+#' @references https://upwell.pfeg.noaa.gov/erddap/index.html
 #' @examples \dontrun{
 #' # grid dap datasets
 #' info('erdATastnhday')

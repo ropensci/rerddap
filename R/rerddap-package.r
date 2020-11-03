@@ -2,7 +2,7 @@
 #' @description General purpose R client for ERDDAP servers
 #' @section ERDDAP info:
 #' NOAA's ERDDAP service holds many datasets of interest. It's built on top of
-#' OPenDAP <http://www.opendap.org/>. You can search for datasets via
+#' OPenDAP. You can search for datasets via
 #' [ed_search()], list datasets via [ed_datasets()],
 #' get information on a single dataset via [info()], then get
 #' data you want for either tabledap type via [tabledap()], or
@@ -53,7 +53,6 @@
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package
-#' @author Scott Chamberlain \email{myrmecocystus@@gmail.com}
 #' @keywords package
 NULL
 

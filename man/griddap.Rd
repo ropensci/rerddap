@@ -34,7 +34,7 @@ every other value, etc. Default: 1 (i.e., get every value)}
 \item{fmt}{(character) One of csv or nc (for netcdf). Default: nc}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
 \item{store}{One of \code{\link{disk}} (default) or \code{\link{memory}}. You
@@ -257,7 +257,4 @@ griddap('erdVHNchlamday',
 }
 \references{
 https://upwell.pfeg.noaa.gov/erddap/rest.html
-}
-\author{
-Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
 }

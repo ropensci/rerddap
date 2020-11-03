@@ -8,7 +8,7 @@ version(url = eurl(), ...)
 }
 \arguments{
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
 \item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}

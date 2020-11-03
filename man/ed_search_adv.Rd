@@ -71,7 +71,7 @@ omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 the number of seconds since 1970-01-01T00:00:00Z.}
 
 \item{url}{A URL for an ERDDAP server. Default:
-\url{https://upwell.pfeg.noaa.gov/erddap/}. See \code{\link[=eurl]{eurl()}} for
+https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
 \item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET} (must be
@@ -103,8 +103,5 @@ ed_search_adv(query = 'temperature', url = servers()$url[6])
 }
 }
 \references{
-\url{https://upwell.pfeg.noaa.gov/erddap/index.html}
-}
-\author{
-Scott Chamberlain \href{mailto:myrmecocystus@gmail.com}{myrmecocystus@gmail.com}
+https://upwell.pfeg.noaa.gov/erddap/index.html
 }
