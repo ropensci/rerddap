@@ -55,11 +55,21 @@ read_all <- function(x, fmt, read) {
          },
          nc = {
            if (read) {
-             ncdf4_get(x)
+            tidync_read(x)
+            # ncdf4_get(x)
            } else {
              ncdf_summary(x)
            }
          }
+  )
+}
+
+tidync_read <- function(x) {
+  z <- tidync::tidync(x)
+  list(
+    data = tidync::hyper_tibble(z),
+    dims = tidync::hyper_dims(z),
+    vars = tidync::hyper_vars(z)
   )
 }
 

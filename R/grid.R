@@ -48,7 +48,7 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
                      args = args, store = store, fmt = fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"
   outclasses <- switch(fmt,
-                       nc = c("griddap_nc", "nc", "list"),
+                       nc = c("griddap_nc", "tbl_df", "tbl", "data.frame"),
                        csv = c("griddap_csv", "csv", "data.frame"))
   read <- toggle_read(read, store)
   structure(
@@ -106,9 +106,9 @@ print.griddap_nc <- function(x, ...) {
     cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
     cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
   }
-  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", x$summary$ndims, x$summary$nvars), sep = "\n")
-  cat(sprintf("   Dim names: %s", paste0(names(x$summary$dim), collapse = ", ")), sep = "\n")
-  cat(sprintf("   Variable names: %s", paste0(unname(sapply(x$summary$var, "[[", "longname")), collapse = ", ")), sep = "\n")
+  cat(sprintf("   Dimensions (dims/vars):   [%s X %s]", NROW(x$dims), NROW(x$vars)), sep = "\n")
+  cat(sprintf("   Dim names: %s", paste0(x$dims$name, collapse = ", ")), sep = "\n")
+  cat(sprintf("   Variable names: %s", paste0(x$vars$name, collapse = ", ")), sep = "\n")
   cat(sprintf("   data.frame (rows/columns):   [%s X %s]", dim(x$data)[1], dim(x$data)[2]), sep = "\n\n")
   print(tibble::as_tibble(x$data))
 }

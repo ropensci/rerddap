@@ -50,6 +50,7 @@
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
 #' @importFrom hoardr hoard
+#' @importFrom tidync hyper_tibble hyper_dims hyper_vars
 #' @name rerddap-package
 #' @aliases rerddap
 #' @docType package
