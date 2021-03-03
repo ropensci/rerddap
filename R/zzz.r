@@ -85,9 +85,9 @@ err_handle <- function(x, store, key) {
     if (inherits(html, "error")) {
       mssg <- tt
     } else {
-      mssg <- xml_text(xml_find_all(html, '//body//p[text()[contains(., "error")]]')) %||% ""
+      mssg <- xml_text(xml_find_all(html, '//body//p[text()[contains(., "Error") or contains(., "error")]]')) %||% ""
       mssg <- sub("Message\\s", "", mssg)
-      if (nchar(mssg) == 0) {
+      if (!nzchar(mssg)) {
         mssg <- strect(xml_text(xml_find_first(html, '//body')), "Query error.+")
       }
     }
