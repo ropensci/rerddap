@@ -11,7 +11,7 @@ rerddap
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
-Package Docs: https://docs.ropensci.org/rerddap/
+Package Docs: <https://docs.ropensci.org/rerddap/>
 
 ## Installation
 
@@ -40,7 +40,7 @@ packages, e.g., you may need `DBI`, in which case do, for example,
 
 ## Background
 
-ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data (griddap (https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data (tabledap (https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarities, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data (griddap (<https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html>)), which lets you query from gridded datasets, or table data (tabledap (<https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html>)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarities, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
 ## NetCDF
 
@@ -60,5 +60,3 @@ You can get a data.frame of ERDDAP servers using the function `servers()`. Most 
 * License: MIT
 * Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
 * Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
-
-[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
