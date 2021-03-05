@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 .travis.yml
 README.Rmd
+README.md
 appveyor.yml
 Makefile
 cran-comments.md
