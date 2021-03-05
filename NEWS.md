@@ -1,3 +1,10 @@
+rerddap 0.7.4
+=============
+
+### MINOR IMPROVEMENTS
+
+* fix a broken test
+
 rerddap 0.7.0
 =============
 

@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ropensci/rerddap",
   "issueTracker": "https://github.com/ropensci/rerddap/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.7.0",
+  "version": "0.7.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.4 Patched (2021-02-17 r80031)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -211,7 +211,7 @@
   "contIntegration": "https://codecov.io/github/ropensci/rerddap?branch=master",
   "releaseNotes": "https://github.com/ropensci/rerddap/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/rerddap/blob/master/README.md",
-  "fileSize": "15475.704KB",
+  "fileSize": "15460.515KB",
   "keywords": ["earth", "science", "climate", "precipitation", "temperature", "storm", "buoy", "NOAA", "rstats", "erddap", "noaa-data", "api-client", "r", "r-package"],
   "copyrightHolder": {},
   "funder": {},

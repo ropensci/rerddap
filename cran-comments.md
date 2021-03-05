@@ -1,7 +1,7 @@
 ## Test environments
 
-* local macOS install, R 4.0.3
-* ubuntu 16.04 (on travis-ci), R 4.0.3
+* local macOS install, R 4.0.4
+* ubuntu 16.04 (on github actions), R 4.0.4
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -14,7 +14,7 @@
 
 ---
 
-This version makes some improvements in error handling.
+This version fixes broken tests.
 
 Thanks! 
 Scott Chamberlain
