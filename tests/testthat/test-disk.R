@@ -1,8 +1,8 @@
 context("disk")
 
-test_that("disk works", {
-  skip_on_cran()
+skip_on_cran()
 
+test_that("disk works", {
   expect_is(disk(), "list")
   expect_is(disk()$store, "character")
   expect_equal(disk()$store, "disk")

@@ -1,8 +1,8 @@
 context("tabledap")
 
-test_that("tabledap returns the correct stuff", {
-  skip_on_cran()
+skip_on_cran()
 
+test_that("tabledap returns the correct stuff", {
   vcr::use_cassette("tabledap_memory", {
     a <- tabledap('erdCinpKfmBT', store = memory())
     b <- tabledap('erdCinpKfmBT', 'time>=2007-06-24', 'time<=2007-07-01', store = memory())
@@ -68,8 +68,6 @@ test_that("tabledap units parameter fails correctly", {
 })
 
 test_that("tabledap fails well on common mistakes", {
-  skip_on_cran()
-  
   # failures that do HTTP requests
   vcr::use_cassette("tabledap_fails_well", {
     expect_error(tabledap('hawaii_b55f_a8f2_ad70', "stuff=>things", store = memory()))
@@ -87,7 +85,6 @@ test_that("tabledap fails well on common mistakes", {
 })
 
 test_that("tabledap - info() output passed to griddap", {
-  skip_on_cran()
   # info_output2 <- info('erdCinpKfmBT')
   # save(info_output2, file="tests/testthat/info_output2.rda", version=2)
   load("info_output2.rda")

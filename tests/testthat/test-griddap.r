@@ -1,5 +1,7 @@
 context("griddap")
 
+skip_on_cran()
+
 # delete all cached files before running tests
 cache_delete_all()
 
@@ -23,14 +25,12 @@ test_that("griddap returns the correct class", {
 })
 
 test_that("griddap - user forgets to set any queries", {
-  skip_on_cran()
   # when no dimension args passed to `...`, stop with error
   # (& no http requests made)
   expect_error(griddap("erdQMekm14day"), "no dimension arguments")
 })
 
 test_that("griddap - there's no griddap data available for the dataset", {
-  skip_on_cran()
   url = "http://tds.marine.rutgers.edu/erddap/"
   expect_error(
     griddap('DOPPIO_REANALYSIS_OBS', latitude = c(41, 45), url=url), 
@@ -38,7 +38,6 @@ test_that("griddap - there's no griddap data available for the dataset", {
 })
 
 test_that("griddap - info() output passed to griddap", {
-  skip_on_cran()
   # info_output <- info('erdVHNchlamday')
   # save(info_output, file="tests/testthat/info_output.rda", version=2)
   load("info_output.rda")
@@ -134,8 +133,6 @@ test_that("griddap fields parameter works, and fails correctly", {
 })
 
 test_that("griddap fails well, in addition to above failure tests", {
-  skip_on_cran()
-
   # without HTTP requests
   ## named dimargs parameters not allowed when don't match those in dataset
   expect_error(griddap('erdMBchlamday_LonPM180', stuff = 5),

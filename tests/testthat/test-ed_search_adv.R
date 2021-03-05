@@ -1,8 +1,8 @@
 context("ed_search_adv")
 
+skip_on_cran()
 
 test_that("ed_search_adv returns the correct", {
-  skip_on_cran()
   vcr::use_cassette("ed_search_adv", {
     a <- ed_search_adv(query = "temperature")
     b <- ed_search_adv(query = "temperature", protocol = "griddap")
@@ -37,7 +37,6 @@ test_that("ed_search_adv returns the correct", {
 })
 
 test_that("ed_search_adv works with different ERDDAP servers", {
-  skip_on_cran()
   vcr::use_cassette("ed_search_adv_diff_servers", {
     h <- ed_search_adv(query = "temperature", url = servers()$url[6])
   })
@@ -48,8 +47,6 @@ test_that("ed_search_adv works with different ERDDAP servers", {
 })
 
 test_that("ed_search_adv correctly catches invalid parameter types", {
-  skip_on_cran()
-
   expect_error(ed_search_adv(page = "things"), "page not of class numeric")
   expect_error(ed_search_adv(maxLat = "adf"), "maxLat not of class numeric")
   expect_error(ed_search_adv(institution = 5),
@@ -58,9 +55,8 @@ test_that("ed_search_adv correctly catches invalid parameter types", {
 })
 
 test_that("ed_search_adv fails well", {
-  skip_on_cran()
   vcr::use_cassette("ed_search_adv_errors", {
-    expect_error(ed_search_adv(), "Not Found")
-    expect_error(ed_search_adv(query = "adfafadfsd"), "Internal Server Error")
+    expect_error(ed_search_adv())
+    expect_error(ed_search_adv(query = "adfafadfsd"))
   }, preserve_exact_body_bytes = TRUE)
 })

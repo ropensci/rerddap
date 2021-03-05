@@ -1,5 +1,7 @@
 context("ed_search")
 
+skip_on_cran()
+
 test_that("ed_search returns the correct", {
   vcr::use_cassette("ed_search", {
     a <- ed_search(query = 'temperature')
@@ -36,8 +38,6 @@ test_that("ed_search works with different ERDDAP servers", {
 })
 
 test_that("ed_search correctly catches invalid parameter types", {
-  skip_on_cran()
-
   expect_error(ed_search(query = "temperature", page = "things"),
     "page not of class numeric")
   expect_error(ed_search(query = "temperature", page_size = "adf"),
@@ -45,8 +45,6 @@ test_that("ed_search correctly catches invalid parameter types", {
 })
 
 test_that("ed_search fails well", {
-  skip_on_cran()
-
   expect_error(ed_search(), "\"query\" is missing, with no default")
   expect_error(ed_search("size", which = "stuff"), "should be one of")
 })

@@ -1,7 +1,8 @@
 context("info")
 
+skip_on_cran()
+
 test_that("info returns the correct", {
-  skip_on_cran()
    vcr::use_cassette("info", {
     a <- info('erdRWtanm1day')
     d <- info('erdMBchlamday_LonPM180')
@@ -33,7 +34,6 @@ test_that("info returns the correct", {
 })
 
 test_that("info works with different ERDDAP servers", {
-  skip_on_cran()
   vcr::use_cassette("info_diff_servers", {
     h <- info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
   })
@@ -44,8 +44,6 @@ test_that("info works with different ERDDAP servers", {
 })
 
 test_that("info fails well", {
-  skip_on_cran()
-
   expect_error(info(), "is missing, with no default")
   expect_error(info("stuff"), "Not Found")
 })

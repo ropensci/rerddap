@@ -1,7 +1,8 @@
 context("ed_datasets")
 
+skip_on_cran()
+
 test_that("ed_datasets returns the correct", {
-  skip_on_cran()
   vcr::use_cassette("ed_datasets_table", {
     a <- ed_datasets('table')
   })
@@ -20,7 +21,5 @@ test_that("ed_datasets returns the correct", {
 })
 
 test_that("ed_datasets fails well", {
-  skip_on_cran()
-
   expect_error(ed_datasets("stuff"), "should be one of")
 })
