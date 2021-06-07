@@ -47,3 +47,21 @@ test_that("info fails well", {
   expect_error(info(), "is missing, with no default")
   expect_error(info("stuff"), "Not Found")
 })
+
+test_that("resilient to user given URLs w/ & w/o trailing slash", {
+  id = "ncdcOisst21Agg_LonPM180"
+  a <- vcr::use_cassette("info_url_slash", {
+    info(id, url = "https://coastwatch.pfeg.noaa.gov/erddap/")
+  })
+  b <- vcr::use_cassette("info_url_slash2", {
+    info(id, url = "https://coastwatch.pfeg.noaa.gov/erddap")
+  })
+  expect_identical(
+    a$http_interactions_$used_interactions[[1]]$request$uri,
+    b$http_interactions_$used_interactions[[1]]$request$uri
+  )
+  expect_identical(
+    a$http_interactions_$used_interactions[[2]]$request$uri,
+    b$http_interactions_$used_interactions[[2]]$request$uri
+  )
+})

@@ -70,7 +70,8 @@
 #' }
 
 info <- function(datasetid, url = eurl(), ...){
-  json <- erdddap_GET(sprintf(paste0(url, 'info/%s/index.json'), datasetid),
+  url <- sub("/$", "", url)
+  json <- erdddap_GET(sprintf(file.path(url, 'info/%s/index.json'), datasetid),
                       NULL, ...)
   colnames <- vapply(tolower(json$table$columnNames),
                      function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
@@ -156,7 +157,8 @@ as.info.character <- function(x, url) {
 }
 
 table_or_grid <- function(datasetid, url) {
-  table_url <- paste0(url, 'tabledap/index.json')
+  url <- sub("/$", "", url)
+  table_url <- file.path(url, 'tabledap/index.json')
   tab <- toghelper(table_url)
   if (datasetid %in% tab) "tabledap" else "griddap"
 }
