@@ -5,14 +5,13 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 0.7.5.91
+Version: 0.7.6
 License: MIT + file LICENSE
 Authors@R: c(
-    person("Scott", "Chamberlain", role = c("aut","cre"), 
-        email = "myrmecocystus@gmail.com",
-        comment = c(ORCID = "0000-0003-1444-9135")),
+    person("Scott", "Chamberlain", role = "aut"),
     person("Ben", "Tupper", role = "ctb"),
-    person("Roy", "Mendelssohn", role = "ctb")
+    person("Roy", "Mendelssohn", role = c("cre", "ctb"),
+    email = "roy.mendelssohn@noaa.gov")
     )
 URL: https://docs.ropensci.org/rerddap/, https://github.com/ropensci/rerddap
 BugReports: https://github.com/ropensci/rerddap/issues

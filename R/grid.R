@@ -44,6 +44,10 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
     }), collapse = ",")
   }
   fmt <- match.arg(fmt, c("nc", "csv"))
+  lenURL <- nchar(url)
+  if (substr(url, lenURL, lenURL) != '/') {
+    url <- paste0(url, '/')
+  }
   resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, fmt), dset = d,
                      args = args, store = store, fmt = fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"

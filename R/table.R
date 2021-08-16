@@ -181,6 +181,10 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   }
   x <- as.info(x, url)
   fields <- paste(fields, collapse = ",")
+  lenURL <- nchar(url)
+  if (substr(url, lenURL, lenURL) != '/') {
+    url <- paste0(url, '/')
+  }
   url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"),
                  fields)
   args <- list(...)
