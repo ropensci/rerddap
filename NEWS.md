@@ -1,3 +1,10 @@
+rerddap 0.7.6
+=============
+
+### MINOR IMPROVEMENTS
+
+* fixed a bug in dealing with trailing slashes in URLs
+
 rerddap 0.7.4
 =============
 

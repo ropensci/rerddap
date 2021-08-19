@@ -29,3 +29,4 @@ tests/vcr_cassettes/griddap_fixes_user_inputs_2.yml
 vignettes/rerddap.Rmd
 vignettes/Using_rerddap.Rmd
 revdep/
+^CRAN-RELEASE$

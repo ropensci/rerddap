@@ -1,20 +1,21 @@
 ## Test environments
 
-* local macOS install, R 4.0.4
-* ubuntu 16.04 (on github actions), R 4.0.4
+* local macOS install, R 4.1.1
+* rhub ubuntu, debian, solaris
 * win-builder (devel and release)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+1 Note due to change in maintainer.  
 
 ## Reverse dependencies
 
-* I have run R CMD check on the 4 reverse dependencies. No problems were found.
+* No probelms with reverse dependencies.
 
 ---
 
-This version fixes broken tests.
+New maintainer of package - Roy Mendelssohn
+This version fixes a bug dealing with trailing slashes in URLs
 
 Thanks! 
-Scott Chamberlain
+Roy Mendelssohn
