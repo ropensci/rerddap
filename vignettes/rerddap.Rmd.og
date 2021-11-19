@@ -58,7 +58,7 @@ When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from
 
 ## ERDDAP servers
 
-You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
+You can get a data.frame of ERDDAP servers using the function `servers()`. The list of ERDDAP servers is drawn from the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).  If you know of more ERDDAP servers, follow the instructions on that page to add the server.
 
 ## Install
 
@@ -88,6 +88,12 @@ ed_search(query = 'size', which = "table")
 
 ```{r}
 ed_search(query = 'size', which = "grid")
+```
+
+There is now a convenience function to search over a list of ERDDAP servers,  designed to work with the function `servers()`
+
+```{r}
+global_search(query, server_list, which_service)
 ```
 
 ## Information

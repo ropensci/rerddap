@@ -212,12 +212,13 @@ fix_dims <- function(dimargs, .info) {
         dimargs[[i]] <- rev(dimargs[[i]])
       }
     }
-
+    
     ## new
-    if (nm %in% c('latitude', 'longitude')) {
+    # if (nm %in% c('latitude', 'longitude')) {
+    if (nm != 'time') {
       z <- unlist(strsplit(.info$alldata[[nm]]$value[1], ","))
       spacing <- as.numeric(unlist(strsplit(z[3], "=")[[1]])[2])
-      if (spacing < 0) {
+      if ((!is.na(spacing)) & (spacing < 0)) {
         if (!(dimargs[[i]][1] > dimargs[[i]][2])) {
           dimargs[[i]] <- rev(dimargs[[i]])
         }

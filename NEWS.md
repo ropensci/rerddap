@@ -1,3 +1,11 @@
+rerddap 0.8.0
+=============
+
+* Added global search function
+* fixed bug when dataset has a decreasing coordinate that
+is not latitude or longitude
+
+
 rerddap 0.7.6
 =============
 

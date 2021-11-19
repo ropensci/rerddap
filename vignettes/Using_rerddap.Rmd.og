@@ -69,7 +69,7 @@ library("ncdf4")
 library("plot3D")
 ```
 
-Code chunks are always given with the required libraries so that the chunks are more standalone in nature. Many of the plots use the `cmocean` colormaps designed by Kristen Thyng (see http://matplotlib.org/cmocean/ and https://github.com/matplotlib/cmocean).  These colormaps were initally developed for Python, but a version of the colormaps is used in the `oce` package by Dan Kelley and Clark Richards and that is what is used here.
+Code chunks are always given with the required libraries so that the chunks are more standalone in nature. Many of the plots use an early version of the `cmocean` colormaps designed by Kristen Thyng (see https://matplotlib.org/cmocean/ and https://github.com/matplotlib/cmocean) translatd from the original Python implementation. However, there is now a `cmocean` package for <span style="color:red">R</span>.  As past scripts may use the built-in color palette it is maintained here,  but use of the `cmocean` package is advisable as it is kept up-to-date.  In the present version of the `cmocean` package the names have changed, what is "temperature" here is now "thermal", "chlorophyll" is now "algae", and "salinity" is now "haline".
 
 ## The main `rerddap` functions
 
@@ -83,12 +83,13 @@ and selecting the index of the package.  The main functions used here are:
 
 * the list of servers `rerddap` knows about - `server()`
 * search an <span style="color:red">ERDDAP</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
+* search a list of  <span style="color:red">ERDDAP</span> servers for terms - `global_search(query, server_list, which_service)`
 * get a list of datasets on an <span style="color:red">ERDDAP</span> server - `ed_datasets(which = "tabledap", url = eurl())`
 * obtain information about a dataset - `info(datasetid, url = eurl(), ...)`
 * extract data from a griddap dataset - `griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(), store = disk(), read = TRUE, callopts = list())`
 * extract data from a tabledap dataset - `tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL, orderbymax = NULL, orderbymin = NULL, orderbyminmax = NULL, units = NULL, url = eurl(), store = disk(), callopts = list())`
 
-Be careful when using the functions `ed_search()` and `ed_datasets()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
+Be careful when using the functions `ed_search()`, `ed_datasets()` and `global_search()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
 
 ```{r, eval = FALSE}
 whichSST <- ed_search(query = "SST")
@@ -111,6 +112,7 @@ A list of some of the public available <span style="color:red">ERDDAP</span> ser
 servers()
 ```
 
+The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).
 
 The second way to find and obtain the desired data is to use functions in `rerddap`.  The basic steps are:
 
@@ -209,6 +211,12 @@ CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2010-12-31', 'scientific_name="Sardinops sagax"' )
 
 ```
+
+##  Searching
+
+The functions in `rerddap` work with any <span style="color:red">ERDDAP</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP</span> servers is provided at https://irishmarineinstitute.github.io/awesome-erddap and the `rerddap` function `servers()` will download this list.
+
+Given a base <span style="color:red">ERDDAP</span> URL, the function `ed_search()` will search the server for the given search terms.  The default <span style="color:red">ERDDAP</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP</span> server.
 
 
 ## griddap

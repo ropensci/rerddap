@@ -1,23 +1,16 @@
 ---
-title: Using rerddap to Access Data from ERDDAP Servers
-author: Scott Chamberlain
-date: "2020-07-15"
+title: "Using rerddap to Access Data from ERDDAP Servers"
+author: "Roy Mendelssohn and Scott Chamberlain"
+date: "2021-11-18"
 output: rmarkdown::html_vignette
 vignette: >
-    %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{usimg rerddap}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
-```{r initialize, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE, 
-  comment = "#>", 
-  cache.path = "cache/",
-  fig.path = "../man/figures/"
-)
-data("colors")
-```
+
+
 
 ## Introduction
 
@@ -64,7 +57,7 @@ library("ncdf4")
 library("plot3D")
 ```
 
-Code chunks are always given with the required libraries so that the chunks are more standalone in nature. Many of the plots use the `cmocean` colormaps designed by Kristen Thyng (see http://matplotlib.org/cmocean/ and https://github.com/matplotlib/cmocean).  These colormaps were initally developed for Python, but a version of the colormaps is used in the `oce` package by Dan Kelley and Clark Richards and that is what is used here.
+Code chunks are always given with the required libraries so that the chunks are more standalone in nature. Many of the plots use an early version of the `cmocean` colormaps designed by Kristen Thyng (see https://matplotlib.org/cmocean/ and https://github.com/matplotlib/cmocean) translatd from the original Python implementation. However, there is now a `cmocean` package for <span style="color:red">R</span>.  As past scripts may use the built-in color palette it is maintained here,  but use of the `cmocean` package is advisable as it is kept up-to-date.  In the present version of the `cmocean` package the names have changed, what is "temperature" here is now "thermal", "chlorophyll" is now "algae", and "salinity" is now "haline".
 
 ## The main `rerddap` functions
 
@@ -79,12 +72,13 @@ and selecting the index of the package.  The main functions used here are:
 
 * the list of servers `rerddap` knows about - `server()`
 * search an <span style="color:red">ERDDAP</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
+* search a list of  <span style="color:red">ERDDAP</span> servers for terms - `global_search(query, server_list, which_service)`
 * get a list of datasets on an <span style="color:red">ERDDAP</span> server - `ed_datasets(which = "tabledap", url = eurl())`
 * obtain information about a dataset - `info(datasetid, url = eurl(), ...)`
 * extract data from a griddap dataset - `griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(), store = disk(), read = TRUE, callopts = list())`
 * extract data from a tabledap dataset - `tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL, orderbymax = NULL, orderbymin = NULL, orderbyminmax = NULL, units = NULL, url = eurl(), store = disk(), callopts = list())`
 
-Be careful when using the functions `ed_search()` and `ed_datasets()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
+Be careful when using the functions `ed_search()`, `ed_datasets()` and `global_search()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
 
 
 ```r
@@ -108,42 +102,23 @@ A list of some of the public available <span style="color:red">ERDDAP</span> ser
 
 ```r
 servers()
-#>                                                                                             name
-#> 1                                                          Marine Domain Awareness (MDA) - Italy
-#> 2                                                                     Marine Institute - Ireland
-#> 3                                                       CoastWatch Caribbean/Gulf of Mexico Node
-#> 4                                                                     CoastWatch West Coast Node
-#> 5                     NOAA IOOS CeNCOOS (Central and Northern California Ocean Observing System)
-#> 6  NOAA IOOS NERACOOS (Northeastern Regional Association of Coastal and Ocean Observing Systems)
-#> 7                                         NOAA IOOS NGDAC (National Glider Data Assembly Center)
-#> 8    NOAA IOOS PacIOOS (Pacific Islands Ocean Observing System) at the University of Hawaii (UH)
-#> 9                     NOAA IOOS SECOORA (Southeast Coastal Ocean Observing Regional Association)
-#> 10                            NOAA NCEI (National Centers for Environmental Information) / NCDDC
-#> 11                                                NOAA OSMC (Observing System Monitoring Center)
-#> 12                                                           NOAA UAF (Unified Access Framework)
-#> 13                                                                   ONC (Ocean Networks Canada)
-#> 14                    UC Davis BML (University of California at Davis, Bodega Marine Laboratory)
-#> 15                                                                            R.Tech Engineering
-#> 16                                     French Research Institute for the Exploitation of the Sea
-#>                                         url
-#> 1  https://bluehub.jrc.ec.europa.eu/erddap/
-#> 2           http://erddap.marine.ie/erddap/
-#> 3       http://cwcgom.aoml.noaa.gov/erddap/
-#> 4  https://coastwatch.pfeg.noaa.gov/erddap/
-#> 5     http://erddap.axiomalaska.com/erddap/
-#> 6           http://www.neracoos.org/erddap/
-#> 7       http://data.ioos.us/gliders/erddap/
-#> 8       http://oos.soest.hawaii.edu/erddap/
-#> 9            http://129.252.139.124/erddap/
-#> 10   http://ecowatch.ncddc.noaa.gov/erddap/
-#> 11             http://osmc.noaa.gov/erddap/
-#> 12     https://upwell.pfeg.noaa.gov/erddap/
-#> 13           http://dap.onc.uvic.ca/erddap/
-#> 14    http://bmlsc.ucdavis.edu:8080/erddap/
-#> 15            http://meteo.rtech.fr/erddap/
-#> 16  http://www.ifremer.fr/erddap/index.html
+#> # A tibble: 58 × 4
+#>    name                                 short_name  url                   public
+#>    <chr>                                <chr>       <chr>                 <lgl> 
+#>  1 CoastWatch West Coast Node           CSWC        https://coastwatch.p… TRUE  
+#>  2 ERDDAP at the Asia-Pacific Data-Res… APDRC       https://apdrc.soest.… TRUE  
+#>  3 NOAA's National Centers for Environ… NCEI        https://www.ncei.noa… TRUE  
+#>  4 Biological and Chemical Oceanograph… BCODMO      https://erddap.bco-d… TRUE  
+#>  5 European Marine Observation and Dat… EMODnet     https://erddap.emodn… TRUE  
+#>  6 Marine Institute - Ireland           MII         https://erddap.marin… TRUE  
+#>  7 CoastWatch Caribbean/Gulf of Mexico… CSCGOM      https://cwcgom.aoml.… TRUE  
+#>  8 NOAA IOOS Sensors ERDDAP             IOOS-Senso… https://erddap.senso… TRUE  
+#>  9 NOAA IOOS CeNCOOS (Central and Nort… CeNCOOS     https://erddap.axiom… TRUE  
+#> 10 CeNCOOS (Central and Northern Calif… CeNCOOS ER… http://erddap.cencoo… TRUE  
+#> # … with 48 more rows
 ```
 
+The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).
 
 The second way to find and obtain the desired data is to use functions in `rerddap`.  The basic steps are:
 
@@ -190,8 +165,10 @@ The other method is to use the `rerddap` function `info`:
 ```r
 info('jplMURSST41')
 #> <ERDDAP info> jplMURSST41 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
+#>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2002-06-01T09:00:00Z, 2017-05-10T09:00:00Z) 
+#>      time: (2002-06-01T09:00:00Z, 2021-11-17T09:00:00Z) 
 #>      latitude: (-89.99, 89.99) 
 #>      longitude: (-179.99, 180.0) 
 #>  Variables:  
@@ -201,9 +178,11 @@ info('jplMURSST41')
 #>          Units: degree_C 
 #>      mask: 
 #>      sea_ice_fraction: 
-#>          Units: fraction
+#>          Units: 1
 info('siocalcofiHydroCasts')
 #> <ERDDAP info> siocalcofiHydroCasts 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
+#>  Dataset Type: tabledap 
 #>  Variables:  
 #>      ac_line: 
 #>      ac_sta: 
@@ -350,7 +329,14 @@ Note that in `tabledap()` character strings usually must be passed as "double-qu
 ```r
 CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2010-12-31', 'scientific_name="Sardinops sagax"' )
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 ```
+
+##  Searching
+
+The functions in `rerddap` work with any <span style="color:red">ERDDAP</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP</span> servers is provided at https://irishmarineinstitute.github.io/awesome-erddap and the `rerddap` function `servers()` will download this list.
+
+Given a base <span style="color:red">ERDDAP</span> URL, the function `ed_search()` will search the server for the given search terms.  The default <span style="color:red">ERDDAP</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP</span> server.
 
 
 ## griddap
@@ -369,6 +355,7 @@ require("rerddap")
 sstInfo <- info('jplMURSST41')
 # get latest daily sst
 murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), time = c('last','last'), fields = 'analysed_sst')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 mycolor <- colors$temperature
 w <- map_data("worldHires", ylim = c(22., 51.), xlim = c(-140, -105))
 ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
@@ -379,7 +366,7 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
     coord_fixed(1.3, xlim = c(-140, -105),  ylim = c(22., 51.)) + ggtitle("Latest MUR SST")
 ```
 
-<img src="../man/figures/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
+<img src="man/figures/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
 
 
 
@@ -397,6 +384,7 @@ require("rerddap")
 sstInfo <- info('erdVHsstaWS3day')
 # get latest 3-day composite sst
 viirsSST <- griddap(sstInfo, latitude = c(41., 31.), longitude = c(-128., -115), time = c('last','last'), fields = 'sst')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 # remap latitiudes and longitudes to even grid
 myLats <- unique(viirsSST$data$lat)
 myLons <- unique(viirsSST$data$lon)
@@ -417,7 +405,7 @@ ggplot(data = tempFrame, aes(x = lon, y = lat, fill = sst)) +
     coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + ggtitle("Latest VIIRS 3-day SST")
 ```
 
-<img src="../man/figures/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
+<img src="man/figures/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
 
 A time series from the same dataset at a given location,  here (36., -126.):
 
@@ -428,6 +416,7 @@ require("rerddap")
 viirsSST1 <- griddap(sstInfo, latitude = c(36., 36.), 
                      longitude = c(-126., -126.), 
                      time = c('2015-01-01','2015-12-31'), fields = 'sst')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 tempTime <- as.Date(viirsSST1$data$time, origin = '1970-01-01', tz = "GMT")
 tempFrame <- data.frame(time = tempTime, sst = viirsSST1$data$sst)
 ```
@@ -441,7 +430,7 @@ ggplot(tempFrame, aes(time, sst)) +
   ggtitle("VIIRS SST at (36N, 126W)")
 ```
 
-![plot of chunk unnamed-chunk-18](../man/figures/unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-18](man/figures/unnamed-chunk-18-1.png)
 
 
 
@@ -456,6 +445,7 @@ chlaInfo <- info('erdVHNchla3day')
 viirsCHLA <- griddap(chlaInfo, latitude = c(41., 31.), 
                      longitude = c(-128., -115), time = c('last','last'), 
                      fields = 'chla')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 ```
 
 
@@ -470,10 +460,10 @@ ggplot(data = viirsCHLA$data, aes(x = lon, y = lat, fill = log(chla))) +
   theme_bw() + ylab("latitude") + xlab("longitude") +
   coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + 
   ggtitle("Latest VIIRS 3-day Chla")
-#> Warning: Removed 1781323 rows containing missing values (geom_raster).
+#> Warning: Removed 2015680 rows containing missing values (geom_raster).
 ```
 
-![plot of chunk unnamed-chunk-19](../man/figures/unnamed-chunk-19-1.png)
+![plot of chunk unnamed-chunk-19](man/figures/unnamed-chunk-19-1.png)
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
@@ -490,12 +480,14 @@ zpos <- c(70.02, 70.02)
 tpos <- c('2010-12-15', '2010-12-15')
 soda70 <- griddap(dataInfo,  longitude = xpos, latitude = ypos, 
                   time = tpos, depth = zpos, fields = 'temp' )
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 str(soda70$data)
-#> 'data.frame':	17091 obs. of  4 variables:
-#>  $ time: chr  "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" ...
-#>  $ lat : num  20.2 20.2 20.2 20.2 20.2 ...
-#>  $ lon : num  135 136 136 137 137 ...
-#>  $ temp: num  27.1 27.1 27.5 27.8 28.2 ...
+#> 'data.frame':	17091 obs. of  5 variables:
+#>  $ time : chr  "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" ...
+#>  $ lat  : num  20.2 20.2 20.2 20.2 20.2 ...
+#>  $ lon  : num  135 136 136 137 137 ...
+#>  $ depth: num  70 70 70 70 70 ...
+#>  $ temp : num  27.1 27.1 27.5 27.8 28.2 ...
 ```
 
 Since the data cross the dateline, it is necessary to use the new "world2Hires" continental outlines in the package `mapdata` which is Pacific Ocean centered.  Unfortunatley there is a small problem where the outlines from certain countries wrap and mistakenly appear in plots, and those countries must be removed,  see code below.
@@ -522,7 +514,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="../man/figures/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
+<img src="man/figures/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
 
 
 
@@ -540,12 +532,13 @@ sssLats <- c(48.00625, 57.50625)
 sssLons <- c(-17.99375, -1.00625)
 dataInfo <- rerddap::info("IMI_NEATL", url = urlBase)
 NAtlSSS <- griddap(dataInfo, longitude = sssLons, latitude = sssLats, time = sssTimes, fields = parameter, url = urlBase)
+#> info() output passed to x; setting base url to: http://erddap.marine.ie/erddap
 str(NAtlSSS$data)
 #> 'data.frame':	1034960 obs. of  4 variables:
-#>  $ time                : chr  "2017-05-14T00:00:00Z" "2017-05-14T00:00:00Z" "2017-05-14T00:00:00Z" "2017-05-14T00:00:00Z" ...
+#>  $ time                : chr  "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" ...
 #>  $ lat                 : num  48 48 48 48 48 ...
 #>  $ lon                 : num  -18 -18 -18 -18 -17.9 ...
-#>  $ sea_surface_salinity: num  35.6 35.6 35.6 35.6 35.6 ...
+#>  $ sea_surface_salinity: num  35.5 35.5 35.5 35.5 35.5 ...
 ```
 
 
@@ -569,7 +562,7 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="../man/figures/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
+<img src="man/figures/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
 
 
 
@@ -587,13 +580,16 @@ ifrLats <- c(30., 50.)
 ifrLons <- c(-140., -110.)
 ifrDepth <- c(75., 75.)
 dataInfo <- rerddap::info("ifremer_tds0_6080_109e_ed80", url = urlBase)
+#> Error: 'Error {
+#>     code=404;
+#>     message="Not Found: Currently unknown datasetID=ifremer_tds0_6080_109e_ed80";
+#> }
+#> ' does not exist in current working directory ('/Users/rmendels/WorkFiles/rerddap/vignettes').
 ifrPSAL <- griddap(dataInfo, longitude = ifrLons, latitude = ifrLats, time = ifrTimes, depth = ifrDepth,  fields = parameter, url = urlBase)
+#> info() output passed to x; setting base url to: http://erddap.marine.ie/erddap
+#> Error: Some input dimensions (longitude, latitude, time, depth) don't match those in dataset (time, latitude, longitude)
 str(ifrPSAL$data)
-#> 'data.frame':	3294 obs. of  4 variables:
-#>  $ time: chr  "2013-05-15T00:00:00Z" "2013-05-15T00:00:00Z" "2013-05-15T00:00:00Z" "2013-05-15T00:00:00Z" ...
-#>  $ lat : num  30 30 30 30 30 ...
-#>  $ lon : num  -140 -140 -139 -138 -138 ...
-#>  $ PSAL: num  34.9 34.9 34.9 34.9 34.9 ...
+#> Error in str(ifrPSAL$data): object 'ifrPSAL' not found
 ```
 
 The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coordinates, as are the latitudes from this model.  The function `interp()` from the package `akima` is used to interpolate the data which are then plotted.
@@ -611,13 +607,23 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 ## ggplot2 has trouble with unequal y's
   my.col <- colors$salinity
   tempData1 <- ifrPSAL$data$PSAL
+#> Error in eval(expr, envir, enclos): object 'ifrPSAL' not found
   tempData <- array(tempData1 , 61 * 54)
+#> Error in array(tempData1, 61 * 54): object 'tempData1' not found
   tempFrame <- data.frame(x = ifrPSAL$data$lon, y = ifrPSAL$data$lat)
+#> Error in data.frame(x = ifrPSAL$data$lon, y = ifrPSAL$data$lat): object 'ifrPSAL' not found
   tempFrame$temp <- tempData
+#> Error in eval(expr, envir, enclos): object 'tempData' not found
   tempFrame1 <- dplyr::filter(tempFrame, !is.nan(temp))
+#> Error: Problem with `filter()` input `..1`.
+#> ℹ Input `..1` is `!is.nan(temp)`.
+#> ✖ object 'temp' not found
   myinterp <- akima::interp(tempFrame1$x, tempFrame1$y, tempFrame1$temp, xo = seq(min(tempFrame1$x), max(tempFrame1$x), length = 61), yo = seq(min(tempFrame1$y), max(tempFrame1$y), length = 54))
+#> Error in akima::interp(tempFrame1$x, tempFrame1$y, tempFrame1$temp, xo = seq(min(tempFrame1$x), : object 'tempFrame1' not found
   myinterp1 <- expand.grid(x = myinterp$x, y = myinterp$y)
+#> Error in expand.grid(x = myinterp$x, y = myinterp$y): object 'myinterp' not found
   myinterp1$temp <- array(myinterp$z, 61 * 54)
+#> Error in array(myinterp$z, 61 * 54): object 'myinterp' not found
   w <- map_data("worldHires", ylim = ylim, xlim = xlim)
  myplot <- ggplot() +
     geom_raster(data = myinterp1, aes(x = x, y = y, fill = temp), interpolate = FALSE) +
@@ -625,10 +631,11 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(32, 35), name = "salinity") +
     ylab("latitude") + xlab("longitude") +
     coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle(paste("salinity at 75 meters",ifrPSAL$data$time[1] ))
+#> Error in fortify(data): object 'myinterp1' not found
  myplot
 ```
 
-<img src="../man/figures/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
+<img src="man/figures/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
 
 
 ## tabledap
@@ -652,6 +659,7 @@ and then get the desired data from 1984 through 2014:
 ```r
 require("rerddap")
 calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 str(calcofi.df)
 #> Classes 'tabledap' and 'data.frame':	11072 obs. of  12 variables:
 #>  $ cst_cnt    : int  22522 22523 22524 22525 22526 22527 22528 22529 22530 22531 ...
@@ -667,7 +675,7 @@ str(calcofi.df)
 #>  $ intc14     : chr  "NaN" "NaN" "NaN" "NaN" ...
 #>  $ time       : chr  "1984-01-04T22:08:00Z" "1984-01-05T03:20:00Z" "1984-01-05T09:03:00Z" "1984-01-05T12:26:00Z" ...
 #>  - attr(*, "datasetid")= chr "siocalcofiHydroCasts"
-#>  - attr(*, "path")= chr "/Users/sacmac/Library/Caches/R/rerddap/a7a35af414deaac89811bf13fc934978.csv"
+#>  - attr(*, "path")= chr "~/Library/Caches/R/rerddap/a7a35af414deaac89811bf13fc934978.csv"
 #>  - attr(*, "url")= chr "https://upwell.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.csv?cst_cnt,date,year,month,julian_date,julia"| __truncated__
 ```
 
@@ -712,7 +720,7 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
   theme_bw() + ggtitle('yearly pp anom')
 ```
 
-<img src="../man/figures/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="../man/figures/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
+<img src="man/figures/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="man/figures/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
 
 
 
@@ -742,22 +750,24 @@ Then get the information for the CPS dataset:
 require("rerddap")
 (CPSinfo <- info('FRDCPSTrawlLHHaulCatch'))
 #> <ERDDAP info> FRDCPSTrawlLHHaulCatch 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
+#>  Dataset Type: tabledap 
 #>  Variables:  
 #>      collection: 
-#>          Range: 2003, 3623 
+#>          Range: 2003, 4319 
 #>      cruise: 
-#>          Range: 200307, 201604 
+#>          Range: 200307, 202103 
 #>      haul: 
-#>          Range: 1, 160 
+#>          Range: 1, 175 
 #>      haulback_time: 
-#>          Range: -6.5759508E8, 1.3977129E9 
+#>          Range: 1.05772524E9, 1.61794296E9 
 #>          Units: seconds since 1970-01-01T00:00:00Z 
 #>      itis_tsn: 
 #>      latitude: 
 #>          Range: 30.7001, 54.3997 
 #>          Units: degrees_north 
 #>      longitude: 
-#>          Range: -134.0793, -117.3796 
+#>          Range: -134.0793, -117.2888 
 #>          Units: degrees_east 
 #>      remaining_weight: 
 #>          Units: kg 
@@ -766,9 +776,9 @@ require("rerddap")
 #>      ship_spd_through_water: 
 #>          Units: knot 
 #>      stop_latitude: 
-#>          Range: 30.6663, 51.0923 
+#>          Range: 30.6663, 54.4157 
 #>      stop_longitude: 
-#>          Range: -132.184, -117.4116 
+#>          Range: -134.0793, -117.318 
 #>      subsample_count: 
 #>      subsample_weight: 
 #>          Units: kg 
@@ -776,7 +786,7 @@ require("rerddap")
 #>          Units: degree C 
 #>      surface_temp_method: 
 #>      time: 
-#>          Range: 1.05771978E9, 1.4613093E9 
+#>          Range: 1.05772338E9, 1.61796546E9 
 #>          Units: seconds since 1970-01-01T00:00:00Z
 ```
 
@@ -787,6 +797,7 @@ extract the desired CPS data:
 require("dplyr")
 require("rerddap")
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"' )
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 sardines$time <- as.Date(sardines$time, origin = '1970-01-01', tz = "GMT")
 sardines$latitude <- as.numeric(sardines$latitude)
 sardines$longitude <- as.numeric(sardines$longitude)
@@ -833,13 +844,14 @@ p1 + geom_point(data = sardine2010, aes(x = longitude, y = latitude, colour = su
 p2 +   geom_point(data = sardine2011, aes(x = longitude, y = latitude, colour = subsample_count)) + scale_colour_gradient(space = "Lab", na.value = NA, limits = c(0,80))
 ```
 
-<img src="../man/figures/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="../man/figures/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
+<img src="man/figures/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="man/figures/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
 
 Also of interest is the distribution of sardines through the years:
 
 
 ```r
 sardinops <- tabledap(CPSinfo, fields = c('longitude', 'latitude', 'time'),  'scientific_name="Sardinops sagax"')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 sardinops$time <- as.Date(sardinops$time, origin = '1970-01-01', tz = "GMT")
 sardinops$year <- as.factor(format(sardinops$time, '%Y'))
 sardinops$latitude <- as.numeric(sardinops$latitude)
@@ -859,7 +871,7 @@ ggplot() +
     ggtitle("Location of sardines by year in EPM Trawls")
 ```
 
-<img src="../man/figures/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
+<img src="man/figures/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
 
 ### NDBC Buoys
 
@@ -870,6 +882,7 @@ NOAA's National Data Buoy Center (NDBC) collects world-wide data from buoys in t
 # get location and station ID of NDBC buoys in a region
 BuoysInfo <- info('cwwcNDBCMet')
 locationBuoys <- tabledap(BuoysInfo, distinct = TRUE, fields = c("station", "longitude", "latitude"), "longitude>=-124", "longitude<=-121", "latitude>=37", "latitude<=47")
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 locationBuoys$latitude <- as.numeric(locationBuoys$latitude)
 locationBuoys$longitude <- as.numeric(locationBuoys$longitude)
 ```
@@ -887,13 +900,14 @@ ggplot() +
    ggtitle("Location of buoys in given region")
 ```
 
-<img src="../man/figures/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
+<img src="man/figures/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
 
 Looking at wind speed for 2012 for station "46012"
 
 
 ```r
 buoyData <- tabledap(BuoysInfo, fields = c("time", "wspd"), 'station="46012"', 'time>=2012-01-01', 'time<=2013-01-01')
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 buoyData$wspd <- as.numeric(buoyData$wspd)
 buoyData$time <- as.Date(buoyData$time, origin = '1970-01-01', tz = "GMT")
 ```
@@ -907,7 +921,7 @@ ggplot(buoyData, aes(time, wspd)) +
   ggtitle("Wind Speed in 2012 from buoy 46012 ")
 ```
 
-<img src="../man/figures/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
+<img src="man/figures/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
 
 ###  IOOS Glider Data
 
@@ -919,6 +933,7 @@ The IOOS Glider Dac is accessible through `rerddap` (http://data.ioos.us/gliders
 urlBase <- "https://data.ioos.us/gliders/erddap/"
 gliderInfo <- info("sp064-20161214T1913",  url = urlBase)
 glider <- tabledap(gliderInfo, fields = c("longitude", "latitude", "depth", "salinity"), 'time>=2016-12-14', 'time<=2016-12-23', url = urlBase)
+#> info() output passed to x; setting base url to: https://data.ioos.us/gliders/erddap
 glider$longitude <- as.numeric(glider$longitude)
 glider$latitude <- as.numeric(glider$latitude)
 glider$depth <- as.numeric(glider$depth)
@@ -933,7 +948,7 @@ scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar
            cex = c(0.5, 1, 1.5))
 ```
 
-<img src="../man/figures/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
+<img src="man/figures/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
 
 ## Animal Telemetry Network (ATN)
 
@@ -945,6 +960,7 @@ The Integrated Ocean Observing System Animal Telemetry Network (IOOS ATN) is des
 atnURL <- 'http://oceanview.pfeg.noaa.gov/erddap/'
 atnInfo <- info('gtoppAT', url = atnURL)
 atnData <- tabledap(atnInfo, fields = c("time", "longitude", "latitude"), 'toppID="1807001"', url = atnURL)
+#> info() output passed to x; setting base url to: http://oceanview.pfeg.noaa.gov/erddap
 atnData$latitude <- as.numeric(atnData$latitude)
 atnData$longitude <- as.numeric(atnData$longitude)
 ncdcSST = array(NA_real_, dim = length(atnData$time))
@@ -953,6 +969,72 @@ for (i in 1:length(atnData$time)) {
   extract <- griddap(ncdcSSTInfo, fields = 'sst', latitude = c(atnData$latitude[i], atnData$latitude[i]), longitude = c(atnData$longitude[i], atnData$longitude[i]), time = c(atnData$time[i], atnData$time[i]))
 ncdcSST[i] <- extract$data$sst
 }
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 ```
 
 
@@ -970,7 +1052,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
   coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle("SST Along Track")
 ```
 
-<img src="../man/figures/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
+<img src="man/figures/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
 
 
@@ -985,26 +1067,28 @@ The over 300 indices developed for the CCSIEA are available through `rerddap`.  
 urlBase <- 'http://coastwatch.pfeg.noaa.gov/erddap/'
 nphInfo <- info('erdNph', url = urlBase)
 nphData <- tabledap(nphInfo, fields = c("year", "maxSLP" ), 'month=2', 'year>=1987', url = urlBase)
+#> info() output passed to x; setting base url to: http://coastwatch.pfeg.noaa.gov/erddap
 nphData$maxSLP <- as.numeric(nphData$maxSLP)
 urlBase <- 'http://oceanview.pfeg.noaa.gov/erddap/'
 cohoInfo <- info('cciea_SM_CA_CO_ABND', url = urlBase)
 cohoData <- tabledap(cohoInfo, fields = c("abundance", "time"),  url = urlBase)
+#> info() output passed to x; setting base url to: http://oceanview.pfeg.noaa.gov/erddap
+#> Error: Query error: Unrecognized variable="abundance"type Status reportmessage Query error: Unrecognized variable="abundance"description The server encountered an internal error that prevented it from fulfilling this request.Apache Tomcat/8.5.11
 cohoData$abundance <- as.numeric(cohoData$abundance)
+#> Error in eval(expr, envir, enclos): object 'cohoData' not found
 alldata <- data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$maxSLP, year = nphData$year)
+#> Error in data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$maxSLP, : object 'cohoData' not found
 ```
 
 
 ```r
 ggplot(alldata) + geom_line(aes(x = year, y = coho), colour = 'blue') + theme_bw() + ggtitle("Log(coho)")
-```
-
-<img src="../man/figures/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
-
-```r
+#> Error in FUN(X[[i]], ...): object 'year' not found
 ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_bw() + ggtitle("MaxSLP")
+#> Error in FUN(X[[i]], ...): object 'year' not found
 ```
 
-<img src="../man/figures/unnamed-chunk-30-2.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
+<img src="man/figures/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 
 
@@ -1056,18 +1140,17 @@ names(sstFile$dim)
 
 ```r
 sstFile$dim$longitude$vals
-#>  [1] 210.0000 210.0125 210.0250 210.0375 210.0500 210.0625 210.0750
-#>  [8] 210.0875 210.1000 210.1125 210.1250 210.1375 210.1500 210.1625
-#> [15] 210.1750 210.1875 210.2000 210.2125 210.2250 210.2375 210.2500
-#> [22] 210.2625 210.2750 210.2875 210.3000 210.3125 210.3250 210.3375
-#> [29] 210.3500 210.3625 210.3750 210.3875 210.4000 210.4125 210.4250
-#> [36] 210.4375 210.4500 210.4625 210.4750 210.4875 210.5000 210.5125
-#> [43] 210.5250 210.5375 210.5500 210.5625 210.5750 210.5875 210.6000
-#> [50] 210.6125 210.6250 210.6375 210.6500 210.6625 210.6750 210.6875
-#> [57] 210.7000 210.7125 210.7250 210.7375 210.7500 210.7625 210.7750
-#> [64] 210.7875 210.8000 210.8125 210.8250 210.8375 210.8500 210.8625
-#> [71] 210.8750 210.8875 210.9000 210.9125 210.9250 210.9375 210.9500
-#> [78] 210.9625 210.9750 210.9875 211.0000
+#>  [1] 210.0000 210.0125 210.0250 210.0375 210.0500 210.0625 210.0750 210.0875
+#>  [9] 210.1000 210.1125 210.1250 210.1375 210.1500 210.1625 210.1750 210.1875
+#> [17] 210.2000 210.2125 210.2250 210.2375 210.2500 210.2625 210.2750 210.2875
+#> [25] 210.3000 210.3125 210.3250 210.3375 210.3500 210.3625 210.3750 210.3875
+#> [33] 210.4000 210.4125 210.4250 210.4375 210.4500 210.4625 210.4750 210.4875
+#> [41] 210.5000 210.5125 210.5250 210.5375 210.5500 210.5625 210.5750 210.5875
+#> [49] 210.6000 210.6125 210.6250 210.6375 210.6500 210.6625 210.6750 210.6875
+#> [57] 210.7000 210.7125 210.7250 210.7375 210.7500 210.7625 210.7750 210.7875
+#> [65] 210.8000 210.8125 210.8250 210.8375 210.8500 210.8625 210.8750 210.8875
+#> [73] 210.9000 210.9125 210.9250 210.9375 210.9500 210.9625 210.9750 210.9875
+#> [81] 211.0000
 ```
 
 The names of the variables in the netCDF file can be found from:

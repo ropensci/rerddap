@@ -1,7 +1,7 @@
 ---
 title: rerddap introduction
 author: Scott Chamberlain
-date: "2020-11-02"
+date: "2021-11-18"
 output: rmarkdown::html_vignette
 vignette: >
     %\VignetteIndexEntry{rerddap introduction}
@@ -26,7 +26,7 @@ When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from
 
 ## ERDDAP servers
 
-You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
+You can get a data.frame of ERDDAP servers using the function `servers()`. The list of ERDDAP servers is drawn from the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).  If you know of more ERDDAP servers, follow the instructions on that page to add the server.
 
 ## Install
 
@@ -56,32 +56,39 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 
 ```r
 ed_search(query = 'size', which = "table")
-#> # A tibble: 9 x 2
+#> # A tibble: 9 × 2
 #>   title                                                         dataset_id      
 #>   <chr>                                                         <chr>           
-#> 1 CalCOFI Larvae Sizes                                          erdCalCOFIlrvsiz
-#> 2 Channel Islands, Kelp Forest Monitoring, Size and Frequency,… erdCinpKfmSFNH  
-#> 3 PacIOOS Beach Camera 001: Waikiki, Oahu, Hawaii               BEACHCAM-001    
-#> 4 CalCOFI Larvae Counts Positive Tows                           erdCalCOFIlrvcn…
-#> 5 CalCOFI Tows                                                  erdCalCOFItows  
-#> 6 File Names from the AWS S3 noaa-goes16 Bucket                 awsS3NoaaGoes16 
-#> 7 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature an… nodcPJJU        
-#> 8 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002            erdGlobecMoc1   
-#> 9 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001        erdGlobecVpt
+#> 1 Channel Islands, Kelp Forest Monitoring, Size and Frequency,… erdCinpKfmSFNH  
+#> 2 CalCOFI Larvae Sizes                                          erdCalCOFIlrvsiz
+#> 3 CalCOFI Larvae Counts Positive Tows                           erdCalCOFIlrvcn…
+#> 4 CalCOFI Tows                                                  erdCalCOFItows  
+#> 5 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002            erdGlobecMoc1   
+#> 6 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001        erdGlobecVpt    
+#> 7 File Names from the AWS S3 noaa-goes16 Bucket                 awsS3NoaaGoes16 
+#> 8 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature an… nodcPJJU        
+#> 9 PacIOOS Beach Camera 001: Waikiki, Oahu, Hawaii               BEACHCAM-001
 ```
 
 
 ```r
 ed_search(query = 'size', which = "grid")
-#> # A tibble: 6 x 2
+#> # A tibble: 5 × 2
 #>   title                                                      dataset_id         
 #>   <chr>                                                      <chr>              
 #> 1 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_da08_dcd…
 #> 2 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0fe5_a4b…
 #> 3 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_5253_bf9…
 #> 4 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0f24_2f8…
-#> 5 SST and SST Anomaly, NOAA Global Coral Bleaching Monitori… NOAA_DHW_monthly   
-#> 6 NOAA Coral Reef Watch Operational Daily Near-Real-Time Gl… dhw_5km
+#> 5 SST and SST Anomaly, NOAA Global Coral Bleaching Monitori… NOAA_DHW_monthly
+```
+
+There is now a convenience function to search over a list of ERDDAP servers,  designed to work with the function `servers()`
+
+
+```r
+global_search(query, server_list, which_service)
+#> Error in global_search(query, server_list, which_service): could not find function "global_search"
 ```
 
 ## Information
@@ -92,7 +99,7 @@ Then you can get information on a single dataset
 ```r
 info('erdCalCOFIlrvsiz')
 #> <ERDDAP info> erdCalCOFIlrvsiz 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: tabledap 
 #>  Variables:  
 #>      calcofi_species_code: 
@@ -112,10 +119,10 @@ First, get information on a dataset to see time range, lat/long range, and varia
 ```r
 (out <- info('erdMBchla1day'))
 #> <ERDDAP info> erdMBchla1day 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2020-10-31T12:00:00Z) 
+#>      time: (2006-01-01T12:00:00Z, 2021-11-16T12:00:00Z) 
 #>      altitude: (0.0, 0.0) 
 #>      latitude: (-45.0, 65.0) 
 #>      longitude: (120.0, 320.0) 
@@ -134,14 +141,14 @@ Then query for gridded data using the `griddap()` function
   longitude = c(125, 126)
 ))
 #> <ERDDAP griddap> erdMBchla1day
-#>    Path: [/Users/sckott/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
-#>    Last updated: [2020-11-02 14:30:54]
+#>    Path: [/Users/rmendels/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
+#>    Last updated: [2021-11-18 15:58:06]
 #>    File size:    [0.03 mb]
 #>    Dimensions (dims/vars):   [4 X 1]
 #>    Dim names: time, altitude, latitude, longitude
 #>    Variable names: Chlorophyll Concentration in Sea Water
 #>    data.frame (rows/columns):   [5043 X 5]
-#> # A tibble: 5,043 x 5
+#> # A tibble: 5,043 × 5
 #>    time                   lat   lon altitude chlorophyll
 #>    <chr>                <dbl> <dbl>    <dbl>       <dbl>
 #>  1 2015-01-01T12:00:00Z    14  125         0          NA
@@ -163,7 +170,7 @@ The output of `griddap()` is a list that you can explore further. Get the summar
 ```r
 res$summary
 #> $filename
-#> [1] "/Users/sckott/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc"
+#> [1] "/Users/rmendels/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc"
 #> 
 #> $writable
 #> [1] FALSE
@@ -208,7 +215,7 @@ head(res$data)
 ```r
 (out <- info('erdCalCOFIlrvsiz'))
 #> <ERDDAP info> erdCalCOFIlrvsiz 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap/ 
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: tabledap 
 #>  Variables:  
 #>      calcofi_species_code: 
@@ -225,22 +232,22 @@ head(res$data)
 (dat <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
   'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
 #> <ERDDAP tabledap> erdCalCOFIlrvsiz
-#>    Path: [/Users/sckott/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
-#>    Last updated: [2020-11-02 14:30:57]
+#>    Path: [/Users/rmendels/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
+#>    Last updated: [2021-11-18 15:58:09]
 #>    File size:    [0.05 mb]
-#> # A tibble: 1,304 x 4
-#>    latitude  longitude   larvae_size scientific_name     
-#>    <chr>     <chr>       <chr>       <chr>               
-#>  1 35.455    -124.903336 8.0         Sardinops sagax     
-#>  2 32.956665 -117.305    4.5         Engraulis mordax    
-#>  3 32.91     -117.4      5.0         Merluccius productus
-#>  4 32.511665 -118.21167  4.0         Engraulis mordax    
-#>  5 32.511665 -118.21167  2.5         Engraulis mordax    
-#>  6 32.511665 -118.21167  3.5         Engraulis mordax    
-#>  7 32.511665 -118.21167  6.0         Merluccius productus
-#>  8 32.511665 -118.21167  3.0         Sardinops sagax     
-#>  9 32.511665 -118.21167  5.0         Sardinops sagax     
-#> 10 32.511665 -118.21167  2.8         Merluccius productus
+#> # A tibble: 1,304 × 4
+#>    latitude  longitude  larvae_size scientific_name     
+#>    <chr>     <chr>      <chr>       <chr>               
+#>  1 32.956665 -117.305   4.5         Engraulis mordax    
+#>  2 32.91     -117.4     5.0         Merluccius productus
+#>  3 32.511665 -118.21167 2.0         Merluccius productus
+#>  4 32.511665 -118.21167 3.0         Merluccius productus
+#>  5 32.511665 -118.21167 5.5         Merluccius productus
+#>  6 32.511665 -118.21167 6.0         Merluccius productus
+#>  7 32.511665 -118.21167 2.8         Merluccius productus
+#>  8 32.511665 -118.21167 3.0         Sardinops sagax     
+#>  9 32.511665 -118.21167 5.0         Sardinops sagax     
+#> 10 32.511665 -118.21167 2.5         Engraulis mordax    
 #> # … with 1,294 more rows
 ```
 
@@ -254,7 +261,7 @@ dat %>%
   group_by(scientific_name) %>%
   summarise(mean_size = mean(larvae_size)) %>%
   arrange(desc(mean_size))
-#> # A tibble: 7 x 2
+#> # A tibble: 7 × 2
 #>   scientific_name       mean_size
 #>   <chr>                     <dbl>
 #> 1 Anoplopoma fimbria        23.3 
