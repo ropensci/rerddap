@@ -70,7 +70,7 @@ The complete list of rerddap functions can be seen by looking at he `rerddap` pa
 
 and selecting the index of the package.  The main functions used here are:
 
-* the list of servers `rerddap` knows about - `server()`
+* the list of servers `rerddap` knows about - `servers()`
 * search an <span style="color:red">ERDDAP</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
 * search a list of  <span style="color:red">ERDDAP</span> servers for terms - `global_search(query, server_list, which_service)`
 * get a list of datasets on an <span style="color:red">ERDDAP</span> server - `ed_datasets(which = "tabledap", url = eurl())`
