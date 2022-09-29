@@ -3,9 +3,9 @@
 #' @export
 #' @template griddap_params
 #' @template griddap_egs
-griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
+griddap <- function(datasetx, ..., fields = 'all', stride = 1, fmt = "nc",
   url = eurl(), store = disk(), read = TRUE, callopts = list()) {
-
+  x <- datasetx
   calls <- names(sapply(match.call(), deparse))[-1]
   calls_vec <- "ncdf" %in% calls
   if (any(calls_vec)) {
@@ -19,8 +19,9 @@ griddap <- function(x, ..., fields = 'all', stride = 1, fmt = "nc",
   if (inherits(x, "info")) {
     url <- x$base_url
     message("info() output passed to x; setting base url to: ", url)
+  } else {
+    x <- as.info(x, url)
   }
-  x <- as.info(x, url)
   if (attr(x, "type") != "griddap")
     stop("datasetid '", attr(x, "datasetid"), "' not of type griddap")
   check_dims(dimargs, x)

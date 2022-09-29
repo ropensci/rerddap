@@ -9,8 +9,6 @@ cran-comments.md
 man-roxygen
 ^CODE_OF_CONDUCT\.md$
 ^cran-comments\.md$
-vignettes/cache
-vignettes/figure
 ^codemeta\.json$
 ^revdep$
 ^rerddap-.*\.tar\.gz$
@@ -26,10 +24,5 @@ tests/vcr_cassettes/tabledap_disk.yml
 tests/vcr_cassettes/griddap_fixes_user_inputs_2.yml
 ^\.github$
 ^LICENSE\.md$
-vignettes/rerddap.Rmd
-vignettes/Using_rerddap.Rmd
-vignettes/rerddap.Rmd.org
-vignettes/Using_rerddap.Rmd.org
-man/figures
 revdep/
 ^CRAN-RELEASE$

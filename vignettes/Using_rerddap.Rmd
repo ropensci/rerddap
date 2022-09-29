@@ -1,15 +1,24 @@
 ---
 title: "Using rerddap to Access Data from ERDDAP Servers"
 author: "Roy Mendelssohn and Scott Chamberlain"
-date: "2021-11-18"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{usimg rerddap}
+  %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
 
-
+```{r initialize, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>", 
+  cache.path = "cache/",
+  fig.path = "man/figures/"
+)
+library(rerddap)
+data("colors")
+```
 
 
 ## Introduction
@@ -23,22 +32,19 @@ This vignette goes over some of the nuts and bolts of using the `rerddap` packag
 The first step is to install the `rerddap` package, the stable version is available from CRAN:
 
 
-
-```r
+```{r, eval = FALSE}
 install.packages("rerddap")
 ```
 
 or the development version can be installed from GitHub:
 
-
-```r
+```{r, eval = FALSE}
 remotes::install_github("ropensci/rerddap")
 ```
 
 and to load the library:
 
-
-```r
+```{r}
 library("rerddap")
 ```
 
@@ -46,9 +52,7 @@ Besides `rerddap` the following libraries are used in this vignette:
 
 
 
-
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 library("akima")
 library("dplyr")
 library("ggplot2")
@@ -63,14 +67,13 @@ Code chunks are always given with the required libraries so that the chunks are 
 
 The complete list of rerddap functions can be seen by looking at he `rerddap` package help:
 
-
-```r
+```{r, eval = FALSE}
 ?rerddap
 ```
 
 and selecting the index of the package.  The main functions used here are:
 
-* the list of servers `rerddap` knows about - `servers()`
+* the list of servers `rerddap` knows about - `server()`
 * search an <span style="color:red">ERDDAP</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
 * search a list of  <span style="color:red">ERDDAP</span> servers for terms - `global_search(query, server_list, which_service)`
 * get a list of datasets on an <span style="color:red">ERDDAP</span> server - `ed_datasets(which = "tabledap", url = eurl())`
@@ -80,15 +83,13 @@ and selecting the index of the package.  The main functions used here are:
 
 Be careful when using the functions `ed_search()`, `ed_datasets()` and `global_search()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
 
-
-```r
+```{r, eval = FALSE}
 whichSST <- ed_search(query = "SST")
 ```
 
 returns about 1000 responses.  The more focused query:
 
-
-```r
+```{r, eval = FALSE}
 whichSST <- ed_search(query = "SST MODIS")
 ```
 
@@ -99,23 +100,8 @@ still returns 172 responses.  If the simple search doesn't narrow things enough,
 The first way to find a dataset is to browse the builtin web page for a particular <span style="color:red">ERDDAP</span> server.
 A list of some of the public available <span style="color:red">ERDDAP</span> servers can be obtained from the `rerddap` command:
 
-
-```r
+```{r}
 servers()
-#> # A tibble: 58 × 4
-#>    name                                 short_name  url                   public
-#>    <chr>                                <chr>       <chr>                 <lgl> 
-#>  1 CoastWatch West Coast Node           CSWC        https://coastwatch.p… TRUE  
-#>  2 ERDDAP at the Asia-Pacific Data-Res… APDRC       https://apdrc.soest.… TRUE  
-#>  3 NOAA's National Centers for Environ… NCEI        https://www.ncei.noa… TRUE  
-#>  4 Biological and Chemical Oceanograph… BCODMO      https://erddap.bco-d… TRUE  
-#>  5 European Marine Observation and Dat… EMODnet     https://erddap.emodn… TRUE  
-#>  6 Marine Institute - Ireland           MII         https://erddap.marin… TRUE  
-#>  7 CoastWatch Caribbean/Gulf of Mexico… CSCGOM      https://cwcgom.aoml.… TRUE  
-#>  8 NOAA IOOS Sensors ERDDAP             IOOS-Senso… https://erddap.senso… TRUE  
-#>  9 NOAA IOOS CeNCOOS (Central and Nort… CeNCOOS     https://erddap.axiom… TRUE  
-#> 10 CeNCOOS (Central and Northern Calif… CeNCOOS ER… http://erddap.cencoo… TRUE  
-#> # … with 48 more rows
 ```
 
 The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).
@@ -134,10 +120,8 @@ We discuss each of these steps in more detail, and then look at some realistic u
 
 This may seem to be a strange step in the process, but it is important because many of the datasets are high-resolution, and data requests can get very large, very quickly.  As an example, based on a real use case.  The MUR SST (	Multi-scale Ultra-high Resolution (MUR) SST Analysis fv04.1, see https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41.html )  is a daily, high-quality, high-resolution sea surface temperature product.  The user wanted the MUR data for a 2x2-degree box, daily for a year.  That seems innocuous enough.  Except that MURsst is at a one-hundreth of degree resolution.  If we assume just a binary representation of the data, assuming 8-bytes per value, and do the math:
 
-
-```r
+```{r}
 100*100*4*8*365
-#> [1] 116800000
 ```
 
 
@@ -151,125 +135,18 @@ One of the main advantages of a service such as <span style="color:red">ERDDAP</
 
 If you know the datasetID of the data you are after, and are unsure if it is a grid or a table,  there are several ways to find out. We will look at two datasets, 'jplMURSST41' and 'siocalcofiHydroCasts'.  The first method is to use the `rerddap` function `browse()`
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 browse('jplMURSST41')
-browse('siocalcofiHydroCasts')
+browse('siocalcofiHydroCast')
 ```
 
 which brings up information on the datasets in the browser, in the first case the "data" link is under "griddap", the second is under "tabledap".
 
 The other method is to use the `rerddap` function `info`:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 info('jplMURSST41')
-#> <ERDDAP info> jplMURSST41 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: griddap 
-#>  Dimensions (range):  
-#>      time: (2002-06-01T09:00:00Z, 2021-11-17T09:00:00Z) 
-#>      latitude: (-89.99, 89.99) 
-#>      longitude: (-179.99, 180.0) 
-#>  Variables:  
-#>      analysed_sst: 
-#>          Units: degree_C 
-#>      analysis_error: 
-#>          Units: degree_C 
-#>      mask: 
-#>      sea_ice_fraction: 
-#>          Units: 1
-info('siocalcofiHydroCasts')
-#> <ERDDAP info> siocalcofiHydroCasts 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: tabledap 
-#>  Variables:  
-#>      ac_line: 
-#>      ac_sta: 
-#>      barometer: 
-#>          Units: millibars 
-#>      bottom_d: 
-#>          Units: meters 
-#>      cast_id: 
-#>      civil_t: 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      cloud_amt: 
-#>          Units: oktas 
-#>      cloud_typ: 
-#>      cruise_id: 
-#>      cruz_leg: 
-#>      cruz_num: 
-#>      cruz_sta: 
-#>      cst_cnt: 
-#>      data_or: 
-#>      data_type: 
-#>      date: 
-#>      dbsta_id: 
-#>      distance: 
-#>      dry_t: 
-#>          Units: degree C 
-#>      event_num: 
-#>      forelu: 
-#>          Units: Forel-Ule scale 
-#>      inc_end: 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      inc_str: 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      intc14: 
-#>          Units: milligrams Carbon per square meter 
-#>      intchl: 
-#>      julian_date: 
-#>      julian_day: 
-#>      latitude: 
-#>          Range: 18.417, 47.917 
-#>          Units: degrees_north 
-#>      latitude_degrees: 
-#>      latitude_hemisphere: 
-#>      latitude_minutes: 
-#>      longitude: 
-#>          Range: -164.083, -105.967 
-#>          Units: degrees_east 
-#>      longitude_degrees: 
-#>      longitude_hemisphere: 
-#>      longitude_minutes: 
-#>      month: 
-#>          Range: 1, 12 
-#>      order_occ: 
-#>      orig_sta_id: 
-#>      pst_lan: 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      quarter: 
-#>      rpt_line: 
-#>      rpt_sta: 
-#>      secchi: 
-#>          Units: meters 
-#>      ship_code: 
-#>      ship_name: 
-#>      st_line: 
-#>      st_station: 
-#>      sta_code: 
-#>      sta_id: 
-#>      time: 
-#>          Range: -6.5759508E8, 1.423140778E9 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      time_ascii: 
-#>      timezone: 
-#>      visibility: 
-#>      wave_dir: 
-#>          Units: degrees 
-#>      wave_ht: 
-#>          Units: feet 
-#>      wave_prd: 
-#>          Units: seconds 
-#>      wea: 
-#>      wet_t: 
-#>          Units: degree C 
-#>      wind_dir: 
-#>          Units: degrees 
-#>      wind_spd: 
-#>          Units: knots 
-#>      year: 
-#>          Range: 1949, 2015
+info('siocalcofiHydroCast')
 ```
 
 Notice the information on 'jplMURSST41' lists the dimensions (that is a grid) while that of 'siocalcofiHydroCasts' does not (that is a table).
@@ -278,8 +155,7 @@ Notice the information on 'jplMURSST41' lists the dimensions (that is a grid) wh
 
 Like an <span style="color:red">R</span> array, <span style="color:red">ERDDAP</span> grids are subsetted by setting limits on the dimension variables, the difference being that a subset is defined in coordinate space  (latitude values, longitude values, time values) rather than array space as is done with <span style="color:red">R</span> arrays.  Thus for 'jplMURSST41' if the desired area of the data extract is latitude limits of (22N, 51N), longitude limits of (140W, 105W), and with time limits of (2017-01-01, 2017-01-02) the following would be passed to the function `griddap()`:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 latitude = c(22., 51.)
 longitude = c(-140., -105)
 time = c("2017-01-01", "2017-01-02")
@@ -287,8 +163,7 @@ time = c("2017-01-01", "2017-01-02")
 
 A full `griddap()` request to retrieve "analysed_sst" with these constraints would be:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 sstInfo <- info('jplMURSST41')
 murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), time = c("2017-01-01", "2017-01-02"), fields = 'analysed_sst')
 
@@ -298,8 +173,7 @@ murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), t
 
 Strides allow to retrieve data within a coordinate bound only at every "n" values,  where "n" is an integer - think of the "by" part of the <span style="color:red">R</span> function `seq()`.  This is useful say for a monthly dataset where only the December values are desired, or you want to subsample a very high resolution dataset.  The default is a stride of 1 for all dimensions.  If you want to change the stride value in any dimension, then the value must be given for all dimensions.  So in the previous example, if only every fifth longitude is desired, the call would be:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), time = c("2017-01-01", "2017-01-02"), stride = c(1,1,5), fields = 'analysed_sst')
 
 ```
@@ -315,8 +189,7 @@ When <span style="color:red">ERDDAP</span> receives a request where the bounds a
 
 Tables in <span style="color:red">ERDDAP</span> are subset by using "constraint expressions" on any variable in the table.  The valid operators are =, != (not equals), =~ (a regular expression test), <, <=, >, and >=.  The constraint is constructed as the parameter on the left, value on the right, and the operator in the middle, all within a set of quotes. For example, if in the SWFSC/FRD trawl catch data (datasetID 'FRDCPSTrawlLHHaulCatch'), only sardines for 2010  were desired,  the following constraints would be set in the `tabledap()` call:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 'time>=2010-01-01'
 'time<=2010-12-31'
 'scientific_name="Sardinops sagax"'
@@ -325,11 +198,10 @@ Tables in <span style="color:red">ERDDAP</span> are subset by using "constraint 
 
 Note that in `tabledap()` character strings usually must be passed as "double-quoted", as seen in the example with the scientific name. A full `tabledap()` request to retrieve 'latitude',  'longitude', 'time', 'scientific_name', and 'subsample_count' with these constraints would be:
 
-
-```r
+```{r cache = TRUE, eval = FALSE, echo = TRUE }
 CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2010-12-31', 'scientific_name="Sardinops sagax"' )
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
+
 ```
 
 ##  Searching
@@ -347,18 +219,16 @@ Given a base <span style="color:red">ERDDAP</span> URL, the function `ed_search(
 
 MUR (Multi-scale Ultra-high Resolution) is an analyzed SST product at 0.01-degree resolution going back to 2002, providing one of the longest satellite based time series at such high resolution (see https://podaac.jpl.nasa.gov/dataset/MUR-JPL-L4-GLOB-v4.1). The latest data available for a region off the west coast can be extracted and plotted by:
 
-
-```r
+```{r MUR, eval = FALSE, echo = TRUE}
 require("ggplot2")
 require("mapdata")
 require("rerddap")
 sstInfo <- info('jplMURSST41')
 # get latest daily sst
 murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), time = c('last','last'), fields = 'analysed_sst')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 mycolor <- colors$temperature
 w <- map_data("worldHires", ylim = c(22., 51.), xlim = c(-140, -105))
-ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
+ggplot(data = murSST$data, aes(x = longitude, y = latitude, fill = analysed_sst)) +
     geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
     geom_raster(interpolate = FALSE) +
     scale_fill_gradientn(colours = mycolor, na.value = NA) +
@@ -366,9 +236,7 @@ ggplot(data = murSST$data, aes(x = lon, y = lat, fill = analysed_sst)) +
     coord_fixed(1.3, xlim = c(-140, -105),  ylim = c(22., 51.)) + ggtitle("Latest MUR SST")
 ```
 
-<img src="man/figures/MUR-1.png" title="plot of chunk MUR" alt="plot of chunk MUR" style="display: block; margin: auto;" />
-
-
+![](MUR_sst.png)
 
 ### VIIRS SST and Chlorophyll
 
@@ -376,18 +244,16 @@ VIIRS (Visible Infrared Imaging Radiometer Suite)  is a scanning radiometer, tha
 
 ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product. The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
 
-
-```r
+```{r VIIRS, echo = TRUE, eval = FALSE}
 require("ggplot2")
 require("mapdata")
 require("rerddap")
 sstInfo <- info('erdVHsstaWS3day')
 # get latest 3-day composite sst
 viirsSST <- griddap(sstInfo, latitude = c(41., 31.), longitude = c(-128., -115), time = c('last','last'), fields = 'sst')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 # remap latitiudes and longitudes to even grid
-myLats <- unique(viirsSST$data$lat)
-myLons <- unique(viirsSST$data$lon)
+myLats <- unique(viirsSST$data$latitude)
+myLons <- unique(viirsSST$data$longitude)
 myLats <- seq(range(myLats)[1], range(myLats)[2], length.out = length(myLats))
 myLons <- seq(range(myLons)[1], range(myLons)[2], length.out = length(myLons))
 # melt these out to full grid
@@ -403,41 +269,37 @@ ggplot(data = tempFrame, aes(x = lon, y = lat, fill = sst)) +
     scale_fill_gradientn(colours = mycolor, na.value = NA) +
     theme_bw() + ylab("latitude") + xlab("longitude") +
     coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + ggtitle("Latest VIIRS 3-day SST")
+
 ```
 
-<img src="man/figures/VIIRS-1.png" title="plot of chunk VIIRS" alt="plot of chunk VIIRS" style="display: block; margin: auto;" />
+![](VIIRS_sst.png)
+
 
 A time series from the same dataset at a given location,  here (36., -126.):
 
-
-```r
+```{r, echo = TRUE, eval = FALSE}
 require("ggplot2")
 require("rerddap")
 viirsSST1 <- griddap(sstInfo, latitude = c(36., 36.), 
                      longitude = c(-126., -126.), 
                      time = c('2015-01-01','2015-12-31'), fields = 'sst')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 tempTime <- as.Date(viirsSST1$data$time, origin = '1970-01-01', tz = "GMT")
 tempFrame <- data.frame(time = tempTime, sst = viirsSST1$data$sst)
 ```
 
-
-```r
+```{r, echo = TRUE, eval = FALSE}
 ggplot(tempFrame, aes(time, sst)) + 
   geom_line() + 
   theme_bw() + 
   ylab("sst") +
   ggtitle("VIIRS SST at (36N, 126W)")
 ```
-
-![plot of chunk unnamed-chunk-18](man/figures/unnamed-chunk-18-1.png)
-
+![](VIIRS_sst_series.png)
 
 
 A similar 3-day composite for chloropyll for the same region from a scientific quality product developed by NOAA:
 
-
-```r
+```{r VHNCHla, eval = FALSE, echo = TRUE}
 require("ggplot2")
 require("mapdata")
 require("rerddap")
@@ -445,33 +307,29 @@ chlaInfo <- info('erdVHNchla3day')
 viirsCHLA <- griddap(chlaInfo, latitude = c(41., 31.), 
                      longitude = c(-128., -115), time = c('last','last'), 
                      fields = 'chla')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 ```
 
-
-```r
-# get latest 3-day composite sst
+```{r, eval = FALSE, echo = TRUE}
 mycolor <- colors$chlorophyll
 w <- map_data("worldHires", ylim = c(30., 42.), xlim = c(-128, -114))
-ggplot(data = viirsCHLA$data, aes(x = lon, y = lat, fill = log(chla))) +
+ggplot(data = viirsCHLA$data, aes(x = longitude, y = latitude, fill = log(chla))) +
   geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
   geom_raster(interpolate = FALSE) +
   scale_fill_gradientn(colours = mycolor, na.value = NA) +
   theme_bw() + ylab("latitude") + xlab("longitude") +
   coord_fixed(1.3, xlim = c(-128, -114),  ylim = c(30., 42.)) + 
   ggtitle("Latest VIIRS 3-day Chla")
-#> Warning: Removed 2015680 rows containing missing values (geom_raster).
 ```
 
-![plot of chunk unnamed-chunk-19](man/figures/unnamed-chunk-19-1.png)
+![](VIIRS_chla.png)
+
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
-This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see http://www.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
+This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://www.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
 
 
-
-```r
+```{r eval = FALSE, echo = TRUE}
 require("rerddap")
 dataInfo <- rerddap::info('hawaii_d90f_20ee_c4cb')
 xpos <- c(135.25, 240.25)
@@ -480,21 +338,13 @@ zpos <- c(70.02, 70.02)
 tpos <- c('2010-12-15', '2010-12-15')
 soda70 <- griddap(dataInfo,  longitude = xpos, latitude = ypos, 
                   time = tpos, depth = zpos, fields = 'temp' )
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-str(soda70$data)
-#> 'data.frame':	17091 obs. of  5 variables:
-#>  $ time : chr  "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" "2010-12-15T00:00:00Z" ...
-#>  $ lat  : num  20.2 20.2 20.2 20.2 20.2 ...
-#>  $ lon  : num  135 136 136 137 137 ...
-#>  $ depth: num  70 70 70 70 70 ...
-#>  $ temp : num  27.1 27.1 27.5 27.8 28.2 ...
+
 ```
 
 Since the data cross the dateline, it is necessary to use the new "world2Hires" continental outlines in the package `mapdata` which is Pacific Ocean centered.  Unfortunatley there is a small problem where the outlines from certain countries wrap and mistakenly appear in plots, and those countries must be removed,  see code below.
 
 
-
-```r
+```{r soda70Plot, eval = FALSE, echo = TRUE}
 require("ggplot2")
 require("mapdata")
 xlim <- c(135, 240)
@@ -505,7 +355,7 @@ w1 <- map("world2Hires", xlim = c(135, 240), ylim = c(20, 60), fill = TRUE, plot
 remove <- c("UK:Great Britain", "France", "Spain", "Algeria", "Mali", "Burkina Faso", "Ghana", "Togo")
 w <- map_data("world2Hires", regions = w1$names[!(w1$names %in% remove)], ylim = ylim, xlim = xlim)
 myplot <- ggplot() +
-    geom_raster(data = soda70$data, aes(x = lon, y = lat, fill = temp), interpolate = FALSE) +
+    geom_raster(data = soda70$data, aes(x = longitude, y = latitude, fill = temp), interpolate = FALSE) +
     geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(-3,30), name = "temperature") +
     ylab("latitude") + xlab("longitude") +
@@ -514,38 +364,27 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="man/figures/soda70Plot-1.png" title="plot of chunk soda70Plot" alt="plot of chunk soda70Plot" style="display: block; margin: auto;" />
-
-
+![](soda70.png)
 
 ### Irish Marine Institute {#hourly}
 
-The Irish Marine Institute has an <span style="color:red">ERDDAP</span> server at http://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see http://erddap.marine.ie/erddap/griddap/IMI_NEATL.html.  To obtain the latest sea surface salinity for the domain of the model:
+The Irish Marine Institute has an <span style="color:red">ERDDAP</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see https://erddap.marine.ie/erddap/griddap/IMI_NEATL.html.  To obtain the latest sea surface salinity for the domain of the model:
 
-
-```r
+```{r NAtlSSS, eval = FALSE, echo = TRUE}
 require("rerddap")
-urlBase <- "http://erddap.marine.ie/erddap/"
+urlBase <- "https://erddap.marine.ie/erddap/"
 parameter <- "sea_surface_salinity"
 sssTimes <- c("last", "last")
 sssLats <- c(48.00625, 57.50625)
 sssLons <- c(-17.99375, -1.00625)
 dataInfo <- rerddap::info("IMI_NEATL", url = urlBase)
 NAtlSSS <- griddap(dataInfo, longitude = sssLons, latitude = sssLats, time = sssTimes, fields = parameter, url = urlBase)
-#> info() output passed to x; setting base url to: http://erddap.marine.ie/erddap
-str(NAtlSSS$data)
-#> 'data.frame':	1034960 obs. of  4 variables:
-#>  $ time                : chr  "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" "2021-08-14T00:00:00Z" ...
-#>  $ lat                 : num  48 48 48 48 48 ...
-#>  $ lon                 : num  -18 -18 -18 -18 -17.9 ...
-#>  $ sea_surface_salinity: num  35.5 35.5 35.5 35.5 35.5 ...
 ```
 
 
 and the extracted data plotted:
 
-
-```r
+```{r NAtlSSSplot, eval = FALSE, echo = TRUE}
 require("ggplot2")
 require("mapdata")
 xlim <- c(-17.99375, -1.00625)
@@ -553,7 +392,7 @@ ylim <- c(48.00625, 57.50625)
 my.col <- colors$salinity
 w <- map_data("worldHires", ylim = ylim, xlim = xlim)
 myplot <- ggplot() +
-    geom_raster(data = NAtlSSS$data, aes(x = lon, y = lat, fill = sea_surface_salinity), interpolate = FALSE) +
+    geom_raster(data = NAtlSSS$data, aes(x = longitude, y = latitude, fill = sea_surface_salinity), interpolate = FALSE) +
     geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(34, 36), name = "salinity") +
     ylab("latitude") + xlab("longitude") +
@@ -562,41 +401,28 @@ myplot <- ggplot() +
 myplot
 ```
 
-<img src="man/figures/NAtlSSSplot-1.png" title="plot of chunk NAtlSSSplot" alt="plot of chunk NAtlSSSplot" style="display: block; margin: auto;" />
-
-
+![](NAtlSSS.png)
 
 ### IFREMER
 
 The French agency IFREMER also has an <span style="color:red">ERDDAP</span> server. Here salinity data at 75 meters from "Global Ocean, Coriolis Observation Re-Analysis CORA4.1" model off the west coast of the United States is extracted and plotted.
 
-
-```r
+```{r IFREMER, eval = FALSE, echo = TRUE}
 require("rerddap")
-urlBase <- "http://www.ifremer.fr/erddap/"
+urlBase <- "https://www.ifremer.fr/erddap/"
 parameter <- "PSAL"
-ifrTimes <- c("2013-05-15", "2013-05-15")
+ifrTimes <- c("2019-05-15", "2019-05-15")
 ifrLats <- c(30., 50.)
 ifrLons <- c(-140., -110.)
 ifrDepth <- c(75., 75.)
-dataInfo <- rerddap::info("ifremer_tds0_6080_109e_ed80", url = urlBase)
-#> Error: 'Error {
-#>     code=404;
-#>     message="Not Found: Currently unknown datasetID=ifremer_tds0_6080_109e_ed80";
-#> }
-#> ' does not exist in current working directory ('/Users/rmendels/WorkFiles/rerddap/vignettes').
+dataInfo <- rerddap::info("CORIOLIS_GLOBAL_NRTOA_OBS_TIME_SERIE_PSAL", url = urlBase)
 ifrPSAL <- griddap(dataInfo, longitude = ifrLons, latitude = ifrLats, time = ifrTimes, depth = ifrDepth,  fields = parameter, url = urlBase)
-#> info() output passed to x; setting base url to: http://erddap.marine.ie/erddap
-#> Error: Some input dimensions (longitude, latitude, time, depth) don't match those in dataset (time, latitude, longitude)
-str(ifrPSAL$data)
-#> Error in str(ifrPSAL$data): object 'ifrPSAL' not found
 ```
 
 The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coordinates, as are the latitudes from this model.  The function `interp()` from the package `akima` is used to interpolate the data which are then plotted.
 
 
-
-```r
+```{r ifrPSALplot, eval = FALSE, echo = TRUE}
 ## ggplot2 has trouble with unequal y's
  require("akima")
  require("dplyr")
@@ -607,23 +433,13 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 ## ggplot2 has trouble with unequal y's
   my.col <- colors$salinity
   tempData1 <- ifrPSAL$data$PSAL
-#> Error in eval(expr, envir, enclos): object 'ifrPSAL' not found
   tempData <- array(tempData1 , 61 * 54)
-#> Error in array(tempData1, 61 * 54): object 'tempData1' not found
-  tempFrame <- data.frame(x = ifrPSAL$data$lon, y = ifrPSAL$data$lat)
-#> Error in data.frame(x = ifrPSAL$data$lon, y = ifrPSAL$data$lat): object 'ifrPSAL' not found
+  tempFrame <- data.frame(x = ifrPSAL$data$longitude, y = ifrPSAL$data$latitude)
   tempFrame$temp <- tempData
-#> Error in eval(expr, envir, enclos): object 'tempData' not found
   tempFrame1 <- dplyr::filter(tempFrame, !is.nan(temp))
-#> Error: Problem with `filter()` input `..1`.
-#> ℹ Input `..1` is `!is.nan(temp)`.
-#> ✖ object 'temp' not found
   myinterp <- akima::interp(tempFrame1$x, tempFrame1$y, tempFrame1$temp, xo = seq(min(tempFrame1$x), max(tempFrame1$x), length = 61), yo = seq(min(tempFrame1$y), max(tempFrame1$y), length = 54))
-#> Error in akima::interp(tempFrame1$x, tempFrame1$y, tempFrame1$temp, xo = seq(min(tempFrame1$x), : object 'tempFrame1' not found
   myinterp1 <- expand.grid(x = myinterp$x, y = myinterp$y)
-#> Error in expand.grid(x = myinterp$x, y = myinterp$y): object 'myinterp' not found
   myinterp1$temp <- array(myinterp$z, 61 * 54)
-#> Error in array(myinterp$z, 61 * 54): object 'myinterp' not found
   w <- map_data("worldHires", ylim = ylim, xlim = xlim)
  myplot <- ggplot() +
     geom_raster(data = myinterp1, aes(x = x, y = y, fill = temp), interpolate = FALSE) +
@@ -631,68 +447,43 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(32, 35), name = "salinity") +
     ylab("latitude") + xlab("longitude") +
     coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle(paste("salinity at 75 meters",ifrPSAL$data$time[1] ))
-#> Error in fortify(data): object 'myinterp1' not found
  myplot
 ```
 
-<img src="man/figures/ifrPSALplot-1.png" title="plot of chunk ifrPSALplot" alt="plot of chunk ifrPSALplot" style="display: block; margin: auto;" />
-
+![](ifrPSA.png)
 
 ## tabledap
 
 
 ### CalCOFI data
 
-CalCOFI (California Cooperative Oceanic Fisheries Investigations - http://www.calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
+CalCOFI (California Cooperative Oceanic Fisheries Investigations - https://calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
 
 The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 require("rerddap")
-hydroInfo <- info('siocalcofiHydroCasts')
+hydroInfo <- info('siocalcofiHydroCast')
 ```
 
 and then get the desired data from 1984 through 2014:
 
-
-```r
+```{r calCOFI, eval = FALSE, echo = TRUE}
 require("rerddap")
 calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-str(calcofi.df)
-#> Classes 'tabledap' and 'data.frame':	11072 obs. of  12 variables:
-#>  $ cst_cnt    : int  22522 22523 22524 22525 22526 22527 22528 22529 22530 22531 ...
-#>  $ date       : chr  "01/04/1984" "01/05/1984" "01/05/1984" "01/05/1984" ...
-#>  $ year       : int  1984 1984 1984 1984 1984 1984 1984 1984 1984 1984 ...
-#>  $ month      : int  1 1 1 1 1 1 1 1 1 1 ...
-#>  $ julian_date: int  30685 30686 30686 30686 30686 30686 30687 30687 30687 30687 ...
-#>  $ julian_day : int  4 5 5 5 5 5 6 6 6 6 ...
-#>  $ rpt_line   : num  93.3 90 90 90 90 90 90 90 90 90 ...
-#>  $ rpt_sta    : num  29 35 30 28 32 37 53 53 53 53 ...
-#>  $ cruz_num   : chr  "8401" "8401" "8401" "8401" ...
-#>  $ intchl     : num  NaN 30.3 27.9 29.9 39.3 36.7 30.3 30.6 21.3 31.1 ...
-#>  $ intc14     : chr  "NaN" "NaN" "NaN" "NaN" ...
-#>  $ time       : chr  "1984-01-04T22:08:00Z" "1984-01-05T03:20:00Z" "1984-01-05T09:03:00Z" "1984-01-05T12:26:00Z" ...
-#>  - attr(*, "datasetid")= chr "siocalcofiHydroCasts"
-#>  - attr(*, "path")= chr "~/Library/Caches/R/rerddap/a7a35af414deaac89811bf13fc934978.csv"
-#>  - attr(*, "url")= chr "https://upwell.pfeg.noaa.gov/erddap/tabledap/siocalcofiHydroCasts.csv?cst_cnt,date,year,month,julian_date,julia"| __truncated__
 ```
 
 Both "intchl" and "intC14" are returned as character strings, and are easier to work with as numbers:
 
-
-```r
+```{r calCOFInum, eval = FALSE, echo = TRUE}
 calcofi.df$cruz_num <- as.numeric(calcofi.df$cruz_num)
-#> Warning: NAs introduced by coercion
 calcofi.df$intc14 <- as.numeric(calcofi.df$intc14)
 calcofi.df$time <- as.Date(calcofi.df$time, origin = '1970-01-01', tz = "GMT")
 ```
 
 At this point the requested data are in the <span style="color:red">R</span> workspace - the rest of the code performs the calculations to derive the seasonally adjusted values and plot them.
 
-
-```r
+```{r calCOFIPlot, eval = FALSE,  echo = TRUE}
 require("dplyr")
 
 # calculate cruise means
@@ -720,8 +511,8 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
   theme_bw() + ggtitle('yearly pp anom')
 ```
 
-<img src="man/figures/calCOFIPlot-1.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" /><img src="man/figures/calCOFIPlot-2.png" title="plot of chunk calCOFIPlot" alt="plot of chunk calCOFIPlot" style="display: block; margin: auto;" />
-
+![](calCOFIPlot-1.png)
+![](calCOFIPlot-2.png)
 
 
 ### CPS Trawl Surveys
@@ -731,73 +522,27 @@ The CPS (Coastal Pelagic Species) Trawl Life History Length Frequency Data conta
 
 The number and location of sardines (Sardinops sagax) in the tows in March 2010 and 2011 are extracted, and compared with monthly SST from satellites.  First, query the <span style="color:red">ERDDAP</span> server to see if CPS Trawl data are available through the <span style="color:red">ERDDAP</span> server, and if so, obtain the datasetID for the dataset.
 
-
-```r
+```{r CPS Query, eval = FALSE, echo = TRUE}
 require("rerddap")
 CPSquery <- ed_search(query = 'CPS Trawl')
 CPSquery$alldata[[1]]$summary
-#> [1] "Weight in kilograms for all species (identified to lowest taxonomic criteria) caught during SWFSC-FRD fishery independent surveys (including DEPM, ATM, SaKe) of coastal pelagic species using mid-water trawls (with most tows performed near the surface) at position and times listed. Additional information for a subset of individuals from some species can be found in either CPS Trawl Life History Length Frequency or the CPS Trawl Life History Specimen datasets.\n\ncdm_data_type = Point\nVARIABLES:\ncruise\nship\nhaul (Haul Number)\ncollection\nlatitude (Start Latitude, degrees_north)\nlongitude (Start Longitude, degrees_east)\nstop_latitude\nstop_longitude\ntime (Equilibrium Time, seconds since 1970-01-01T00:00:00Z)\nhaulback_time (Haul Back Time, seconds since 1970-01-01T00:00:00Z)\nsurface_temp (Surface Temperature, degree C)\nsurface_temp_method (Surface Temperature Method)\nship_spd_through_water (Ship Speed Through Water, knot)\nitis_tsn (ItisTSN)\nscientific_name\nsubsample_count\nsubsample_weight (kg)\nremaining_weight (kg)\n"
 CPSquery$alldata[[1]]$tabledap
-#> [1] "https://upwell.pfeg.noaa.gov/erddap/tabledap/FRDCPSTrawlLHHaulCatch"
 CPSquery$alldata[[1]]$dataset_id
-#> [1] "FRDCPSTrawlLHHaulCatch"
 ```
 
 Then get the information for the CPS dataset:
 
-
-```r
+```{r CPSINfo, eval = FALSE, echo = TRUE}
 require("rerddap")
-(CPSinfo <- info('FRDCPSTrawlLHHaulCatch'))
-#> <ERDDAP info> FRDCPSTrawlLHHaulCatch 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: tabledap 
-#>  Variables:  
-#>      collection: 
-#>          Range: 2003, 4319 
-#>      cruise: 
-#>          Range: 200307, 202103 
-#>      haul: 
-#>          Range: 1, 175 
-#>      haulback_time: 
-#>          Range: 1.05772524E9, 1.61794296E9 
-#>          Units: seconds since 1970-01-01T00:00:00Z 
-#>      itis_tsn: 
-#>      latitude: 
-#>          Range: 30.7001, 54.3997 
-#>          Units: degrees_north 
-#>      longitude: 
-#>          Range: -134.0793, -117.2888 
-#>          Units: degrees_east 
-#>      remaining_weight: 
-#>          Units: kg 
-#>      scientific_name: 
-#>      ship: 
-#>      ship_spd_through_water: 
-#>          Units: knot 
-#>      stop_latitude: 
-#>          Range: 30.6663, 54.4157 
-#>      stop_longitude: 
-#>          Range: -134.0793, -117.318 
-#>      subsample_count: 
-#>      subsample_weight: 
-#>          Units: kg 
-#>      surface_temp: 
-#>          Units: degree C 
-#>      surface_temp_method: 
-#>      time: 
-#>          Range: 1.05772338E9, 1.61796546E9 
-#>          Units: seconds since 1970-01-01T00:00:00Z
+CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
 ```
 
 extract the desired CPS data:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 require("dplyr")
 require("rerddap")
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"' )
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 sardines$time <- as.Date(sardines$time, origin = '1970-01-01', tz = "GMT")
 sardines$latitude <- as.numeric(sardines$latitude)
 sardines$longitude <- as.numeric(sardines$longitude)
@@ -806,8 +551,7 @@ sardine2010 <- filter(sardines, time < as.Date('2010-12-01'))
 
 and plot the data versus monthly SST values:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 # get the dataset info
 sstInfo <- info('erdMWsstdmday')
 # get 201004 monthly sst
@@ -816,8 +560,7 @@ sst201004 <- griddap('erdMWsstdmday', latitude = c(22., 51.), longitude = c(220.
 sst201104 <- griddap('erdMWsstdmday', latitude = c(22., 51.), longitude = c(220., 255), time = c('2011-04-16','2011-04-16'), fields = 'sst')
 ```
 
-
-```r
+```{r CPSPlot, eval = FALSE, echo = TRUE}
 # get polygons of coast for this area
 w <- map_data("worldHires", ylim = c(22., 51.), xlim = c(220 - 360, 250 - 360))
 # plot 201004 sst on the map
@@ -826,7 +569,7 @@ sardine2011 <- filter(sardines, time > as.Date('2010-12-01', origin = '1970-01-0
 mycolor <- colors$temperature
 p1 <- ggplot() +
   geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
-  geom_raster(data = sst201004$data, aes(x = lon - 360, y = lat, fill = sst), interpolate = FALSE) +
+  geom_raster(data = sst201004$data, aes(x = (longitude - 360), y = latitude, fill = sst), interpolate = FALSE) +
   scale_fill_gradientn(colours = mycolor, na.value = NA, limits = c(5,30)) +
   theme_bw() + ylab("latitude") + xlab("longitude") +
   coord_fixed(1.3, xlim = c(220 - 360, 250 - 360),  ylim = c(22., 51.))
@@ -834,7 +577,7 @@ p1 <- ggplot() +
 # plot 201104 sst on the map
 p2 <- ggplot() +
   geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
-  geom_raster(data = sst201104$data, aes(x = lon - 360, y = lat, fill = sst), interpolate = FALSE) +
+  geom_raster(data = sst201104$data, aes(x = (longitude - 360), y = latitude, fill = sst), interpolate = FALSE) +
   geom_point(data = sardine2011, aes(x = longitude, y = latitude, colour = subsample_count)) +
   scale_fill_gradientn(colours = mycolor, na.value = NA, limits = c(5,30)) +
   theme_bw() + ylab("latitude") + xlab("longitude") +
@@ -844,22 +587,20 @@ p1 + geom_point(data = sardine2010, aes(x = longitude, y = latitude, colour = su
 p2 +   geom_point(data = sardine2011, aes(x = longitude, y = latitude, colour = subsample_count)) + scale_colour_gradient(space = "Lab", na.value = NA, limits = c(0,80))
 ```
 
-<img src="man/figures/CPSPlot-1.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" /><img src="man/figures/CPSPlot-2.png" title="plot of chunk CPSPlot" alt="plot of chunk CPSPlot" style="display: block; margin: auto;" />
+![](CPSPlot-1.png)
+![](CPSPlot-2.png)
 
 Also of interest is the distribution of sardines through the years:
 
-
-```r
+```{r, eval = FALSE,  echo = TRUE}
 sardinops <- tabledap(CPSinfo, fields = c('longitude', 'latitude', 'time'),  'scientific_name="Sardinops sagax"')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 sardinops$time <- as.Date(sardinops$time, origin = '1970-01-01', tz = "GMT")
 sardinops$year <- as.factor(format(sardinops$time, '%Y'))
 sardinops$latitude <- as.numeric(sardinops$latitude)
 sardinops$longitude <- as.numeric(sardinops$longitude)
 ```
 
-
-```r
+```{r sardinesPlot, eval = FALSE, echo = TRUE}
 xlim <- c(-135, -110)
 ylim <- c(30, 51)
 coast <- map_data("worldHires", ylim = ylim, xlim = xlim)
@@ -871,24 +612,22 @@ ggplot() +
     ggtitle("Location of sardines by year in EPM Trawls")
 ```
 
-<img src="man/figures/sardinesPlot-1.png" title="plot of chunk sardinesPlot" alt="plot of chunk sardinesPlot" style="display: block; margin: auto;" />
+![](sardines.png)
+
 
 ### NDBC Buoys
 
 NOAA's National Data Buoy Center (NDBC) collects world-wide data from buoys in the ocean. <span style="color:red">ERDDAP</span> can be searched for the location of all buoys in a bounding box with latitudes(37N, 47N) and longitudes (124W, 121W) and the results plotted:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 # get location and station ID of NDBC buoys in a region
 BuoysInfo <- info('cwwcNDBCMet')
 locationBuoys <- tabledap(BuoysInfo, distinct = TRUE, fields = c("station", "longitude", "latitude"), "longitude>=-124", "longitude<=-121", "latitude>=37", "latitude<=47")
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 locationBuoys$latitude <- as.numeric(locationBuoys$latitude)
 locationBuoys$longitude <- as.numeric(locationBuoys$longitude)
 ```
 
-
-```r
+```{r NDBC, eval = FALSE,  echo = TRUE}
 xlim <- c(-130, -110)
 ylim <- c(35, 50)
 coast <- map_data("worldHires", ylim = ylim, xlim = xlim)
@@ -898,49 +637,43 @@ ggplot() +
    theme_bw() + ylab("latitude") + xlab("longitude") +
    coord_fixed(1.3, xlim = xlim, ylim = ylim) +
    ggtitle("Location of buoys in given region")
+
 ```
 
-<img src="man/figures/NDBC-1.png" title="plot of chunk NDBC" alt="plot of chunk NDBC" style="display: block; margin: auto;" />
+![](NDBC.png)
 
 Looking at wind speed for 2012 for station "46012"
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 buoyData <- tabledap(BuoysInfo, fields = c("time", "wspd"), 'station="46012"', 'time>=2012-01-01', 'time<=2013-01-01')
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 buoyData$wspd <- as.numeric(buoyData$wspd)
 buoyData$time <- as.Date(buoyData$time, origin = '1970-01-01', tz = "GMT")
 ```
 
-
-```r
+```{r NDBCTS, eval = FALSE, echo = TRUE}
 ggplot(buoyData, aes(time, wspd)) + 
   geom_line() + 
   theme_bw() + 
   ylab("wind speed") +
   ggtitle("Wind Speed in 2012 from buoy 46012 ")
 ```
-
-<img src="man/figures/NDBCTS-1.png" title="plot of chunk NDBCTS" alt="plot of chunk NDBCTS" style="display: block; margin: auto;" />
+![](NDBCTS.png)
 
 ###  IOOS Glider Data
 
 The mission of the IOOS Glider DAC is to provide glider operators with a simple process for submitting glider data sets to a centralized location, enabling the data to be visualized, analyzed, widely distributed via existing web services and the Global Telecommunications System (GTS) and archived at the National Centers for Environmental Information (NCEI).
-The IOOS Glider Dac is accessible through `rerddap` (http://data.ioos.us/gliders/erddap/).  Extracting and plotting salinity from part of the path of one glider deployed by the Scripps Institution of Oceanography:
+The IOOS Glider Dac is accessible through `rerddap` (https://gliders.ioos.us/erddap/index.html).  Extracting and plotting salinity from part of the path of one glider deployed by the Scripps Institution of Oceanography:
 
-
-```r
+```{r, eval = FALSE, echo = TRUE}
 urlBase <- "https://data.ioos.us/gliders/erddap/"
 gliderInfo <- info("sp064-20161214T1913",  url = urlBase)
 glider <- tabledap(gliderInfo, fields = c("longitude", "latitude", "depth", "salinity"), 'time>=2016-12-14', 'time<=2016-12-23', url = urlBase)
-#> info() output passed to x; setting base url to: https://data.ioos.us/gliders/erddap
 glider$longitude <- as.numeric(glider$longitude)
 glider$latitude <- as.numeric(glider$latitude)
 glider$depth <- as.numeric(glider$depth)
 ```
 
-
-```r
+```{r glider, eval = FALSE, echo = TRUE}
 require("plot3D")
 scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar = glider$salinity,              col = colors$salinity, phi = 40, theta = 25, bty = "g", type = "p",
            ticktype = "detailed", pch = 10, clim = c(33.2,34.31), clab = 'Salinity',
@@ -948,19 +681,17 @@ scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar
            cex = c(0.5, 1, 1.5))
 ```
 
-<img src="man/figures/glider-1.png" title="plot of chunk glider" alt="plot of chunk glider" style="display: block; margin: auto;" />
+![](glider.png)
 
 ## Animal Telemetry Network (ATN)
 
 The Integrated Ocean Observing System Animal Telemetry Network (IOOS ATN) is designed to serve as an access point to search, discover and access animal telemetry data, and associated oceanographic datasets, from a wide variety of species and platforms.  The track of one of the tagged animals is extracted, and plotted with SST value from satellite along the track.
 
 
-
-```r
-atnURL <- 'http://oceanview.pfeg.noaa.gov/erddap/'
+```{r, echo = TRUE, eval = FALSE}
+atnURL <- 'https://oceanview.pfeg.noaa.gov/erddap/'
 atnInfo <- info('gtoppAT', url = atnURL)
 atnData <- tabledap(atnInfo, fields = c("time", "longitude", "latitude"), 'toppID="1807001"', url = atnURL)
-#> info() output passed to x; setting base url to: http://oceanview.pfeg.noaa.gov/erddap
 atnData$latitude <- as.numeric(atnData$latitude)
 atnData$longitude <- as.numeric(atnData$longitude)
 ncdcSST = array(NA_real_, dim = length(atnData$time))
@@ -969,76 +700,9 @@ for (i in 1:length(atnData$time)) {
   extract <- griddap(ncdcSSTInfo, fields = 'sst', latitude = c(atnData$latitude[i], atnData$latitude[i]), longitude = c(atnData$longitude[i], atnData$longitude[i]), time = c(atnData$time[i], atnData$time[i]))
 ncdcSST[i] <- extract$data$sst
 }
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
-#> info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap
 ```
 
-
-```r
+```{r, eval = FALSE,  echo = TRUE}
 ylim <- c(32.5, 34)
 xlim <- c(-119, -116.5)
 mycolor <- colors$temperature
@@ -1050,47 +714,36 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
   theme_bw() +
   scale_colour_gradientn(colours = mycolor, limits = c(16.9, 17.3), "SST") +
   coord_fixed(1.3, xlim = xlim, ylim = ylim) + ggtitle("SST Along Track")
+
 ```
 
-<img src="man/figures/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
-
-
+![](atn.png)
 
 ## California Current System Integrated Ecosystem Assessment (CCSIEA)
 
 The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see https://www.integratedecosystemassessment.noaa.gov/regions/california-current-region/index.html).
 
-The over 300 indices developed for the CCSIEA are available through `rerddap`.  Here an index of coho abundance in California is compared with the February value of an index of the strength and location of the North Pacific High, developed in "The North Pacific High and wintertime pre-conditioning of California current productivity" by Schroeder et al.  (Geophys. Res. Lett., 40, 541–546, https://doi.org/10.1002/grl.50100 ).
+The over 300 indices developed for the CCSIEA are available through `rerddap`.  Here an index of coho abundance in California is compared with the February value of an index of the strength and location of the North Pacific High, developed in "The North Pacific High and wintertime pre-conditioning of California current productivity" by Schroeder et al.  (Geophys. Res. Lett., 40, 541–546).
 
-
-```r
-urlBase <- 'http://coastwatch.pfeg.noaa.gov/erddap/'
+```{r, eval = FALSE, echo = TRUE}
+urlBase <- 'https://coastwatch.pfeg.noaa.gov/erddap/'
 nphInfo <- info('erdNph', url = urlBase)
 nphData <- tabledap(nphInfo, fields = c("year", "maxSLP" ), 'month=2', 'year>=1987', url = urlBase)
-#> info() output passed to x; setting base url to: http://coastwatch.pfeg.noaa.gov/erddap
 nphData$maxSLP <- as.numeric(nphData$maxSLP)
-urlBase <- 'http://oceanview.pfeg.noaa.gov/erddap/'
+urlBase <- 'https://oceanview.pfeg.noaa.gov/erddap/'
 cohoInfo <- info('cciea_SM_CA_CO_ABND', url = urlBase)
-cohoData <- tabledap(cohoInfo, fields = c("abundance", "time"),  url = urlBase)
-#> info() output passed to x; setting base url to: http://oceanview.pfeg.noaa.gov/erddap
-#> Error: Query error: Unrecognized variable="abundance"type Status reportmessage Query error: Unrecognized variable="abundance"description The server encountered an internal error that prevented it from fulfilling this request.Apache Tomcat/8.5.11
-cohoData$abundance <- as.numeric(cohoData$abundance)
-#> Error in eval(expr, envir, enclos): object 'cohoData' not found
-alldata <- data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$maxSLP, year = nphData$year)
-#> Error in data.frame(coho = log(cohoData$abundance[1:27]), maxSLP = nphData$maxSLP, : object 'cohoData' not found
+cohoData <- tabledap(cohoInfo, fields = c("abundance_anomaly", "time"),  url = urlBase)
+cohoData$abundance_anomaly <- as.numeric(cohoData$abundance_anomaly)
+alldata <- data.frame(coho = cohoData$abundance_anomaly[1:27], maxSLP = nphData$maxSLP, year = nphData$year)
 ```
 
-
-```r
-ggplot(alldata) + geom_line(aes(x = year, y = coho), colour = 'blue') + theme_bw() + ggtitle("Log(coho)")
-#> Error in FUN(X[[i]], ...): object 'year' not found
+```{r, eval = FALSE, echo = TRUE}
+ggplot(alldata) + geom_line(aes(x = year, y = coho), colour = 'blue') + theme_bw() + ggtitle("coho abundance anomaly")
 ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_bw() + ggtitle("MaxSLP")
-#> Error in FUN(X[[i]], ...): object 'year' not found
 ```
 
-<img src="man/figures/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
-
-
+![](coho_anomaly.png)
+![](maxslp.png)
 
 ## Cacheing, "last", "now", idempotency, and a gotcha
 
@@ -1098,8 +751,7 @@ ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_b
 
 For help in dealing with the cache, see:
 
-
-```r
+```{r,  eval = FALSE, echo = TRUE}
 ?cache_delete
 ?cache_delete_all
 ?cache_details
@@ -1120,8 +772,7 @@ A sample netCDF file, "MWsstd1day.nc" is included.  This is a small file and is 
 
 Open the netCDF file:
 
-
-```r
+```{r}
 require("ncdf4")
 exampleFile <- system.file("extdata", "MWsstd1day.nc", package = "rerddap")
 sstFile <- nc_open(exampleFile)
@@ -1129,51 +780,33 @@ sstFile <- nc_open(exampleFile)
 
 While it is possible to obtain the coordinate values by extracting them from the file,  `ncdf4` by default does so automatically in `nc_open`. The names of the coordinate dimensions can be found from:
 
-
-```r
+```{r}
 names(sstFile$dim)
-#> [1] "time"      "altitude"  "latitude"  "longitude"
 ```
 
 (note that the coordinate names here are given in 'C' order,  while for an extract the coordinates will be in the opposite, "Fortran" order) and the values of any coordinate, say longitude, can be found from:
 
-
-```r
+```{r}
 sstFile$dim$longitude$vals
-#>  [1] 210.0000 210.0125 210.0250 210.0375 210.0500 210.0625 210.0750 210.0875
-#>  [9] 210.1000 210.1125 210.1250 210.1375 210.1500 210.1625 210.1750 210.1875
-#> [17] 210.2000 210.2125 210.2250 210.2375 210.2500 210.2625 210.2750 210.2875
-#> [25] 210.3000 210.3125 210.3250 210.3375 210.3500 210.3625 210.3750 210.3875
-#> [33] 210.4000 210.4125 210.4250 210.4375 210.4500 210.4625 210.4750 210.4875
-#> [41] 210.5000 210.5125 210.5250 210.5375 210.5500 210.5625 210.5750 210.5875
-#> [49] 210.6000 210.6125 210.6250 210.6375 210.6500 210.6625 210.6750 210.6875
-#> [57] 210.7000 210.7125 210.7250 210.7375 210.7500 210.7625 210.7750 210.7875
-#> [65] 210.8000 210.8125 210.8250 210.8375 210.8500 210.8625 210.8750 210.8875
-#> [73] 210.9000 210.9125 210.9250 210.9375 210.9500 210.9625 210.9750 210.9875
-#> [81] 211.0000
 ```
 
 The names of the variables in the netCDF file can be found from:
 
-
-```r
+```{r}
 names(sstFile$var)
-#> [1] "sst"
 ```
 
 
 An extract is done by giving the pointer to the netCDF file ("sstFile" in this instance), the name of the variable ot be extracted ("sst" in this instance), the  starting index value (in array coordinates) for each dimension, and the the count (the number of other index values) to include.  If all values of a particular dimension are wanted, then "-1" can be used for the count.  So for example to extract all of the values for the first day:
 
-
-```r
+```{r}
 require("ncdf4")
 day1SST <- ncvar_get(sstFile, "sst", start = c(1, 1, 1, 1), count = c(1, 1, -1, -1))
 ```
 
 Suppose we only want the latitudes from (30.0, 30.5) and longitudes (210.0, 210.5) for the first day.  We need to find the array indices that match those coordinate values:
 
-
-```r
+```{r}
 latMin <- which(sstFile$dim$latitude$vals == 30.0)
 latMax <- which(sstFile$dim$latitude$vals == 30.5)
 lonMin <- which(sstFile$dim$longitude$vals == 210.0)
@@ -1182,8 +815,7 @@ lonMax <- which(sstFile$dim$longitude$vals == 210.5)
 
 and then extract the data:
 
-
-```r
+```{r}
 require("ncdf4")
 day1SST <- ncvar_get(sstFile, "sst", start = c(lonMin, latMin, 1, 1), count = c( (lonMax - lonMin + 1), (latMax - latMin + 1), 1, 1 ))
 ```
@@ -1191,26 +823,24 @@ day1SST <- ncvar_get(sstFile, "sst", start = c(lonMin, latMin, 1, 1), count = c(
 
 If we wanted a time series at (30N, 210E) it would be:
 
-
-```r
+```{r}
 require("ncdf4")
 day1SST <- ncvar_get(sstFile, "sst", start = c(lonMax, latMin, 1, 1), count = c(1, 1, 1, -1 ))
 ```
 
 For this example, it is easy to visually peruse the dimension values but for a large extract this might not be the possible.  Suppose we wanted all values in a latitude range or (30.1, 30.3) and since the range of values we are interested in might not be on a grid boundary we want the smallest range that would include these values  (that is if not on the grid then the smallest value may be less than 30.1)  and similarly for longitude, say (210.1, 210.3):
 
-
-```r
+```{r}
 latMin <- max(which(sstFile$dim$latitude$vals <= 30.1))
 latMax <- min(which(sstFile$dim$latitude$vals >= 30.3))
 lonMin <- max(which(sstFile$dim$longitude$vals <= 210.1))
 lonMax <- min(which(sstFile$dim$longitude$vals >= 210.3))
+
 ```
 
 and then perform the extract as before:
 
-
-```r
+```{r}
 require("ncdf4")
 day1SST <- ncvar_get(sstFile, "sst", start = c(lonMin, latMin, 1, 1), count = c( (lonMax - lonMin + 1), (latMax - latMin + 1), 1, 1 ))
 ```

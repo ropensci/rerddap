@@ -5,7 +5,7 @@
 \title{Get ERDDAP gridded data}
 \usage{
 griddap(
-  x,
+  datasetx,
   ...,
   fields = "all",
   stride = 1,
@@ -17,7 +17,7 @@ griddap(
 )
 }
 \arguments{
-\item{x}{Anything coercable to an object of class info. So the output of a
+\item{datasetx}{Anything coercable to an object of class info. So the output of a
 call to \code{\link{info}}, or a datasetid, which will internally be passed
 through \code{\link{info}}}
 

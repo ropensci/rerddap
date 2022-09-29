@@ -1,6 +1,6 @@
 ## Test environments
 
-* local macOS install, R 4.1.1
+* local macOS install, R 4.2.1
 * rhub ubuntu, debian, solaris, Apple Silicon (M1), macOS 11.6 Big Sur
 * win-builder (devel and release)
 

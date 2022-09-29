@@ -1,7 +1,7 @@
 ---
 title: rerddap introduction
 author: Scott Chamberlain
-date: "2021-11-18"
+date: "2022-02-05"
 output: rmarkdown::html_vignette
 vignette: >
     %\VignetteIndexEntry{rerddap introduction}
@@ -33,19 +33,19 @@ You can get a data.frame of ERDDAP servers using the function `servers()`. The l
 Stable version from CRAN
 
 
-```r
+```r{cran_install, eval = FALSE, echo = TRUE}
 install.packages("rerddap")
 ```
 
 Or, the development version from GitHub
 
 
-```r
+```r{remote_install, eval = FALSE, echo = TRUE}
 remotes::install_github("ropensci/rerddap")
 ```
 
 
-```r
+```r{load, eval = FALSE, echo = TRUE}
 library("rerddap")
 ```
 
@@ -54,41 +54,48 @@ library("rerddap")
 First, you likely want to search for data, specify either `griddadp` or `tabledap`
 
 
-```r
+```r{ed_search_table, eval = FALSE, echo = TRUE}
 ed_search(query = 'size', which = "table")
-#> # A tibble: 9 × 2
-#>   title                                                         dataset_id      
-#>   <chr>                                                         <chr>           
-#> 1 Channel Islands, Kelp Forest Monitoring, Size and Frequency,… erdCinpKfmSFNH  
-#> 2 CalCOFI Larvae Sizes                                          erdCalCOFIlrvsiz
-#> 3 CalCOFI Larvae Counts Positive Tows                           erdCalCOFIlrvcn…
-#> 4 CalCOFI Tows                                                  erdCalCOFItows  
-#> 5 GLOBEC NEP MOCNESS Plankton (MOC1) Data, 2000-2002            erdGlobecMoc1   
-#> 6 GLOBEC NEP Vertical Plankton Tow (VPT) Data, 1997-2001        erdGlobecVpt    
-#> 7 File Names from the AWS S3 noaa-goes16 Bucket                 awsS3NoaaGoes16 
-#> 8 AN EXPERIMENTAL DATASET: Underway Sea Surface Temperature an… nodcPJJU        
-#> 9 PacIOOS Beach Camera 001: Waikiki, Oahu, Hawaii               BEACHCAM-001
+#> # A tibble: 42 × 2
+#>    title                                                              dataset_id
+#>    <chr>                                                              <chr>     
+#>  1 CCE Prey Size and Hard Part Size Regressions                       mmtdPreyS…
+#>  2 CCE Teleost Prey Size and Hard Part Size Measurements              mmtdTeleo…
+#>  3 CalCOFI Larvae Sizes                                               erdCalCOF…
+#>  4 Seabird Prey Size                                                  cciea_B_L…
+#>  5 CCE Non-Teleost Prey Size and Hard Part Size Measurements          mmtdNonTe…
+#>  6 Channel Islands, Kelp Forest Monitoring, Size and Frequency, Natu… erdCinpKf…
+#>  7 File Names from the AWS S3 noaa-goes16 Bucket                      awsS3Noaa…
+#>  8 File Names from the AWS S3 noaa-goes17 Bucket                      awsS3Noaa…
+#>  9 NOAA-Navy Sanctuary Soundscapes Monitoring Project -- File Access  noaaSanct…
+#> 10 PacIOOS Beach Camera 001: Waikiki, Oahu, Hawaii                    BEACHCAM-…
+#> # … with 32 more rows
 ```
 
 
-```r
+```r{ed_search_grid, eval = FALSE, echo = TRUE}
 ed_search(query = 'size', which = "grid")
-#> # A tibble: 5 × 2
-#>   title                                                      dataset_id         
-#>   <chr>                                                      <chr>              
-#> 1 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_da08_dcd…
-#> 2 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0fe5_a4b…
-#> 3 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_5253_bf9…
-#> 4 Extended AVHRR Polar Pathfinder Fundamental Climate Data … noaa_ngdc_0f24_2f8…
-#> 5 SST and SST Anomaly, NOAA Global Coral Bleaching Monitori… NOAA_DHW_monthly
+#> # A tibble: 101 × 2
+#>    title                                                              dataset_id
+#>    <chr>                                                              <chr>     
+#>  1 Audio data from a local source.                                    testGridW…
+#>  2 Coastal Upwelling Transport Index (CUTI), Daily                    erdCUTIda…
+#>  3 Coastal Upwelling Transport Index (CUTI), Monthly                  erdCUTImo…
+#>  4 Biologically Effective Upwelling Transport Index (BEUTI), Daily    erdBEUTId…
+#>  5 Biologically Effective Upwelling Transport Index (BEUTI), Monthly  erdBEUTIm…
+#>  6 SST smoothed frontal gradients                                     FRD_SSTgr…
+#>  7 SST smoothed frontal gradients, Lon0360                            FRD_SSTgr…
+#>  8 Monthly means of OLR from interpolated OLR dataset (olr.mon.ltm),… noaa_psl_…
+#>  9 Chlorophyll, NOAA VIIRS-SNPP, Near Real-Time, Global, Level 3, 20… nesdisVHN…
+#> 10 Sardine Potential Habitat, MODIS Aqua Data, Near Real-Time, US We… sardine_h…
+#> # … with 91 more rows
 ```
 
 There is now a convenience function to search over a list of ERDDAP servers,  designed to work with the function `servers()`
 
 
-```r
+```r{global_search, eval = FALSE, echo = TRUE}
 global_search(query, server_list, which_service)
-#> Error in global_search(query, server_list, which_service): could not find function "global_search"
 ```
 
 ## Information
@@ -96,7 +103,7 @@ global_search(query, server_list, which_service)
 Then you can get information on a single dataset
 
 
-```r
+```r{info_table, eval = FALSE, echo = TRUE}
 info('erdCalCOFIlrvsiz')
 #> <ERDDAP info> erdCalCOFIlrvsiz 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
@@ -116,13 +123,13 @@ info('erdCalCOFIlrvsiz')
 First, get information on a dataset to see time range, lat/long range, and variables.
 
 
-```r
+```r{info_grid, eval = FALSE, echo = TRUE}
 (out <- info('erdMBchla1day'))
 #> <ERDDAP info> erdMBchla1day 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2021-11-16T12:00:00Z) 
+#>      time: (2006-01-01T12:00:00Z, 2022-02-04T12:00:00Z) 
 #>      altitude: (0.0, 0.0) 
 #>      latitude: (-45.0, 65.0) 
 #>      longitude: (120.0, 320.0) 
@@ -134,43 +141,43 @@ First, get information on a dataset to see time range, lat/long range, and varia
 Then query for gridded data using the `griddap()` function
 
 
-```r
+```r{griddap, eval = FALSE, echo = TRUE}
 (res <- griddap(out,
   time = c('2015-01-01','2015-01-03'),
   latitude = c(14, 15),
   longitude = c(125, 126)
 ))
 #> <ERDDAP griddap> erdMBchla1day
-#>    Path: [/Users/rmendels/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
-#>    Last updated: [2021-11-18 15:58:06]
+#>    Path: [~/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
+#>    Last updated: [2022-02-05 16:01:53]
 #>    File size:    [0.03 mb]
 #>    Dimensions (dims/vars):   [4 X 1]
 #>    Dim names: time, altitude, latitude, longitude
 #>    Variable names: Chlorophyll Concentration in Sea Water
 #>    data.frame (rows/columns):   [5043 X 5]
 #> # A tibble: 5,043 × 5
-#>    time                   lat   lon altitude chlorophyll
-#>    <chr>                <dbl> <dbl>    <dbl>       <dbl>
-#>  1 2015-01-01T12:00:00Z    14  125         0          NA
-#>  2 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  3 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  4 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  5 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  6 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  7 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  8 2015-01-01T12:00:00Z    14  125.        0          NA
-#>  9 2015-01-01T12:00:00Z    14  125.        0          NA
-#> 10 2015-01-01T12:00:00Z    14  125.        0          NA
+#>    time                 latitude longitude altitude chlorophyll
+#>    <chr>                   <dbl>     <dbl>    <dbl>       <dbl>
+#>  1 2015-01-01T12:00:00Z       14      125         0          NA
+#>  2 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  3 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  4 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  5 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  6 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  7 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  8 2015-01-01T12:00:00Z       14      125.        0          NA
+#>  9 2015-01-01T12:00:00Z       14      125.        0          NA
+#> 10 2015-01-01T12:00:00Z       14      125.        0          NA
 #> # … with 5,033 more rows
 ```
 
 The output of `griddap()` is a list that you can explore further. Get the summary
 
 
-```r
+```r{grid_summary, eval = FALSE, echo = TRUE}
 res$summary
 #> $filename
-#> [1] "/Users/rmendels/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc"
+#> [1] "~/Library/Caches/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc"
 #> 
 #> $writable
 #> [1] FALSE
@@ -178,11 +185,11 @@ res$summary
 #> $id
 #> [1] 65536
 #> 
-#> $safemode
+#> $error
 #> [1] FALSE
 #> 
-#> $format
-#> [1] "NC_FORMAT_CLASSIC"
+#> $safemode
+#> [1] FALSE
 #> 
 ...
 ```
@@ -190,7 +197,7 @@ res$summary
 Get the dimension variables
 
 
-```r
+```r{grid_dimensions, eval = FALSE, echo = TRUE}
 names(res$summary$dim)
 #> [1] "time"      "altitude"  "latitude"  "longitude"
 ```
@@ -200,19 +207,19 @@ Get the data.frame (beware: you may want to just look at the `head` of the data.
 
 ```r
 head(res$data)
-#>                   time lat     lon altitude chlorophyll
-#> 1 2015-01-01T12:00:00Z  14 125.000        0          NA
-#> 2 2015-01-01T12:00:00Z  14 125.025        0          NA
-#> 3 2015-01-01T12:00:00Z  14 125.050        0          NA
-#> 4 2015-01-01T12:00:00Z  14 125.075        0          NA
-#> 5 2015-01-01T12:00:00Z  14 125.100        0          NA
-#> 6 2015-01-01T12:00:00Z  14 125.125        0          NA
+#>                   time latitude longitude altitude chlorophyll
+#> 1 2015-01-01T12:00:00Z       14   125.000        0          NA
+#> 2 2015-01-01T12:00:00Z       14   125.025        0          NA
+#> 3 2015-01-01T12:00:00Z       14   125.050        0          NA
+#> 4 2015-01-01T12:00:00Z       14   125.075        0          NA
+#> 5 2015-01-01T12:00:00Z       14   125.100        0          NA
+#> 6 2015-01-01T12:00:00Z       14   125.125        0          NA
 ```
 
 ## tabledap (tabular) data
 
 
-```r
+```r{calcofi_info, eval = FALSE, echo = TRUE}
 (out <- info('erdCalCOFIlrvsiz'))
 #> <ERDDAP info> erdCalCOFIlrvsiz 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
@@ -228,12 +235,12 @@ head(res$data)
 ```
 
 
-```r
+```r{calcofi_tabledap, eval = FALSE, echo = TRUE}
 (dat <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
   'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
 #> <ERDDAP tabledap> erdCalCOFIlrvsiz
-#>    Path: [/Users/rmendels/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
-#>    Last updated: [2021-11-18 15:58:09]
+#>    Path: [~/Library/Caches/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
+#>    Last updated: [2022-02-05 16:01:57]
 #>    File size:    [0.05 mb]
 #> # A tibble: 1,304 × 4
 #>    latitude  longitude  larvae_size scientific_name     
@@ -254,7 +261,7 @@ head(res$data)
 Since both `griddap()` and `tabledap()` give back data.frame's, it's easy to do downstream manipulation. For example, we can use `dplyr` to filter, summarize, group, and sort:
 
 
-```r
+```r{calcofi_dplyr, eval = FALSE, echo = TRUE}
 library("dplyr")
 dat$larvae_size <- as.numeric(dat$larvae_size)
 dat %>%

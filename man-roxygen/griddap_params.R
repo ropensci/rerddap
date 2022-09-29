@@ -1,4 +1,4 @@
-#' @param x Anything coercable to an object of class info. So the output of a
+#' @param datasetx Anything coercable to an object of class info. So the output of a
 #' call to \code{\link{info}}, or a datasetid, which will internally be passed
 #' through \code{\link{info}}
 #' @param ... Dimension arguments. See examples. Can be any 1 or more of the

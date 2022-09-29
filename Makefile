@@ -6,10 +6,10 @@ vign:
 	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('rerddap.Rmd.og', output = 'rerddap.Rmd')";\
 	cd ..
 
-vign_using_rerddap:
-	cd vignettes;\
-	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('Using_rerddap.Rmd.og', output = 'Using_rerddap.Rmd')";\
-	cd ..
+#vign_using_rerddap:
+#	cd vignettes;\
+#	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('Using_rerddap.Rmd.og', output = 'Using_rerddap.Rmd')";\
+#	cd ..
 
 test:
 	${RSCRIPT} -e 'library(methods); devtools::test()'
