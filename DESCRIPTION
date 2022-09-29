@@ -34,9 +34,7 @@ Imports:
     hoardr (>= 0.5.2)
 Suggests:
     knitr,
-    rmarkdown,
-    testthat,
-    vcr (>= 0.2.6)
+    rmarkdown
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 X-schema.org-applicationCategory: Climate
