@@ -104,7 +104,7 @@ A list of some of the public available <span style="color:red">ERDDAP</span> ser
 servers()
 ```
 
-The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).
+The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the *Awesome ERDDAP* site compiled by the  Irish Marine Institute.
 
 The second way to find and obtain the desired data is to use functions in `rerddap`.  The basic steps are:
 
@@ -198,7 +198,7 @@ Tables in <span style="color:red">ERDDAP</span> are subset by using "constraint 
 
 Note that in `tabledap()` character strings usually must be passed as "double-quoted", as seen in the example with the scientific name. A full `tabledap()` request to retrieve 'latitude',  'longitude', 'time', 'scientific_name', and 'subsample_count' with these constraints would be:
 
-```{r cache = TRUE, eval = FALSE, echo = TRUE }
+```{r, eval = FALSE, echo = TRUE }
 CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2010-12-31', 'scientific_name="Sardinops sagax"' )
 
@@ -206,7 +206,7 @@ sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scie
 
 ##  Searching
 
-The functions in `rerddap` work with any <span style="color:red">ERDDAP</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP</span> servers is provided at https://irishmarineinstitute.github.io/awesome-erddap and the `rerddap` function `servers()` will download this list.
+The functions in `rerddap` work with any <span style="color:red">ERDDAP</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP</span> servers is provided by the Irish Marine Institute's *Awesome ERDDAP*  web page, and the `rerddap` function `servers()` will download this list.
 
 Given a base <span style="color:red">ERDDAP</span> URL, the function `ed_search()` will search the server for the given search terms.  The default <span style="color:red">ERDDAP</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP</span> server.
 
@@ -326,7 +326,7 @@ ggplot(data = viirsCHLA$data, aes(x = longitude, y = latitude, fill = log(chla))
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
-This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://www.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
+This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://www2.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
 
 
 ```{r eval = FALSE, echo = TRUE}
@@ -368,7 +368,7 @@ myplot
 
 ### Irish Marine Institute {#hourly}
 
-The Irish Marine Institute has an <span style="color:red">ERDDAP</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see https://erddap.marine.ie/erddap/griddap/IMI_NEATL.html.  To obtain the latest sea surface salinity for the domain of the model:
+The Irish Marine Institute has an <span style="color:red">ERDDAP</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see the dataset *IMI_NEATL*.  To obtain the latest sea surface salinity for the domain of the model:
 
 ```{r NAtlSSS, eval = FALSE, echo = TRUE}
 require("rerddap")
@@ -721,7 +721,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
 
 ## California Current System Integrated Ecosystem Assessment (CCSIEA)
 
-The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see https://www.integratedecosystemassessment.noaa.gov/regions/california-current-region/index.html).
+The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see https://www.integratedecosystemassessment.noaa.gov/regions/california-current/projects).
 
 The over 300 indices developed for the CCSIEA are available through `rerddap`.  Here an index of coho abundance in California is compared with the February value of an index of the strength and location of the North Pacific High, developed in "The North Pacific High and wintertime pre-conditioning of California current productivity" by Schroeder et al.  (Geophys. Res. Lett., 40, 541–546).
 

@@ -58,7 +58,7 @@ When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from
 
 ## ERDDAP servers
 
-You can get a data.frame of ERDDAP servers using the function `servers()`. The list of ERDDAP servers is drawn from the [Awesome ERDDAP site](https://irishmarineinstitute.github.io/awesome-erddap).  If you know of more ERDDAP servers, follow the instructions on that page to add the server.
+You can get a data.frame of ERDDAP servers using the function `servers()`. The list of ERDDAP servers is drawn from the *Awesome ERDDAP* page maintained by the Irish Marine Institute .  If you know of more ERDDAP servers, follow the instructions on that page to add the server.
 
 ## Install
 

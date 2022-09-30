@@ -4,7 +4,7 @@ rerddap 1.0.0
 * griddap dataframe now uses the same coordinate names returned in 'rerddap::info()'
 * all grids can now be "melted" into a dataframe, not just lat-lon grids
 * fixed some bugs accessing some datasets not on lat-lon grid
-* One vignette now included in package. 
+* vignette now included in package. 
 
 rerddap 0.8.0
 =============
