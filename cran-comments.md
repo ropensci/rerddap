@@ -16,9 +16,7 @@ OK from all checks
 
 ---
 
-This version fixes a bug dealing with coordinates that
-are not lat-lon and are in decreasing order.  Adds a new
-search function.
+This version allows for "melting" of the data from non-lat-lon grids,  fixed a bug in dealing with such grids. When "melted", column names are the same as in rerddap::info().
 
 Thanks! 
 Roy Mendelssohn

@@ -17,3 +17,4 @@ man-roxygen
 ^LICENSE\.md$
 revdep/
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
