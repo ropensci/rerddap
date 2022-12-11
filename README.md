@@ -1,88 +1,62 @@
-# rerddapXtracto (Version 1.1.3)
-rerddapXtracto - R package for accessing environmental data using 'rerddap' 
-
-******
-`rxtracto()`option to use the ERDDAP "Interpolate service", which can greatly
-speed up extracts for large tracks.
-******
+rerddap
+=====
 
 
 
-******
-`rxtracto()` major rewrite of this function to reduce the number of requests made to the ERDDAP server, and to improve overall speed.
-******
+[![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
+[![R-check](https://github.com/ropensci/rerddap/workflows/R-check/badge.svg)](https://github.com/ropensci/rerddap/actions)
+[![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
+
+`rerddap` is a general purpose R client for working with ERDDAP servers.
+
+Package Docs: <https://docs.ropensci.org/rerddap/>
+
+## Installation
+
+From CRAN
 
 
-`rerddapXtracto` is an <span style="color:blue">R</span> package developed to subset and extract satellite and other oceanographic related data from a remote <span style="color:blue">ERDDAP</span> server. The program can extract data for a moving point in time along a user-supplied set of longitude, latitude, time and depth points; in a 3D bounding box; or within a polygon (through time). 
+```r
+install.packages("rerddap")
+```
 
-There are also two plotting functions,  `plotTrack()` and `plotBox()` that make use of the `plotdap` package.  See the new [rerdapXtracto vignette](https://rmendels.github.io/UsingrerddapXtracto.html). 
-
-
-
-There are three main data extraction functions in the `rerddapXtracto` package: 
-
-- `rxtracto <- function(dataInfo, parameter = NULL, xcoord = NULL, ycoord = NULL, zcoord = NULL, tcoord = NULL, xlen = 0., ylen = 0., zlen = 0., xName = 'longitude', yName = 'latitude', zName = 'altitude', tName = 'time', interp = NULL, verbose = FALSE, progress_bar = FALSE)`
-
-- `rxtracto_3D <- function(dataInfo, parameter = NULL, xcoord = NULL, ycoord = NULL, zcoord = NULL, tcoord = NULL, xName = 'longitude', yName = 'latitude', zName = 'altitude', tName = 'time',  verbose = FALSE)`
-
-- `rxtractogon <- function(dataInfo, parameter, xcoord = NULL, ycoord = NULL, zcoord = NULL, tcoord = NULL, xName = 'longitude', yName = 'latitude', zName = 'altitude', tName = 'time',  verbose = FALSE)`
-
-and two functions for producing maps:
-
-- `plotTrack <- function(resp, xcoord, ycoord, tcoord, plotColor = 'viridis', myFunc = NA,
-                      mapData = NULL, crs = NULL,
-                      animate = FALSE, cumulative = FALSE,
-                      name = NA,  shape = 20, size = .5)`
-
-- `plotBBox <- function(resp, plotColor = 'viridis', time = NA, myFunc = NA,
-                mapData = NULL, crs = NULL,
-                animate = FALSE, cumulative = FALSE, name = NA,
-                maxpixels = 10000)`
+Or development version from GitHub
 
 
-For data requests that cross the dateline for datasets that are
-on a (-180, 180) longitude grid, there are some important caveats:
-
-- Request must be on a (0, 360) longitude grid
-- Several of the checks that the request makes sense are disabled if the request
-cross the dateline and the dataset is on a (-180, 180) longitude grid.
-- User therefore has more responsibility to check that the request makes sense
-for the dataset being accessed.
-
-
-
-
-
-`rerddapXtracto` uses the `rerddap`, `ncdf4` , `parsedate`, `plotdap` and `sp` packages , and these packages (and the packages imported by these packages) must be installed first or `rerddapXtracto` will fail to install.   
-
-```{r install,eval=FALSE}
-install.packages("ncdf4") 
-install.packages("parsedate") 
-install.packages("plotdap") 
-install.packages("rerddap") 
-install.packages("sp")
+```r
+remotes::install_github("ropensci/rerddap")
 ```
 
 
-
+```r
+library("rerddap")
 ```
 
+Some users may experience an installation error, stating to install 1 or more 
+packages, e.g., you may need `DBI`, in which case do, for example, 
+`install.packages("DBI")` before installing `rerddap`.
 
+## Background
 
+ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data (griddap (<https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html>)), which lets you query from gridded datasets, or table data (tabledap (<https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html>)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarities, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
-# Required legalese
+## NetCDF
 
-“The United States Department of Commerce (DOC) GitHub project code is provided
-on an ‘as is’ basis and the user assumes responsibility for its use.
-DOC has relinquished control of the information and no longer has responsibility
-to protect the integrity, confidentiality, or availability of the information.
-Any claims against the Department of Commerce stemming from the use of its
-GitHub project will be governed by all applicable Federal law. Any reference to
-specific commercial products, processes, or services by service mark, trademark,
-manufacturer, or otherwise, does not constitute or imply their endorsement,
-recommendation or favoring by the Department of Commerce. The Department of
-Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used
-in any manner to imply endorsement of any commercial product or activity by DOC
-or the United States Government.”
+`rerddap` supports NetCDF format, and is the default when using the `griddap()` function. NetCDF is a binary file format, and will have a much smaller footprint on your disk than csv. The binary file format means it's harder to inspect, but the `ncdf4` package makes it easy to pull data out and write data back into a NetCDF file. Note the the file extension for NetCDF files is `.nc`. Whether you choose NetCDF or csv for small files won't make much of a difference, but will with large files.
 
+## Caching
 
+Data files downloaded are cached in a single directory on your machine determined by the `hoardr` package. When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in the cache directory for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
+
+## ERDDAP servers
+
+You can get a data.frame of ERDDAP servers using the function `servers()`. Most I think serve some kind of NOAA data, but there are a few that aren't NOAA data.  If you know of more ERDDAP servers, send a pull request, or let us know.
+
+## Meta
+
+* Please [report any issues or bugs](https://github.com/ropensci/rerddap/issues).
+* License: MIT
+* Get citation information for `rerddap` in R doing `citation(package = 'rerddap')`
+* Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
