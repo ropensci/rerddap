@@ -16,7 +16,7 @@ OK from all checks
 
 ---
 
-This version adds extra guarantees on where cached files are written
+This version adds extra guarantees that cacheing behaves properly
 
 Thanks! 
 Roy Mendelssohn

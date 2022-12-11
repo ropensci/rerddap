@@ -6,7 +6,7 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
 Version: 1.0.1
-Date: 2022-12-13
+Date: 2022-12-11
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
