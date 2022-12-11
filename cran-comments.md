@@ -1,6 +1,6 @@
 ## Test environments
 
-* local macOS install, R 4.2.1
+* local macOS install, R 4.2.2
 * rhub (devtools::check_rhub())
 * macOS Builder (devtools::check_mac_release())
 * win-builder (devel and release - devtools::check_win_*())
@@ -16,7 +16,7 @@ OK from all checks
 
 ---
 
-This version allows for "melting" of the data from non-lat-lon grids,  fixed a bug in dealing with such grids. When "melted", column names are the same as in rerddap::info().
+This version adds extra guarantees on where cached files are written
 
 Thanks! 
 Roy Mendelssohn

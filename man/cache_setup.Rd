@@ -5,17 +5,17 @@
 \alias{cache_info}
 \title{Setup cache path}
 \usage{
-cache_setup(path_suffix = NULL, temp_dir = FALSE)
+cache_setup(full_path = NULL, temp_dir = FALSE)
 
 cache_info()
 }
 \arguments{
-\item{path_suffix}{(character) the path suffix to use for storing cached
-files, appended to user cache dir.}
+\item{full_path}{(character) the full path to use for storing cached
+files.}
 
 \item{temp_dir}{(logical) if \code{TRUE} use a randomly assigned
-\code{tempdir} (and \code{path_suffix} is ignored), if \code{FALSE}, you
-can use \code{path_suffix}.}
+\code{tempdir} (and \code{full_path} is ignored), if \code{FALSE}, you
+can use \code{full_path}.}
 }
 \value{
 the full cache path, a directory (character)
@@ -24,12 +24,10 @@ the full cache path, a directory (character)
 Setup cache path
 }
 \details{
-Looks first if the user has set a cache path suffix in an
-env var or R option. If not found, proceeds to use a temp directory
-if not in interactive mode, but if interactive, asks user to setup a
-default cache location that will work across sessions (but user can say
-no, in which case a temp directory will be used, and each package
-start will require cache setup again)
+On opening,  by default a temporary directory is created for caching
+files.  To have files cached elsewhere,  give the full path of where to
+cache files.  Adding \code{temp_dir = TRUE} will again use a temporary
+dirctory for cacheing.
 }
 \examples{
 \dontrun{

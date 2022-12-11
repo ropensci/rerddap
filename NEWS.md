@@ -1,3 +1,7 @@
+rerddap 1.0.1
+=============
+Changed default cacheing behavior and 'cache_setup()'
+
 rerddap 1.0.0
 =============
 
