@@ -1,3 +1,8 @@
+rerddap 1.0.2
+=============
+Ensure '[' and ']' properly encoded in URL
+
+
 rerddap 1.0.1
 =============
 Changed default cacheing behavior and 'cache_setup()'

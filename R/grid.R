@@ -288,7 +288,10 @@ dimvars <- function(x){
 
 erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
   if (length(args) > 0) url <- sprintf("%s?%s", url, args)
-  cli <- crul::HttpClient$new(url = url, opts = callopts)
+  url1 <- url
+  url1 <- gsub('\\[', '%5B', url1)
+  url1 <- gsub('\\]', '%5D', url1)
+  cli <- crul::HttpClient$new(url = url1, opts = callopts)
   if (store$store == "disk") {
     # store on disk
     key <- gen_key(url, args, fmt)
