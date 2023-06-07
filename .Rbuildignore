@@ -3,6 +3,7 @@
 .travis.yml
 README.Rmd
 README.md
+_pkgdown.yml
 appveyor.yml
 Makefile
 cran-comments.md

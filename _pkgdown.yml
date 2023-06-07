@@ -1,0 +1,77 @@
+reference:
+- title: rerddap Package Description
+  contents:
+  - rerddap-package
+  
+- title: Search
+  desc: >
+        Functions to search for ERDDAP servers as well as to search 
+        ERDDAP for datasets whose metadata match the given search. 
+  contents:
+  - ed_search
+  - ed_search_adv
+  - global_search
+  - servers
+
+- title: Obtain basic dataset metadata
+
+  desc: >
+    Obtain the basic dataset metadata to help in subsetting and downloading.
+  contents:
+  - info
+  - browse
+  
+
+- title: Subset and Download Data
+
+  desc: >
+    Functions to subset and download ERDDAP grids and tables.
+  contents:
+  - griddap
+  - tabledap
+  
+- title: Optional Settings for Data Download
+
+  desc: >
+    Optional settings for functions that subset and download ERDDAP grids and tables.
+  contents:
+  - disk
+  - eurl
+  - memory
+  
+- title: Cache Handling
+
+  desc: >
+    Functions for dealing with 'rerddap' cache.
+  contents:
+  - cache_delete
+  - cache_delete_all
+  - cache_details
+  - cache_info
+  - cache_list
+  - cache_setup
+  
+- title: Various ERDDAP Based Utilities
+
+  desc: >
+    Various ERDDAP based utilities for converting parameters.
+  contents:
+  - convert_time
+  - convert_units
+  - fipscounty
+  - key_words
+  - version
+
+- title: Datasets
+
+  desc: >
+    Datasets used in the the functions nd vignette.
+  contents:
+  - colors
+  - institutions
+  - ioos_categories
+  - keywords
+  - longnames
+  - standardnames
+  - variablenames
+

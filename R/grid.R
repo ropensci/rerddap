@@ -25,6 +25,9 @@ griddap <- function(datasetx, ..., fields = 'all', stride = 1, fmt = "nc",
   if (attr(x, "type") != "griddap")
     stop("datasetid '", attr(x, "datasetid"), "' not of type griddap")
   check_dims(dimargs, x)
+  if (!is.null(dimargs$time)) {
+    check_time_range(dimargs, x)
+  }
   check_lat_text(dimargs)
   check_lon_text(dimargs)
   dimargs <- fix_dims(dimargs, .info = x)
@@ -128,6 +131,12 @@ field_handler <- function(x, y){
 }
 
 check_dims <- function(dimargs, .info) {
+  if (any(lengths(dimargs )!= 2)) {
+    print("All coordinate bounds must be of length 2, even if same value")
+    print("Present values are:") 
+    print(dimargs)
+    stop("rerddap halted", call. = FALSE)
+  }
   if (!all(names(dimargs) %in% dimvars(.info))) {
     stop(sprintf("Some input dimensions (%s) don't match those in dataset (%s)",
                  paste0(names(dimargs), collapse = ", "),
@@ -168,6 +177,27 @@ is_lat_text <- function(dimargs) {
     FALSE
   }
 }
+
+check_time_range <- function(dimargs, x) {
+#  if(!class(dimargs$time) == 'character'){
+  if(!is.character(dimargs$time)){
+    print('time must be given as character strings')
+    print('you are passing ', paste0(class(dimargs$time)))
+    stop('rerddap halted', call. = FALSE)
+  }
+  global <- x$alldata$NC_GLOBAL
+  tt <- global[ global$attribute_name %in%c('time_coverage_end','time_coverage_start'), "value", ]
+  tt <- rev(tt) 
+  if((dimargs$time[1] < tt[1]) | (dimargs$time[2] > tt[2])) {
+    print('time bounds are out of range')
+    print('You gave: ') 
+    print(dimargs$time)
+    print("Dataset times are: ")
+    print(tt)
+    stop('rerddap halted', call. = FALSE)
+  }
+}
+
 
 check_lon_data_range <- function(dimargs, .info) {
   if (!is.null(dimargs$longitude)) {

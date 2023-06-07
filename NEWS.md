@@ -1,3 +1,8 @@
+rerddap 1.0.3
+=============
+This version provides exta checks on time bounds.
+
+
 rerddap 1.0.2
 =============
 Ensure '[' and ']' properly encoded in URL

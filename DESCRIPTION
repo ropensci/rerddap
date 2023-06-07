@@ -5,8 +5,8 @@ Description: General purpose R client for 'ERDDAP' servers. Includes
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
     'ERDDAP' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 1.0.2
-Date: 2023-02-08
+Version: 1.0.3
+Date: 2023-06-09
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
