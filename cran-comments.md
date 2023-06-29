@@ -1,6 +1,6 @@
 ## Test environments
 
-* local macOS install, R 4.3.0
+* local macOS install, R 4.3.1
 * rhub (devtools::check_rhub())
 * macOS Builder (devtools::check_mac_release())
 * win-builder (devel and release - devtools::check_win_*())

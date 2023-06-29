@@ -1,6 +1,8 @@
 rerddap 1.0.3
 =============
-This version provides exta checks on time bounds.
+* Provides exta checks on time bounds.
+* Fixes some typos and a mistake showing 'global_search()' in vignette
+
 
 
 rerddap 1.0.2

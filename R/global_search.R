@@ -3,7 +3,7 @@
 #' of ERDDAP servers based on search terms.
 #' @param query (character) Search terms
 #' @param server_list (list of character) List of ERDDAP servers to search
-#' @param which_service character) One of tabledep or griddap.
+#' @param which_service (character) One of tabledep or griddap.
 #' @return If successful a dataframe wih columns:
 #'  \itemize{
 #'     \item title - the dataset title

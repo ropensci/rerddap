@@ -11,7 +11,7 @@ global_search(query, server_list, which_service)
 
 \item{server_list}{(list of character) List of ERDDAP servers to search}
 
-\item{which_service}{character) One of tabledep or griddap.}
+\item{which_service}{(character) One of tabledep or griddap.}
 }
 \value{
 If successful a dataframe wih columns:

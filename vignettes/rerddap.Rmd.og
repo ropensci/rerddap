@@ -93,7 +93,11 @@ ed_search(query = 'size', which = "grid")
 There is now a convenience function to search over a list of ERDDAP servers,  designed to work with the function `servers()`
 
 ```{r}
-global_search(query, server_list, which_service)
+server_list <- c(
+  emodnet_physics = 'https://erddap.emodnet-physics.eu/erddap/',
+  irish_marine_institute = 'https://erddap.marine.ie/erddap/'
+)
+global_search(query = 'size', server_list, 'griddap')
 ```
 
 ## Information
