@@ -1,13 +1,13 @@
 rerddap
 =====
 
-
-
+<!-- badges: start -->
 [![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
-[![R-check](https://github.com/ropensci/rerddap/workflows/R-check/badge.svg)](https://github.com/ropensci/rerddap/actions)
+  [![R-CMD-check](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/rerddap)](https://cran.r-project.org/package=rerddap)
+<!-- badges: end -->
 
 `rerddap` is a general purpose R client for working with ERDDAP servers.
 
