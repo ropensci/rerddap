@@ -1,3 +1,7 @@
+rerddap 1.0.4
+=============
+* fixes problem with time bounds check and "last"
+
 rerddap 1.0.3
 =============
 * Provides exta checks on time bounds.

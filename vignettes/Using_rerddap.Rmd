@@ -721,7 +721,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
 
 ## California Current System Integrated Ecosystem Assessment (CCSIEA)
 
-The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see https://www.integratedecosystemassessment.noaa.gov/regions/california-current/projects).
+The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see "https://www.integratedecosystemassessment.noaa.gov/regions/california-current/projects").
 
 The over 300 indices developed for the CCSIEA are available through `rerddap`.  Here an index of coho abundance in California is compared with the February value of an index of the strength and location of the North Pacific High, developed in "The North Pacific High and wintertime pre-conditioning of California current productivity" by Schroeder et al.  (Geophys. Res. Lett., 40, 541–546).
 

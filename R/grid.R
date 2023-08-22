@@ -187,14 +187,16 @@ check_time_range <- function(dimargs, x) {
   }
   global <- x$alldata$NC_GLOBAL
   tt <- global[ global$attribute_name %in%c('time_coverage_end','time_coverage_start'), "value", ]
-  tt <- rev(tt) 
-  if((dimargs$time[1] < tt[1]) | (dimargs$time[2] > tt[2])) {
-    print('time bounds are out of range')
-    print('You gave: ') 
-    print(dimargs$time)
-    print("Dataset times are: ")
-    print(tt)
-    stop('rerddap halted', call. = FALSE)
+  tt <- rev(tt)
+  if (!('last' %in% dimargs$time)){
+      if((dimargs$time[1] < tt[1]) | (dimargs$time[2] > tt[2])) {
+        print('time bounds are out of range')
+        print('You gave: ') 
+        print(dimargs$time)
+        print("Dataset times are: ")
+        print(tt)
+        stop('rerddap halted', call. = FALSE)
+      }
   }
 }
 

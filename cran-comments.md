@@ -15,7 +15,7 @@ OK from all checks
 
 ---
 
-This version provides exta checks on time bounds.
+This version fixes problems with the time bounds checks and "last"
 
 Thanks! 
 Roy Mendelssohn
