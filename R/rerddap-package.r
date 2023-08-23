@@ -50,11 +50,12 @@
 #' @importFrom dplyr as_data_frame bind_rows
 #' @importFrom digest digest
 #' @importFrom hoardr hoard
-#' @name rerddap-package
-#' @aliases rerddap
 #' @docType package
-#' @keywords package
-NULL
+#' @name rerddap
+#' @keywords internal
+"_PACKAGE"
+## usethis namespace: start
+## usethis namespace: end
 
 #' institutions
 #'
