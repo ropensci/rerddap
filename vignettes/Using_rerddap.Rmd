@@ -476,9 +476,11 @@ calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month'
 Both "intchl" and "intC14" are returned as character strings, and are easier to work with as numbers:
 
 ```{r calCOFInum, eval = FALSE, echo = TRUE}
-calcofi.df$cruz_num <- as.numeric(calcofi.df$cruz_num)
-calcofi.df$intc14 <- as.numeric(calcofi.df$intc14)
-calcofi.df$time <- as.Date(calcofi.df$time, origin = '1970-01-01', tz = "GMT")
+if (packageVersion('rerddap') < '1.1.0'){
+    calcofi.df$cruz_num <- as.numeric(calcofi.df$cruz_num)
+    calcofi.df$intc14 <- as.numeric(calcofi.df$intc14)
+    calcofi.df$time <- as.Date(calcofi.df$time, origin = '1970-01-01', tz = "GMT")
+}
 ```
 
 At this point the requested data are in the <span style="color:red">R</span> workspace - the rest of the code performs the calculations to derive the seasonally adjusted values and plot them.
@@ -543,6 +545,11 @@ extract the desired CPS data:
 require("dplyr")
 require("rerddap")
 sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scientific_name', 'subsample_count'), 'time>=2010-01-01', 'time<=2012-01-01', 'scientific_name="Sardinops sagax"' )
+if (packageVersion('rerddap') < '1.1.0'){
+    sardines$time <- as.Date(sardines$time, origin = '1970-01-01', tz = "GMT")
+    sardines$latitude <- as.numeric(sardines$latitude)
+    sardines$longitude <- as.numeric(sardines$longitude)
+}
 sardines$time <- as.Date(sardines$time, origin = '1970-01-01', tz = "GMT")
 sardines$latitude <- as.numeric(sardines$latitude)
 sardines$longitude <- as.numeric(sardines$longitude)
@@ -594,10 +601,14 @@ Also of interest is the distribution of sardines through the years:
 
 ```{r, eval = FALSE,  echo = TRUE}
 sardinops <- tabledap(CPSinfo, fields = c('longitude', 'latitude', 'time'),  'scientific_name="Sardinops sagax"')
-sardinops$time <- as.Date(sardinops$time, origin = '1970-01-01', tz = "GMT")
+if (packageVersion('rerddap') < '1.1.0') {
+    sardinops$time <- as.Date(sardinops$time, origin = '1970-01-01', tz = "GMT")
+    sardinops$year <- as.factor(format(sardinops$time, '%Y'))
+    sardinops$latitude <- as.numeric(sardinops$latitude)
+    sardinops$longitude <- as.numeric(sardinops$longitude)
+}
 sardinops$year <- as.factor(format(sardinops$time, '%Y'))
-sardinops$latitude <- as.numeric(sardinops$latitude)
-sardinops$longitude <- as.numeric(sardinops$longitude)
+
 ```
 
 ```{r sardinesPlot, eval = FALSE, echo = TRUE}
@@ -623,8 +634,10 @@ NOAA's National Data Buoy Center (NDBC) collects world-wide data from buoys in t
 # get location and station ID of NDBC buoys in a region
 BuoysInfo <- info('cwwcNDBCMet')
 locationBuoys <- tabledap(BuoysInfo, distinct = TRUE, fields = c("station", "longitude", "latitude"), "longitude>=-124", "longitude<=-121", "latitude>=37", "latitude<=47")
-locationBuoys$latitude <- as.numeric(locationBuoys$latitude)
-locationBuoys$longitude <- as.numeric(locationBuoys$longitude)
+if (packageVersion('rerddap') < '1.1.0') {
+   locationBuoys$latitude <- as.numeric(locationBuoys$latitude)
+   locationBuoys$longitude <- as.numeric(locationBuoys$longitude)
+}
 ```
 
 ```{r NDBC, eval = FALSE,  echo = TRUE}
@@ -646,8 +659,10 @@ Looking at wind speed for 2012 for station "46012"
 
 ```{r, eval = FALSE, echo = TRUE}
 buoyData <- tabledap(BuoysInfo, fields = c("time", "wspd"), 'station="46012"', 'time>=2012-01-01', 'time<=2013-01-01')
-buoyData$wspd <- as.numeric(buoyData$wspd)
-buoyData$time <- as.Date(buoyData$time, origin = '1970-01-01', tz = "GMT")
+if (packageVersion('rerddap') < '1.1.0') {
+    buoyData$wspd <- as.numeric(buoyData$wspd)
+    buoyData$time <- as.Date(buoyData$time, origin = '1970-01-01', tz = "GMT")
+}
 ```
 
 ```{r NDBCTS, eval = FALSE, echo = TRUE}
@@ -668,9 +683,11 @@ The IOOS Glider Dac is accessible through `rerddap` (https://gliders.ioos.us/erd
 urlBase <- "https://data.ioos.us/gliders/erddap/"
 gliderInfo <- info("sp064-20161214T1913",  url = urlBase)
 glider <- tabledap(gliderInfo, fields = c("longitude", "latitude", "depth", "salinity"), 'time>=2016-12-14', 'time<=2016-12-23', url = urlBase)
-glider$longitude <- as.numeric(glider$longitude)
-glider$latitude <- as.numeric(glider$latitude)
-glider$depth <- as.numeric(glider$depth)
+if (packageVersion('rerddap') < '1.1.0') {
+    glider$longitude <- as.numeric(glider$longitude)
+    glider$latitude <- as.numeric(glider$latitude)
+    glider$depth <- as.numeric(glider$depth)
+}
 ```
 
 ```{r glider, eval = FALSE, echo = TRUE}
@@ -696,8 +713,14 @@ atnData$latitude <- as.numeric(atnData$latitude)
 atnData$longitude <- as.numeric(atnData$longitude)
 ncdcSST = array(NA_real_, dim = length(atnData$time))
 ncdcSSTInfo = info('ncdcOisst2Agg')
+time_bound <- c(as.character(atnData$time[i]), as.character(atnData$time[i]))
 for (i in 1:length(atnData$time)) {
-  extract <- griddap(ncdcSSTInfo, fields = 'sst', latitude = c(atnData$latitude[i], atnData$latitude[i]), longitude = c(atnData$longitude[i], atnData$longitude[i]), time = c(atnData$time[i], atnData$time[i]))
+  extract <- griddap(ncdcSSTInfo, 
+                     fields = 'sst', 
+                     latitude = c(atnData$latitude[i], atnData$latitude[i]), 
+                     longitude = c(atnData$longitude[i], atnData$longitude[i]), 
+                     time = time_bound
+                     )
 ncdcSST[i] <- extract$data$sst
 }
 ```
@@ -733,7 +756,9 @@ nphData$maxSLP <- as.numeric(nphData$maxSLP)
 urlBase <- 'https://oceanview.pfeg.noaa.gov/erddap/'
 cohoInfo <- info('cciea_SM_CA_CO_ABND', url = urlBase)
 cohoData <- tabledap(cohoInfo, fields = c("abundance_anomaly", "time"),  url = urlBase)
-cohoData$abundance_anomaly <- as.numeric(cohoData$abundance_anomaly)
+if (packageVersion('rerddap') < '1.1.0') {
+    cohoData$abundance_anomaly <- as.numeric(cohoData$abundance_anomaly)
+}
 alldata <- data.frame(coho = cohoData$abundance_anomaly[1:27], maxSLP = nphData$maxSLP, year = nphData$year)
 ```
 

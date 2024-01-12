@@ -1,0 +1,221 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://coastwatch.noaa.gov/erddap/info/noaacwNPPVIIRSchlaDaily/index.json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.71.1 r-curl/4.3 crul/0.9.4.91
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Wed, 15 Jul 2020 22:21:20 GMT
+      server: Apache
+      cache-control: private, max-age=0, must-revalidate
+      strict-transport-security: max-age=63072000; includeSubdomains;
+      content-disposition: attachment;filename=noaacwNPPVIIRSchlaDaily_info.json
+      content-encoding: gzip
+      content-type: application/json;charset=UTF-8
+      x-frame-options: SAMEORIGIN
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      file: no
+      string: |
+        {
+          "table": {
+            "columnNames": ["Row Type", "Variable Name", "Attribute Name", "Data Type", "Value"],
+            "columnTypes": ["String", "String", "String", "String", "String"],
+            "rows": [
+              ["attribute", "NC_GLOBAL", "cdm_data_type", "String", "Grid"],
+              ["attribute", "NC_GLOBAL", "Conventions", "String", "CF-1.6, COARDS, ACDD-1.3"],
+              ["attribute", "NC_GLOBAL", "creator_email", "String", "coastwatch.info@noaa.gov"],
+              ["attribute", "NC_GLOBAL", "creator_name", "String", "NOAA/NESDIS/STAR"],
+              ["attribute", "NC_GLOBAL", "creator_url", "String", "https://coastwatch.noaa.gov"],
+              ["attribute", "NC_GLOBAL", "cw%3aswath_sync_lines", "int", "16, 16, 16, 16"],
+              ["attribute", "NC_GLOBAL", "cw_orbit_type", "String", "ascending"],
+              ["attribute", "NC_GLOBAL", "cw_pass_type", "String", "day\\nday/night"],
+              ["attribute", "NC_GLOBAL", "cw_processing_version", "String", "NRT NOAA"],
+              ["attribute", "NC_GLOBAL", "cw_projection", "String", "Geographic"],
+              ["attribute", "NC_GLOBAL", "cw_satellite", "String", "NPP"],
+              ["attribute", "NC_GLOBAL", "cw_sensor", "String", "VIIRS"],
+              ["attribute", "NC_GLOBAL", "cw_software_name", "String", "MSL12"],
+              ["attribute", "NC_GLOBAL", "cw_software_version", "String", "1.30"],
+              ["attribute", "NC_GLOBAL", "Easternmost_Easting", "double", "180.01874999999998"],
+              ["attribute", "NC_GLOBAL", "geospatial_lat_max", "double", "89.75625000000001"],
+              ["attribute", "NC_GLOBAL", "geospatial_lat_min", "double", "-89.75625000000002"],
+              ["attribute", "NC_GLOBAL", "geospatial_lat_resolution", "double", "0.03750000000000001"],
+              ["attribute", "NC_GLOBAL", "geospatial_lat_units", "String", "degrees_north"],
+              ["attribute", "NC_GLOBAL", "geospatial_lon_max", "double", "180.01874999999998"],
+              ["attribute", "NC_GLOBAL", "geospatial_lon_min", "double", "-180.01875"],
+              ["attribute", "NC_GLOBAL", "geospatial_lon_resolution", "double", "0.037500000000000006"],
+              ["attribute", "NC_GLOBAL", "geospatial_lon_units", "String", "degrees_east"],
+              ["attribute", "NC_GLOBAL", "geospatial_vertical_max", "double", "0.0"],
+              ["attribute", "NC_GLOBAL", "geospatial_vertical_min", "double", "0.0"],
+              ["attribute", "NC_GLOBAL", "geospatial_vertical_positive", "String", "up"],
+              ["attribute", "NC_GLOBAL", "geospatial_vertical_units", "String", "m"],
+              ["attribute", "NC_GLOBAL", "identifier_product_doi_authority", "String", "https://dx.doi.org"],
+              ["attribute", "NC_GLOBAL", "infoUrl", "String", "https://coastwatch.noaa.gov/cw/satellite-data-products/ocean-color/near-real-time/viirs-snpp.html"],
+              ["attribute", "NC_GLOBAL", "institution", "String", "NOAA NESDIS CoastWatch"],
+              ["attribute", "NC_GLOBAL", "keywords", "String", "algorithm, altitude, chemistry, chlor_a, chlorophyll, color, concentration, data, default, Earth Science  > Oceans  > Ocean Chemistry  > Chlorophyll, imager, imager/radiometer, imaging, infrared, L3, level, level-3, mass, mass_concentration_of_chlorophyll_a_in_sea_water, national, npp, ocean, ocean color, oceans, Oceans  > Ocean Optics  > Ocean Color, optics, orbiting, partnership, polar, polar-orbiting, radiometer, sea, seawater, star, suite, suite/suomi-npp, suomi, time, VIIRS, viirs, viirs-n, visible, water, ww00"],
+              ["attribute", "NC_GLOBAL", "keywords_vocabulary", "String", "GCMD Science Keywords"],
+              ["attribute", "NC_GLOBAL", "license", "String", "https://science.nasa.gov/earth-science/earth-science-data/data-information-policy/\nThe data may be used and redistributed for free but is not intended\nfor legal use, since it may contain inaccuracies. Neither the data\nContributor, ERD, NOAA, nor the United States Government, nor any\nof their employees or contractors, makes any warranty, express or\nimplied, including warranties of merchantability and fitness for a\nparticular purpose, or assumes any legal liability for the accuracy,\ncompleteness, or usefulness, of this information."],
+              ["attribute", "NC_GLOBAL", "naming_authority", "String", "gov.noaa.coastwatch"],
+              ["attribute", "NC_GLOBAL", "Northernmost_Northing", "double", "89.75625000000001"],
+              ["attribute", "NC_GLOBAL", "OBSERVED_PROPERTY", "String", "chlor_a"],
+              ["attribute", "NC_GLOBAL", "publisher_email", "String", "coastwatch.info@noaa.gov; ncei.info@noaa.gov"],
+              ["attribute", "NC_GLOBAL", "publisher_name", "String", "NOAA CoastWatch; National Centers for Environmental Information (NCEI)"],
+              ["attribute", "NC_GLOBAL", "publisher_url", "String", "https://coastwatch.noaa.gov; https://www.ncei.noaa.gov/"],
+              ["attribute", "NC_GLOBAL", "source", "String", "S-NPP_VIIRS_chlora"],
+              ["attribute", "NC_GLOBAL", "sourceUrl", "String", "https://coastwatch.noaa.gov/thredds/dodsC/CoastWatch/VIIRS/npp/chlora/DailyGlobal/WW00"],
+              ["attribute", "NC_GLOBAL", "Southernmost_Northing", "double", "-89.75625000000002"],
+              ["attribute", "NC_GLOBAL", "standard_name_vocabulary", "String", "CF Standard Name Table v29"],
+              ["attribute", "NC_GLOBAL", "summary", "String", "Visible and Infrared Imager/Radiometer Suite/Suomi-NPP (VIIRS) Level-3 (WW00), Near Real-Time, Chlorophyll, Global, Daily, processed by NOAA. EXPERIMENTAL."],
+              ["attribute", "NC_GLOBAL", "time_coverage_end", "String", "2020-07-13T12:00:00Z"],
+              ["attribute", "NC_GLOBAL", "time_coverage_start", "String", "2019-07-09T12:00:00Z"],
+              ["attribute", "NC_GLOBAL", "title", "String", "Chlorophyll, NOAA S-NPP VIIRS, Near Real-Time, Global 4km, Level 3, 2017-present,  Daily"],
+              ["attribute", "NC_GLOBAL", "Westernmost_Easting", "double", "-180.01875"],
+              ["dimension", "time", "", "double", "nValues=350, evenlySpaced=false, averageSpacing=1 day 1h 26m 39s"],
+              ["attribute", "time", "_CoordinateAxisType", "String", "Time"],
+              ["attribute", "time", "actual_range", "double", "1.5626736E9, 1.5946416E9"],
+              ["attribute", "time", "axis", "String", "T"],
+              ["attribute", "time", "bounds", "String", "baseline_bounds"],
+              ["attribute", "time", "calendar", "String", "gregorian"],
+              ["attribute", "time", "ioos_category", "String", "Time"],
+              ["attribute", "time", "long_name", "String", "Time"],
+              ["attribute", "time", "standard_name", "String", "time"],
+              ["attribute", "time", "time_origin", "String", "01-JAN-1970 00:00:00"],
+              ["attribute", "time", "units", "String", "seconds since 1970-01-01T00:00:00Z"],
+              ["dimension", "altitude", "", "double", "nValues=1, onlyValue=0.0"],
+              ["attribute", "altitude", "_CoordinateAxisType", "String", "Height"],
+              ["attribute", "altitude", "_CoordinateZisPositive", "String", "up"],
+              ["attribute", "altitude", "actual_range", "double", "0.0, 0.0"],
+              ["attribute", "altitude", "axis", "String", "Z"],
+              ["attribute", "altitude", "ioos_category", "String", "Location"],
+              ["attribute", "altitude", "long_name", "String", "Altitude"],
+              ["attribute", "altitude", "positive", "String", "up"],
+              ["attribute", "altitude", "standard_name", "String", "altitude"],
+              ["attribute", "altitude", "units", "String", "m"],
+              ["dimension", "latitude", "", "double", "nValues=4788, evenlySpaced=true, averageSpacing=-0.03750000000000001"],
+              ["attribute", "latitude", "_CoordinateAxisType", "String", "Lat"],
+              ["attribute", "latitude", "actual_range", "double", "-89.75625000000002, 89.75625000000001"],
+              ["attribute", "latitude", "axis", "String", "Y"],
+              ["attribute", "latitude", "ioos_category", "String", "Location"],
+              ["attribute", "latitude", "long_name", "String", "Latitude"],
+              ["attribute", "latitude", "standard_name", "String", "latitude"],
+              ["attribute", "latitude", "units", "String", "degrees_north"],
+              ["dimension", "longitude", "", "double", "nValues=9602, evenlySpaced=true, averageSpacing=0.037500000000000006"],
+              ["attribute", "longitude", "_CoordinateAxisType", "String", "Lon"],
+              ["attribute", "longitude", "actual_range", "double", "-180.01875, 180.01874999999998"],
+              ["attribute", "longitude", "axis", "String", "X"],
+              ["attribute", "longitude", "ioos_category", "String", "Location"],
+              ["attribute", "longitude", "long_name", "String", "Longitude"],
+              ["attribute", "longitude", "standard_name", "String", "longitude"],
+              ["attribute", "longitude", "units", "String", "degrees_east"],
+              ["variable", "chlor_a", "", "float", "time, altitude, latitude, longitude"],
+              ["attribute", "chlor_a", "_FillValue", "float", "NaN"],
+              ["attribute", "chlor_a", "colorBarMaximum", "double", "30.0"],
+              ["attribute", "chlor_a", "colorBarMinimum", "double", "0.03"],
+              ["attribute", "chlor_a", "colorBarScale", "String", "Log"],
+              ["attribute", "chlor_a", "cw%3aatmospheric_correction", "String", "NOAA MECB BMW Atmospheric Correction"],
+              ["attribute", "chlor_a", "cw%3afraction_digits", "int", "16"],
+              ["attribute", "chlor_a", "cw%3aprocessing_algorithm", "String", "OC3 Algorithm"],
+              ["attribute", "chlor_a", "cw%3aproduct_status", "String", "Experimental"],
+              ["attribute", "chlor_a", "grid_mapping", "String", "coord_ref"],
+              ["attribute", "chlor_a", "ioos_category", "String", "Ocean Color"],
+              ["attribute", "chlor_a", "long_name", "String", "Chlorophyll Concentration, OC3 Algorithm"],
+              ["attribute", "chlor_a", "missing_value", "float", "NaN"],
+              ["attribute", "chlor_a", "references", "String", "O and #39;Reilly J. E. et al. (1998), Ocean color chlorophyll algorithms for SeaWiFS, J. Geophys. Res., 103(C11), 2493724953"],
+              ["attribute", "chlor_a", "standard_name", "String", "mass_concentration_of_chlorophyll_in_sea_water"],
+              ["attribute", "chlor_a", "units", "String", "mg m^-3"]
+            ]
+          }
+        }
+  recorded_at: 2020-07-15 22:21:22 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.6.2
+- request:
+    method: get
+    uri: https://coastwatch.noaa.gov/erddap/tabledap/index.json?page=1&itemsPerPage=10000
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.71.1 r-curl/4.3 crul/0.9.4.91
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Wed, 15 Jul 2020 22:21:20 GMT
+      server: Apache
+      cache-control: private, max-age=0, must-revalidate
+      strict-transport-security: max-age=63072000; includeSubdomains;
+      last-modified: Wed, 15 Jul 2020 22:21:20 GMT
+      xdods-server: dods/3.7
+      erddap-server: '1.82'
+      content-disposition: attachment;filename=tabledap.json
+      content-encoding: gzip
+      content-type: application/json;charset=UTF-8
+      x-frame-options: SAMEORIGIN
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      file: no
+      string: |
+        {
+          "table": {
+            "columnNames": ["griddap", "Subset", "tabledap", "Make A Graph", "wms", "files", "Title", "Summary", "FGDC", "ISO 19115", "Info", "Background Info", "RSS", "Institution", "Dataset ID"],
+            "columnTypes": ["String", "String", "String", "String", "String", "String", "String", "String", "String", "String", "String", "String", "String", "String", "String"],
+            "rows": [
+              ["", "https://coastwatch.noaa.gov/erddap/tabledap/allDatasets.subset", "https://coastwatch.noaa.gov/erddap/tabledap/allDatasets", "https://coastwatch.noaa.gov/erddap/tabledap/allDatasets.graph", "", "", "* The List of All Active Datasets in this ERDDAP *", "This dataset is a table which has a row of information for each dataset currently active in this ERDDAP.\n\ncdm_data_type = Other\nVARIABLES:\ndatasetID (Dataset ID)\naccessible\ninstitution\ndataStructure (Data Structure)\ncdm_data_type (Common Data Model Type)\nclass (ERDDAP Class)\ntitle\nminLongitude (Minimum Longitude, degrees_east)\nmaxLongitude (Maximum Longitude, degrees_east)\nlongitudeSpacing (Average Grid Longitude Spacing, degrees_east)\nminLatitude (Minimum Latitude, degrees_north)\nmaxLatitude (Maximum Latitude, degrees_north)\nlatitudeSpacing (Average Grid Latitude Spacing, degrees_north)\nminAltitude (Minimum Altitude or -Depth, m)\nmaxAltitude (Maximum Altitude or -Depth, m)\nminTime (Minimum Time, seconds since 1970-01-01T00:00:00Z)\nmaxTime (Maximum Time, seconds since 1970-01-01T00:00:00Z)\ntimeSpacing (Average Grid Time Spacing, seconds)\ngriddap (Base URL of OPeNDAP Grid Service)\nsubset (URL of Subset Web Page)\ntabledap (Base URL of OPeNDAP Table/Sequence Service)\nMakeAGraph (URL of Make-A-Graph Web Page)\nsos (Base URL of SOS Service)\nwcs (Base URL of WCS Service)\nwms (Base URL of WMS Service)\nfiles (Base URL of /files/ Service)\n... (10 more variables)\n", "", "", "https://coastwatch.noaa.gov/erddap/info/allDatasets/index.json", "https://coastwatch.noaa.gov/erddap", "", "NOAA.GOV", "allDatasets"]
+            ]
+          }
+        }
+  recorded_at: 2020-07-15 22:21:22 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.6.2
+- request:
+    method: get
+    uri: https://coastwatch.noaa.gov/erddap/griddap/noaacwNPPVIIRSchlaDaily.nc?chlor_a[(2020-07-07T12:00:00Z):1:(2020-07-07T13:00:00Z)][(0):1:(0)][(31):1:(30)][(-120):1:(-119)]
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.71.1 r-curl/4.3 crul/0.9.4.91
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Wed, 15 Jul 2020 22:21:20 GMT
+      server: Apache
+      cache-control: private, max-age=0, must-revalidate
+      strict-transport-security: max-age=63072000; includeSubdomains;
+      last-modified: Wed, 15 Jul 2020 22:21:20 GMT
+      xdods-server: dods/3.7
+      erddap-server: '1.82'
+      content-disposition: attachment;filename=noaacwNPPVIIRSchlaDaily_e3c1_44d7_221b.nc
+      content-encoding: gzip
+      content-type: application/x-netcdf
+      x-frame-options: SAMEORIGIN
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      file: yes
+      string: ../fixtures/2b34de76a216b28ab3ef759e2d9c69a8.nc
+  recorded_at: 2020-07-15 22:21:22 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.6.2

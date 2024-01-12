@@ -12,7 +12,10 @@ ncdf4_get <- function(file){
   for (i in seq_along(dims)) {
     out[[dims[i]]] <- ncdf4::ncvar_get(nc, nc$dim[[dims[i]]])
   }
-  out$time <- sapply(out$time, convert_time)
+  if ('time' %in% names(out)){
+    out$time <- sapply(out$time, convert_time)
+    
+  }
   vars <- names(nc$var)
   outvars <- list()
   for (i in seq_along(vars)) {

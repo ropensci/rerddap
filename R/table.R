@@ -208,8 +208,27 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   }
   resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, callopts)
   loc <- if (store$store == "disk") resp else "memory"
+  temp_table <- read_table(resp)
+  # change response type
+  dds_url <- sub('csv', 'dds', url)
+  # strip off constraints
+  amp_location <- regexpr("&", dds_url)
+  if (amp_location[1] > 0) {
+    dds_url <- substr(dds_url, 1, amp_location[1] - 1)
+  }
+  dds <- try(suppressWarnings(utils::read.table(dds_url)), silent = TRUE)
+  # if (class(dds) == 'try-error') {
+  if (methods::is(dds, 'try-error')) {
+    print('failed to get variable datatype information')
+    print('will leave units unchanged')
+  } else{
+    temp_table <- set_units(temp_table, dds)
+  }
+ 
+    
   structure(
-    read_table(resp),
+    #read_table(resp),
+    temp_table,
     class = c("tabledap", "data.frame"),
     datasetid = attr(x, "datasetid"),
     path = loc,
@@ -261,4 +280,26 @@ makevar <- function(x, y){
   } else {
     NULL
   }
+}
+
+set_units <- function(temp_t, dds) {
+    for (i in seq(3, (nrow(dds) - 2))) {
+        var_type <- dds[i, 1]
+        var_name <- dds[i, 2]
+        var_name <- substr(var_name, 1, nchar(var_name)-1)
+        if (var_name == 'time') {
+            # make certain lubridate can convert time
+            temp_time <- suppressWarnings(lubridate::as_datetime(temp_t$time))
+           if (!any(is.na(temp_time))) {
+               temp_t$time <- temp_time
+           }
+       } else {
+           if (grepl('Float', var_type)) {
+               temp_t[[var_name]] <- as.numeric(temp_t[[var_name]])
+           } else if(grepl('Int', var_type)) {
+              temp_t[[var_name]] <- as.integer(temp_t[[var_name]])
+           }
+       }
+    } 
+  return(temp_t)
 }

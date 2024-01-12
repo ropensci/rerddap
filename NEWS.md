@@ -1,3 +1,7 @@
+rerddap 1.1.0
+=============
+* 'tabledap()' responses now have the datatype given in the file .dds
+
 rerddap 1.0.4
 =============
 * fixes problem with time bounds check and "last"

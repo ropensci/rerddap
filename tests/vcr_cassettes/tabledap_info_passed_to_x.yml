@@ -1,0 +1,35 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://upwell.pfeg.noaa.gov/erddap/tabledap/erdCinpKfmBT.csv?&time%3E%3D2007-06-24&time%3C%3D2007-07-01
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.71.1 r-curl/4.3 crul/0.9.4.91
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/1.1 200 '
+      date: Wed, 15 Jul 2020 22:49:22 GMT
+      x-frame-options: SAMEORIGIN
+      strict-transport-security: max-age=31536000; includeSubDomains
+      last-modified: Wed, 15 Jul 2020 22:49:22 GMT
+      xdods-server: dods/3.7
+      erddap-server: '2.02'
+      content-disposition: attachment;filename=erdCinpKfmBT_97f6_55be_e3ba.csv
+      content-encoding: gzip
+      content-type: text/csv;charset=ISO-8859-1
+      connection: close
+      transfer-encoding: chunked
+    body:
+      encoding: UTF-8
+      file: yes
+      string: ../fixtures/268b2474e9e613336b900d3289304bb0.csv
+  recorded_at: 2020-07-15 22:49:22 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.6.2

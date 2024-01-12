@@ -1,0 +1,107 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://irishmarineinstitute.github.io/awesome-erddap/erddaps.json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4.9100
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      server: GitHub.com
+      content-type: application/json; charset=utf-8
+      last-modified: Thu, 29 Aug 2019 15:53:53 GMT
+      etag: W/"5d67f511-12d6"
+      access-control-allow-origin: '*'
+      expires: Thu, 29 Aug 2019 20:37:50 GMT
+      cache-control: max-age=600
+      content-encoding: gzip
+      x-proxy-cache: MISS
+      x-github-request-id: 365A:3DE3:75194D:7BC839:5D683546
+      accept-ranges: bytes
+      date: Thu, 29 Aug 2019 20:39:53 GMT
+      via: 1.1 varnish
+      age: '408'
+      x-served-by: cache-sea1035-SEA
+      x-cache: HIT
+      x-cache-hits: '2'
+      x-timer: S1567111194.933845,VS0,VE0
+      vary: Accept-Encoding
+      x-fastly-request-id: f35f35060c5dffa55ecce56b0699a01b80ea663f
+      content-length: '1362'
+    body:
+      encoding: UTF-8
+      string: "[\n\t{\n\t\t\"name\": \"CoastWatch West Coast Node\",\n\t\t\"url\":
+        \"https://coastwatch.pfeg.noaa.gov/erddap/\",\n\t\t\"public\": true\n\t},\n
+        \   {\n\t\t\"name\": \"ERDDAP at the Asia-Pacific Data-Research Center\",\n\t\t\"url\":
+        \"https://apdrc.soest.hawaii.edu/erddap/\",\n\t\t\"public\": true\n\t},\n
+        \   {\n\t\t\"name\": \"NOAA's National Centers for Environmental Information
+        (NCEI)\",\n\t\t\"url\": \"https://www.ncei.noaa.gov/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"Biological and Chemical Oceanography Data
+        Management Office (BCO-DMO) ERDDAP\",\n\t\t\"url\": \"https://erddap.bco-dmo.org/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"European Marine Observation and Data Network
+        (EMODnet) Physics ERDDAP\",\n\t\t\"url\": \"https://erddap.emodnet-physics.eu/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"Marine Institute - Ireland\",\n\t\t\"url\":
+        \"https://erddap.marine.ie/erddap/\",\n\t\t\"public\": true\n\t},\n    {\n\t\t\"name\":
+        \"CoastWatch Caribbean/Gulf of Mexico Node\",\n\t\t\"url\": \"https://cwcgom.aoml.noaa.gov/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA IOOS Sensors ERDDAP\",\n\t\t\"url\":
+        \"http://erddap.sensors.ioos.us/erddap/\",\n\t\t\"public\": true\n\t},\n    {\n\t\t\"name\":
+        \"NOAA IOOS CeNCOOS (Central and Northern California Ocean Observing System)\",\n\t\t\"url\":
+        \"http://erddap.axiomdatascience.com/erddap/\",\n\t\t\"public\": true\n\t},\n
+        \   {\n\t\t\"name\": \"NOAA IOOS NERACOOS (Northeastern Regional Association
+        of Coastal and Ocean Observing Systems)\",\n\t\t\"url\": \"http://www.neracoos.org/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA IOOS NGDAC (National Glider Data Assembly
+        Center)\",\n\t\t\"url\": \"https://data.ioos.us/gliders/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA IOOS PacIOOS (Pacific Islands Ocean
+        Observing System) at the University of Hawaii (UH)\",\n\t\t\"url\": \"http://oos.soest.hawaii.edu/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"Southern California Coastal Ocean Observing
+        System (SCCOOS)\",\n\t\t\"url\": \"http://sccoos.org/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA IOOS SECOORA (Southeast Coastal Ocean
+        Observing Regional Association)\",\n\t\t\"url\": \"http://erddap.secoora.org/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA NCEI (National Centers for Environmental
+        Information) / NCDDC\",\n\t\t\"url\": \"https://ecowatch.ncddc.noaa.gov/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA OSMC (Observing System Monitoring
+        Center)\",\n\t\t\"url\": \"http://osmc.noaa.gov/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"ONC (Ocean Networks Canada)\",\n\t\t\"url\":
+        \"http://dap.onc.uvic.ca/erddap/\",\n\t\t\"public\": true\n\t},\n    {\n\t\t\"name\":
+        \"\",\n\t\t\"url\": \"https://oceanwatch.pifsc.noaa.gov/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"Ocean Observatories Initiative (OOI)\",\n\t\t\"url\":
+        \"https://erddap-uncabled.oceanobservatories.org/uncabled/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"Ocean Tracking Network\",\n\t\t\"url\":
+        \"https://members.oceantrack.org/erddap/\",\n\t\t\"public\": true\n\t},\n
+        \   {\n\t\t\"name\": \"\",\n\t\t\"url\": \"http://www.myroms.org:8080/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"Department of Marine and Coastal Sciences,
+        School of Environmental and Biological Sciences, Rutgers, The State University
+        of New Jersey\",\n\t\t\"url\": \"http://tds.marine.rutgers.edu/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"\",\n\t\t\"url\": \"https://comet.nefsc.noaa.gov/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"NOAA's Center for Operational Oceanographic
+        Products and Services\",\n\t\t\"url\": \"https://opendap.co-ops.nos.noaa.gov/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"\",\n\t\t\"url\": \"http://gcoos5.geos.tamu.edu:6060/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"\",\n\t\t\"url\": \"http://gcoos4.tamu.edu:8080/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"NOAA CoastWatch Great Lakes Node\",\n\t\t\"url\":
+        \"https://coastwatch.glerl.noaa.gov/erddap/\",\n\t\t\"public\": true\n\t},\n
+        \   {\n\t\t\"name\": \"\",\n\t\t\"url\": \"http://sfbaynutrients.sfei.org/erddap/\",\n\t\t\"public\":
+        false\n\t},\n    {\n\t\t\"name\": \"Spray Underwater Glider data from Instrument
+        Development Group, Scripps Institute of Oceanography, University of California,
+        San Diego\",\n\t\t\"url\": \"https://spraydata.ucsd.edu/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"UBC Earth, Ocean & Atmospheric Sciences
+        SalishSeaCast Project\",\n\t\t\"url\": \"https://salishsea.eos.ubc.ca/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"UC Davis BML (University of California
+        at Davis, Bodega Marine Laboratory)\",\n\t\t\"url\": \"http://bmlsc.ucdavis.edu:8080/erddap/\",\n\t\t\"public\":
+        true\n\t},\n    {\n\t\t\"name\": \"NOAA UAF (Unified Access Framework)\",\n\t\t\"url\":
+        \"https://upwell.pfeg.noaa.gov/erddap/\",\n\t\t\"public\": true\n\t},\n\t{\n\t\t\"name\":
+        \"Marine Domain Awareness (MDA) - Italy\",\n\t\t\"url\": \"https://bluehub.jrc.ec.europa.eu/erddap/\",\n\t\t\"public\":
+        true\n\t},\n\t{\n\t\t\"name\": \"R.Tech Engineering\",\n\t\t\"url\": \"https://meteo.rtech.fr/erddap/\",\n\t\t\"public\":
+        true\n\t},\n\t{\n\t\t\"name\": \"French Research Institute for the Exploitation
+        of the Sea\",\n\t\t\"url\": \"http://www.ifremer.fr/erddap/\",\n\t\t\"public\":
+        true\n\t}\n]"
+  recorded_at: 2019-08-29 20:39:53 GMT
+  recorded_with: vcr/0.3.0, webmockr/0.4.0
