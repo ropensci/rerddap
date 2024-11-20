@@ -273,7 +273,7 @@ parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
       gsub("\\s+", "", strsplit(actrange, ",")[[1]])
     }
   }
-
+  tmp <- format(tmp, scientific = FALSE)
   if (length(s) > 1) {
     if (!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
     names(s) <- dimvars(.info)
