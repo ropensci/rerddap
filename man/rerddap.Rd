@@ -2,8 +2,8 @@
 % Please edit documentation in R/rerddap-package.r
 \docType{package}
 \name{rerddap}
-\alias{rerddap}
 \alias{rerddap-package}
+\alias{rerddap}
 \title{rerddap}
 \description{
 General purpose R client for ERDDAP servers

@@ -96,6 +96,6 @@ jobs:
           path: check
 
       - name: Test coverage
-        if: matrix.config.os == 'ubuntu-18.04' && matrix.config.r == 'release'
+        if: matrix.config.os == 'ubuntu-22.04' && matrix.config.r == 'release'
         run: |
           Rscript -e 'remotes::install_cran("covr")' -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
