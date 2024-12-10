@@ -1,12 +1,12 @@
 Package: rerddap
-Title: General Purpose Client for 'ERDDAP' Servers
-Description: General purpose R client for 'ERDDAP' servers. Includes
+Title: General Purpose Client for 'ERDDAP™' Servers
+Description: General purpose R client for 'ERDDAP™' servers. Includes
     functions to search for 'datasets', get summary information on
     'datasets', and fetch 'datasets', in either 'csv' or 'netCDF' format.
-    'ERDDAP' information: 
+    'ERDDAP™' information: 
     <https://upwell.pfeg.noaa.gov/erddap/information.html>.
-Version: 1.1.0
-Date: 2024-1-12
+Version: 1.2.0
+Date: 2024-12-13
 License: MIT + file LICENSE
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
@@ -31,6 +31,7 @@ Imports:
     jsonlite (>= 1.6),
     lubridate,
     methods,
+    nanoparquet,
     ncdf4 (>= 1.16),
     tibble,
     utils,

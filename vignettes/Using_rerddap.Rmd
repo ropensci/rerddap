@@ -1,10 +1,10 @@
 ---
-title: "Using rerddap to Access Data from ERDDAP Servers"
+title: "Using rerddap to Access Data from ERDDAP™ Servers"
 author: "Roy Mendelssohn and Scott Chamberlain"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP Servers}
+  %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP™ Servers}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -23,9 +23,23 @@ data("colors")
 
 ## Introduction
 
-`rerddap` is a general purpose <span style="color:red">R</span> client for working with <span style="color:red">ERDDAP</span> servers.  <span style="color:red">ERDDAP</span> is a web service developed by Bob Simons of NOAA.  At the time of this writing, there are over sixty <span style="color:red">ERDDAP</span> servers  (though not all are public facing) providing access to literally petabytes of data and model output relevant to oceanography, meteorology, fisheries and marine mammals, among other areas. <span style="color:red">ERDDAP</span> is a simple to use, RESTful web service, that allows data to be subsetted and returned in a variety of formats.
+`rerddap` is a general purpose <span style="color:red">R</span> client for working with <span style="color:red">ERDDAP™</span> servers.  <span style="color:red">ERDDAP™</span> is a web service developed by Bob Simons of NOAA.  At the time of this writing, there are over sixty <span style="color:red">ERDDAP™</span> servers  (though not all are public facing) providing access to literally petabytes of data and model output relevant to oceanography, meteorology, fisheries and marine mammals, among other areas. <span style="color:red">ERDDAP™</span> is a simple to use, RESTful web service, that allows data to be subsetted and returned in a variety of formats.
 
-This vignette goes over some of the nuts and bolts of using the `rerddap` package, and shows the power of the combination of the `rerddap` package with <span style="color:red">ERDDAP</span> servers.  Some of the examples are taken from the `xtractomatic` package (available from CRAN - https://cran.r-project.org/package=xtractomatic), and some from the `rerddapXtracto` package available on Github (https://github.com/rmendels/rerddapXtracto),  but reworked to use `rerddap` directly.   Other examples are new to this vignette, and include both gridded and non-gridded datasets from several <span style="color:red">ERDDAPs</span>.
+This vignette goes over some of the nuts and bolts of using the `rerddap` package, and shows the power of the combination of the `rerddap` package with <span style="color:red">ERDDAP™</span> servers.  Some of the examples are taken from the `xtractomatic` package (available from CRAN - https://cran.r-project.org/package=xtractomatic), and some from the `rerddapXtracto` package available on Github (https://github.com/rmendels/rerddapXtracto),  but reworked to use `rerddap` directly.   Other examples are new to this vignette, and include both gridded and non-gridded datasets from several <span style="color:red">ERDDAP™s</span>.
+
+Some new features in `rerddap` (as of version 1.2.0) are support for downloading `tabledap()` requests as parquet files,  which can greatly reduce the size of the download (this will only work for <span style="color:red">ERDDAP™</span> server greater or equal to version 2.25),  inclusion of units as attributes in the dataframe created by `tabledap()`, and all variables in a dataframe created by `tabledap()` now have the datatype defined in the <span style="color:red">ERDDAP™</span> server,  that is for example latitude and longitude will always be numbers,  not character strings as in the past.
+
+The option to download files as parquet files means the `tabledap()` function definition is slightly changed,  it is now:
+
+```{r, eval = FALSE, echo = TRUE}
+tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
+  orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL, fmt = 'csv',
+  url = eurl(), store = disk(), callopts=list())
+```
+
+Since the "fmt" argument is optional and defaults to "csv", which was used in previous versions of `tabledap()`,  this change will not affect existing scripts.  In order to downlaod as a parquet file,  just set "fmt = 'parquet'.  See below for an example.
+
+The option to download a `tabledap()`
 
 ## Installation
 
@@ -74,14 +88,14 @@ The complete list of rerddap functions can be seen by looking at he `rerddap` pa
 and selecting the index of the package.  The main functions used here are:
 
 * the list of servers `rerddap` knows about - `server()`
-* search an <span style="color:red">ERDDAP</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
-* search a list of  <span style="color:red">ERDDAP</span> servers for terms - `global_search(query, server_list, which_service)`
-* get a list of datasets on an <span style="color:red">ERDDAP</span> server - `ed_datasets(which = "tabledap", url = eurl())`
+* search an <span style="color:red">ERDDAP™</span> server for terms - `ed_search(query, page = NULL, page_size = NULL, which = "griddap", url = eurl(), ...)`
+* search a list of  <span style="color:red">ERDDAP™</span> servers for terms - `global_search(query, server_list, which_service)`
+* get a list of datasets on an <span style="color:red">ERDDAP™</span> server - `ed_datasets(which = "tabledap", url = eurl())`
 * obtain information about a dataset - `info(datasetid, url = eurl(), ...)`
 * extract data from a griddap dataset - `griddap(x, ..., fields = "all", stride = 1, fmt = "nc", url = eurl(), store = disk(), read = TRUE, callopts = list())`
 * extract data from a tabledap dataset - `tabledap(x, ..., fields = NULL, distinct = FALSE, orderby = NULL, orderbymax = NULL, orderbymin = NULL, orderbyminmax = NULL, units = NULL, url = eurl(), store = disk(), callopts = list())`
 
-Be careful when using the functions `ed_search()`, `ed_datasets()` and `global_search()`.  The default <span style="color:red">ERDDAP</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
+Be careful when using the functions `ed_search()`, `ed_datasets()` and `global_search()`.  The default <span style="color:red">ERDDAP™</span> has over 9,000 datasets,  most of which are grids, so that a list of all the gridded datasets can be quite long.  A seemly reasonable search:
 
 ```{r, eval = FALSE}
 whichSST <- ed_search(query = "SST")
@@ -97,18 +111,18 @@ still returns 172 responses.  If the simple search doesn't narrow things enough,
 
 ## Finding the Data You Want
 
-The first way to find a dataset is to browse the builtin web page for a particular <span style="color:red">ERDDAP</span> server.
-A list of some of the public available <span style="color:red">ERDDAP</span> servers can be obtained from the `rerddap` command:
+The first way to find a dataset is to browse the builtin web page for a particular <span style="color:red">ERDDAP™</span> server.
+A list of some of the public available <span style="color:red">ERDDAP™</span> servers can be obtained from the `rerddap` command:
 
 ```{r}
 servers()
 ```
 
-The list of <span style="color:red">ERDDAP</span> servers is based on the list maintained at the *Awesome ERDDAP* site compiled by the  Irish Marine Institute.
+The list of <span style="color:red">ERDDAP™</span> servers is based on the list maintained at the *Awesome ERDDAP™* site compiled by the  Irish Marine Institute.
 
 The second way to find and obtain the desired data is to use functions in `rerddap`.  The basic steps are:
 
-1. Find the dataset on an <span style="color:red">ERDDAP</span> server (`rerddap::servers()`, `rerddap::ed_search()`, `rerddap::ed_datasets()` ).
+1. Find the dataset on an <span style="color:red">ERDDAP™</span> server (`rerddap::servers()`, `rerddap::ed_search()`, `rerddap::ed_datasets()` ).
 2. Get the needed information about the dataset (`rerddap::info()` )
 3. Think about what you are going to do.
 4. Make the request for the data  (`rerddap::griddap()` or `rerddap::tabledap()` ).
@@ -129,9 +143,9 @@ Yes, 116,800,000 bytes or roughly 115MB for that request.  Morever the user want
 
 So the gist of this is to think about your request before you make it.  Do a little mental math to get a rough estimate of the size of the download.  There are times receiving the data as a .csv file is convenient,  but make certain the request will not be too large.  For larger requests, obtain the data as netCDF files.  By default, `rerddap::griddap()` "melts"" the data into a dataframe,  so a .csv only provides a small convenience.  But for really large downloads,  you should select the option in `rerddap::griddap()` to not read in the data, and use instead the `netcdf4` package to read in the data, as this allows for only reading in parts of the data at a time.  [Below](#ncdf4) we provide a brief tutorial on reading in data using the `ncdf4` package.
 
-## Some ERDDAP Basics
+## Some ERDDAP™ Basics
 
-One of the main advantages of a service such as <span style="color:red">ERDDAP</span> is that you only need to download the subset of the data you desire,  rather than the entire dataset,  which is both convenient and essential for large datasets. The underlying data model in <span style="color:red">ERDDAP</span> is quite simple - everything is either a (multi-dimensional) grid  (think <span style="color:red">R</span> array) or a table (think a simple spreadsheet or data table). Grids are subsetted using the function `griddap()` and tables are subset using the function `tabledap()`.
+One of the main advantages of a service such as <span style="color:red">ERDDAP™</span> is that you only need to download the subset of the data you desire,  rather than the entire dataset,  which is both convenient and essential for large datasets. The underlying data model in <span style="color:red">ERDDAP™</span> is quite simple - everything is either a (multi-dimensional) grid  (think <span style="color:red">R</span> array) or a table (think a simple spreadsheet or data table). Grids are subsetted using the function `griddap()` and tables are subset using the function `tabledap()`.
 
 If you know the datasetID of the data you are after, and are unsure if it is a grid or a table,  there are several ways to find out. We will look at two datasets, 'jplMURSST41' and 'siocalcofiHydroCasts'.  The first method is to use the `rerddap` function `browse()`
 
@@ -153,7 +167,7 @@ Notice the information on 'jplMURSST41' lists the dimensions (that is a grid) wh
 
 ### Subsetting griddap()
 
-Like an <span style="color:red">R</span> array, <span style="color:red">ERDDAP</span> grids are subsetted by setting limits on the dimension variables, the difference being that a subset is defined in coordinate space  (latitude values, longitude values, time values) rather than array space as is done with <span style="color:red">R</span> arrays.  Thus for 'jplMURSST41' if the desired area of the data extract is latitude limits of (22N, 51N), longitude limits of (140W, 105W), and with time limits of (2017-01-01, 2017-01-02) the following would be passed to the function `griddap()`:
+Like an <span style="color:red">R</span> array, <span style="color:red">ERDDAP™</span> grids are subsetted by setting limits on the dimension variables, the difference being that a subset is defined in coordinate space  (latitude values, longitude values, time values) rather than array space as is done with <span style="color:red">R</span> arrays.  Thus for 'jplMURSST41' if the desired area of the data extract is latitude limits of (22N, 51N), longitude limits of (140W, 105W), and with time limits of (2017-01-01, 2017-01-02) the following would be passed to the function `griddap()`:
 
 ```{r, eval = FALSE, echo = TRUE}
 latitude = c(22., 51.)
@@ -180,14 +194,14 @@ murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), t
 
 Strides are done in array space, not in coordinate space - so it is not skipping say a number of degrees of longitude, but is skipping a number of values of the array index - if longitude is thought of as an array, then every fifth value is used.  There are many cases where having strides work in coordinate space would be handy,  but it can cause a lot of problems.  Consider the case where neither the starting longitude, nor the ending longitude in the request lie on the actual data grid,  and the stride is in coordinate units in such a way that no value requested actually lies on an actual grid value. This would be equivalent to the more complicated problem of data regridding and data interpolation.
 
-When <span style="color:red">ERDDAP</span> receives a request where the bounds are not on the actual dataset grid,  <span style="color:red">ERDDAP</span> finds the closest values on the grid to the requested bounds, and returns those points and all grid points in between.  If a stride is added of a value greater than one but resricted to array space, this guarantees that every value returned lies on the dataset grid.
+When <span style="color:red">ERDDAP™</span> receives a request where the bounds are not on the actual dataset grid,  <span style="color:red">ERDDAP™</span> finds the closest values on the grid to the requested bounds, and returns those points and all grid points in between.  If a stride is added of a value greater than one but resricted to array space, this guarantees that every value returned lies on the dataset grid.
 
 
 
 
 ### Subsetting tabledap()
 
-Tables in <span style="color:red">ERDDAP</span> are subset by using "constraint expressions" on any variable in the table.  The valid operators are =, != (not equals), =~ (a regular expression test), <, <=, >, and >=.  The constraint is constructed as the parameter on the left, value on the right, and the operator in the middle, all within a set of quotes. For example, if in the SWFSC/FRD trawl catch data (datasetID 'FRDCPSTrawlLHHaulCatch'), only sardines for 2010  were desired,  the following constraints would be set in the `tabledap()` call:
+Tables in <span style="color:red">ERDDAP™</span> are subset by using "constraint expressions" on any variable in the table.  The valid operators are =, != (not equals), =~ (a regular expression test), <, <=, >, and >=.  The constraint is constructed as the parameter on the left, value on the right, and the operator in the middle, all within a set of quotes. For example, if in the SWFSC/FRD trawl catch data (datasetID 'FRDCPSTrawlLHHaulCatch'), only sardines for 2010  were desired,  the following constraints would be set in the `tabledap()` call:
 
 ```{r, eval = FALSE, echo = TRUE}
 'time>=2010-01-01'
@@ -204,11 +218,45 @@ sardines <- tabledap(CPSinfo, fields = c('latitude',  'longitude', 'time', 'scie
 
 ```
 
+#### tabledap() and regular expressions
+
+As mentioned above, the 'tabledap()' function allows using a regular expression to subset the variable of interest.  While regular expressions can be used for variables that are not strings (see https://coastwatch.pfeg.noaa.gov/erddap/tabledap/documentation.html#query), they are most useful for subsetting strings, as numerical variables have a natural ordering that are better suited for the more standard constraint expressions.
+
+As an example,  in the CPS trawl survey dataset above,  to find all the entries where the species names contains "Oncorhynchus"  (species of Pacific salmon and Pacific Trout):
+
+```{r, eval = FALSE, echo = TRUE }
+CPSinfo <- info('FRDCPSTrawlLHHaulCatch')
+oncorhynchus <- tabledap(CPSinfo, 
+                         fields = c('latitude',  'longitude', 'time', 'scientific_name', 
+                         'subsample_count'), 
+                         'scientific_name=~"Oncorhynchus.*"'
+                         )
+head(oncorhynchus)
+
+<ERDDAP tabledap> FRDCPSTrawlLHHaulCatch
+   Path: [/var/folders/46/jyz1mm5x5bvbf59b5g8f7f580000gn/T//RtmpLpXHMI/R/rerddap/0ce4939b104016aafebee121efeeba00.csv]
+   Last updated: [2024-10-29 11:14:10.975094]
+   File size:    [0.02 mb]
+# A tibble: 6 × 5
+  latitude longitude time                scientific_name      subsample_count
+     <dbl>     <dbl> <dttm>              <chr>                          <int>
+1     43.0     -125. 2003-07-09 06:08:00 Oncorhynchus kisutch               1
+2     43.0     -125. 2003-07-09 07:08:00 Oncorhynchus kisutch               1
+3     43       -125. 2003-07-09 08:07:00 Oncorhynchus                       1
+4     46.0     -124. 2003-07-12 08:52:00 Oncorhynchus                      10
+5     46.0     -124. 2003-07-12 10:24:00 Oncorhynchus                      10
+6     46.0     -124. 2003-07-12 12:09:00 Oncorhynchus                       2
+
+
+```
+
+
+
 ##  Searching
 
-The functions in `rerddap` work with any <span style="color:red">ERDDAP</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP</span> servers is provided by the Irish Marine Institute's *Awesome ERDDAP*  web page, and the `rerddap` function `servers()` will download this list.
+The functions in `rerddap` work with any <span style="color:red">ERDDAP™</span> server as long as the base URL is provided.  A list of advertised <span style="color:red">ERDDAP™</span> servers is provided by the Irish Marine Institute's *Awesome ERDDAP*  web page, and the `rerddap` function `servers()` will download this list.
 
-Given a base <span style="color:red">ERDDAP</span> URL, the function `ed_search()` will search the server for the given search terms.  The default <span style="color:red">ERDDAP</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP</span> server.
+Given a base <span style="color:red">ERDDAP™</span> URL, the function `ed_search()` will search the server for the given search terms.  The default <span style="color:red">ERDDAP™</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP™</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP™</span> server.
 
 
 ## griddap
@@ -368,7 +416,7 @@ myplot
 
 ### Irish Marine Institute {#hourly}
 
-The Irish Marine Institute has an <span style="color:red">ERDDAP</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see the dataset *IMI_NEATL*.  To obtain the latest sea surface salinity for the domain of the model:
+The Irish Marine Institute has an <span style="color:red">ERDDAP™</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see the dataset *IMI_NEATL*.  To obtain the latest sea surface salinity for the domain of the model:
 
 ```{r NAtlSSS, eval = FALSE, echo = TRUE}
 require("rerddap")
@@ -405,7 +453,7 @@ myplot
 
 ### IFREMER
 
-The French agency IFREMER also has an <span style="color:red">ERDDAP</span> server. Here salinity data at 75 meters from "Global Ocean, Coriolis Observation Re-Analysis CORA4.1" model off the west coast of the United States is extracted and plotted.
+The French agency IFREMER also has an <span style="color:red">ERDDAP™</span> server. Here salinity data at 75 meters from "Global Ocean, Coriolis Observation Re-Analysis CORA4.1" model off the west coast of the United States is extracted and plotted.
 
 ```{r IFREMER, eval = FALSE, echo = TRUE}
 require("rerddap")
@@ -457,7 +505,7 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
 
 ### CalCOFI data
 
-CalCOFI (California Cooperative Oceanic Fisheries Investigations - https://calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP</span>.
+CalCOFI (California Cooperative Oceanic Fisheries Investigations - https://calcofi.org) is a multi-agency partnership formed in 1949 to investigate the collapse of the sardine population off California. The organization's members are from NOAA Fisheries Service, Scripps Institution of Oceanography, and California Department of Fish and Wildlife. The scope of this research has evolved into the study of marine ecosystems off California and the management of its fisheries resources.  The nearly complete CalCOFI data, both physical and biological, are available through <span style="color:red">ERDDAP™</span>.
 
 The following example is a modification of a script developed by Dr. Andrew Leising of the Southwest Fisheries Science Center.  The original script has been used to automate the generation of several yearly reports about the California Current Ecosystem.   The script gets chlorophyll data and a measure of primary productivity from the hydrocasts,and then calculates a seasoanlly adjusted chlorophyll anomaly as well as a seasonally adjusted primary productivity anomaly.  The first step is to get the information about the particular dataset:
 
@@ -473,7 +521,8 @@ require("rerddap")
 calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
 ```
 
-Both "intchl" and "intC14" are returned as character strings, and are easier to work with as numbers:
+
+In versions of 'rerddap' before v1.1.0,  "intchl" and "intC14" are returned as character strings, and are easier to work with as numbers, so in earlier versions of you need to:
 
 ```{r calCOFInum, eval = FALSE, echo = TRUE}
 if (packageVersion('rerddap') < '1.1.0'){
@@ -482,6 +531,7 @@ if (packageVersion('rerddap') < '1.1.0'){
     calcofi.df$time <- as.Date(calcofi.df$time, origin = '1970-01-01', tz = "GMT")
 }
 ```
+
 
 At this point the requested data are in the <span style="color:red">R</span> workspace - the rest of the code performs the calculations to derive the seasonally adjusted values and plot them.
 
@@ -516,13 +566,41 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
 ![](calCOFIPlot-1.png)
 ![](calCOFIPlot-2.png)
 
+### Parquet files
+
+A new feature in `tabledap()` is to choose to download the data as a parquet file rather than as a csv file - the parquet file can be up to 90% smaller in our tests  (note this will only work if the <span style="color:red">ERDDAP™</span> server is at least version 2.25,  otherwise the program will throw an error).  As any example, for the CalCOFI example above:
+
+```{r parquet, eval = FALSE, echo = TRUE}
+require("rerddap")
+hydroInfo <- info('siocalcofiHydroCast')
+calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z', fmt = 'parquet')
+head(calcofi.df)
+<ERDDAP tabledap> siocalcofiHydroCast
+Path: [/var/folders/46/jyz1mm5x5bvbf59b5g8f7f580000gn/T//Rtmpo6E8y5/R/rerddap/50ff5f9fb5f56f480ff2f6ea034df8ef.parquet]
+Last updated: [2024-12-10 11:04:01.948088]
+File size:    [0.24 mb]
+# A tibble: 6 × 12
+cst_cnt date        year month julian_date julian_day rpt_line rpt_sta cruz_num intchl intc14
+<int> <chr>      <int> <int>       <int>      <int>    <dbl>   <dbl> <chr>     <dbl>  <dbl>
+  1   22523 01/05/1984  1984     1       30686          5       90      35 8401       30.3    NA 
+2   22524 01/05/1984  1984     1       30686          5       90      30 8401       27.9    NA 
+3   22525 01/05/1984  1984     1       30686          5       90      28 8401       29.9    NA 
+4   22526 01/05/1984  1984     1       30686          5       90      32 8401       39.3   385.
+5   22527 01/05/1984  1984     1       30686          5       90      37 8401       36.7    NA 
+6   22528 01/06/1984  1984     1       30687          6       90      53 8401       30.3    NA 
+# ℹ 1 more variable: time <dttm>
+
+```
+
+
+
 
 ### CPS Trawl Surveys
 
 
 The CPS (Coastal Pelagic Species) Trawl Life History Length Frequency Data contains the length distribution of a subset of individuals from a species (mainly non-target) caught during SWFSC-FRD fishery independent trawl surveys of coastal pelagic species. Measured lengths for indicated length type (fork, standard, total, or mantle) were grouped in 10 mm bins (identified by the midpoint of the length class) and counts are recorded by sex.
 
-The number and location of sardines (Sardinops sagax) in the tows in March 2010 and 2011 are extracted, and compared with monthly SST from satellites.  First, query the <span style="color:red">ERDDAP</span> server to see if CPS Trawl data are available through the <span style="color:red">ERDDAP</span> server, and if so, obtain the datasetID for the dataset.
+The number and location of sardines (Sardinops sagax) in the tows in March 2010 and 2011 are extracted, and compared with monthly SST from satellites.  First, query the <span style="color:red">ERDDAP™</span> server to see if CPS Trawl data are available through the <span style="color:red">ERDDAP™</span> server, and if so, obtain the datasetID for the dataset.
 
 ```{r CPS Query, eval = FALSE, echo = TRUE}
 require("rerddap")
@@ -628,7 +706,7 @@ ggplot() +
 
 ### NDBC Buoys
 
-NOAA's National Data Buoy Center (NDBC) collects world-wide data from buoys in the ocean. <span style="color:red">ERDDAP</span> can be searched for the location of all buoys in a bounding box with latitudes(37N, 47N) and longitudes (124W, 121W) and the results plotted:
+NOAA's National Data Buoy Center (NDBC) collects world-wide data from buoys in the ocean. <span style="color:red">ERDDAP™</span> can be searched for the location of all buoys in a bounding box with latitudes(37N, 47N) and longitudes (124W, 121W) and the results plotted:
 
 ```{r, eval = FALSE, echo = TRUE}
 # get location and station ID of NDBC buoys in a region
@@ -772,7 +850,7 @@ ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_b
 
 ## Cacheing, "last", "now", idempotency, and a gotcha
 
-`rerddap` by default caches the requests you make, so that if you happen to make the same request again, the data is restored from the cache, rather than having to go out and retrieve it remotely.  For most applications, this a boon (such as when "knitting" and "reknitting" this document), as it can speed things up when doing a lot of request in a script, and works because in most cases an <span style="color:red">ERDDAP</span> request is "idempotent".  This means that the the request will always return the same thing no matter what requests came before - it doesn't depend on state. However this is not true if the script uses either "last" in `griddap()` or "now" in `tabledap()` as these will return different values as time elapses and data are added to the datasets.  While it is desirable to have <span style="color:red">ERDDAP</span> purely idempotent,  the "last" and "now" constructs are very helpful for people using <span style="color:red">ERDDAP</span> in dashboards, webpages, regular input to models and the like, and the benefits far outweigh the problems.  However, if you are using either "last" or "now" in an `rerddap` based script, you want to be very careful to clear the `rerddap` cache, otherwise the request will be viewed as the same,  and the data from the last request, rather than the latest data, will be returned.  Note that several examples in this vignette use "last", and therefore the graphics may look different depending on when you "knitted" the vignette.
+`rerddap` by default caches the requests you make, so that if you happen to make the same request again, the data is restored from the cache, rather than having to go out and retrieve it remotely.  For most applications, this a boon (such as when "knitting" and "reknitting" this document), as it can speed things up when doing a lot of request in a script, and works because in most cases an <span style="color:red">ERDDAP™</span> request is "idempotent".  This means that the the request will always return the same thing no matter what requests came before - it doesn't depend on state. However this is not true if the script uses either "last" in `griddap()` or "now" in `tabledap()` as these will return different values as time elapses and data are added to the datasets.  While it is desirable to have <span style="color:red">ERDDAP™</span> purely idempotent,  the "last" and "now" constructs are very helpful for people using <span style="color:red">ERDDAP™</span> in dashboards, webpages, regular input to models and the like, and the benefits far outweigh the problems.  However, if you are using either "last" or "now" in an `rerddap` based script, you want to be very careful to clear the `rerddap` cache, otherwise the request will be viewed as the same,  and the data from the last request, rather than the latest data, will be returned.  Note that several examples in this vignette use "last", and therefore the graphics may look different depending on when you "knitted" the vignette.
 
 For help in dealing with the cache, see:
 

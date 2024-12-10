@@ -1,4 +1,4 @@
-#' Get ERDDAP tabledap data.
+#' Get ERDDAP™ tabledap data.
 #'
 #' @export
 #'
@@ -8,13 +8,13 @@
 #' @param ... Any number of key-value pairs in quotes as query constraints.
 #' See Details & examples
 #' @param fields Columns to return, as a character vector
-#' @param distinct If `TRUE` ERDDAP will sort all of the rows in the results
+#' @param distinct If `TRUE` ERDDAP™ will sort all of the rows in the results
 #' table (starting with the first requested variable, then using the second
 #' requested variable if the first variable has a tie, ...), then remove all
-#' non-unique rows of data. In many situations, ERDDAP can return distinct
-#' values quickly and efficiently. But in some cases, ERDDAP must look through
+#' non-unique rows of data. In many situations, ERDDAP™ can return distinct
+#' values quickly and efficiently. But in some cases, ERDDAP™ must look through
 #' all rows of the source dataset.
-#' @param orderby If used, ERDDAP will sort all of the rows in the results
+#' @param orderby If used, ERDDAP™ will sort all of the rows in the results
 #' table (starting with the first variable, then using the second variable
 #' if the first variable has a tie, ...). Normally, the rows of data in the
 #' response table are in the order they arrived from the data source. orderBy
@@ -23,7 +23,7 @@
 #' sorted by stationID, then time. The orderby variables MUST be included in
 #' the list of requested variables in the fields parameter.
 #' @param orderbymax Give a vector of one or more fields, that must be included
-#' in the fields parameter as well. Gives back data given constraints. ERDDAP
+#' in the fields parameter as well. Gives back data given constraints. ERDDAP™
 #' will sort all of the rows in the results table (starting with the first
 #' variable, then using the second variable if the first variable has a
 #' tie, ...) and then just keeps the rows where the value of the last sort
@@ -33,10 +33,11 @@
 #' @param orderbyminmax Same as `orderbymax` parameter, except returns
 #' two rows for every combination of the n-1 variables: one row with the
 #' minimum value, and one row with the maximum value.
+#' @param fmt whether download should be as '.csv' (default) or '.parquet'
 #' @param units One of 'udunits' (units will be described via the UDUNITS
 #' standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 #' UCUM standard (e.g., Cel)).
-#' @param url A URL for an ERDDAP server.
+#' @param url A URL for an ERDDAP™ server.
 #' Default: https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param store One of `disk` (default) or `memory`. You can pass
@@ -165,28 +166,49 @@
 #' ## memory
 #' tabledap('erdCinpKfmBT', store = memory())
 #'
-#' # use a different ERDDAP server
+#' # use a different ERDDAP™ server
 #' ## NOAA IOOS NERACOOS
 #' url <- "http://www.neracoos.org/erddap/"
 #' tabledap("E01_optics_hist", url = url)
 #' }
 
 tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
-  orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL,
+  orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL, fmt = 'csv',
   url = eurl(), store = disk(), callopts=list()) {
+  
 
   if (inherits(x, "info")) {
     url <- x$base_url
     message("info() output passed to x; setting base url to: ", url)
   }
   x <- as.info(x, url)
+  
+  # if fmt is parquet,  check the ERDDAP version
+  
+  if (fmt == 'parquet') {
+    url_version <- version(url)
+    url_version <- as.numeric(sub(".*=", "", url_version))
+    if (url_version < 2.25)  {
+      print(paste0('Selected ERDDAP is version ', url_version))
+      stop('ERDDAP version greater than 2.25 is required for parquet - program stops')
+    }
+  }
+  
   fields <- paste(fields, collapse = ",")
   lenURL <- nchar(url)
   if (substr(url, lenURL, lenURL) != '/') {
     url <- paste0(url, '/')
   }
-  url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"),
-                 fields)
+  if (fmt == 'csv') {
+    url <- sprintf(paste0(url, "tabledap/%s.csv?%s"), attr(x, "datasetid"),
+                   fields)
+  } else if (fmt == 'parquet') {
+    url <- sprintf(paste0(url, "tabledap/%s.parquetWMeta?%s"), attr(x, "datasetid"),
+                   fields)
+  } else {
+     print(paste0('format given is ', fmt))
+     stop('fmt must be either csv or parquet')
+  }
   args <- list(...)
   distinct <- if (distinct) 'distinct()' else NULL
   units <- if (!is.null(units)) {
@@ -206,25 +228,51 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   if (!nchar(args[[1]]) == 0) {
     url <- paste0(url, '&', args)
   }
-  resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, callopts)
+  resp <- erd_tab_GET(url, dset = attr(x, "datasetid"), store, fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"
-  temp_table <- read_table(resp)
-  # change response type
-  dds_url <- sub('csv', 'dds', url)
-  # strip off constraints
-  amp_location <- regexpr("&", dds_url)
-  if (amp_location[1] > 0) {
-    dds_url <- substr(dds_url, 1, amp_location[1] - 1)
+  temp_table <- read_table(resp, fmt)
+  # change response type if csv
+  if (fmt == 'csv'){
+    dds_url <- sub('csv', 'dds', url)
+    # strip off constraints
+    amp_location <- regexpr("&", dds_url)
+    if (amp_location[1] > 0) {
+      dds_url <- substr(dds_url, 1, amp_location[1] - 1)
+    }
+    dds <- try(suppressWarnings(utils::read.table(dds_url)), silent = TRUE)
+    # if (class(dds) == 'try-error') {
+    if (methods::is(dds, 'try-error')) {
+      print('failed to get variable datatype information')
+      print('will leave units unchanged')
+    } else{
+      temp_table <- set_units(temp_table, dds)
+    }
   }
-  dds <- try(suppressWarnings(utils::read.table(dds_url)), silent = TRUE)
-  # if (class(dds) == 'try-error') {
-  if (methods::is(dds, 'try-error')) {
-    print('failed to get variable datatype information')
-    print('will leave units unchanged')
-  } else{
-    temp_table <- set_units(temp_table, dds)
+  
+  # go through columns get units to add as an attribute
+  # if parquet file also set missing value to NA
+  temp_table_names <- colnames(temp_table)
+  icount = 0
+  for (myName in temp_table_names){
+    icount <- icount + 1
+    units_loc <- which(x$alldata[[myName]]$attribute_name == 'units')
+    if (length(units_loc) > 0) {
+      temp_units <- x$alldata[[myName]]$value[[units_loc]]
+      if (icount == 1){
+        temp_table_units <- temp_units
+      } else {
+        temp_table_units <- c(temp_table_units, temp_units)
+      }
+    } else {
+      if (icount == 1){
+        temp_table_units <- NA
+      } else {
+        temp_table_units <- c(temp_table_units, NA)
+      }
+    }
+    fillLoc <- which(x$alldata[[myName]]$attribute_name == '_FillValue')
   }
- 
+   
     
   structure(
     #read_table(resp),
@@ -232,7 +280,8 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
     class = c("tabledap", "data.frame"),
     datasetid = attr(x, "datasetid"),
     path = loc,
-    url = url
+    url = url,
+    units = temp_table_units
   )
 }
 
@@ -250,11 +299,15 @@ print.tabledap <- function(x, ...) {
   print(tibble::as_tibble(x))
 }
 
-erd_tab_GET <- function(url, dset, store, callopts) {
+erd_tab_GET <- function(url, dset, store, fmt, callopts) {
   cli <- crul::HttpClient$new(url = url, opts = callopts)
   if (store$store == "disk") {
     # store on disk
-    key <- gen_key(url, NULL, "csv")
+    if (fmt == 'csv') {
+      key <- gen_key(url, NULL, "csv")
+    } else {
+      key <- gen_key(url, NULL, "parquet")
+    }
     if ( file.exists(file.path(store$path, key)) ) {
       file.path(store$path, key)
     } else {

@@ -1,4 +1,3 @@
-str(test)
 units(test)
 60*60*10
 library(ncdf4)
@@ -419,3 +418,4 @@ rerddap::global_search('jplOscar')
 library(sos)
 getwd()
 devtools::check()
+devtools::build()

@@ -1,13 +1,10 @@
 #' Browse a dataset webpage.
 #'
-#' Note that it is an error to call this when `base::interactive()`
-#' returns `FALSE`
-#'
 #' @export
 #'
 #' @param x  datasetid or an object associated with a datasetid such
 #' [info()], [griddap()] or [tabledap()]
-#' @param url A URL for an ERDDAP server. Default:
+#' @param url A URL for an ERDDAP™ server. Default:
 #' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Further args passed on to `utils::browseURL`
@@ -33,39 +30,40 @@ browse <- function(x, url = eurl(), ...){
   UseMethod("browse", x)
 }
 
+
 #' @export
 browse.character <- function(x, url = eurl(), ...){
-  stopifnot(interactive())
   if (missing(x)) stop("datasetid is required")
   uri <- sprintf(paste0(url, 'info/%s/index.html'), x)
-  utils::browseURL(uri)
+  
+  if (interactive()) {
+    utils::browseURL(uri)
+  } else {
+    message("URL: ", uri)
+    return(uri)
+  }
 }
 
 #' @export
 browse.info <- function(x, url = eurl(), ...){
-  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
 
 #' @export
 browse.tabledap <- function(x, url = eurl(), ...){
-  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
 
 #' @export
 browse.griddap_nc <- function(x, url = eurl(), ...){
-  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }
 
-
 #' @export
 browse.griddap_csv <- function(x, url = eurl(), ...){
-  stopifnot(interactive())
   datasetid <- attr(x, "datasetid")
   browse(datasetid, ...)
 }

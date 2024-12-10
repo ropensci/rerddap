@@ -10,7 +10,7 @@ browse(x, url = eurl(), ...)
 \item{x}{datasetid or an object associated with a datasetid such
 \code{\link[=info]{info()}}, \code{\link[=griddap]{griddap()}} or \code{\link[=tabledap]{tabledap()}}}
 
-\item{url}{A URL for an ERDDAP server. Default:
+\item{url}{A URL for an ERDDAP™ server. Default:
 https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -22,8 +22,7 @@ if in interactive mode, opens a URL in your default browser;
 if not, then prints the URL in the console
 }
 \description{
-Note that it is an error to call this when \code{base::interactive()}
-returns \code{FALSE}
+Browse a dataset webpage.
 }
 \examples{
 \dontrun{

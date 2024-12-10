@@ -1,6 +1,7 @@
 rerddap
 =====
 
+
 <!-- badges: start -->
 [![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
   [![R-CMD-check](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml)

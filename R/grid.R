@@ -1,4 +1,4 @@
-#' Get ERDDAP gridded data
+#' Get ERDDAP™ gridded data
 #'
 #' @export
 #' @template griddap_params
@@ -275,7 +275,7 @@ parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
   }
   tmp <- format(tmp, scientific = FALSE)
   if (length(s) > 1) {
-    if (!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
+     if (!length(s) == length(dimvars(.info))) stop("Your stride vector must equal length of dimension variables", call. = FALSE)
     names(s) <- dimvars(.info)
     if (!wname) {
       sprintf('[(%s):%s:(%s)]', tmp[1], s[[dim]], tmp[2])
@@ -285,16 +285,16 @@ parse_args <- function(.info, dim, s, dimargs, wname = FALSE){
   } else {
     if (!wname) {
       if (length(tmp) == 1) {
-        tmp
+          tmp
       } else {
         sprintf('[(%s):%s:(%s)]', tmp[1], s, tmp[2])
       }
     } else {
       if (length(tmp) == 1) {
-        tmp
+           tmp
       } else {
         sprintf('%s[(%s):%s:(%s)]', dim, tmp[1], s, tmp[2])
-      }
+       }
     }
   }
 }

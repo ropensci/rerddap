@@ -63,16 +63,29 @@ read_all <- function(x, fmt, read) {
   )
 }
 
-read_table <- function(x){
+read_table <- function(x, fmt){
   if (inherits(x, "HttpResponse")) {
     txt <- gsub('\n$', '', x$parse("UTF-8"))
     read.csv(text = txt, sep = ",", stringsAsFactors = FALSE,
              blank.lines.skip = FALSE)[-1, , drop = FALSE]
   } else {
-    read.delim(x, sep = ",", stringsAsFactors = FALSE,
-               blank.lines.skip = FALSE)[-1, , drop = FALSE]
+    if (fmt =='csv') {
+      read.delim(x, sep = ",", stringsAsFactors = FALSE,
+                 blank.lines.skip = FALSE)[-1, , drop = FALSE]
+    }  else {
+      temp_data <- nanoparquet::read_parquet(x)[-1, , drop = FALSE]
+    }
   }
 }
+
+replace_value_with_na <- function(x, fillValue) {
+  if (is.numeric(x)) {
+    test_value <- as.numeric(fillValue)
+    x[x == test_value] <- NA
+  }
+  return(x)
+}
+
 
 pu <- function(x) sub("/$|//$", "", x)
 

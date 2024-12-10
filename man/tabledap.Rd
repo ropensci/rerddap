@@ -2,7 +2,7 @@
 % Please edit documentation in R/table.R
 \name{tabledap}
 \alias{tabledap}
-\title{Get ERDDAP tabledap data.}
+\title{Get ERDDAP™ tabledap data.}
 \usage{
 tabledap(
   x,
@@ -14,6 +14,7 @@ tabledap(
   orderbymin = NULL,
   orderbyminmax = NULL,
   units = NULL,
+  fmt = "csv",
   url = eurl(),
   store = disk(),
   callopts = list()
@@ -29,14 +30,14 @@ See Details & examples}
 
 \item{fields}{Columns to return, as a character vector}
 
-\item{distinct}{If \code{TRUE} ERDDAP will sort all of the rows in the results
+\item{distinct}{If \code{TRUE} ERDDAP™ will sort all of the rows in the results
 table (starting with the first requested variable, then using the second
 requested variable if the first variable has a tie, ...), then remove all
-non-unique rows of data. In many situations, ERDDAP can return distinct
-values quickly and efficiently. But in some cases, ERDDAP must look through
+non-unique rows of data. In many situations, ERDDAP™ can return distinct
+values quickly and efficiently. But in some cases, ERDDAP™ must look through
 all rows of the source dataset.}
 
-\item{orderby}{If used, ERDDAP will sort all of the rows in the results
+\item{orderby}{If used, ERDDAP™ will sort all of the rows in the results
 table (starting with the first variable, then using the second variable
 if the first variable has a tie, ...). Normally, the rows of data in the
 response table are in the order they arrived from the data source. orderBy
@@ -46,7 +47,7 @@ sorted by stationID, then time. The orderby variables MUST be included in
 the list of requested variables in the fields parameter.}
 
 \item{orderbymax}{Give a vector of one or more fields, that must be included
-in the fields parameter as well. Gives back data given constraints. ERDDAP
+in the fields parameter as well. Gives back data given constraints. ERDDAP™
 will sort all of the rows in the results table (starting with the first
 variable, then using the second variable if the first variable has a
 tie, ...) and then just keeps the rows where the value of the last sort
@@ -63,7 +64,9 @@ minimum value, and one row with the maximum value.}
 standard (e.g.,degrees_C)) or 'ucum' (units will be described via the
 UCUM standard (e.g., Cel)).}
 
-\item{url}{A URL for an ERDDAP server.
+\item{fmt}{whether download should be as '.csv' (default) or '.parquet'}
+
+\item{url}{A URL for an ERDDAP™ server.
 Default: https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -80,7 +83,7 @@ attached as attributes (datasetid, path (path where the csv is stored on
 your machine), url (url for the request))
 }
 \description{
-Get ERDDAP tabledap data.
+Get ERDDAP™ tabledap data.
 }
 \details{
 For key-value pair query constraints, the valid operators are =,
@@ -198,7 +201,7 @@ system.time( tabledap('erdCinpKfmBT', store = disk()) )
 ## memory
 tabledap('erdCinpKfmBT', store = memory())
 
-# use a different ERDDAP server
+# use a different ERDDAP™ server
 ## NOAA IOOS NERACOOS
 url <- "http://www.neracoos.org/erddap/"
 tabledap("E01_optics_hist", url = url)

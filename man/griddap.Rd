@@ -2,7 +2,7 @@
 % Please edit documentation in R/grid.R
 \name{griddap}
 \alias{griddap}
-\title{Get ERDDAP gridded data}
+\title{Get ERDDAP™ gridded data}
 \usage{
 griddap(
   datasetx,
@@ -70,7 +70,7 @@ If \code{read=FALSE}, the data.frame for \code{griddap_csv}
 and the data.frame in the "data" slot is empty for \code{griddap_nc}
 }
 \description{
-Get ERDDAP gridded data
+Get ERDDAP™ gridded data
 }
 \details{
 Details:
