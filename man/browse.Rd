@@ -19,7 +19,7 @@ more information}
 }
 \value{
 if in interactive mode, opens a URL in your default browser;
-if not, then prints the URL in the console
+if not, then returns an error
 }
 \description{
 Browse a dataset webpage.
