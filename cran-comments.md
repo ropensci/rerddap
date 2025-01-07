@@ -1,7 +1,8 @@
 ## Test environments
 
-* local macOS install, R 4.3.2
-* rhub (devtools::check_rhub())
+* local macOS install, R 4.4.2
+* github actions - mac,  windows,  linux
+* r-universe mac,  windows,  linux
 * macOS Builder (devtools::check_mac_release())
 * win-builder (devel and release - devtools::check_win_*())
 
@@ -15,7 +16,6 @@ OK from all checks
 
 ---
 
-'tabledap()' responses now have the datatype given in the file .dds
 
 Thanks! 
 Roy Mendelssohn

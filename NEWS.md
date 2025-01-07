@@ -1,7 +1,7 @@
 rerddap 1.2.0
 =============
 *  tabledap() requests can now be downloaded as a parquet file, making for a much smaller download
-*  units have been added to tabledap() output
+*  units have been added to tabledap() output as attributes
 *  griddap() bug fixed when a coordinate has a very large value,  such as for some projected data.
 *  browse() now returns the URL if base::interactive is FALSE,  as the documentation states
 
