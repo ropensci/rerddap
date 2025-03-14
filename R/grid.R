@@ -334,7 +334,16 @@ erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
       if (!store$overwrite) {
         stop('overwrite was `FALSE`, see ?disk')
       }
-      res <- cli$get(disk = file.path(store$path, key))
+      # res <- cli$get(disk = file.path(store$path, key))
+      response <- tryCatch(
+        {
+          res <- cli$get(disk = file.path(store$path, key)) # Attempt to fetch
+        },
+        error = function(e) {
+          message("Curl request failed to get file: ", e$message)
+          quit(save = "no", status = 1)  # Gracefully exit R session
+        }
+      )
       # delete file if error, and stop message
       err_handle(res, store, key)
       # return file path
@@ -342,7 +351,16 @@ erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
     }
   } else {
     # read into memory, bypass disk storage
-    res <- cli$get()
+    # res <- cli$get()
+    response <- tryCatch(
+      {
+        res <- cli$get()  # Attempt to fetch
+      },
+      error = function(e) {
+        message("Curl request failed to get grid data: ", e$message)
+        quit(save = "no", status = 1)  # Gracefully exit R session
+      }
+    )
     # if error stop message
     err_handle(res, store, key)
     # return response object

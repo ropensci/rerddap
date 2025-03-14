@@ -315,12 +315,30 @@ erd_tab_GET <- function(url, dset, store, fmt, callopts) {
       if (!store$overwrite) {
         stop('overwrite was `FALSE`, see ?disk')
       }
-      res <- cli$get(disk = file.path(store$path, key))
+      # res <- cli$get(disk = file.path(store$path, key))
+      response <- tryCatch(
+        {
+          res <- cli$get(disk = file.path(store$path, key))  # Attempt to fetch
+        },
+        error = function(e) {
+          message("Curl request failed to get table: ", e$message)
+          quit(save = "no", status = 1)  # Gracefully exit R session
+        }
+      )
       err_handle(res, store, key)
       res$content
     }
   } else {
-    res <- cli$get()
+    # res <- cli$get()
+    response <- tryCatch(
+      {
+        res <- cli$get()  # Attempt to fetch
+      },
+      error = function(e) {
+        message("Curl request failed to get table: ", e$message)
+        quit(save = "no", status = 1)  # Gracefully exit R session
+      }
+    )
     err_handle(res, store, key)
     res
   }

@@ -119,7 +119,17 @@ err_handle2 <- function(x) {
 
 erdddap_GET <- function(url, args = NULL, ...) {
   cli <- crul::HttpClient$new(url = url, opts = list(...))
-  tt <- cli$get(query = args)
+  # tt <- cli$get(query = args)
+  response <- tryCatch(
+    {
+      tt <- cli$get(query = args)  # Attempt to fetch
+    },
+    error = function(e) {
+      message("Curl request failed: ", e$message)
+      quit(save = "no", status = 1)  # Gracefully exit R session
+    }
+  )
+  
   err_handle2(tt)
   stopifnot(tt$response_headers$`content-type` == 'application/json;charset=UTF-8')
   out <- tt$parse("UTF-8")

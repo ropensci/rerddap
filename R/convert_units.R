@@ -18,7 +18,16 @@ convert_units <- function(udunits = NULL, ucum = NULL, url = eurl(), ...) {
   args <- rc(list(UDUNITS = udunits, UCUM = ucum))
   cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/units.txt'), 
     opts = list(...))
-  res <- cli$get(query = args)
+  # res <- cli$get(query = args)
+  response <- tryCatch(
+    {
+      res <- cli$get(query = args)  # Attempt to fetch
+    },
+    error = function(e) {
+      message("Curl request failed to convert units: ", e$message)
+      quit(save = "no", status = 1)  # Gracefully exit R session
+    }
+  )
   res$raise_for_status()
   res$parse("UTF-8")
 }

@@ -5,10 +5,10 @@
 #' @param isoTime character; A string time representation.
 #' @param units character; Units to return. Default:
 #' "seconds since 1970-01-01T00:00:00Z"
-#' @param url Base URL of the ERDDAP server. See [eurl()] for 
+#' @param url Base URL of the ERDDAP™ server. See [eurl()] for 
 #' more information
 #' @param method (character) One of local or web. Local simply uses
-#' [as.POSIXct()], while web method uses the ERDDAP time conversion service
+#' [as.POSIXct()], while web method uses the ERDDAP™ time conversion service
 #' `/erddap/convert/time.txt`
 #' @param ... Curl options passed on to [crul::verb-GET]
 #' @details When `method = "web"` time zone is GMT/UTC
@@ -17,7 +17,7 @@
 #' convert_time(n = 473472000)
 #' convert_time(isoTime = "1985-01-02T00:00:00Z")
 #'
-#' # using an erddap web service
+#' # using an ERDDAP™ web service
 #' convert_time(n = 473472000, method = "web")
 #' convert_time(isoTime = "1985-01-02T00:00:00Z", method = "web")
 #' }
@@ -37,7 +37,16 @@ convert_time <- function(n = NULL, isoTime = NULL,
     args <- rc(list(n = n, isoTime = isoTime, units = units))
     cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/time.txt'), 
       opts = list(...))
-    res <- cli$get(query = args)
+    # res <- cli$get(query = args)
+    response <- tryCatch(
+      {
+        res <- cli$get(query = args)  # Attempt to fetch
+      },
+      error = function(e) {
+        message("Curl request failed to convert time: ", e$message)
+        quit(save = "no", status = 1)  # Gracefully exit R session
+      }
+    )
     res$raise_for_status()
     res$parse("UTF-8")
   }

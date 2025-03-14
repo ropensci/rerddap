@@ -1,3 +1,9 @@
+rerddap 1.2.1
+=============
+
+* Improved "safety" of some function calls to insure graceful endings if resource not available
+* Updated some of the examples in the vignette
+
 rerddap 1.2.0
 =============
 *  tabledap() requests can now be downloaded as a parquet file, making for a much smaller download

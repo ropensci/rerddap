@@ -27,11 +27,11 @@ data("colors")
 
 This vignette goes over some of the nuts and bolts of using the `rerddap` package, and shows the power of the combination of the `rerddap` package with <span style="color:red">ERDDAP™</span> servers.  Some of the examples are taken from the `xtractomatic` package (available from CRAN - https://cran.r-project.org/package=xtractomatic), and some from the `rerddapXtracto` package available on Github (https://github.com/rmendels/rerddapXtracto),  but reworked to use `rerddap` directly.   Other examples are new to this vignette, and include both gridded and non-gridded datasets from several <span style="color:red">ERDDAP™s</span>.
 
-Some new features in `rerddap` (as of version 1.2.0) are support for downloading `tabledap()` requests as parquet files,  which can greatly reduce the size of the download (this will only work for <span style="color:red">ERDDAP™</span> server greater or equal to version 2.25),  inclusion of units as attributes in the dataframe created by `tabledap()`, and all variables in a dataframe created by `tabledap()` now have the datatype defined in the <span style="color:red">ERDDAP™</span> server,  that is for example latitude and longitude will always be numbers,  not character strings as in the past.
+Some new features in `rerddap` (as of version 1.2.0) are support for downloading `tabledap()` requests as parquet files,  which can greatly reduce the size of the download (this will only work for <span style="color:red">ERDDAP™</span> server greater or equal to version 2.25),  inclusion of units in the dataframe created by `tabledap()`, and all variables in a dataframe created by `tabledap()` now have the datatype defined in the <span style="color:red">ERDDAP™</span> server,  that is for example latitude and longitude will always be numbers,  not character strings as in the past.
 
 The option to download files as parquet files means the `tabledap()` function definition is slightly changed,  it is now:
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = FALSE, echo = TRUE }
 tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   orderbymax=NULL, orderbymin=NULL, orderbyminmax=NULL, units=NULL, fmt = 'csv',
   url = eurl(), store = disk(), callopts=list())
@@ -296,7 +296,7 @@ ERD provides a 3-day composite SST product at 750 meter resolution developed fro
 require("ggplot2")
 require("mapdata")
 require("rerddap")
-sstInfo <- info('erdVHsstaWS3day')
+sstInfo <- info('erdVHsstaWS3day', url = "https://coastwatch.pfeg.noaa.gov/erddap/")
 # get latest 3-day composite sst
 viirsSST <- griddap(sstInfo, latitude = c(41., 31.), longitude = c(-128., -115), time = c('last','last'), fields = 'sst')
 # remap latitiudes and longitudes to even grid
@@ -453,17 +453,17 @@ myplot
 
 ### IFREMER
 
-The French agency IFREMER also has an <span style="color:red">ERDDAP™</span> server. Here salinity data at 75 meters from "Global Ocean, Coriolis Observation Re-Analysis CORA4.1" model off the west coast of the United States is extracted and plotted.
+The French agency IFREMER also has an <span style="color:red">ERDDAP™</span> server. Here salinity climatologies at 75 meters  off the west coast of the United States, calculated from the World Ocean Database 2013 using the program DIVA, is extracted and plotted.
 
 ```{r IFREMER, eval = FALSE, echo = TRUE}
 require("rerddap")
 urlBase <- "https://www.ifremer.fr/erddap/"
-parameter <- "PSAL"
-ifrTimes <- c("2019-05-15", "2019-05-15")
+parameter <- "Salinity"
+ifrTimes <- c("2010-05-16", "2010-05-16")
 ifrLats <- c(30., 50.)
 ifrLons <- c(-140., -110.)
 ifrDepth <- c(75., 75.)
-dataInfo <- rerddap::info("CORIOLIS_GLOBAL_NRTOA_OBS_TIME_SERIE_PSAL", url = urlBase)
+dataInfo <- rerddap::info("SDC_GLO_CLIM_TS_V2_2", url = urlBase)
 ifrPSAL <- griddap(dataInfo, longitude = ifrLons, latitude = ifrLats, time = ifrTimes, depth = ifrDepth,  fields = parameter, url = urlBase)
 ```
 
@@ -478,19 +478,9 @@ The `ggplot2` function `geom_raster()` is not designed for unevenly spaced coord
  require("mapdata")
   xlim <- c(-140, -110)
   ylim <- c(30, 51)
-## ggplot2 has trouble with unequal y's
   my.col <- colors$salinity
-  tempData1 <- ifrPSAL$data$PSAL
-  tempData <- array(tempData1 , 61 * 54)
-  tempFrame <- data.frame(x = ifrPSAL$data$longitude, y = ifrPSAL$data$latitude)
-  tempFrame$temp <- tempData
-  tempFrame1 <- dplyr::filter(tempFrame, !is.nan(temp))
-  myinterp <- akima::interp(tempFrame1$x, tempFrame1$y, tempFrame1$temp, xo = seq(min(tempFrame1$x), max(tempFrame1$x), length = 61), yo = seq(min(tempFrame1$y), max(tempFrame1$y), length = 54))
-  myinterp1 <- expand.grid(x = myinterp$x, y = myinterp$y)
-  myinterp1$temp <- array(myinterp$z, 61 * 54)
-  w <- map_data("worldHires", ylim = ylim, xlim = xlim)
- myplot <- ggplot() +
-    geom_raster(data = myinterp1, aes(x = x, y = y, fill = temp), interpolate = FALSE) +
+  myplot <- ggplot() +
+    geom_raster(data = ifrPSAL$data, aes(x = longitude, y = latitude, fill = Salinity), interpolate = FALSE) +
     geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80") +
     theme_bw() + scale_fill_gradientn(colours = my.col, na.value = NA, limits = c(32, 35), name = "salinity") +
     ylab("latitude") + xlab("longitude") +
@@ -570,26 +560,10 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
 
 A new feature in `tabledap()` is to choose to download the data as a parquet file rather than as a csv file - the parquet file can be up to 90% smaller in our tests  (note this will only work if the <span style="color:red">ERDDAP™</span> server is at least version 2.25,  otherwise the program will throw an error).  As any example, for the CalCOFI example above:
 
-```{r parquet, eval = FALSE, echo = TRUE}
-require("rerddap")
-hydroInfo <- info('siocalcofiHydroCast')
-calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z', fmt = 'parquet')
-head(calcofi.df)
-<ERDDAP tabledap> siocalcofiHydroCast
-Path: [/var/folders/46/jyz1mm5x5bvbf59b5g8f7f580000gn/T//Rtmpo6E8y5/R/rerddap/50ff5f9fb5f56f480ff2f6ea034df8ef.parquet]
-Last updated: [2024-12-10 11:04:01.948088]
-File size:    [0.24 mb]
-# A tibble: 6 × 12
-cst_cnt date        year month julian_date julian_day rpt_line rpt_sta cruz_num intchl intc14
-<int> <chr>      <int> <int>       <int>      <int>    <dbl>   <dbl> <chr>     <dbl>  <dbl>
-  1   22523 01/05/1984  1984     1       30686          5       90      35 8401       30.3    NA 
-2   22524 01/05/1984  1984     1       30686          5       90      30 8401       27.9    NA 
-3   22525 01/05/1984  1984     1       30686          5       90      28 8401       29.9    NA 
-4   22526 01/05/1984  1984     1       30686          5       90      32 8401       39.3   385.
-5   22527 01/05/1984  1984     1       30686          5       90      37 8401       36.7    NA 
-6   22528 01/06/1984  1984     1       30687          6       90      53 8401       30.3    NA 
-# ℹ 1 more variable: time <dttm>
 
+```{r calCOFI-parquet, eval = FALSE, echo = TRUE}
+require("rerddap")
+calcofi.df <- tabledap(hydroInfo, fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'), 'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z', fmt = 'parquet')
 ```
 
 
@@ -791,7 +765,7 @@ atnData$latitude <- as.numeric(atnData$latitude)
 atnData$longitude <- as.numeric(atnData$longitude)
 ncdcSST = array(NA_real_, dim = length(atnData$time))
 ncdcSSTInfo = info('ncdcOisst2Agg')
-time_bound <- c(as.character(atnData$time[i]), as.character(atnData$time[i]))
+time_bound <- c(as.character(atnData$time[1]), as.character(atnData$time[66]))
 for (i in 1:length(atnData$time)) {
   extract <- griddap(ncdcSSTInfo, 
                      fields = 'sst', 
