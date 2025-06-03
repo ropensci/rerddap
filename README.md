@@ -3,7 +3,7 @@ rerddap
 
 
 <!-- badges: start -->
-[![cran checks](https://cranchecks.info/badges/worst/rerddap)](https://cranchecks.info/pkgs/rerddap)
+[![cran checks](https://badges.cranchecks.info/worst/rerddap.svg)](https://cran.r-project.org/web/checks/check_results_rerddap.html) 
   [![R-CMD-check](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rerddap/actions/workflows/R-CMD-check.yaml)
 [![codecov.io](https://codecov.io/github/ropensci/rerddap/coverage.svg?branch=master)](https://codecov.io/github/ropensci/rerddap?branch=master)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rerddap)](https://github.com/r-hub/cranlogs.app)
