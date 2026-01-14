@@ -1,4 +1,4 @@
-#' Get ERDDAP™ gridded data
+#' Get ERDDAP(TM) gridded data
 #'
 #' @export
 #' @template griddap_params
@@ -91,7 +91,7 @@ toggle_store <- function(fmt, store) {
 #' @export
 print.griddap_csv <- function(x, ...) {
   finfo <- file_info(attr(x, "path"))
-  cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("<ERDDAP(TM) griddap> %s", attr(x, "datasetid")), sep = "\n")
   path <- attr(x, "path")
   path2 <- if (file.exists(path)) path else "<beware: file deleted>"
   cat(sprintf("   Path: [%s]", path2), sep = "\n")
@@ -106,7 +106,7 @@ print.griddap_csv <- function(x, ...) {
 #' @export
 print.griddap_nc <- function(x, ...) {
   finfo <- file_info(attr(x, "path"))
-  cat(sprintf("<ERDDAP griddap> %s", attr(x, "datasetid")), sep = "\n")
+  cat(sprintf("<ERDDAP(TM) griddap> %s", attr(x, "datasetid")), sep = "\n")
   path <- attr(x, "path")
   path2 <- if (file.exists(path)) path else "<beware: file deleted>"
   cat(sprintf("   Path: [%s]", path2), sep = "\n")

@@ -1,7 +1,7 @@
 #' @title rerddap
-#' @description General purpose R client for ERDDAP servers
-#' @section ERDDAP info:
-#' NOAA's ERDDAP service holds many datasets of interest. It's built on top of
+#' @description General purpose R client for ERDDAP™ servers
+#' @section ERDDAP™ info:
+#' NOAA's ERDDAP™ service holds many datasets of interest. It's built on top of
 #' OPenDAP. You can search for datasets via
 #' [ed_search()], list datasets via [ed_datasets()],
 #' get information on a single dataset via [info()], then get
@@ -27,13 +27,13 @@
 #' make the same request again, the data is restored from the cache, rather than 
 #' having to go out and retrieve it remotely.  For most applications, this is good, 
 #' as it can speed things up when doing a lot of request in a script, and works 
-#' because in most cases an ERDDAP request is "idempotent".  This means that the 
+#' because in most cases an ERDDAP™ request is "idempotent".  This means that the 
 #' the request will always return the same thing no matter what requests came 
 #' before - it doesn't depend on state. However this is not true if the 
 #' script uses either "last" in [griddap()] or "now" in [tabledap()] as these 
 #' will return different values as time elapses and data are added to the 
-#' datasets.  While it is desirable to have ERDDAP purely idempotent,  the 
-#' "last" and "now" constructs are very helpful for people using ERDDAP 
+#' datasets.  While it is desirable to have ERDDAP™ purely idempotent,  the 
+#' "last" and "now" constructs are very helpful for people using ERDDAP™ 
 #' in dashboards, webpages, regular input to models and the like, and the 
 #' benefits far outweigh the problems.  However, if you are using either "last" 
 #' or "now" in an \pkg{rerddap} based script, you want to be very careful to 

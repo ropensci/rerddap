@@ -1,9 +1,9 @@
-#' Get information on an ERDDAP dataset.
+#' Get information on an ERDDAP(TM) dataset.
 #'
 #' @export
 #'
 #' @param datasetid Dataset id
-#' @param url A URL for an ERDDAP server. Default:
+#' @param url A URL for an ERDDAP(TM) server. Default:
 #' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Further args passed on to [crul::verb-GET] (must be a
@@ -64,14 +64,14 @@
 #' ## all information on Haliotis_corrugata_Mean_Density
 #' out$alldata$Haliotis_corrugata_Mean_Density
 #'
-#' # use a different ERDDAP server
+#' # use a different ERDDAP(TM) server
 #' ## Marine Institute (Ireland)
 #' info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 #' }
 
 info <- function(datasetid, url = eurl(), ...){
   url <- sub("/$", "", url)
-  json <- erdddap_GET(sprintf(file.path(url, 'info/%s/index.json'), datasetid),
+  json <- erddap_GET(sprintf(file.path(url, 'info/%s/index.json'), datasetid),
                       NULL, ...)
   colnames <- vapply(tolower(json$table$columnNames),
                      function(z) gsub("\\s", "_", z), "", USE.NAMES = FALSE)
@@ -113,7 +113,7 @@ print.info <- function(x, ...) {
                   c('time_coverage_end','time_coverage_start'), "value", ]
   dims <- x$alldata[dimvars(x)]
   vars <- x$alldata[x$variables$variable_name]
-  cat(sprintf("<ERDDAP info> %s", attr(x, "datasetid")), "\n")
+  cat(sprintf("<ERDDAP(TM) info> %s", attr(x, "datasetid")), "\n")
   cat(paste0(" Base URL: ", x$base_url), "\n")
   cat(paste0(" Dataset Type: ", attr(x, "type")), "\n")
   if(attr(x, "type") == "griddap") cat(" Dimensions (range): ", "\n")
@@ -164,7 +164,7 @@ table_or_grid <- function(datasetid, url) {
 }
 
 toghelper <- function(url) {
-  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
+  out <- erddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, stats::setNames, nm = nms)
   vapply(lists, "[[", "", "Dataset ID")

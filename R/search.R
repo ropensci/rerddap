@@ -1,4 +1,4 @@
-#' Search for ERDDAP tabledep or griddap datasets
+#' Search for ERDDAP™ tabledep or griddap datasets
 #'
 #' @export
 #'
@@ -6,7 +6,7 @@
 #' @param page (integer) Page number
 #' @param page_size (integer) Results per page
 #' @param which (character) One of tabledep or griddap.
-#' @param url A URL for an ERDDAP server. Default:
+#' @param url A URL for an ERDDAP™ server. Default:
 #' https://upwell.pfeg.noaa.gov/erddap/ - See [eurl()] for 
 #' more information
 #' @param ... Curl options passed on to [crul::verb-GET] (must be
@@ -22,7 +22,7 @@
 #' ed_datasets('table')
 #' ed_datasets('grid')
 #'
-#' # use a different ERDDAP server
+#' # use a different ERDDAP™ server
 #' ## Marine Institute (Ireland)
 #' ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 #' }
@@ -35,7 +35,7 @@ ed_search <- function(query, page=NULL, page_size=NULL, which='griddap',
   check_arg(page_size, "numeric")
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   args <- rc(list(searchFor = query, page = page, itemsPerPage = page_size))
-  json <- erdddap_GET(paste0(url, 'search/index.json'), args, ...)
+  json <- erddap_GET(paste0(url, 'search/index.json'), args, ...)
   colnames <- vapply(
     tolower(json$table$columnNames), function(z) gsub("\\s", "_", z),
     "", USE.NAMES = FALSE)
@@ -66,7 +66,7 @@ print.ed_search <- function(x, ...){
 ed_datasets <- function(which = 'tabledap', url = eurl()){
   which <- match.arg(which, c("tabledap","griddap"), FALSE)
   url <- sprintf('%s%s/index.json', url, which)
-  out <- erdddap_GET(url, list(page = 1, itemsPerPage = 10000L))
+  out <- erddap_GET(url, list(page = 1, itemsPerPage = 10000L))
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, stats::setNames, nm = nms)
   tibble::as_tibble(rbindlist(lapply(lists, data.frame,

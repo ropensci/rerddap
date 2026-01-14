@@ -91,7 +91,8 @@ pu <- function(x) sub("/$|//$", "", x)
 
 strect <- function (str, pattern) regmatches(str, regexpr(pattern, str))
 
-err_handle <- function(x, store, key) {
+
+err_handle_old <- function(x, store, key) {
   if (x$status_code > 201) {
     tt <- if (store$store == "disk") x$content else x$parse("UTF-8")
     html <- tryCatch(read_html(tt), error = function(e) e)
@@ -109,6 +110,54 @@ err_handle <- function(x, store, key) {
   }
 }
 
+err_handle <- function(x, store, key) {
+  if (x$status_code > 201) {
+    tt <- if (store$store == "disk") x$content else x$parse("UTF-8")
+    html <- tryCatch(read_html(tt), error = function(e) e)
+    
+    if (inherits(html, "error")) {
+      # read_html() failed -> just use whatever tt is
+      mssg <- tt
+    } else {
+      # Try to find ANY element under <body> containing "Error"/"error"
+      nodes <- xml_find_all(
+        html,
+        '//body//*[contains(., "Error") or contains(., "error")]'
+      )
+      
+      if (length(nodes) > 0) {
+        mssg <- xml_text(nodes)
+        mssg <- paste(mssg, collapse = "\n")
+      } else {
+        # Fallback: work with entire body text
+        body_txt <- xml_text(xml_find_first(html, "//body"))
+        
+        # ERDDAP-style "Error { ... message="..." ... }"
+        if (grepl("message=", body_txt, fixed = TRUE)) {
+          # Allow internal quotes in the message
+          mssg <- sub('.*message="(.*)"\\s*;.*', '\\1', body_txt)
+        } else {
+          mssg <- body_txt
+        }
+      }
+      
+      # Your original cleanup and regex fallback
+      mssg <- sub("Message\\s", "", mssg)
+      
+      if (!nzchar(mssg)) {
+        mssg <- strect(xml_text(xml_find_first(html, "//body")), "Query error.+")
+      }
+    }
+    
+    if (store$store != "memory") unlink(file.path(store$path, key))
+    
+    # This will always raise an error in R
+    stop(paste0(mssg, collapse = "\n\n"), call. = FALSE)
+  }
+}
+
+
+
 err_handle2 <- function(x) {
   if (x$status_code > 201) {
     tt <- x$parse("UTF-8")
@@ -117,7 +166,7 @@ err_handle2 <- function(x) {
   }
 }
 
-erdddap_GET <- function(url, args = NULL, ...) {
+erddap_GET <- function(url, args = NULL, ...) {
   cli <- crul::HttpClient$new(url = url, opts = list(...))
   # tt <- cli$get(query = args)
   response <- tryCatch(

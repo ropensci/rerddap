@@ -1,14 +1,14 @@
 #' @title global_search
-#' @description Search for ERDDAP tabledap or griddap datasets from a list
-#' of ERDDAP servers based on search terms.
+#' @description Search for ERDDAP™ tabledap or griddap datasets from a list
+#' of ERDDAP™ servers based on search terms.
 #' @param query (character) Search terms
-#' @param server_list (list of character) List of ERDDAP servers to search
+#' @param server_list (list of character) List of ERDDAP™ servers to search
 #' @param which_service (character) One of tabledep or griddap.
 #' @return If successful a dataframe wih columns:
 #'  \itemize{
 #'     \item title - the dataset title
-#'     \item dataset_id - the datasetid on that ERDDAP server
-#'     \item url - base url of dataset ERDDAP server
+#'     \item dataset_id - the datasetid on that ERDDAP™ server
+#'     \item url - base url of dataset ERDDAP™ server
 #'  }
 #'  if urls are valid,  no match is found,  will return no match found
 #'  else returns error message
@@ -22,7 +22,7 @@
 #' # e_servers <- e_servers[c(1, 40)]
 #' # to meet CRAN time limits will only search 1 place
 #' e_servers <- "https://coastwatch.pfeg.noaa.gov/erddap/"
-#' test_query <- 'NOAA/NCDC Blended Monthly'
+#' test_query <- 'C-HARM v1 2-Day Forecast'
 #' query_results <- global_search(test_query, e_servers, "griddap")
 #' @seealso
 #'  \code{\link[crul]{HttpClient}}

@@ -2,7 +2,10 @@
 title: "Using rerddap to Access Data from ERDDAP™ Servers"
 author: "Roy Mendelssohn and Scott Chamberlain"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Using rerddap to Access Data from ERDDAP™ Servers}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,9 +40,9 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
   url = eurl(), store = disk(), callopts=list())
 ```
 
-Since the "fmt" argument is optional and defaults to "csv", which was used in previous versions of `tabledap()`,  this change will not affect existing scripts.  In order to downlaod as a parquet file,  just set "fmt = 'parquet'.  See below for an example.
+Since the "fmt" argument is optional and defaults to "csv", which was used in previous versions of `tabledap()`,  this change will not affect existing scripts.  In order to downlaod as a parquet file,  just set "fmt = 'parquet' in the `tabledap()` options.  See below for an example.
 
-The option to download a `tabledap()`
+
 
 ## Installation
 
@@ -233,7 +236,7 @@ oncorhynchus <- tabledap(CPSinfo,
                          )
 head(oncorhynchus)
 
-<ERDDAP tabledap> FRDCPSTrawlLHHaulCatch
+<ERDDAP™ tabledap> FRDCPSTrawlLHHaulCatch
    Path: [/var/folders/46/jyz1mm5x5bvbf59b5g8f7f580000gn/T//RtmpLpXHMI/R/rerddap/0ce4939b104016aafebee121efeeba00.csv]
    Last updated: [2024-10-29 11:14:10.975094]
    File size:    [0.02 mb]
@@ -374,7 +377,7 @@ ggplot(data = viirsCHLA$data, aes(x = longitude, y = latitude, fill = log(chla))
 
 ### Temperature at 70m in the north Pacific from the SODA model output
 
-This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://www2.atmos.umd.edu/~ocean/), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
+This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://soda.umd.edu), and illustrate the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
 
 
 ```{r eval = FALSE, echo = TRUE}
@@ -752,7 +755,7 @@ scatter3D(x = glider$longitude , y = glider$latitude , z = -glider$depth, colvar
 
 ![](glider.png)
 
-## Animal Telemetry Network (ATN)
+### Animal Telemetry Network (ATN)
 
 The Integrated Ocean Observing System Animal Telemetry Network (IOOS ATN) is designed to serve as an access point to search, discover and access animal telemetry data, and associated oceanographic datasets, from a wide variety of species and platforms.  The track of one of the tagged animals is extracted, and plotted with SST value from satellite along the track.
 
@@ -794,7 +797,7 @@ z + geom_polygon(data = w, aes(x = long, y = lat, group = group), fill = "grey80
 
 ![](atn.png)
 
-## California Current System Integrated Ecosystem Assessment (CCSIEA)
+### California Current System Integrated Ecosystem Assessment (CCSIEA)
 
 The primary goals of the CCIEA are to better understand the web of interactions that drive patterns and trends of components within the California Current ecosystem, and forecast how changing environmental conditions and management actions affect the status of these components. The conceptual model of the social-ecological system of the California Current illustrates how humans and their social systems are inextricably linked to these marine, coastal, and upland environments (see \code("www.integratedecosystemassessment.noaa.gov/regions/california-current/projects").
 
@@ -821,6 +824,47 @@ ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_b
 
 ![](coho_anomaly.png)
 ![](maxslp.png)
+
+## Interactive plots
+
+The `plotdap` plotting package has a new version of the function "box_set()" which can both reset the limits of the plot as well as return a
+`ggplot2` object that works with the `plotly` function "ggplotly()" to produce an intertactive plot.
+
+"box_set()" has the form:
+
+```{r, echo = TRUE, eval = FALSE}
+
+bbox_set <- function(plotobj, landmask = TRUE, xlim = NULL, ylim = NULL, interactive = FALSE)
+
+```
+
+If the values for "xlim" and "ylim" are not given,  then the function will determine the limits and projection of the `plotdap` object,  and set this in the `ggplot2` part of the the `plotdap` object.  If "interactive" is set to "TRUE",  then a `ggplot2` object is returned that works properly with the function `plotly::ggplotly()`.
+
+```{r, echo = TRUE, eval = FALSE}
+library(plotly)
+
+myURL <- "https://coastwatch.pfeg.noaa.gov/erddap/"
+
+sstInfo <- rerddap::info('erdVHsstaWS3day', url = myURL)
+# get latest 3-day composite sst
+viirsSST <- rerddap::griddap(sstInfo, 
+                             latitude = c(41., 31.), 
+                             longitude = c(-128., -115), 
+                             time = c('last','last'), 
+                             fields = 'sst')
+
+w <- map("worldHires", xlim = c(-140., -114), ylim = c(30., 42.), fill = TRUE, plot = FALSE)
+my_plot <- plotdap::add_griddap(plotdap::plotdap(mapData = w), viirsSST, ~sst, fill = "thermal" )
+
+my_plot1 <- plotdap::bbox_set(my_plot, xlim = c(-128., -115), ylim = c(31, 41.), interactive = TRUE)
+
+# must have '"tooltip = "text"' to work properly.
+plotly::ggplotly(my_plot1, tooltip = "text")
+
+```
+
+The resulting plot is an interactive plot that as you mouse over the data will display the latitude,  longitude and value at the point.  As the plot takes a long time to create and is quote large,  both of which cause problems with CRAN, it is not displayed here.
+
 
 ## Cacheing, "last", "now", idempotency, and a gotcha
 

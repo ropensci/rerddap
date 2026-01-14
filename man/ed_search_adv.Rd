@@ -2,7 +2,7 @@
 % Please edit documentation in R/search_adv.R
 \name{ed_search_adv}
 \alias{ed_search_adv}
-\title{Advanced search for ERDDAP tabledep or griddap datasets}
+\title{Advanced search for ERDDAP™ tabledep or griddap datasets}
 \usage{
 ed_search_adv(
   query = NULL,
@@ -56,7 +56,7 @@ timeseries, timeseriesprofile, trajectory, trajectoryprofile}
 
 \item{minLon, maxLon}{(numeric) Minimum and maximum longitude. Some datasets
 have longitude values within -180 to 180, others use 0 to 360. If you
-specify min and max Longitude within -180 to 180 (or 0 to 360), ERDDAP will
+specify min and max Longitude within -180 to 180 (or 0 to 360), ERDDAP™ will
 only find datasets that match the values you specify. Consider doing one
 search: longitude -180 to 360, or two searches: longitude -180 to 180,
 and 0 to 360.}
@@ -70,7 +70,7 @@ If you specify something, you must include at least yyyy-MM-dd; you can
 omit Z, :ss, :mm, :HH, and T. Always use UTC (GMT/Zulu) time. Or specify
 the number of seconds since 1970-01-01T00:00:00Z.}
 
-\item{url}{A URL for an ERDDAP server. Default:
+\item{url}{A URL for an ERDDAP™ server. Default:
 https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -78,7 +78,7 @@ more information}
 named parameters)}
 }
 \description{
-Advanced search for ERDDAP tabledep or griddap datasets
+Advanced search for ERDDAP™ tabledep or griddap datasets
 }
 \examples{
 \dontrun{

@@ -5,8 +5,8 @@ reference:
   
 - title: Search
   desc: >
-        Functions to search for ERDDAP servers as well as to search 
-        ERDDAP for datasets whose metadata match the given search. 
+        Functions to search for ERDDAP™ servers as well as to search 
+        ERDDAP™ for datasets whose metadata match the given search. 
   contents:
   - ed_search
   - ed_search_adv
@@ -25,7 +25,7 @@ reference:
 - title: Subset and Download Data
 
   desc: >
-    Functions to subset and download ERDDAP grids and tables.
+    Functions to subset and download ERDDAP™ grids and tables.
   contents:
   - griddap
   - tabledap
@@ -33,7 +33,7 @@ reference:
 - title: Optional Settings for Data Download
 
   desc: >
-    Optional settings for functions that subset and download ERDDAP grids and tables.
+    Optional settings for functions that subset and download ERDDAP™ grids and tables.
   contents:
   - disk
   - eurl
@@ -51,10 +51,10 @@ reference:
   - cache_list
   - cache_setup
   
-- title: Various ERDDAP Based Utilities
+- title: Various ERDDAP™ Based Utilities
 
   desc: >
-    Various ERDDAP based utilities for converting parameters.
+    Various ERDDAP™ based utilities for converting parameters.
   contents:
   - convert_time
   - convert_units

@@ -139,7 +139,7 @@ Then you can get information on a single dataset
 
 ```r
 info('erdCalCOFIlrvsiz')
-#> <ERDDAP info> erdCalCOFIlrvsiz 
+#> <ERDDAP™ info> erdCalCOFIlrvsiz 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: tabledap 
 #>  Variables:  
@@ -181,7 +181,7 @@ Then query for gridded data using the `griddap()` function
   latitude = c(14, 15),
   longitude = c(125, 126)
 ))
-#> <ERDDAP griddap> erdMBchla1day
+#> <ERDDAP™ griddap> erdMBchla1day
 #>    Path: [/var/folders/xw/mcmsdzzx4mgbttplylgs7ysh0000gp/T//RtmpoME6FV/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc]
 #>    Last updated: [2023-06-29 13:18:53.945082]
 #>    File size:    [0.03 mb]
@@ -255,7 +255,7 @@ head(res$data)
 
 ```r
 (out <- info('erdCalCOFIlrvsiz'))
-#> <ERDDAP info> erdCalCOFIlrvsiz 
+#> <ERDDAP™ info> erdCalCOFIlrvsiz 
 #>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
 #>  Dataset Type: tabledap 
 #>  Variables:  
@@ -272,7 +272,7 @@ head(res$data)
 ```r
 (dat <- tabledap('erdCalCOFIlrvsiz', fields=c('latitude','longitude','larvae_size',
   'scientific_name'), 'time>=2011-01-01', 'time<=2011-12-31'))
-#> <ERDDAP tabledap> erdCalCOFIlrvsiz
+#> <ERDDAP™ tabledap> erdCalCOFIlrvsiz
 #>    Path: [/var/folders/xw/mcmsdzzx4mgbttplylgs7ysh0000gp/T//RtmpoME6FV/R/rerddap/db7389db5b5b0ed9c426d5c13bc43d18.csv]
 #>    Last updated: [2023-06-29 13:18:57.579066]
 #>    File size:    [0.05 mb]

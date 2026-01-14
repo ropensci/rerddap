@@ -1,3 +1,11 @@
+rerddap 1.2.2
+=============
+
+* Table of contents added to vignette
+* Interactive map example added to vignette 
+* Fixed some bad URLs in vignette
+* Minor tweaks in return value when some errors are encountered
+
 rerddap 1.2.1
 =============
 
@@ -71,7 +79,7 @@ rerddap 0.7.0
 ### MINOR IMPROVEMENTS
 
 * vignettes only on package documentation site now  (#87)
-* `server()` (to fetch known ERDDAP server URLs) now uses the list maintained by `irishmarineinstitute/awesome-erddap` on GitHub (#86)
+* `server()` (to fetch known ERDDAP™ server URLs) now uses the list maintained by `irishmarineinstitute/awesome-erddap` on GitHub (#86)
 * better error handling for `griddap()`: if no dimension arguments passed, we error saying so (and no http requests made); in addition, if a dataset is passed to `griddap()`, to which the output of `info()` was also passed, then we can check if the dataset has griddap data or not, and fail saying so if not (#91)
 * `griddap()` and `tabledap()`: if `info()` output passed to these two funcitons, we will now use the url within that info output, and use a message telling the user we are doing so; now you don't have to set the url if you pass info output  (#92)
 
@@ -89,7 +97,7 @@ rerddap 0.6.4
 
 ### BUG FIXES
 
-* fix to internal fxn `err_handle()` for handling http errors - ERDDAP servers changed to some weird JSON-ish type format (#85)
+* fix to internal fxn `err_handle()` for handling http errors - ERDDAP™ servers changed to some weird JSON-ish type format (#85)
 
 
 rerddap 0.6.0
@@ -98,7 +106,7 @@ rerddap 0.6.0
 ### MINOR IMPROVEMENTS
 
 * change all `tibble::as_data_frame`/`tibble::data_frame` to `tibble::as_tibble` (#79)
-* `info()` gains new element in its output list, `base_url`, the base url for the ERDDAP server under consideration (#80)
+* `info()` gains new element in its output list, `base_url`, the base url for the ERDDAP™ server under consideration (#80)
 * improved docs for `griddap()` with respect to what's returned from the function  (#81)
 * fix some test fixtures to use preserve exact bytes so that cran checks on debian clang devel don't fail (#83)
 * add .github files: contributing, issue template, pull request template
@@ -120,7 +128,7 @@ rerddap 0.5.0
 * cache most tests with HTTP requests using `vcr` (#76)
 * add test for `read` parameter in `griddap()` (#47)
 * use default url via `eurl()`; used as default in main functions; set default url with env vars, see `?eurl`  (#41)
-* improve handling and reporting back to user of ERDDAP server errors (#70) (#73)
+* improve handling and reporting back to user of ERDDAP™ server errors (#70) (#73)
 * change to `griddap()`: when nc format gridded datasets have latitude and longitude we "melt" them into a data.frame for easy downstream consumption. When nc format gridded datasets do not have latitude and longitude components, we do not read in the data, throw a warning saying so. You can readin the nc file yourself with the file path (#74)
 * for for `griddap()` to support cases in wihch lat/lon runs north to south and south to north (#68)
 
@@ -159,14 +167,14 @@ rerddap 0.4.0
 * New vignette added that goes in to much more depth than 
 the original vignette (#51) thx to @rmendels
 * `info()` function gains new attribute `url` with the 
-base url for the ERDDAP server used (#42)
+base url for the ERDDAP™ server used (#42)
 * Replaced usage of internal compact data.frame code to 
 use `tibble` package (#45)
 
 ### MINOR IMPROVEMENTS
 
-* Added another ERDDAP server to `servers()` function (#49)
-* Changed base URLs for default ERDDAP server from `http` 
+* Added another ERDDAP™ server to `servers()` function (#49)
+* Changed base URLs for default ERDDAP™ server from `http` 
 to `https`  (#50)
 * Added note to docs for `griddap()` and `tabledap()` for how
 to best deal with 500 server errors (#48)
@@ -182,7 +190,7 @@ rerddap 0.3.4
 Using `ncdf4` now for all NetCDF file manipulation. (#35)
 * Failing better now with custom error catching (#31)
 * Added many internal checks for parameter inputs, warning or
-stopping as necessary - ERDDAP servers silently drop with no
+stopping as necessary - ERDDAP™ servers silently drop with no
 informative messages (#32)
 
 ### BUG FIXES
@@ -220,14 +228,14 @@ rerddap 0.2.0
 
 ### MINOR IMPROVEMENTS
 
-* Added new ERDDAP server to list of servers in the `servers()` function (#21)
+* Added new ERDDAP™ server to list of servers in the `servers()` function (#21)
 
 ### BUG FIXES
 
 * Fixed a few cases across a number of functions in which an empty list
 passed to `query` parmaeter in `httr::GET()` caused an error (#23)
 * Fixed retrieval of path to file written to disk by `httr::write_disk()` (#24)
-* `last` is a value accepted by ERDDAP servers, but internal functions
+* `last` is a value accepted by ERDDAP™ servers, but internal functions
 weren't checking correctly, fixed now. (#25)
 * `as.info()` wasn't passing on the `url` parameter to the `info()` function.
 fixed now. (#26)

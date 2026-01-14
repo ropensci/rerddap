@@ -3,7 +3,7 @@
 \name{info}
 \alias{info}
 \alias{as.info}
-\title{Get information on an ERDDAP dataset.}
+\title{Get information on an ERDDAP(TM) dataset.}
 \usage{
 info(datasetid, url = eurl(), ...)
 
@@ -12,7 +12,7 @@ as.info(x, url)
 \arguments{
 \item{datasetid}{Dataset id}
 
-\item{url}{A URL for an ERDDAP server. Default:
+\item{url}{A URL for an ERDDAP(TM) server. Default:
 https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -43,7 +43,7 @@ with metadata for that variable. E.g., for griddap dataset
 }
 }
 \description{
-Get information on an ERDDAP dataset.
+Get information on an ERDDAP(TM) dataset.
 }
 \examples{
 \dontrun{
@@ -82,7 +82,7 @@ out$alldata$longitude
 ## all information on Haliotis_corrugata_Mean_Density
 out$alldata$Haliotis_corrugata_Mean_Density
 
-# use a different ERDDAP server
+# use a different ERDDAP(TM) server
 ## Marine Institute (Ireland)
 info("IMI_CONN_2D", url = "http://erddap.marine.ie/erddap/")
 }

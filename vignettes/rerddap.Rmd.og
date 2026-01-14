@@ -44,7 +44,7 @@ knitr::opts_chunk$set(
 ```
 
 
-`rerddap` is a general purpose R client for working with ERDDAP servers. ERDDAP is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
+`rerddap` is a general purpose R client for working with ERDDAP™ servers. ERDDAP™ is a server built on top of OPenDAP, which serves some NOAA data. You can get gridded data ([griddap](https://upwell.pfeg.noaa.gov/erddap/griddap/documentation.html)), which lets you query from gridded datasets, or table data ([tabledap](https://upwell.pfeg.noaa.gov/erddap/tabledap/documentation.html)) which lets you query from tabular datasets. In terms of how we interface with them, there are similarties, but some differences too. We try to make a similar interface to both data types in `rerddap`.
 
 ## NetCDF
 
@@ -56,9 +56,9 @@ Data files downloaded are cached in a single hidden directory `~/.rerddap` on yo
 
 When you use `griddap()` or `tabledap()` functions, we construct a MD5 hash from the base URL, and any query parameters - this way each query is separately cached. Once we have the hash, we look in `~/.rerddap` for a matching hash. If there's a match we use that file on disk - if no match, we make a http request for the data to the ERDDAP server you specify.
 
-## ERDDAP servers
+## ERDDAP™ servers
 
-You can get a data.frame of ERDDAP servers using the function `servers()`. The list of ERDDAP servers is drawn from the *Awesome ERDDAP* page maintained by the Irish Marine Institute .  If you know of more ERDDAP servers, follow the instructions on that page to add the server.
+You can get a data.frame of ERDDAP™ servers using the function `servers()`. The list of ERDDAP™ servers is drawn from the *Awesome ERDDAP™* page maintained by the Irish Marine Institute .  If you know of more ERDDAP™ servers, follow the instructions on that page to add the server.
 
 ## Install
 
@@ -90,7 +90,7 @@ ed_search(query = 'size', which = "table")
 ed_search(query = 'size', which = "grid")
 ```
 
-There is now a convenience function to search over a list of ERDDAP servers,  designed to work with the function `servers()`
+There is now a convenience function to search over a list of ERDDAP™ servers,  designed to work with the function `servers()`
 
 ```{r}
 server_list <- c(
