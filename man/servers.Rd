@@ -2,7 +2,7 @@
 % Please edit documentation in R/servers.R
 \name{servers}
 \alias{servers}
-\title{ERDDAP server URLS and other info}
+\title{ERDDAP™ server URLS and other info}
 \usage{
 servers(...)
 }
@@ -12,13 +12,13 @@ servers(...)
 \value{
 data.frame with 3 columns:
 \itemize{
-\item name (character): ERDDAP name
-\item url (character): ERDDAP url
+\item name (character): ERDDAP™ name
+\item url (character): ERDDAP™ url
 \item public (logical): whether it's public or not
 }
 }
 \description{
-ERDDAP server URLS and other info
+ERDDAP™ server URLS and other info
 }
 \examples{
 \dontrun{

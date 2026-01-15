@@ -3,7 +3,7 @@
 \name{ed_search}
 \alias{ed_search}
 \alias{ed_datasets}
-\title{Search for ERDDAP tabledep or griddap datasets}
+\title{Search for ERDDAP™ tabledep or griddap datasets}
 \usage{
 ed_search(
   query,
@@ -25,7 +25,7 @@ ed_datasets(which = "tabledap", url = eurl())
 
 \item{which}{(character) One of tabledep or griddap.}
 
-\item{url}{A URL for an ERDDAP server. Default:
+\item{url}{A URL for an ERDDAP™ server. Default:
 https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -33,7 +33,7 @@ more information}
 named parameters)}
 }
 \description{
-Search for ERDDAP tabledep or griddap datasets
+Search for ERDDAP™ tabledep or griddap datasets
 }
 \examples{
 \dontrun{
@@ -46,7 +46,7 @@ out$info
 ed_datasets('table')
 ed_datasets('grid')
 
-# use a different ERDDAP server
+# use a different ERDDAP™ server
 ## Marine Institute (Ireland)
 ed_search("temperature", url = "http://erddap.marine.ie/erddap/")
 }

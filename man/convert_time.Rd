@@ -21,11 +21,11 @@ convert_time(
 \item{units}{character; Units to return. Default:
 "seconds since 1970-01-01T00:00:00Z"}
 
-\item{url}{Base URL of the ERDDAP server. See \code{\link[=eurl]{eurl()}} for
+\item{url}{Base URL of the ERDDAP™ server. See \code{\link[=eurl]{eurl()}} for
 more information}
 
 \item{method}{(character) One of local or web. Local simply uses
-\code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP time conversion service
+\code{\link[=as.POSIXct]{as.POSIXct()}}, while web method uses the ERDDAP™ time conversion service
 \verb{/erddap/convert/time.txt}}
 
 \item{...}{Curl options passed on to \link[crul:verb-GET]{crul::verb-GET}}
@@ -42,7 +42,7 @@ When \code{method = "web"} time zone is GMT/UTC
 convert_time(n = 473472000)
 convert_time(isoTime = "1985-01-02T00:00:00Z")
 
-# using an erddap web service
+# using an ERDDAP™ web service
 convert_time(n = 473472000, method = "web")
 convert_time(isoTime = "1985-01-02T00:00:00Z", method = "web")
 }

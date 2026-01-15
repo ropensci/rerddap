@@ -1,10 +1,9 @@
 ## Test environments
 
-* local macOS install, R 4.4.3
-* github actions - mac,  windows,  ubuntu
-* r-universe mac,  windows,  linux
+* local macOS install, R 4.5.2
 * macOS Builder (devtools::check_mac_release())
 * win-builder (devel and release - devtools::check_win_*())
+* rhub - Ubuntu release
 
 ## R CMD check results
 

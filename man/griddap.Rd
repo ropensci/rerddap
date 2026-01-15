@@ -33,7 +33,7 @@ every other value, etc. Default: 1 (i.e., get every value)}
 
 \item{fmt}{(character) One of csv or nc (for netcdf). Default: nc}
 
-\item{url}{A URL for an ERDDAP™ server. Default:
+\item{url}{A URL for an ERDDAP server. Default:
 https://upwell.pfeg.noaa.gov/erddap/ - See \code{\link[=eurl]{eurl()}} for
 more information}
 
@@ -85,7 +85,7 @@ with servers or this package
 }
 \section{Dimensions and Variables}{
 
-ERDDAP™ grid dap data has this concept of dimenions vs. variables. Dimensions
+ERDDAP grid dap data has this concept of dimenions vs. variables. Dimensions
 are things like time, latitude, longitude, altitude, and depth. Whereas
 variables are the measured variables, e.g., temperature, salinity, air.
 
@@ -203,7 +203,7 @@ info("erdMBchla1day")
  fmt = "csv"
 ))
 
-# Use a different ERDDAP™ server url
+# Use a different ERDDAP server url
 ## NOAA IOOS PacIOOS
 url = "https://cwcgom.aoml.noaa.gov/erddap/"
 out <- info("miamiacidification", url = url)
@@ -213,8 +213,8 @@ out <- info("miamiacidification", url = url)
  longitude = c(-90, -88)
 ))
 ## pass directly into griddap() - if you pass a datasetid string directly
-## you must pass in the url or you'll be querying the default ERDDAP™ url,
-## which isn't the one you want if you're not using the default ERDDAP™ url
+## you must pass in the url or you'll be querying the default ERDDAP url,
+## which isn't the one you want if you're not using the default ERDDAP url
 griddap("miamiacidification", url = url,
  time = c('2019-11-01','2019-11-03'),
  latitude = c(15, 16),
