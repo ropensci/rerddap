@@ -1,3 +1,6 @@
+This fixes a minor bug when using 'tabledap' with the 'parquet' option
+
+
 ## Test environments
 
 * local macOS install, R 4.5.2

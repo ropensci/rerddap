@@ -1,3 +1,8 @@
+rerddap 1.2.3
+=============
+
+Fixed minor bug when using  'tabledap()' with "parquet" option
+
 rerddap 1.2.2
 =============
 

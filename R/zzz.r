@@ -73,7 +73,7 @@ read_table <- function(x, fmt){
       read.delim(x, sep = ",", stringsAsFactors = FALSE,
                  blank.lines.skip = FALSE)[-1, , drop = FALSE]
     }  else {
-      temp_data <- nanoparquet::read_parquet(x)[-1, , drop = FALSE]
+      temp_data <- nanoparquet::read_parquet(x)
     }
   }
 }
