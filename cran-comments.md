@@ -1,12 +1,12 @@
-This fixes a minor bug when using 'tabledap' with the 'parquet' option
+Adds some new features to 'griddap()`
 
 
 ## Test environments
 
-* local macOS install, R 4.5.2
+* local macOS install, R 4.6.1
 * macOS Builder (devtools::check_mac_release())
 * win-builder (devel and release - devtools::check_win_*())
-* rhub - Ubuntu release
+* r-universe - old platforms
 
 ## R CMD check results
 

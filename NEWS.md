@@ -1,3 +1,10 @@
+rerddap 1.3.0
+=============
+
+* 'griddap()' can now download the data as parquet files
+* A new function which estimates the size of a 'griddap()' download without having to make the request.
+* Some improvemments in the vignette
+
 rerddap 1.2.3
 =============
 

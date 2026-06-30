@@ -40,9 +40,9 @@ cache_delete(grid_res)
 }
 }
 \seealso{
-Other cache: 
-\code{\link{cache_details}()},
-\code{\link{cache_list}()},
-\code{\link{cache_setup}()}
+Other cache:
+\code{\link[=cache_details]{cache_details()}},
+\code{\link[=cache_list]{cache_list()}},
+\code{\link[=cache_setup]{cache_setup()}}
 }
 \concept{cache}

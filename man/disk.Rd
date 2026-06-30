@@ -3,7 +3,7 @@
 \name{disk}
 \alias{disk}
 \alias{memory}
-\title{Options for saving ERDDAP datasets.}
+\title{Options for saving ERDDAP™ datasets.}
 \usage{
 disk(path = NULL, overwrite = TRUE)
 
@@ -17,5 +17,5 @@ Default: the root cache path, see \code{\link{cache_setup}}}
 Default: \code{TRUE}}
 }
 \description{
-Options for saving ERDDAP datasets.
+Options for saving ERDDAP™ datasets.
 }

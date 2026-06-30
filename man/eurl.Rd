@@ -2,12 +2,12 @@
 % Please edit documentation in R/default-url.R
 \name{eurl}
 \alias{eurl}
-\title{Default ERDDAP server URL}
+\title{Default ERDDAP™ server URL}
 \usage{
 eurl()
 }
 \description{
-Default ERDDAP server URL
+Default ERDDAP™ server URL
 }
 \details{
 default url is https://upwell.pfeg.noaa.gov/erddap/

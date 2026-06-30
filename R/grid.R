@@ -47,26 +47,59 @@ griddap <- function(datasetx, ..., fields = 'all', stride = 1, fmt = "nc",
       paste0(y, paste0(pargs, collapse = ""))
     }), collapse = ",")
   }
-  fmt <- match.arg(fmt, c("nc", "csv"))
+ # fmt <- match.arg(fmt, c("nc", "csv"))
+  fmt <- match.arg(fmt, c("nc", "csv", "parquet"))
+  if (fmt == "parquet") {
+    url_version <- version(url)
+    url_version <- as.numeric(sub(".*=", "", url_version))
+    if (url_version < 2.25) {
+      print(paste0("Selected ERDDAP is version ", url_version))
+      stop("ERDDAP version >= 2.25 is required for parquet - program stops")
+    }
+  }
   lenURL <- nchar(url)
   if (substr(url, lenURL, lenURL) != '/') {
     url <- paste0(url, '/')
   }
-  resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, fmt), dset = d,
-                     args = args, store = store, fmt = fmt, callopts)
+#  resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, fmt), dset = d,
+#                     args = args, store = store, fmt = fmt, callopts)
+  erddap_ext <- if (fmt == "parquet") "parquetWMeta" else fmt
+  resp <- erd_up_GET(url = sprintf("%sgriddap/%s.%s", url, d, erddap_ext),
+                     dset = d, args = args, store = store, fmt = fmt, callopts)
   loc <- if (store$store == "disk") resp else "memory"
+#  outclasses <- switch(fmt,
+#                      nc = c("griddap_nc", "nc", "list"),
+#                       csv = c("griddap_csv", "csv", "data.frame"))
   outclasses <- switch(fmt,
-                       nc = c("griddap_nc", "nc", "list"),
-                       csv = c("griddap_csv", "csv", "data.frame"))
+                       nc      = c("griddap_nc",  "nc",  "list"),
+                       csv     = c("griddap_csv", "csv", "data.frame"),
+                       parquet = c("griddap_nc",  "nc",  "list"))
   read <- toggle_read(read, store)
+#  structure(
+#    read_all(resp, fmt, read),
+#    class = outclasses,
+#    datasetid = d,
+#    path = loc,
+#    # url = url_build(sprintf("%sgriddap/%s.%s", url, d, fmt), args)
+#   url = url_build(sprintf("%sgriddap/%s.%s", url, d, erddap_ext), args)
+#  )
+#}
+  parsed <- read_all(resp, fmt, read)
+  if (fmt == "parquet") {
+    parsed <- list(
+      summary = parquet_summary(x, parsed, var),
+      data    = parsed
+    )
+  }
   structure(
-    read_all(resp, fmt, read),
+    parsed,
     class = outclasses,
     datasetid = d,
     path = loc,
-    url = url_build(sprintf("%sgriddap/%s.%s", url, d, fmt), args)
+    url = url_build(sprintf("%sgriddap/%s.%s", url, d, erddap_ext), args)
   )
 }
+
 
 toggle_read <- function(x, store) {
   if (store$store == "memory") {
@@ -76,8 +109,20 @@ toggle_read <- function(x, store) {
   }
 }
 
+#toggle_store <- function(fmt, store) {
+#  if (fmt == "nc") {
+#    if (store$store == "memory") {
+#      disk()
+#    } else {
+#      store
+#    }
+#  } else {
+#    store
+#  }
+#}
+
 toggle_store <- function(fmt, store) {
-  if (fmt == "nc") {
+  if (fmt %in% c("nc", "parquet")) {
     if (store$store == "memory") {
       disk()
     } else {
@@ -87,6 +132,8 @@ toggle_store <- function(fmt, store) {
     store
   }
 }
+
+
 
 #' @export
 print.griddap_csv <- function(x, ...) {
@@ -102,6 +149,22 @@ print.griddap_csv <- function(x, ...) {
   cat(sprintf("   Dimensions:   [%s X %s]\n", NROW(x), NCOL(x)), sep = "\n")
   print(tibble::as_tibble(x))
 }
+
+#' @export
+print.griddap_parquet <- function(x, ...) {
+  finfo <- file_info(attr(x, "path"))
+  cat(sprintf("<ERDDAP(TM) griddap> %s", attr(x, "datasetid")), sep = "\n")
+  path <- attr(x, "path")
+  path2 <- if (file.exists(path)) path else "<beware: file deleted>"
+  cat(sprintf("   Path: [%s]", path2), sep = "\n")
+  if (attr(x, "path") != "memory") {
+    cat(sprintf("   Last updated: [%s]", finfo$mtime), sep = "\n")
+    cat(sprintf("   File size:    [%s mb]", finfo$size), sep = "\n")
+  }
+  cat(sprintf("   Dimensions: [%s X %s]\n", NROW(x), NCOL(x)), sep = "\n")
+  print(tibble::as_tibble(x))
+}
+
 
 #' @export
 print.griddap_nc <- function(x, ...) {
@@ -120,6 +183,71 @@ print.griddap_nc <- function(x, ...) {
   cat(sprintf("   data.frame (rows/columns):   [%s X %s]", dim(x$data)[1], dim(x$data)[2]), sep = "\n\n")
   print(tibble::as_tibble(x$data))
 }
+
+parquet_summary <- function(x, data, var) {
+  # x   : the info() object (has x$alldata with all variable/dim attributes)
+  # data: data.frame from nanoparquet::read_parquet()
+  # var : character vector of data variable names (from field_handler)
+  
+  dims <- dimvars(x)
+  
+  # build dim list — one entry per dimension variable
+  dim_list <- lapply(dims, function(nm) {
+    att       <- x$alldata[[nm]]
+    units_val <- att$value[att$attribute_name == "units"]
+    cal_val   <- att$value[att$attribute_name == "calendar"]
+    structure(
+      list(
+        name          = nm,
+        len           = length(unique(data[[nm]])),
+        units         = if (length(units_val) > 0) units_val else NA_character_,
+        calendar      = if (length(cal_val)   > 0) cal_val   else NULL,
+        vals          = sort(unique(data[[nm]])),
+        create_dimvar = TRUE
+      ),
+      class = "ncdim4"
+    )
+  })
+  names(dim_list) <- dims
+  
+  # build var list — one entry per requested data variable
+  var_list <- lapply(var, function(nm) {
+    att          <- x$alldata[[nm]]
+    units_val    <- att$value[att$attribute_name == "units"]
+    long_val     <- att$value[att$attribute_name == "long_name"]
+    missval_val  <- att$value[att$attribute_name == "missing_value"]
+    fillval_val  <- att$value[att$attribute_name == "_FillValue"]
+    prec_val     <- att$data_type[att$row_type == "variable"]
+    missval <- if (length(missval_val) > 0) as.numeric(missval_val)
+    else if (length(fillval_val) > 0) as.numeric(fillval_val)
+    else NA_real_
+    structure(
+      list(
+        name     = nm,
+        ndims    = length(dims),
+        units    = if (length(units_val) > 0) units_val else NA_character_,
+        longname = if (length(long_val)  > 0) long_val  else nm,
+        prec     = if (length(prec_val)  > 0) prec_val  else "float",
+        missval  = missval,
+        size     = vapply(dims, function(d) length(unique(data[[d]])),
+                          integer(1))
+      ),
+      class = "ncvar4"
+    )
+  })
+  names(var_list) <- var
+  
+  list(
+    filename   = NA_character_,
+    ndims      = length(dims),
+    nvars      = length(var),
+    natts      = nrow(x$alldata$NC_GLOBAL),
+    dim        = dim_list,
+    var        = var_list,
+    unlimdimid = -1L
+  )
+}
+
 
 field_handler <- function(x, y){
   x <- match.arg(x, c(y, "none", "all"), TRUE)

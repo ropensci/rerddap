@@ -44,6 +44,25 @@ read_data <- function(x, nrows = -1){
   stats::setNames(tmp, tolower(nmz))
 }
 
+#read_all <- function(x, fmt, read) {
+#  switch(fmt,
+#         csv = {
+#           if (read) {
+#            read_data(x)
+#           } else {
+#             read_data(x, 10)
+#          }
+#        },
+#         nc = {
+#           if (read) {
+#             ncdf4_get(x)
+#           } else {
+#             ncdf_summary(x)
+#           }
+#         }
+#  )
+#}
+
 read_all <- function(x, fmt, read) {
   switch(fmt,
          csv = {
@@ -59,9 +78,17 @@ read_all <- function(x, fmt, read) {
            } else {
              ncdf_summary(x)
            }
-         }
-  )
+         },
+         parquet = {
+           out <- nanoparquet::read_parquet(x)
+           if ("time" %in% names(out)) {
+             out$time <- format(out$time, "%Y-%m-%dT%H:%M:%SZ")
+           }
+           out
+           }  
+         )
 }
+
 
 read_table <- function(x, fmt){
   if (inherits(x, "HttpResponse")) {
