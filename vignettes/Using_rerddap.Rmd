@@ -26,13 +26,13 @@ data("colors")
 
 ## Introduction
 
-`rerddap` is a general purpose <span style="color:red">R</span> client for working with <span style="color:red">ERDDAP™</span> servers.  <span style="color:red">ERDDAP™</span> is a web service developed by Bob Simons of NOAA.  At the time of this writing, there are over a hundred <span style="color:red">ERDDAP™</span> servers  (though not all are public facing) providing access to literally petabytes of data and model output relevant to oceanography, meteorology, fisheries and marine mammals, among other areas. <span style="color:red">ERDDAP™</span> is a simple to use, RESTful web service, that allows data to be subsetted and returned in a variety of formats.
+`rerddap` is a general purpose <span style="color:red">R</span> client for working with <span style="color:red">ERDDAP™</span> servers.  <span style="color:red">ERDDAP™</span> is a web service developed by Bob Simons of NOAA.  At the time of this writing, there are over a hundred <span style="color:red">ERDDAP™</span> servers  (though not all are public facing) providing access to literally petabytes of data and model output relevant to oceanography, meteorology, fisheries and marine mammals, among other areas. <span style="color:red">ERDDAP™</span> is a simple to use, RESTful web service, that allows data to be subset and returned in a variety of formats.
 
 This vignette goes over some of the nuts and bolts of using the `rerddap` package, and shows the power of the combination of the `rerddap` package with <span style="color:red">ERDDAP™</span> servers.     Examples are provided for both gridded and table datasets from several <span style="color:red">ERDDAP™s</span> and demonstrate many of the options available.
 
 Some features added in version 1.2.0 of `rerddap` include  support for downloading `tabledap()` requests as parquet files,  which can greatly reduce the size of the download (this only works for <span style="color:red">ERDDAP™</span> server greater or equal to version 2.25),  inclusion of units in the dataframe created by `tabledap()`, and all variables in a dataframe created by `tabledap()` now have the datatype defined in the <span style="color:red">ERDDAP™</span> server,  that is for example latitude and longitude will always be numbers,  not character strings as in the past.
 
-Some new features in version 1.3.0 of  `rerddap` include a function to estimate the size of an `griddap()` request before actually making the request;  the ability to download parquet files using `griddap()` (`tabledap()` has had this ability for a while); and a discussion and some tips on reading a `griddap()` object into `terra::raster()`.
+Some new features in version 1.3.0 of  `rerddap` include a function to estimate the size of a `griddap()` request before actually making the request;  the ability to download parquet files using `griddap()` (`tabledap()` has had this ability for a while); and a discussion and some tips on reading a `griddap()` object into `terra::raster()`.
 
 The option to download files as parquet files means the `tabledap()` function definition is slightly changed,  it is now:
 
@@ -44,7 +44,7 @@ tabledap <- function(x, ..., fields=NULL, distinct=FALSE, orderby=NULL,
 
 Since the "fmt" argument is optional and defaults to "csv", which was used in previous versions of `tabledap()`,  this change will not affect existing scripts.  In order to download as a parquet file,  just set "fmt = 'parquet' in the `tabledap()` options.  See below for an example.
 
-Now that `griddap()` has the option to download the response as a parquet file,  the only difference is that  "fmt = " has three options "c('nc', 'csv', 'parquet')"  with "nc"  (that is a netcdf file) as the default.  This does not affect existing code.
+Now that `griddap()` has the option to download the response as a parquet file,  the only difference is that  "fmt = " has three options "c('nc', 'csv', 'parquet')"  with "nc"  (that is a netCDF file) as the default.  This does not affect existing code.
 
 
 
@@ -85,7 +85,7 @@ Code chunks are always given with the required libraries so that the chunks are 
 
 ## The main `rerddap` function definitions
 
-The complete list of rerddap functions can be seen by looking at he `rerddap` package help:
+The complete list of `rerddap` functions can be seen by looking at he `rerddap` package help:
 
 ```{r, eval = FALSE}
 ?rerddap
@@ -119,7 +119,7 @@ still returns 172 responses.  If the simple search doesn't narrow things enough,
 ## The basic steps in finding and obtaining the desired data
 
 1. Find the dataset on an <span style="color:red">ERDDAP™</span> server (`servers()`, `ed_search()`, `ed_datasets()` ).
-2. Get the needed information about the dataset (`rerddap::info()` )
+2. Get the needed information about the dataset (`info()` )
 3. Think about what you are going to do.
 4. Make the request for the data  (`griddap()` or `tabledap()` ).
 
@@ -130,7 +130,7 @@ We discuss each of these steps in more detail, and then look at some realistic u
 Given a base <span style="color:red">ERDDAP™</span> URL, the function `ed_search()` searches the server for the given search terms.  The default <span style="color:red">ERDDAP™</span> server is https://upwell.pfeg.noaa.gov/erddap/.  Alternately, the function `global_search()` will search a list of <span style="color:red">ERDDAP™</span> servers for the given search terms.  The function `ed_datasets()` lists the datasets available from the given <span style="color:red">ERDDAP™</span> server.
 
 
-The first way to find a dataset is to browse the builtin web page for a particular <span style="color:red">ERDDAP™</span> server.
+The first way to find a dataset is to browse the built-in web page for a particular <span style="color:red">ERDDAP™</span> server.
 A list of some of the publicly available <span style="color:red">ERDDAP™</span> servers can be obtained from the `rerddap` command:
 
 ```{r}
@@ -141,7 +141,7 @@ The list of <span style="color:red">ERDDAP™</span> servers is based on the lis
 
 ### Get the needed information about the dataset (`rerddap::info()` )
 
-One of the main advantages of a service such as <span style="color:red">ERDDAP™</span> is that you only need to download the subset of the data you desire,  rather than the entire dataset,  which is both convenient and essential for large datasets. The underlying data model in <span style="color:red">ERDDAP™</span> is quite simple - everything is either a (multi-dimensional) grid  (think <span style="color:red">R</span> array) or a table (think a simple spreadsheet or data table). Grids are subsetted using the function `griddap()` and tables are subset using the function `tabledap()`.
+One of the main advantages of a service such as <span style="color:red">ERDDAP™</span> is that you only need to download the subset of the data you desire,  rather than the entire dataset,  which is both convenient and essential for large datasets. The underlying data model in <span style="color:red">ERDDAP™</span> is quite simple - everything is either a (multi-dimensional) grid  (think <span style="color:red">R</span> array) or a table (think a simple spreadsheet or data table). Grids are subset using the function `griddap()` and tables are subset using the function `tabledap()`.
 
 If you know the datasetID of the data you are after, and are unsure if it is a grid or a table,  there are several ways to find out. We look at two datasets, 'jplMURSST41' and 'siocalcofiHydroCasts' to see how this is done.  The first method is to use the `rerddap` function `browse()`
 
@@ -164,7 +164,7 @@ Notice the information on 'jplMURSST41' lists the dimensions (that is a grid) wh
 
 ### Think about what you are going to do.
 
-This may seem to be a strange step in the process, but it is important because many of the datasets are high-resolution, and data requests can get very large, very quickly.  As an example, based on a real use case.  The MUR SST (	Multi-scale Ultra-high Resolution (MUR) SST Analysis fv04.1, see https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41.html )  is a daily, high-quality, high-resolution sea surface temperature product.  The user wanted the MUR data for a 2x2-degree box, daily for a year.  That seems innocuous enough.  Except that MUR SST has a resolution of one-hundreth of degree.  Assuming a binary representation of the data, with 8-bytes per value, and do the math:
+This may seem to be a strange step in the process, but it is important because many of the datasets are high-resolution, and data requests can get very large, very quickly.  As an example, based on a real use case.  The MUR SST (	Multi-scale Ultra-high Resolution (MUR) SST Analysis fv04.1, see https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41.html )  is a daily, high-quality, high-resolution sea surface temperature (SST) product.  The user wanted the MUR data for a 2x2-degree box, daily for a year.  That seems innocuous enough.  Except that MUR SST has a resolution of one-hundredth of degree.  Assuming a binary representation of the data, with 8-bytes per value, do the math:
 
 ```{r}
 100*100*4*8*365
@@ -173,7 +173,7 @@ This may seem to be a strange step in the process, but it is important because m
 
 Yes, 116,800,000 bytes or roughly 115MB for that request.  Moreover the user wanted the data as a .csv file, which usually makes the resulting file 8-10 times larger,  so now we are over a 1GB for the request. Even more so, there are four parameters in that dataset, and in `griddap()` if "fields" are not enumerated,  all fields are downloaded, therefore the resulting files will be four times as large as given above.
 
-The gist of this is to think about your request before you make it.  Do a little mental math to get a rough estimate of the size of the download.  There are times receiving the data as a .csv file is convenient,  but make certain the request will not be too large.  For larger requests, obtain the data as netCDF files.  By default, `griddap()` "melts"" the data into a dataframe,  so a .csv only provides a small convenience.  But for really large downloads,  you should select the option in `griddap()` to not read the data into memory, and use instead the `netcdf4` package to read in the data, as this allows for only reading in parts of the data at a time.  [Below](#ncdf4) we provide a brief tutorial on reading in data using the `ncdf4` package.
+The gist of this is to think about your request before you make it.  Do a little mental math to get a rough estimate of the size of the download.  There are times receiving the data as a .csv file is convenient,  but make certain the request will not be too large.  For larger requests, obtain the data as netCDF files.  By default, `griddap()` "melts"" the data into a dataframe,  so a .csv only provides a small convenience.  But for really large downloads,  you should select the option in `griddap()` to not read the data into memory, and use instead the `netCDF4` package to read in the data, as this allows for only reading in parts of the data at a time.  [Below](#ncdf4) we provide a brief tutorial on reading in data using the `ncdf4` package.
 
 There is now a function `estimate_griddap_size()` that can give a rough estimate of the size of a `griddap()` before you make the request.  For example:
 
@@ -214,7 +214,7 @@ gives the response:
 
 #### Requesting gridded data using  `griddap()`
 
-Like an <span style="color:red">R</span> array, <span style="color:red">ERDDAP™</span> grids are subsetted by setting limits on the dimension variables, the difference being that a subset is defined in coordinate space  (latitude values, longitude values, time values etc) rather than array space as is done with <span style="color:red">R</span> arrays.  Thus for 'jplMURSST41' if the desired area of the data extract is latitude limits of (22N, 51N), longitude limits of (140W, 105W), and with time limits of (2017-01-01, 2017-01-02) the following would be passed to the function `griddap()`:
+Like an <span style="color:red">R</span> array, <span style="color:red">ERDDAP™</span> grids are subsetted by setting limits on the dimension variables, the difference being that a subset is defined in coordinate space  (latitude values, longitude values, time values etc) rather than array space as is done with <span style="color:red">R</span> arrays.  Thus for 'jplMURSST41' if the desired area of the data extract is latitude limits of (22N, 51N), longitude limits of (140W, 105W), and time limits of (2017-01-01, 2017-01-02) the following would be passed to the function `griddap()`:
 
 ```{r, eval = FALSE, echo = TRUE}
 latitude = c(22., 51.)
@@ -232,16 +232,16 @@ murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), t
 
 ##### Thinning the request - Strides
 
-Strides allow to retrieve data within a coordinate bound only at every "n" values,  where "n" is an integer - think of the "by" part of the <span style="color:red">R</span> function `seq()`.  This is useful say for a monthly dataset where only the December values are desired, or you want to subsample a very high resolution dataset.  The default is a stride of 1 for all dimensions.  If you want to change the stride value in any dimension, then a value must be given for all dimensions.  So in the previous example, if only every fifth longitude is desired, the call would be:
+Strides allow to retrieve data within a coordinate bound only at every "n" values,  where "n" is an integer - think of the "by" part of the <span style="color:red">R</span> function `seq()`.  This is useful say for a monthly dataset where only the December values are desired, or you want to sub-sample a very high-resolution dataset.  The default is a stride of 1 for all dimensions.  If you want to change the stride value in any dimension, then a value must be given for all dimensions.  So in the previous example, if only every fifth longitude is desired, the call would be:
 
 ```{r, eval = FALSE, echo = TRUE}
 murSST <- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105), time = c("2017-01-01", "2017-01-02"), stride = c(1, 1, 5), fields = 'analysed_sst')
 
 ```
 
-Strides are caclualated in array space, not in coordinate space - so it is not skipping say a number of degrees of longitude, rather it is skipping a number of values of the array index - if longitude is thought of as an array, then every fifth value is used.  There are many cases where having strides work in coordinate space would be handy,  but it can cause a lot of problems.  Consider the case where neither the starting longitude, nor the ending longitude in the request lie on the actual data grid,  and the stride is in coordinate units in such a way that no value requested actually lies on an actual grid value. This would be equivalent to the more complicated problem of data regridding and data interpolation.
+Strides are calculated in array space, not in coordinate space - so the stride is not skipping say a number of degrees of longitude, rather the stride is skipping a number of values of the array index - if longitude is thought of as an array, then every fifth value is used.  There are many cases where having strides work in coordinate space would be handy,  but it can cause a lot of problems.  Consider the case where neither the starting longitude, nor the ending longitude in the request lie on the actual data grid, and the stride is in coordinate units in such a way that no value requested actually lies on an actual grid value. This would be equivalent to the more complicated problem of data re-gridding and data interpolation.
 
-When <span style="color:red">ERDDAP™</span> receives a request where the bounds are not on the actual dataset grid,  <span style="color:red">ERDDAP™</span> finds the closest values on the grid to the requested bounds, and returns those points and all grid points in between.  If a stride is added of a value greater than one but resricted to array space, this guarantees that every value returned lies on the dataset grid.
+When <span style="color:red">ERDDAP™</span> receives a request where the bounds are not on the actual dataset grid,  <span style="color:red">ERDDAP™</span> finds the closest values on the grid to the requested bounds, and returns those points and all grid points in between.  This plus requiring strides to be defined in array space guarantees that every value returned lies on the dataset grid.
 
 
 
@@ -304,7 +304,7 @@ Now that the basics of using `griddap()` and `tabledap()` have been covered,  be
 
 ### `griddap()` examples
 
-`griddap()` now supports downloading the data as a parquet file, though the default is still a netcdf3 file. There are tradeoffs as to which would be the best choice.  The relative size of the downloads appears to be quite variable,  so there is no hard and fast rule.  The parquet file has the advantage that the data is "melted" at the server end, rather than after it is downloaded, as is done with a netcdf file, but again which will ultimately be faster is variable.  If you plan on using the downloaded file and are not comfortable accessing netcdf files, than using the parquet option has an advantage,  but netcdf files have the advantage of random access so that only a part of the file need be read into memory.   A netcdf file also preserves the gridded structure of the data, which can be a real advantage depending on your use cases.
+`griddap()` now supports downloading the data as a parquet file, though the default is still a netCDF3 file. There are trade-offs as to which would be the best choice.  The relative size of the downloads appears to be quite variable,  so there is no hard and fast rule.  The parquet file has the advantage that the data is "melted" at the server end, rather than after it is downloaded, as is done with a netCDF file, but again which will ultimately be faster is variable.  If you plan on using the downloaded file and are not comfortable accessing netCDF files, than using the parquet option has an advantage,  but netCDF files have the advantage of random access so that only a part of the file need be read into memory.   A netCDF file also preserves the gridded structure of the data, which can be a real advantage depending on your use cases.
 
 #### MUR SST
 
@@ -331,7 +331,7 @@ ggplot(data = murSST$data, aes(x = longitude, y = latitude, fill = analysed_sst)
 
 #### VIIRS SST and Chlorophyll
 
-VIIRS (Visible Infrared Imaging Radiometer Suite)  is a scanning radiometer, that collects visible and infrared imagery and radiometric measurements of the land, atmosphere, cryosphere, and oceans. VIIRS data is used to measure cloud and aerosol properties, ocean color, sea and land surface temperature, ice motion and temperature, fires, and Earth's albedo.   Both NASA and NOAA provide VIIRS-based high resolution SST and chlorophyll products.
+VIIRS (Visible Infrared Imaging Radiometer Suite)  is a scanning radiometer, that collects visible and infrared imagery and radiometric measurements of the land, atmosphere, cryosphere, and oceans. VIIRS data is used to measure cloud and aerosol properties, ocean color, sea and land surface temperature, ice motion and temperature, fires, and the Earth's albedo.   Both NASA and NOAA provide VIIRS-based high resolution SST and chlorophyll products.
 
 ERD provides a 3-day composite SST product at 750 meter resolution developed from a real-time NOAA product. The most recent values can be obtained by setting "time" to be "last".  (Note that <span style="color:red">R</span> sees the latitude-longitude grid as slightly uneven (even though it is in fact even), and that produces artificial lines in `ggplot2::geom_raster()`.  In order to remove those lines, the latitude-longitude grid is remapped to an evenly-space grid.)
 
@@ -417,7 +417,7 @@ ggplot(data = viirsCHLA$data, aes(x = longitude, y = latitude, fill = log(chla))
 
 #### Temperature at 70m in the north Pacific from the SODA model output
 
-This is an example of an extract from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://soda.umd.edu), and illustrates the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
+This example extracts data from a 4-D dataset (results from the "Simple Ocean Data Assimilation (SODA)" model - see https://soda.umd.edu), and illustrates the case where the z-coordinate does not have the default name "altitude".  Water temperature at 70m depth is extracted for the North Pacific Ocean.
 
 
 ```{r eval = FALSE, echo = TRUE}
@@ -432,7 +432,7 @@ soda70 <- griddap(dataInfo,  longitude = xpos, latitude = ypos,
 
 ```
 
-Since the data cross the dateline, it is necessary to use the "world2Hires" continental outlines in the package `mapdata` which is Pacific Ocean centered.  Unfortunately there is a small problem where the outlines from certain countries wrap and mistakenly appear in plots, and those countries must be removed,  see code below.
+Since the data cross the dateline, it is necessary to use the Pacific Ocean centered "world2Hires" continental outlines in the package `mapdata`.  Unfortunately there is a small problem where the outlines from certain countries wrap and mistakenly appear in plots, and those countries must be removed,  see code below.
 
 
 ```{r soda70Plot, eval = FALSE, echo = TRUE}
@@ -459,7 +459,7 @@ myplot
 
 #### Irish Marine Institute {#hourly}
 
-The Irish Marine Institute has an <span style="color:red">ERDDAP™</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Altantic ocean, with a variety of ocean related parameters, see the dataset *IMI_NEATL*.  To obtain the latest sea surface salinity for the domain of the model:
+The Irish Marine Institute has an <span style="color:red">ERDDAP™</span> server at https://erddap.marine.ie/erddap.  Among other datasets, they have hourly output from a model of the North Atlantic ocean, with a variety of ocean related parameters, see the dataset *IMI_NEATL*.  To obtain the latest sea surface salinity for the domain of the model:
 
 ```{r NAtlSSS, eval = FALSE, echo = TRUE}
 require("rerddap")
@@ -600,7 +600,7 @@ ggplot(yearlyAnom, aes(year, ppYrAnom)) + geom_line() +
 
 #### Parquet files
 
-A new feature in `tabledap()` is to choose to download the data as a parquet file rather than as a csv file - the parquet file can be up to 90% smaller in our tests  (note this will only work if the <span style="color:red">ERDDAP™</span> server is at least version 2.25,  otherwise the program will throw an error).  As an example, for the CalCOFI extract above:
+A new feature in `tabledap()` is the option to download the data as a parquet file rather than as a csv file - the parquet file can be up to 90% smaller in our tests  (note this will only work if the <span style="color:red">ERDDAP™</span> server is at least version 2.25,  otherwise the program will throw an error).  As an example, for the CalCOFI extract above:
 
 
 ```{r calCOFI-parquet, eval = FALSE, echo = TRUE}
@@ -868,7 +868,7 @@ ggplot(alldata) + geom_line(aes(x = year, y = maxSLP), colour = 'red') + theme_b
 
 ### Interactive plots
 
-The `plotdap` plotting package has a new version of the function "box_set()" which can both reset the limits of the plot as well as return a `ggplot2` object that works with the `plotly` function "ggplotly()" to produce an intertactive plot.
+The `plotdap` plotting package has a new version of the function "box_set()" which can both reset the limits of the plot as well as return a `ggplot2` object that works with the `plotly` function "ggplotly()" to produce an interactive plot.
 
 "box_set()" has the form:
 
@@ -908,7 +908,7 @@ The resulting plot is an interactive plot that as you mouse over the data will d
 
 ### Passing an extract to the `terra` package or other packages that use "GDAL" - do so with care.
 
-A common workflow is to pass the result of a `griddap()` to the `terra` packqge or similar packages for further analysis or plotting.  This can run into several problems that you have to be aware of and check for,  because "GDAL" makes many assumptions about the data rather than reading in the available information. Some of the issues include:
+A common workflow is to pass the result of a `griddap()` to the `terra` package or similar packages for further analysis or plotting.  This can run into several problems that you have to be aware of and check for,  because "GDAL" makes many assumptions about the data rather than reading in the available information. Some of the issues include:
 
 - `terra::raster()` thinks the grid is irregular even though it is not.
 - `terra::raster()` does not like data on a (0, 360) longitude grid
@@ -929,7 +929,7 @@ r <- plotdap:::latlon_adjust(r)
 
 ### Cacheing, "last", "now", idempotency, and a gotcha
 
-`rerddap` by default caches the requests you make, so that if you happen to make the same request again, the data is restored from the cache, rather than having to go out and retrieve it remotely.  For most applications, this a boon (such as when "knitting" and "reknitting" this document), as it can speed things up when doing a lot of request in a script, and works because in most cases an <span style="color:red">ERDDAP™</span> request is "idempotent".  This means that the the request will always return the same thing no matter what requests came before - it doesn't depend on state. However this is not true if the script uses either "last" in `griddap()` or "now" in `tabledap()` as these will return different values as time elapses and data are added to the datasets.  While it is desirable to have <span style="color:red">ERDDAP™</span> purely idempotent,  the "last" and "now" constructs are very helpful for people using <span style="color:red">ERDDAP™</span> in dashboards, webpages, regular input to models and the like, and the benefits far outweigh the problems.  However, if you are using either "last" or "now" in an `rerddap` based script, you want to be very careful to clear the `rerddap` cache, otherwise the request will be viewed as the same,  and the data from the last request, rather than the latest data, will be returned.  Note that several examples in this vignette use "last", and therefore the graphics may look different depending on when you "knitted" the vignette.
+`rerddap` by default caches the requests you make, so that if you happen to make the same request again, the data is restored from the cache, rather than having to go out and retrieve it remotely.  For most applications, this a boon (such as when "knitting" and "re-knitting" this document), as it can speed things up when doing a lot of request in a script, and works because in most cases an <span style="color:red">ERDDAP™</span> request is "idempotent".  This means that the the request will always return the same thing no matter what requests came before - it doesn't depend on state. However this is not true if the script uses either "last" in `griddap()` or "now" in `tabledap()` as these will return different values as time elapses and data are added to the datasets.  While it is desirable to have <span style="color:red">ERDDAP™</span> purely idempotent,  the "last" and "now" constructs are very helpful for people using <span style="color:red">ERDDAP™</span> in dashboards, webpages, regular input to models and the like, and the benefits far outweigh the problems.  However, if you are using either "last" or "now" in an `rerddap` based script, you want to be very careful to clear the `rerddap` cache, otherwise the request will be viewed as the same,  and the data from the last request, rather than the latest data, will be returned.  Note that several examples in this vignette use "last", and therefore the graphics may look different depending on when you "knitted" the vignette.
 
 For help in dealing with the cache, see:
 
@@ -979,7 +979,7 @@ names(sstFile$var)
 ```
 
 
-An extract is done by giving the pointer to the netCDF file ("sstFile" in this instance), the name of the variable ot be extracted ("sst" in this instance), the  starting index value (in array coordinates) for each dimension, and the the count (the number of other index values) to include.  If all values of a particular dimension are wanted, then "-1" can be used for the count.  So for example to extract all of the values for the first day:
+An extract is done by giving the pointer to the netCDF file ("sstFile" in this instance), the name of the variable to be extracted ("sst" in this instance), the  starting index value (in array coordinates) for each dimension, and the the count (the number of other index values) to include.  If all values of a particular dimension are wanted, then "-1" can be used for the count.  So for example to extract all of the values for the first day:
 
 ```{r}
 require("ncdf4")
