@@ -1,3 +1,8 @@
+url: https://docs.ropensci.org/rerddap/
+
+template:
+  bootstrap: 5
+
 reference:
 - title: rerddap Package Description
   contents:
@@ -29,6 +34,7 @@ reference:
   contents:
   - griddap
   - tabledap
+  - estimate_griddap_size
   
 - title: Optional Settings for Data Download
 
