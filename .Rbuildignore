@@ -19,3 +19,4 @@ man-roxygen
 revdep/
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^CLAUDE\.md$
