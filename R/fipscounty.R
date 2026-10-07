@@ -14,18 +14,20 @@
 #' }
 
 fipscounty <- function(county = NULL, code = NULL, url = eurl(), ...){
+  fn_env <- environment()
   either_or_fips(county, code)
   args <- rc(list(county = county, code = code))
   cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/fipscounty.txt'), 
     opts = list(...))
-  # res <- cli$get(query = args)
-  response <- tryCatch(
-    {
-      res <- cli$get(query = args)  # Attempt to fetch
-    },
+  res <- tryCatch(
+    cli$get(query = args),
     error = function(e) {
-      message("Curl request failed to get FIPS country code: ", e$message)
-      quit(save = "no", status = 1)  # Gracefully exit R session
+      cli::cli_abort(
+        "Curl request failed to get FIPS county code from {.url {url}}.",
+        class  = "rerddap_http_error",
+        parent = e,
+        call   = fn_env
+      )
     }
   )
   res$raise_for_status()

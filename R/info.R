@@ -103,7 +103,7 @@ info <- function(datasetid, url = eurl(), ...){
   structure(list(variables=vars, alldata=oo, base_url=url),
             class="info",
             datasetid=datasetid,
-            type=table_or_grid(datasetid, url))
+            type=table_or_grid(datasetid, url, ...))
 }
 
 #' @export
@@ -156,15 +156,15 @@ as.info.character <- function(x, url) {
   info(x, url)
 }
 
-table_or_grid <- function(datasetid, url) {
+table_or_grid <- function(datasetid, url, ...) {
   url <- sub("/$", "", url)
   table_url <- file.path(url, 'tabledap/index.json')
-  tab <- toghelper(table_url)
+  tab <- toghelper(table_url, ...)
   if (datasetid %in% tab) "tabledap" else "griddap"
 }
 
-toghelper <- function(url) {
-  out <- erddap_GET(url, list(page = 1, itemsPerPage = 10000L))
+toghelper <- function(url, ...) {
+  out <- erddap_GET(url, list(page = 1, itemsPerPage = 10000L), ...)
   nms <- out$table$columnNames
   lists <- lapply(out$table$rows, stats::setNames, nm = nms)
   vapply(lists, "[[", "", "Dataset ID")

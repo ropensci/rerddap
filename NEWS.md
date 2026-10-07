@@ -1,3 +1,12 @@
+rerddap 1.3.1
+=============
+
+* changed error handling so that session doesn't quit
+* changed 'info()' so that curl options can be passed
+* updated vignette
+* added agentic skills
+
+
 rerddap 1.3.0
 =============
 

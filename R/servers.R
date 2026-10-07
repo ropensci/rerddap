@@ -12,15 +12,17 @@
 #' servers()
 #' }
 servers <- function(...) {
+  fn_env <- environment()
   surl <- "https://irishmarineinstitute.github.io/awesome-erddap/erddaps.json"
-  # tt <- crul::HttpClient$new(url = surl, opts = list(...))$get()
-  response <- tryCatch(
-    {
-      tt <- crul::HttpClient$new(url = surl, opts = list(...))$get()  # Attempt to fetch
-    },
+  tt <- tryCatch(
+    crul::HttpClient$new(url = surl, opts = list(...))$get(),
     error = function(e) {
-      message("Curl request failed to get server list: ", e$message)
-      quit(save = "no", status = 1)  # Gracefully exit R session
+      cli::cli_abort(
+        "Curl request failed to get server list from {.url {surl}}.",
+        class  = "rerddap_http_error",
+        parent = e,
+        call   = fn_env
+      )
     }
   )
   tt$raise_for_status()

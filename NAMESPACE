@@ -55,18 +55,26 @@ export(version)
 importFrom(crul,HttpClient)
 importFrom(data.table,rbindlist)
 importFrom(digest,digest)
-importFrom(dplyr,as_data_frame)
-importFrom(dplyr,bind_rows)
+importFrom(dplyr,
+  as_data_frame,
+  bind_rows
+)
 importFrom(hoardr,hoard)
 importFrom(jsonlite,fromJSON)
-importFrom(ncdf4,nc_close)
-importFrom(ncdf4,nc_open)
-importFrom(ncdf4,ncvar_get)
-importFrom(utils,URLencode)
-importFrom(utils,head)
-importFrom(utils,read.csv)
-importFrom(utils,read.delim)
-importFrom(xml2,read_html)
-importFrom(xml2,xml_find_all)
-importFrom(xml2,xml_find_first)
-importFrom(xml2,xml_text)
+importFrom(ncdf4,
+  nc_close,
+  nc_open,
+  ncvar_get
+)
+importFrom(utils,
+  URLencode,
+  head,
+  read.csv,
+  read.delim
+)
+importFrom(xml2,
+  read_html,
+  xml_find_all,
+  xml_find_first,
+  xml_text
+)

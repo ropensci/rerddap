@@ -12,16 +12,18 @@
 #' version(ss$url[3])
 #' }
 version <- function(url = eurl(), ...){
+  fn_env <- environment()
   cli <- crul::HttpClient$new(url = file.path(pu(url), 'version'), 
     opts = list(...))
-  # res <- cli$get()
-  response <- tryCatch(
-    {
-      res <- cli$get()  # Attempt to fetch
-    },
+  res <- tryCatch(
+    cli$get(),
     error = function(e) {
-      message("Curl request failed to get version: ", e$message)
-      quit(save = "no", status = 1)  # Gracefully exit R session
+      cli::cli_abort(
+        "Curl request failed to get version from {.url {url}}.",
+        class  = "rerddap_http_error",
+        parent = e,
+        call   = fn_env
+      )
     }
   )
   res$raise_for_status()

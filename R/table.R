@@ -300,6 +300,7 @@ print.tabledap <- function(x, ...) {
 }
 
 erd_tab_GET <- function(url, dset, store, fmt, callopts) {
+  fn_env <- environment()
   cli <- crul::HttpClient$new(url = url, opts = callopts)
   if (store$store == "disk") {
     # store on disk
@@ -315,28 +316,35 @@ erd_tab_GET <- function(url, dset, store, fmt, callopts) {
       if (!store$overwrite) {
         stop('overwrite was `FALSE`, see ?disk')
       }
-      # res <- cli$get(disk = file.path(store$path, key))
-      response <- tryCatch(
-        {
-          res <- cli$get(disk = file.path(store$path, key))  # Attempt to fetch
-        },
+      res <- tryCatch(
+        cli$get(disk = file.path(store$path, key)),
         error = function(e) {
-          message("Curl request failed to get table: ", e$message)
-          quit(save = "no", status = 1)  # Gracefully exit R session
+          # remove any partial download so it isn't mistaken for a cached file
+          unlink(file.path(store$path, key))
+          cli::cli_abort(
+            "Curl request failed to get table from {.url {url}}.",
+            class  = "rerddap_http_error",
+            parent = e,
+            call   = fn_env
+          )
         }
       )
       err_handle(res, store, key)
       res$content
     }
   } else {
-    # res <- cli$get()
-    response <- tryCatch(
-      {
-        res <- cli$get()  # Attempt to fetch
-      },
+    # read into memory, bypass disk storage
+    # no cache file in memory mode, so there is no key
+    key <- NULL
+    res <- tryCatch(
+      cli$get(),
       error = function(e) {
-        message("Curl request failed to get table: ", e$message)
-        quit(save = "no", status = 1)  # Gracefully exit R session
+        cli::cli_abort(
+          "Curl request failed to get table from {.url {url}}.",
+          class  = "rerddap_http_error",
+          parent = e,
+          call   = fn_env
+        )
       }
     )
     err_handle(res, store, key)

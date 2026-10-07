@@ -25,6 +25,7 @@
 convert_time <- function(n = NULL, isoTime = NULL,
   units = "seconds since 1970-01-01T00:00:00Z", url = eurl(),
   method = "local", ...) {
+  fn_env <- environment()
 
   if (!is.null(n)) stopifnot(is.numeric(n))
   if (!is.null(isoTime)) stopifnot(is.character(isoTime))
@@ -37,14 +38,15 @@ convert_time <- function(n = NULL, isoTime = NULL,
     args <- rc(list(n = n, isoTime = isoTime, units = units))
     cli <- crul::HttpClient$new(url = file.path(pu(url), 'convert/time.txt'), 
       opts = list(...))
-    # res <- cli$get(query = args)
-    response <- tryCatch(
-      {
-        res <- cli$get(query = args)  # Attempt to fetch
-      },
+    res <- tryCatch(
+      cli$get(query = args),
       error = function(e) {
-        message("Curl request failed to convert time: ", e$message)
-        quit(save = "no", status = 1)  # Gracefully exit R session
+        cli::cli_abort(
+          "Curl request failed to convert time from {.url {url}}.",
+          class  = "rerddap_http_error",
+          parent = e,
+          call   = fn_env
+        )
       }
     )
     res$raise_for_status()

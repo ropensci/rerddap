@@ -194,20 +194,21 @@ err_handle2 <- function(x) {
 }
 
 erddap_GET <- function(url, args = NULL, ...) {
+  fn_env <- environment()
   cli <- crul::HttpClient$new(url = url, opts = list(...))
-  # tt <- cli$get(query = args)
-  response <- tryCatch(
-    {
-      tt <- cli$get(query = args)  # Attempt to fetch
-    },
+  tt <- tryCatch(
+    cli$get(query = args),
     error = function(e) {
-      message("Curl request failed: ", e$message)
-      quit(save = "no", status = 1)  # Gracefully exit R session
+      cli::cli_abort(
+        "Curl request to {.url {url}} failed.",
+        class  = "rerddap_http_error",
+        parent = e,
+        call   = fn_env
+      )
     }
   )
-  
   err_handle2(tt)
-  stopifnot(tt$response_headers$`content-type` == 'application/json;charset=UTF-8')
+  stopifnot(tt$response_headers$`content-type` == "application/json;charset=UTF-8")
   out <- tt$parse("UTF-8")
   jsonlite::fromJSON(out, FALSE)
 }

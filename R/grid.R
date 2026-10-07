@@ -447,6 +447,7 @@ dimvars <- function(x){
 }
 
 erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
+  fn_env <- environment()
   if (length(args) > 0) url <- sprintf("%s?%s", url, args)
   url1 <- url
   url1 <- gsub('\\[', '%5B', url1)
@@ -462,14 +463,17 @@ erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
       if (!store$overwrite) {
         stop('overwrite was `FALSE`, see ?disk')
       }
-      # res <- cli$get(disk = file.path(store$path, key))
-      response <- tryCatch(
-        {
-          res <- cli$get(disk = file.path(store$path, key)) # Attempt to fetch
-        },
+      res <- tryCatch(
+        cli$get(disk = file.path(store$path, key)),
         error = function(e) {
-          message("Curl request failed to get file: ", e$message)
-          quit(save = "no", status = 1)  # Gracefully exit R session
+          # remove any partial download so it isn't mistaken for a cached file
+          unlink(file.path(store$path, key))
+          cli::cli_abort(
+            "Curl request failed to get file from {.url {url}}.",
+            class  = "rerddap_http_error",
+            parent = e,
+            call   = fn_env
+          )
         }
       )
       # delete file if error, and stop message
@@ -479,14 +483,17 @@ erd_up_GET <- function(url, dset, args, store, fmt, callopts) {
     }
   } else {
     # read into memory, bypass disk storage
-    # res <- cli$get()
-    response <- tryCatch(
-      {
-        res <- cli$get()  # Attempt to fetch
-      },
+    # no cache file in memory mode, so there is no key
+    key <- NULL
+    res <- tryCatch(
+      cli$get(),
       error = function(e) {
-        message("Curl request failed to get grid data: ", e$message)
-        quit(save = "no", status = 1)  # Gracefully exit R session
+        cli::cli_abort(
+          "Curl request failed to get grid data from {.url {url}}.",
+          class  = "rerddap_http_error",
+          parent = e,
+          call   = fn_env
+        )
       }
     )
     # if error stop message
