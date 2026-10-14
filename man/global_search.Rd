@@ -39,8 +39,8 @@ the list of servers
 # e_servers <- e_servers[c(1, 40)]
 # to meet CRAN time limits will only search 1 place
 e_servers <- "https://coastwatch.pfeg.noaa.gov/erddap/"
-test_query <- 'C-HARM v1 2-Day Forecast'
-query_results <- global_search(test_query, e_servers, "griddap")
+test_query <- 'MUR 4.2'
+# query_results <- global_search(test_query, e_servers, "griddap")
 }
 \seealso{
 \code{\link[crul]{HttpClient}}

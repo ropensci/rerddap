@@ -1,4 +1,4 @@
-Adds some new features to 'griddap()`
+Improved error handling and agentic skills
 
 
 ## Test environments
@@ -14,7 +14,7 @@ OK from all checks
 
 ## Reverse dependencies
 
-* I am maintainer of plotdap and rerddapXtracto - they check out
+* I am maintainer of plotdap, rerddapXtracto and rerddapUtils - they check out
 
 ---
 
