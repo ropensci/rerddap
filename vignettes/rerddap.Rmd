@@ -55,10 +55,10 @@ First, you likely want to search for data, specify either `griddadp` or `tableda
 
 
 ```r
-ed_search(query = 'size', which = "table")
+ed_search(query = 'size', which = "tabledap")
 #> # A tibble: 36 × 2
 #>    title                                                              dataset_id
-#>    <chr>                                                              <chr>     
+#>    <chr>                                                              <chr>
 #>  1 CCE Prey Size and Hard Part Size Regressions                       mmtdPreyS…
 #>  2 CCE Teleost Prey Size and Hard Part Size Measurements              mmtdTeleo…
 #>  3 CalCOFI Larvae Sizes                                               erdCalCOF…
@@ -74,10 +74,10 @@ ed_search(query = 'size', which = "table")
 
 
 ```r
-ed_search(query = 'size', which = "grid")
+ed_search(query = 'size', which = "griddap")
 #> # A tibble: 103 × 2
 #>    title                                                              dataset_id
-#>    <chr>                                                              <chr>     
+#>    <chr>                                                              <chr>
 #>  1 Audio data from a local source.                                    testGridW…
 #>  2 Main Hawaiian Islands Multibeam Bathymetry Synthesis: 50-m Bathym… hmrg_bath…
 #>  3 Main Hawaiian Islands Multibeam Bathymetry Synthesis: 50-m Bathym… hmrg_bath…
@@ -139,16 +139,16 @@ Then you can get information on a single dataset
 
 ```r
 info('erdCalCOFIlrvsiz')
-#> <ERDDAP™ info> erdCalCOFIlrvsiz 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: tabledap 
-#>  Variables:  
-#>      calcofi_species_code: 
-#>          Range: 19, 946 
-#>      common_name: 
-#>      cruise: 
-#>      itis_tsn: 
-#>      larvae_10m2: 
+#> <ERDDAP™ info> erdCalCOFIlrvsiz
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap
+#>  Dataset Type: tabledap
+#>  Variables:
+#>      calcofi_species_code:
+#>          Range: 19, 946
+#>      common_name:
+#>      cruise:
+#>      itis_tsn:
+#>      larvae_10m2:
 ...
 ```
 
@@ -159,16 +159,16 @@ First, get information on a dataset to see time range, lat/long range, and varia
 
 ```r
 (out <- info('erdMBchla1day'))
-#> <ERDDAP info> erdMBchla1day 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: griddap 
-#>  Dimensions (range):  
-#>      time: (2006-01-01T12:00:00Z, 2023-06-27T12:00:00Z) 
-#>      altitude: (0.0, 0.0) 
-#>      latitude: (-45.0, 65.0) 
-#>      longitude: (120.0, 320.0) 
-#>  Variables:  
-#>      chlorophyll: 
+#> <ERDDAP info> erdMBchla1day
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap
+#>  Dataset Type: griddap
+#>  Dimensions (range):
+#>      time: (2006-01-01T12:00:00Z, 2023-06-27T12:00:00Z)
+#>      altitude: (0.0, 0.0)
+#>      latitude: (-45.0, 65.0)
+#>      longitude: (120.0, 320.0)
+#>  Variables:
+#>      chlorophyll:
 #>          Units: mg m-3
 ```
 
@@ -212,19 +212,19 @@ The output of `griddap()` is a list that you can explore further. Get the summar
 res$summary
 #> $filename
 #> [1] "/var/folders/xw/mcmsdzzx4mgbttplylgs7ysh0000gp/T//RtmpoME6FV/R/rerddap/4d844aa48552049c3717ac94ced5f9b8.nc"
-#> 
+#>
 #> $writable
 #> [1] FALSE
-#> 
+#>
 #> $id
 #> [1] 65536
-#> 
+#>
 #> $error
 #> [1] FALSE
-#> 
+#>
 #> $safemode
 #> [1] FALSE
-#> 
+#>
 ...
 ```
 
@@ -255,16 +255,16 @@ head(res$data)
 
 ```r
 (out <- info('erdCalCOFIlrvsiz'))
-#> <ERDDAP™ info> erdCalCOFIlrvsiz 
-#>  Base URL: https://upwell.pfeg.noaa.gov/erddap 
-#>  Dataset Type: tabledap 
-#>  Variables:  
-#>      calcofi_species_code: 
-#>          Range: 19, 946 
-#>      common_name: 
-#>      cruise: 
-#>      itis_tsn: 
-#>      larvae_10m2: 
+#> <ERDDAP™ info> erdCalCOFIlrvsiz
+#>  Base URL: https://upwell.pfeg.noaa.gov/erddap
+#>  Dataset Type: tabledap
+#>  Variables:
+#>      calcofi_species_code:
+#>          Range: 19, 946
+#>      common_name:
+#>      cruise:
+#>      itis_tsn:
+#>      larvae_10m2:
 ...
 ```
 
@@ -277,18 +277,18 @@ head(res$data)
 #>    Last updated: [2023-06-29 13:18:57.579066]
 #>    File size:    [0.05 mb]
 #> # A tibble: 1,304 × 4
-#>    latitude  longitude  larvae_size scientific_name     
-#>    <chr>     <chr>      <chr>       <chr>               
-#>  1 32.956665 -117.305   4.5         Engraulis mordax    
+#>    latitude  longitude  larvae_size scientific_name
+#>    <chr>     <chr>      <chr>       <chr>
+#>  1 32.956665 -117.305   4.5         Engraulis mordax
 #>  2 32.91     -117.4     5.0         Merluccius productus
 #>  3 32.511665 -118.21167 2.0         Merluccius productus
 #>  4 32.511665 -118.21167 3.0         Merluccius productus
 #>  5 32.511665 -118.21167 5.5         Merluccius productus
 #>  6 32.511665 -118.21167 6.0         Merluccius productus
 #>  7 32.511665 -118.21167 2.8         Merluccius productus
-#>  8 32.511665 -118.21167 3.0         Sardinops sagax     
-#>  9 32.511665 -118.21167 5.0         Sardinops sagax     
-#> 10 32.511665 -118.21167 2.5         Engraulis mordax    
+#>  8 32.511665 -118.21167 3.0         Sardinops sagax
+#>  9 32.511665 -118.21167 5.0         Sardinops sagax
+#> 10 32.511665 -118.21167 2.5         Engraulis mordax
 #> # ℹ 1,294 more rows
 ```
 
@@ -305,11 +305,11 @@ dat %>%
 #> # A tibble: 7 × 2
 #>   scientific_name       mean_size
 #>   <chr>                     <dbl>
-#> 1 Anoplopoma fimbria        23.3 
+#> 1 Anoplopoma fimbria        23.3
 #> 2 Engraulis mordax           9.26
 #> 3 Sardinops sagax            7.28
 #> 4 Merluccius productus       5.48
-#> 5 Tactostoma macropus        5   
-#> 6 Scomber japonicus          3.4 
+#> 5 Tactostoma macropus        5
+#> 6 Scomber japonicus          3.4
 #> 7 Trachurus symmetricus      3.29
 ```
